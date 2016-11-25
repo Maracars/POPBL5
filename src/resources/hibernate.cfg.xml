@@ -1,0 +1,37 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.username">naranairapp</property>
+        <property name="hibernate.connection.password">Nestor123</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/naranair</property>
+
+
+
+        <property name="connection_pool_size">1</property>
+
+        <property name="hbm2ddl.auto">create</property>
+        
+        <!-- Hibernatek sortzen daben sql dana printeau -->
+        <property name="show_sql">false</property>
+
+
+
+       <mapping class="domain.dao.DAOGate"/>
+       <mapping class="domain.model.Gate"/>
+       <mapping class="domain.dao.DAOTerminal"/>
+       <mapping class="domain.model.Terminal"/>
+       <mapping class="domain.dao.DAOState"/>
+       <mapping class="domain.model.State"/>
+       <mapping class="domain.dao.DAOCity"/>
+       <mapping class="domain.model.City"/>
+       <mapping class="domain.dao.DAOPlaneMaker"/>
+       <mapping class="domain.model.PlaneMaker"/>
+
+
+    </session-factory>
+</hibernate-configuration>

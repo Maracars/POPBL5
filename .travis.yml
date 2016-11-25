@@ -1,0 +1,19 @@
+language: java
+jdk:
+  - oraclejdk8
+after_success:
+  - ~/jpm/bin/codacy-coverage-reporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
+  - bash <(curl -s https://codecov.io/bash)
+
+before_install:
+  - curl -sL https://github.com/jpm4j/jpm4j.installers/raw/master/dist/biz.aQute.jpm.run.jar >jpm4j.jar
+  - java -jar jpm4j.jar -u init
+  - ~/jpm/bin/jpm install com.codacy:codacy-coverage-reporter:assembly
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c "create database naranair;" -U postgres
+  - psql -c "CREATE USER naranairapp WITH SUPERUSER PASSWORD 'Nestor123';" -U postgres
+
