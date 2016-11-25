@@ -1,4 +1,4 @@
-package tests;
+package domain.dao;
 
 
 import static org.junit.Assert.*;
