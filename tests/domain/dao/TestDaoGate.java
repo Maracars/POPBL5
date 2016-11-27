@@ -1,6 +1,5 @@
 package domain.dao;
 
-
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -13,17 +12,22 @@ import domain.model.Gate;
 
 public class TestDaoGate {
 
+	private static final String ERROR_REMOVING = "Error removing one gate from database";
+	private static final String ERROR_GETTING = "Error getting all gates of a terminal from database";
+	private static final String ERROR_INSERT = "Error insert gate into database";
+	private static final int GATE_NUM = 3;
 
 	@Test
 	public void testInsertGateIntoDB() {
 		Gate gate = new Gate();
-		gate.setNumber(3);
+		gate.setNumber(GATE_NUM);
 		boolean result = DAOGate.insertGate(gate);
-		assertEquals("Error insert gate into database", true, result);
+		assertEquals(ERROR_INSERT, true, result);
 	}
+
 	@Test
 	public void testInsertGateIntoDBSendingNullAsParameter() {
-		assertEquals("Error insert gate into database", false, DAOGate.insertGate(null));
+		assertEquals(ERROR_INSERT, false, DAOGate.insertGate(null));
 	}
 
 	@Ignore
@@ -31,7 +35,7 @@ public class TestDaoGate {
 		int terminalId = 1;
 		ArrayList<Gate> gateList;
 		gateList = DAOGate.loadAllGatesFromTerminal(terminalId);
-		assertNotNull("Error getting all gates of a terminal from database", gateList);
+		assertNotNull(ERROR_GETTING, gateList);
 	}
 
 	@Test
@@ -39,12 +43,13 @@ public class TestDaoGate {
 		Gate gate = new Gate();
 		gate.setId(1);
 		boolean result = DAOGate.deleteGate(gate);
-		assertEquals("Error removing one gate from database", true, result);
+		assertEquals(ERROR_REMOVING, true, result);
 	}
+
 	@Test
 	public void testRemoveOneSpecificGateSendingNullAsParameter() {
 
-		assertEquals("Error removing one gate from database", false, DAOGate.deleteGate(null));
+		assertEquals(ERROR_REMOVING, false, DAOGate.deleteGate(null));
 	}
 
 }

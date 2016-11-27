@@ -13,8 +13,9 @@ public class City {
 	@GeneratedValue
 	Integer id;
 	String name;
-	@ManyToOne(cascade = CascadeType.PERSIST) // Honek dana gordeko dau, hirixa
-												// eta estatua
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	// Honek dana gordeko dau, hirixa
+	// eta estatua
 	@NotNull
 	State state;
 

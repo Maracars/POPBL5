@@ -10,40 +10,39 @@ import hibernate.HibernateConnection;
 
 public class DAOCity {
 	private static Session session;
-	
-	
+
 	public static boolean insertCity(City city) {
-		try{
+		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.persist(city);
 			session.getTransaction().commit();
 			HibernateConnection.after();
-			
-		} catch(Exception e){
+
+		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
 			return false;
 		}
-		
+
 		return true;
-		
+
 	}
-	
+
 	public static boolean deleteCity(City city) {
-		try{
+		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			session.delete(city);
 			HibernateConnection.after();
-			
-		} catch(Exception e){
+
+		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -52,7 +51,7 @@ public class DAOCity {
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
-		  @SuppressWarnings("unchecked")
+			@SuppressWarnings("unchecked")
 			TypedQuery<City> query = session.createQuery("from City");
 			cityList = query.getResultList();
 		} catch (Exception e) {
@@ -60,7 +59,6 @@ public class DAOCity {
 		}
 		HibernateConnection.after();
 
-		
 		return cityList;
 	}
 

@@ -1,6 +1,5 @@
 package domain.dao;
 
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -11,45 +10,53 @@ import domain.model.State;
 
 public class TestDaoCity {
 
+	private static final String ERROR_LOAD = "Error load all cities from database";
+	private static final String BERGARA = "Bergara";
+	private static final String INSERT_ERROR = "Error insert city into database";
+	private static final String REMOVE_ERROR = "Error removing one city from database";
+
 	@Test
 	public void testInsertCityWithoutIntoDB() {
 		City city = new City();
-		city.setName("Bergara");
+		city.setName(BERGARA);
 		boolean result = DAOCity.insertCity(city);
-		assertEquals("Error insert city into database", false, result);
+		assertEquals(INSERT_ERROR, false, result);
 	}
-	
+
 	@Test
 	public void testInsertCityWithStateIntoDB() {
 		State state = new State();
 		state.setName("Euskal herria");
 		City city = new City();
-		city.setName("Bergara");
+		city.setName(BERGARA);
 		city.setState(state);
 		boolean result = DAOCity.insertCity(city);
-		assertEquals("Error insert city into database", true, result);
+		assertEquals(INSERT_ERROR, true, result);
 	}
+
 	@Test
 	public void testLoadAllCities() {
-		assertNotNull("Error load all cities from database",DAOCity.loadAllCities());
+		assertNotNull(ERROR_LOAD, DAOCity.loadAllCities());
 
 	}
+
 	@Test
 	public void testInsertNullCityIntoDB() {
-		assertEquals("Error insert city into database", false, DAOCity.insertCity(null));
+		assertEquals(INSERT_ERROR, false, DAOCity.insertCity(null));
 	}
-
 
 	@Test
 	public void testRemoveOneSpecificCity() {
 		City city = new City();
 		city.setId(1);
-		boolean result = DAOCity.deleteCity(city); // aukeran Terminal bidaldu edo terminalId
-		assertEquals("Error removing one city from database", true, result);
+		boolean result = DAOCity.deleteCity(city); // aukeran Terminal bidaldu
+													// edo terminalId
+		assertEquals(REMOVE_ERROR, true, result);
 	}
+
 	@Test
 	public void testRemoveOneNullCity() {
-		assertEquals("Error removing one city from database", false, DAOCity.deleteCity(null));
+		assertEquals(REMOVE_ERROR, false, DAOCity.deleteCity(null));
 	}
 
 }

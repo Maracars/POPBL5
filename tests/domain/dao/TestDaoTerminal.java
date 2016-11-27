@@ -16,16 +16,20 @@ public class TestDaoTerminal {
 
 
 
+	private static final String ERROR_REMOVING = "Error removing one terminal from database";
+	private static final String ERROR_GETTING = "Error getting all terminals of an airport from database";
+	private static final String ERROR_INSERT = "Error insert terminal into database";
+	private static final String TERMINAL_NAME = "3";
 	@Test
 	public void testInsertTerminalWithoutGatesIntoDB() {
 		Terminal terminal = new Terminal();
-		terminal.setName("3");
+		terminal.setName(TERMINAL_NAME);
 		boolean result = DAOTerminal.insertTerminal(terminal);
-		assertEquals("Error insert terminal into database", true, result);
+		assertEquals(ERROR_INSERT, true, result);
 	}
 	@Test
 	public void testInsertNullTerminalIntoDB() {
-		assertEquals("Error insert terminal into database", false, DAOTerminal.insertTerminal(null));
+		assertEquals(ERROR_INSERT, false, DAOTerminal.insertTerminal(null));
 	}
 
 
@@ -34,7 +38,7 @@ public class TestDaoTerminal {
 		int airportId = 1;
 		ArrayList<Terminal> terminalList;
 		terminalList = DAOTerminal.loadAllGatesFromTerminal(airportId);
-		assertNotNull("Error getting all terminals of an airport from database", terminalList);
+		assertNotNull(ERROR_GETTING, terminalList);
 	}
 
 
@@ -43,11 +47,11 @@ public class TestDaoTerminal {
 		Terminal terminal = new Terminal();
 		terminal.setId(1);
 		boolean result = DAOTerminal.deleteTerminal(terminal); // aukeran Terminal bidaldu edo terminalId
-		assertEquals("Error removing one terminal from database", true, result);
+		assertEquals(ERROR_REMOVING, true, result);
 	}
 	@Test
 	public void testRemoveOneNullTerminal() {
-		assertEquals("Error removing one terminal from database", false, DAOTerminal.deleteTerminal(null));
+		assertEquals(ERROR_REMOVING, false, DAOTerminal.deleteTerminal(null));
 	}
 
 }
