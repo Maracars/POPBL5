@@ -2,7 +2,7 @@ language: java
 jdk:
   - oraclejdk8
 after_success:
-  - ~/jpm/bin/codacy-coverage-reporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
+  - ~/jpm/bin/codacy-coverage-reporter -l Java -r tests/results/coverage/report.xml
   - bash <(curl -s https://codecov.io/bash)
 
 before_install:
