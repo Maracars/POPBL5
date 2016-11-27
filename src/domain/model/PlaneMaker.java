@@ -6,10 +6,11 @@ import javax.persistence.Id;
 
 @Entity
 public class PlaneMaker {
-	
-	@Id@GeneratedValue
+
+	@Id
+	@GeneratedValue
 	Integer id;
-	
+
 	String name;
 
 	public Integer getId() {
@@ -27,7 +28,5 @@ public class PlaneMaker {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
 }

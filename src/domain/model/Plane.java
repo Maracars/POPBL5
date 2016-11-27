@@ -9,20 +9,21 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 public class Plane {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	Integer id;
-	
+
 	String serial;
-	
-	@ManyToOne(optional=false)
+
+	@ManyToOne(optional = false)
 	PlaneModel model;
 
-	//TODO POSITION ZELA?
-	
+	// TODO POSITION ZELA?
+
 	@Temporal(TemporalType.TIMESTAMP)
 	Date fabricationDate;
-	
+
 	Airline airline;
 
 	public Integer getId() {
@@ -56,6 +57,5 @@ public class Plane {
 	public void setFabricationDate(Date fabricationDate) {
 		this.fabricationDate = fabricationDate;
 	}
-	
-	
+
 }

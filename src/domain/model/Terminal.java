@@ -16,36 +16,42 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import domain.model.Gate;
+
 @Entity
 public class Terminal {
-	@Id@GeneratedValue
+	@Id
+	@GeneratedValue
 	Integer id;
 	String name;
 	@ElementCollection
-	@JoinTable(name="TerminalGates",
- 				joinColumns= @JoinColumn(name="terminalID"))
- 	@GenericGenerator(name="sequence", strategy="sequence")
- 
- 	@CollectionId(columns = { @Column(name="gateID") }, generator = "sequence", type = @Type(type="long"))
+	@JoinTable(name = "TerminalGates", joinColumns = @JoinColumn(name = "terminalID"))
+	@GenericGenerator(name = "sequence", strategy = "sequence")
+
+	@CollectionId(columns = { @Column(name = "gateID") }, generator = "sequence", type = @Type(type = "long"))
 	Collection<Gate> gatesList = new ArrayList<>();
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public Collection<Gate> getGatesList() {
 		return gatesList;
 	}
+
 	public void setGatesList(Collection<Gate> gatesList) {
 		this.gatesList = gatesList;
 	}
-	
 
 }

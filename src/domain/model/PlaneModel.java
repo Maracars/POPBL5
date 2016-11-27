@@ -5,15 +5,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-
 @Entity
 public class PlaneModel {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	Integer id;
 	String name;
-	
-	@ManyToOne(optional=false)
+
+	@ManyToOne(optional = false)
 	PlaneMaker planeMaker;
 
 	public Integer getId() {
@@ -39,9 +39,5 @@ public class PlaneModel {
 	public void setPlaneMaker(PlaneMaker planeMaker) {
 		this.planeMaker = planeMaker;
 	}
-	
-	
-	
-	
-	
+
 }

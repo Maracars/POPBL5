@@ -5,9 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Passenger extends User{
+public class Passenger extends User {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	Integer id;
-	//TODO kanpuak finkatzeko
+	// TODO kanpuak finkatzeko
 }

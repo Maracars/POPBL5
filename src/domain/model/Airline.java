@@ -10,9 +10,10 @@ import javax.persistence.Id;
  */
 @Entity
 public class Airline {
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	Integer id;
-	
+
 	String name;
 
 	public Integer getId() {
@@ -30,7 +31,7 @@ public class Airline {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	//TODO hemen finkatzeko dare kanpuak
-	
+
+	// TODO hemen finkatzeko dare kanpuak
+
 }

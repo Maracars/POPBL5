@@ -8,45 +8,43 @@ import org.hibernate.Session;
 import domain.model.State;
 import hibernate.HibernateConnection;
 
-
 public class DAOState {
 	private static Session session;
-	
-	
-	
-	public static boolean insertState(State state){
-		try{
+
+	public static boolean insertState(State state) {
+		try {
 			HibernateConnection.before();
-			session = HibernateConnection.getSession();			
+			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.save(state);
 			session.getTransaction().commit();
 			HibernateConnection.after();
-			
-		}catch(Exception e){
+
+		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
 			return false;
 		}
-		
+
 		return true;
-		
+
 	}
-	
-	public static boolean deleteState(State state){
-		try{
+
+	public static boolean deleteState(State state) {
+		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			session.delete(state);
-			HibernateConnection.after();			
-		}catch(Exception e){
+			HibernateConnection.after();
+		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
 			return false;
 		}
-		
+
 		return true;
 	}
+
 	public static List<State> loadAllStates() {
 		List<State> stateList = null;
 		try {
@@ -59,10 +57,8 @@ public class DAOState {
 			e.printStackTrace();
 		}
 		HibernateConnection.after();
-		
+
 		return stateList;
 	}
-
-
 
 }

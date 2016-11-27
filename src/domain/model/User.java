@@ -10,18 +10,18 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class User {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	Integer id;
-	
+
 	String password;
-	
+
 	String username;
-	
-	//TODO hemen enkripzinua beiratu
-	
-	
-	//TODO hemen erabiltzaile mota zela garatu pentsatu
+
+	// TODO hemen enkripzinua beiratu
+
+	// TODO hemen erabiltzaile mota zela garatu pentsatu
 	@Temporal(TemporalType.DATE)
 	Date birthDate;
 
