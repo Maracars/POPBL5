@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+   "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+   "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="default" template="/pages/layouts/default.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="sidemenu" value="" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<definition name="index" extends="default">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
+		<put-attribute name="sidemenu" value="/pages/tiles/sidemenus/default.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/home.jsp" />
+	</definition>
+	
+	<definition name="flights" extends="index">
+		<put-attribute name="title" value="Flights" />
+		<put-attribute name="body" value="/pages/tiles/bodies/flights.jsp" />
+	</definition>
+	
+	<definition name="stats" extends="index">
+		<put-attribute name="title" value="Stats" />
+		<put-attribute name="body" value="/pages/tiles/bodies/stats.jsp" />
+	</definition>
+	
+	
+</tiles-definitions>
