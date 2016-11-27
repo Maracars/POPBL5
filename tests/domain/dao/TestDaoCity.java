@@ -49,8 +49,9 @@ public class TestDaoCity {
 	public void testRemoveOneSpecificCity() {
 		City city = new City();
 		city.setId(1);
-		boolean result = DAOCity.deleteCity(city); // aukeran Terminal bidaldu
-													// edo terminalId
+		boolean result = DAOCity.deleteCity(city); 
+		// aukeran Terminal bidaldu
+		// edo terminalId
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
