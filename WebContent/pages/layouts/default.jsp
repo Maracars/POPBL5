@@ -26,16 +26,22 @@
 <body>
 
 	<div id="wrapper">
-		<nav style="background-color: black;"
+		<nav style="margin: 0px; background-color: black;"
 			class="navbar navbar-default navbar-static-top" role="navigation"
 			style="margin-bottom: 0">
 			<tiles:insertAttribute name="header" />
 			<tiles:insertAttribute name="sidemenu" />
 		</nav>
-		<div id="page-wrapper">
+		<div id="page-wrapper" style="display: none; padding-top: 20px;">
 			<tiles:insertAttribute name="body" />
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#page-wrapper').fadeIn(1000);
+	})
+	</script>
 
 </body>
 </html>

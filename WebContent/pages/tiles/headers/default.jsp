@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sb" uri="/struts-bootstrap-tags"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
@@ -46,6 +44,10 @@
 					<img class="center-block" alt="build stability"
 						src="https://travis-ci.org/Maracars/POPBL5.svg?branch=master" />
 				</s:a></li>
+			<li><a class="center-block"
+				href="https://www.codacy.com/app/Maracars/POPBL5?utm_source=www.github.com&amp;utm_medium=referral&amp;utm_content=Maracars/POPBL5&amp;utm_campaign=Badge_Grade"><img
+					class="center-block"
+					src="https://api.codacy.com/project/badge/Grade/4924993f790f4bd584d0c8516d553a9b" /></a></li>
 		</ul> <!-- /.dropdown-user --></li>
 	<!-- /.dropdown -->
 </ul>

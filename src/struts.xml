@@ -6,26 +6,37 @@
 <struts>
 
 	<package name="default" extends="struts-default">
+
+
 		<result-types>
 			<result-type name="tiles"
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
-		
+
 		<action name="index">
 			<result type="tiles">index</result>
 		</action>
-		
+
 		<action name="stats">
 			<result type="tiles">stats</result>
 		</action>
-		
+
 		<action name="flights">
 			<result type="tiles">flights</result>
 		</action>
+
+		<action name="500">
+			<result type="tiles">500</result>
+		</action>
 		
+		<action name="404">
+			<result type="tiles">404</result>
+		</action>
+
 		<action name="">
 			<result type="tiles">index</result>
 		</action>
+
 
 	</package>
 

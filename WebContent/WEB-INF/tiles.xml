@@ -29,5 +29,16 @@
 		<put-attribute name="body" value="/pages/tiles/bodies/stats.jsp" />
 	</definition>
 	
+	<definition name="404" extends="index">
+		<put-attribute name="title" value="Error 404" />
+		<put-attribute name="body" value="/pages/tiles/bodies/404.jsp" />
+		<put-attribute name="sidemenu" value="" />
+	</definition>
+	
+	<definition name="500" extends="404">
+		<put-attribute name="title" value="Error 500" />
+		<put-attribute name="body" value="/pages/tiles/bodies/500.jsp" />
+	</definition>
+	
 	
 </tiles-definitions>
