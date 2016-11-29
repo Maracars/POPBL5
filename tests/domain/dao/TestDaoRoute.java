@@ -19,8 +19,6 @@ public class TestDaoRoute {
 	@Test
 	public void testInsertRouteWithoutGateIntoDB() {
 		Route route = new Route();
-		route.setArrivalGate(new Gate());
-		route.setDepartureGate(new Gate());
 		boolean result = DAORoute.insertRoute(route);
 		assertEquals(INSERT_ERROR, false, result);
 	}
@@ -53,7 +51,7 @@ public class TestDaoRoute {
 	public void testRemoveOneSpecificRoute() {
 		Route route = new Route();
 		route.setId(1);
-		boolean result = DAORoute.deleteRoute(route); 
+		boolean result = DAORoute.deleteRoute(route);
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
