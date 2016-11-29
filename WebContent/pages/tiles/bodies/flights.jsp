@@ -5,6 +5,9 @@
 	<div class="jumbotron">
 		<h1>Flights</h1>
 		<h2>Not implemented jaja</h2>
-		<p>Here you can see the flights<hr/><em> designed by MARACARS</em></p>
+		<p>
+			Here you can see the flights<hr><em> designed by MARACARS</em>
+		</p>
+
 	</div>
 </div>
