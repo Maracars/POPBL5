@@ -1,18 +1,17 @@
 package domain.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@Entity
 public class Node {
 
 	@Id
 	@GeneratedValue
 	Integer id;
-
 	Integer positionX;
-
 	Integer positionY;
-
 	String name; // Beharrezkoa??
 
 	public Integer getId() {

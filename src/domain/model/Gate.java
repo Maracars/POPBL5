@@ -3,6 +3,7 @@ package domain.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Gate {
@@ -13,6 +14,7 @@ public class Gate {
 	private Integer number;
 
 	// TODO tagak jarri
+	@OneToOne 
 	Node positionNode;
 
 	public Integer getId() {

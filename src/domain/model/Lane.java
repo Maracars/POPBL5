@@ -10,6 +10,10 @@ public class Lane {
 	Integer id;
 
 	// TODO laneType definitu
+	
+	Node startNode;
+
+	Node endNode;
 
 	public Integer getId() {
 		return id;
@@ -34,9 +38,5 @@ public class Lane {
 	public void setEndNode(Node endNode) {
 		this.endNode = endNode;
 	}
-
-	Node startNode;
-
-	Node endNode;
 
 }
