@@ -26,7 +26,7 @@ public class DAORoute {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			result = true;
+			result = false;
 		}
 
 		return result;

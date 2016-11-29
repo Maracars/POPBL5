@@ -1,11 +1,11 @@
 package domain.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Route {
@@ -13,11 +13,10 @@ public class Route {
 	@Id
 	@GeneratedValue
 	Integer id;
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@NotNull
+	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+
 	Gate arrivalGate;
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@NotNull
+	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	Gate departureGate;
 
 	public Integer getId() {

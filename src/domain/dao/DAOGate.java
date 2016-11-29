@@ -16,6 +16,7 @@ public class DAOGate {
 		boolean result = true;
 		try {
 			HibernateConnection.before();
+			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.save(gate);
 			session.getTransaction().commit();
@@ -35,6 +36,7 @@ public class DAOGate {
 		boolean result = true;
 		try {
 			HibernateConnection.before();
+			session = HibernateConnection.getSession();
 			session.delete(gate);
 			HibernateConnection.after();
 
