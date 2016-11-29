@@ -19,6 +19,21 @@
 		<put-attribute name="body" value="/pages/tiles/bodies/home.jsp" />
 	</definition>
 	
+	<definition name="register" extends="index">
+		<put-attribute name="title" value="Register" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/register.jsp" />
+	</definition>
+	
+	<definition name="login" extends="index">
+		<put-attribute name="title" value="Login" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/login.jsp" />
+	</definition>
+	
+	<definition name="flights" extends="index">
+		<put-attribute name="title" value="Flights" />
+		<put-attribute name="body" value="/pages/tiles/bodies/flights.jsp" />
+	</definition>
+	
 	<definition name="flights" extends="index">
 		<put-attribute name="title" value="Flights" />
 		<put-attribute name="body" value="/pages/tiles/bodies/flights.jsp" />

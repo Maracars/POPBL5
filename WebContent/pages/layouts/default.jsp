@@ -9,7 +9,7 @@
 <head>
 <link rel='shortcut icon' type='image/png' href='rsc/img/favicon.png' />
 
-<sj:head jqueryui="false" />
+<sj:head />
 <sb:head />
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css" href="css/metisMenu.min.css" />
