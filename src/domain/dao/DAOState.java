@@ -12,6 +12,7 @@ public class DAOState {
 	private static Session session;
 
 	public static boolean insertState(State state) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -23,14 +24,15 @@ public class DAOState {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 
 	}
 
 	public static boolean deleteState(State state) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -39,10 +41,10 @@ public class DAOState {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 	}
 
 	public static List<State> loadAllStates() {

@@ -7,56 +7,44 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import domain.model.Gate;
+import hibernate.HibernateConnection;
 
 public class DAOGate {
-	private static SessionFactory sessionFactory;
 	private static Session session;
 
-	private static void before() {
-
-		sessionFactory = new Configuration().configure("/resources/hibernate.cfg.xml").buildSessionFactory();
-		session = sessionFactory.openSession();
-
-	}
-
-	private static void after() {
-
-		session.close();
-		sessionFactory.close();
-
-	}
-
 	public static boolean insertGate(Gate gate) {
+		boolean result = true;
 		try {
-			before();
+			HibernateConnection.before();
 			session.getTransaction().begin();
 			session.save(gate);
 			session.getTransaction().commit();
-			after();
+			HibernateConnection.after();
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			after();
-			return false;
+			HibernateConnection.after();
+			result = false;
 		}
 
-		return true;
+		return result;
 
 	}
 
 	public static boolean deleteGate(Gate gate) {
+		boolean result = true;
 		try {
-			before();
+			HibernateConnection.before();
 			session.delete(gate);
-			after();
+			HibernateConnection.after();
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			after();
-			return false;
+			HibernateConnection.after();
+			result = false;
 		}
 
-		return true;
+		return result;
 	}
 
 	public static ArrayList<Gate> loadAllGatesFromTerminal(int terminalId) {

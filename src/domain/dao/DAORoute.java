@@ -13,6 +13,7 @@ public class DAORoute {
 	private static Session session;
 
 	public static boolean insertRoute(Route route) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -25,14 +26,15 @@ public class DAORoute {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = true;
 		}
 
-		return true;
+		return result;
 
 	}
 
 	public static boolean deleteRoute(Route route) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -42,10 +44,10 @@ public class DAORoute {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 	}
 
 	public static List<Route> loadAllRoutes() {

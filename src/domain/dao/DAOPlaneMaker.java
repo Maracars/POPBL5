@@ -12,6 +12,7 @@ public class DAOPlaneMaker {
 	private static Session session;
 
 	public static boolean insertPlaneMaker(PlaneMaker planeMaker) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -22,14 +23,15 @@ public class DAOPlaneMaker {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 
 	}
 
 	public static boolean deletePlaneMaker(PlaneMaker planeMaker) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -38,10 +40,10 @@ public class DAOPlaneMaker {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 	}
 
 	public static List<PlaneMaker> loadAllPlaneMakers() {

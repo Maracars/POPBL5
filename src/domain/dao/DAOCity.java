@@ -12,6 +12,7 @@ public class DAOCity {
 	private static Session session;
 
 	public static boolean insertCity(City city) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -23,14 +24,15 @@ public class DAOCity {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 
 	}
 
 	public static boolean deleteCity(City city) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -40,10 +42,10 @@ public class DAOCity {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 	}
 
 	public static List<City> loadAllCities() {

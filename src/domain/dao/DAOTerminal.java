@@ -10,6 +10,7 @@ public class DAOTerminal {
 	private static Session session;
 
 	public static boolean insertTerminal(Terminal terminal) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -21,14 +22,15 @@ public class DAOTerminal {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 
 	}
 
 	public static boolean deleteTerminal(Terminal terminal) {
+		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
@@ -38,10 +40,10 @@ public class DAOTerminal {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			HibernateConnection.after();
-			return false;
+			result = false;
 		}
 
-		return true;
+		return result;
 	}
 
 	public static ArrayList<Terminal> loadAllGatesFromTerminal(int airportId) {

@@ -33,6 +33,8 @@
        <mapping class="domain.model.PlaneMaker"/>
        <mapping class="domain.dao.DAORoute"/>
        <mapping class="domain.model.Route"/>
+       <mapping class="domain.dao.DAOAirport"/>
+       <mapping class="domain.model.Airport"/>
 
 
 
