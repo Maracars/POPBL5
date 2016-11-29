@@ -37,6 +37,35 @@ public class Flight {
 	@ManyToOne(optional = false)
 	Plane plane;
 
+	// TODO tagak jarri
+	Route ruta;
+
+	Float price;
+
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
+	public Plane getPlane() {
+		return plane;
+	}
+
+	public void setPlane(Plane plane) {
+		this.plane = plane;
+	}
+
+	public Route getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(Route ruta) {
+		this.ruta = ruta;
+	}
+
 	public Integer getId() {
 		return id;
 	}

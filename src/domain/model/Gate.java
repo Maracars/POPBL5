@@ -12,6 +12,9 @@ public class Gate {
 	private Integer id;
 	private Integer number;
 
+	// TODO tagak jarri
+	Node positionNode;
+
 	public Integer getId() {
 		return id;
 	}

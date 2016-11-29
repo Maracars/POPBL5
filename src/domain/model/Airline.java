@@ -1,5 +1,8 @@
 package domain.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +18,17 @@ public class Airline {
 	Integer id;
 
 	String name;
+
+	// TODO tagak jarri
+	Collection<Route> routesList = new ArrayList<>();
+
+	public Collection<Route> getRoutesList() {
+		return routesList;
+	}
+
+	public void setRoutesList(Collection<Route> routesList) {
+		this.routesList = routesList;
+	}
 
 	public Integer getId() {
 		return id;

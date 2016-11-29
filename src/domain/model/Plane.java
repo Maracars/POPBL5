@@ -24,6 +24,7 @@ public class Plane {
 	@Temporal(TemporalType.TIMESTAMP)
 	Date fabricationDate;
 
+	// TODO taga definitu
 	Airline airline;
 
 	public Integer getId() {
