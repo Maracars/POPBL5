@@ -20,6 +20,7 @@ public class TestDaoTerminal {
 	private static final String ERROR_GETTING = "Error getting all terminals of an airport from database";
 	private static final String ERROR_INSERT = "Error insert terminal into database";
 	private static final String TERMINAL_NAME = "3";
+	
 	@Test
 	public void testInsertTerminalWithoutGatesIntoDB() {
 		Terminal terminal = new Terminal();

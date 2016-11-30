@@ -43,7 +43,7 @@ public class TestDaoNode {
 		Node node = new Node();
 		node.setId(1);
 		DAONode.insertNode(node);
-		boolean result = DAONode.deleteNode(DAONode.loadAllNodes().get(0));
+		boolean result = DAONode.deleteNode(node);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

@@ -70,8 +70,27 @@ public class TestDaoAirline {
 
 	@Test
 	public void testRemoveOneSpecificAirline() {
+		/* Create airline */
 		Airline airline = new Airline();
-		airline.setId(1);
+		airline.setName(NARANAIR);
+		airline.setUsername(USERNAME);
+		airline.setPassword(PASSWORD);
+		airline.setBirthDate(new Date());
+		
+		Route route = new Route();
+		Gate arrivalGate = new Gate();
+		route.setArrivalGate(arrivalGate);
+		Gate departureGate = new Gate();
+		route.setDepartureGate(departureGate);
+		Collection<Route> routeList = new ArrayList<>();
+		routeList.add(route);
+		airline.setRoutesList(routeList);
+		
+		/* delete all users to avoid duplicated error */
+		// TODO sortu beharko zan delete funtzioa username emonda
+		deleteAllUsers();
+		DAOAirline.insertAirline(airline);
+		airline = DAOAirline.loadAllAirlines().get(0);
 		boolean result = DAOAirline.deleteAirline(airline);
 		assertEquals(REMOVE_ERROR, true, result);
 	}

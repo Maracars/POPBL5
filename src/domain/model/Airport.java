@@ -23,11 +23,11 @@ public class Airport {
 	Integer maxFlights;
 
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne//(cascade = CascadeType.PERSIST)
 	@NotNull
 	City city;
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany//(cascade = CascadeType.PERSIST)
 	@NotNull
 	Collection<Terminal> TerminalList = new ArrayList<>();
 
