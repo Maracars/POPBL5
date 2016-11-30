@@ -29,7 +29,7 @@ public class DAOUser {
 			return null;
 
 		try {
-			input = input  + SALT;
+			input = input + SALT;
 			MessageDigest digest = MessageDigest.getInstance("MD5");
 			digest.update(input.getBytes(), 0, input.length());
 			md5 = new BigInteger(SIGNAL, digest.digest()).toString(BASE);
@@ -44,53 +44,54 @@ public class DAOUser {
 	public static boolean insertUser(User user) {
 		try {
 			user.setPassword(md5(user.getPassword()));
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(user);
 			session.getTransaction().commit();
-			
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			return false;
 		}
 
 		return true;
 
 	}
-	
+
 	public static User getUser(String username) {
 		List<User> userList = null;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
-			TypedQuery<User> query = session
-									.createQuery(USERNAME_QUERY + username + "'");
+			TypedQuery<User> query = session.createQuery(USERNAME_QUERY + username + "'");
 			userList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		
-		
+
 		return userList.isEmpty() ? null : userList.get(0);
 
 	}
 
 	public static boolean deleteUser(User user) {
 		try {
-			session = HibernateConnection.getSession();
+			session = HibernateConnection.getSessionFactory().openSession();
 
-            session.beginTransaction();
-            session.delete(user);
-            session.getTransaction().commit();
+			session.beginTransaction();
+			session.delete(user);
+			session.getTransaction().commit();
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			return false;
+		} finally {
+			session.close();
 		}
 
 		return true;
@@ -99,37 +100,39 @@ public class DAOUser {
 	public static List<User> loadAllUsers() {
 		List<User> userList = null;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<User> query = session.createQuery(QUERY_USER);
 			userList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		
 
 		return userList;
 	}
 
 	public static boolean deleteUserWithUsername(User user) {
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
-			
-			Query query = session.createQuery("delete User where username = '"+user.getUsername()+"'");
+
+			Query query = session.createQuery("delete User where username = '" + user.getUsername() + "'");
 			query.executeUpdate();
 			session.getTransaction().commit();
 
-			
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			return false;
+		} finally {
+			session.close();
 		}
 
 		return true;
-		
+
 	}
 }

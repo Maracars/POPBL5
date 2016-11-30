@@ -15,8 +15,8 @@ public class DAOLane {
 	public static boolean insertLane(Lane lane) {
 		boolean result = true;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(lane);
 			session.getTransaction().commit();
@@ -25,6 +25,8 @@ public class DAOLane {
 
 			session.getTransaction().rollback();
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;
@@ -34,8 +36,8 @@ public class DAOLane {
 	public static boolean deleteLane(Lane lane) {
 		boolean result = true;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.delete(lane);
 			session.getTransaction().commit();
@@ -44,7 +46,7 @@ public class DAOLane {
 			session.getTransaction().rollback();
 			result = false;
 		} finally {
-			
+			session.close();
 		}
 
 		return result;
@@ -53,18 +55,18 @@ public class DAOLane {
 	public static List<Lane> loadAllLanes() {
 		List<Lane> laneList = null;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Lane> query = session.createQuery("from Lane");
 			laneList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		
 
 		return laneList;
 	}
-
 
 }

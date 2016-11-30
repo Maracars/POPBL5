@@ -10,23 +10,24 @@ import domain.model.Airline;
 import hibernate.HibernateConnection;
 
 public class DAOAirline {
-	
+
 	private static Session session;
 
 	public static boolean insertAirline(Airline airline) {
 		boolean result = true;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.persist(airline);
 			session.getTransaction().commit();
-			
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;
@@ -37,33 +38,35 @@ public class DAOAirline {
 		boolean result = true;
 		try {
 
-			session = HibernateConnection.getSession();
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.delete(airline);
 			session.getTransaction().commit();
 
-
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			result = false;
+		} finally {
+			session.close();
 		}
-		
+
 		return result;
 	}
 
 	public static List<Airline> loadAllAirlines() {
 		List<Airline> airlineList = null;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Airline> query = session.createQuery("from Airline");
 			airlineList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		
 
 		return airlineList;
 	}

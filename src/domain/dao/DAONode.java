@@ -17,7 +17,7 @@ public class DAONode {
 	public static boolean insertNode(Node node) {
 		boolean result = true;
 		try {
-			
+
 			sessionFactory = HibernateConnection.getSessionFactory();
 			session = sessionFactory.openSession();
 			session.getTransaction().begin();
@@ -27,6 +27,8 @@ public class DAONode {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;
@@ -36,16 +38,18 @@ public class DAONode {
 	public static boolean deleteNode(Node node) {
 		boolean result = true;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.delete(node);
 			session.getTransaction().commit();
-			
+
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;
@@ -54,18 +58,18 @@ public class DAONode {
 	public static List<Node> loadAllNodes() {
 		List<Node> nodeList = null;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Node> query = session.createQuery("from Node");
 			nodeList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		
 
 		return nodeList;
 	}
-
 
 }

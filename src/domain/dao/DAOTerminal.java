@@ -12,17 +12,18 @@ public class DAOTerminal {
 	public static boolean insertTerminal(Terminal terminal) {
 		boolean result = true;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(terminal);
 			session.getTransaction().commit();
-			
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;
@@ -32,17 +33,18 @@ public class DAOTerminal {
 	public static boolean deleteTerminal(Terminal terminal) {
 		boolean result = true;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(terminal);
 			session.getTransaction().commit();
-			
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;

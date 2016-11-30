@@ -14,17 +14,18 @@ public class DAOState {
 	public static boolean insertState(State state) {
 		boolean result = true;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(state);
 			session.getTransaction().commit();
-			
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;
@@ -34,16 +35,18 @@ public class DAOState {
 	public static boolean deleteState(State state) {
 		boolean result = true;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.delete(state);
 			session.getTransaction().commit();
-			
+
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			
+
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;
@@ -52,15 +55,16 @@ public class DAOState {
 	public static List<State> loadAllStates() {
 		List<State> stateList = null;
 		try {
-			
-			session = HibernateConnection.getSession();
+
+			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<State> query = session.createQuery("from State");
 			stateList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-		
 
 		return stateList;
 	}

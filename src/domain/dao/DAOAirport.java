@@ -16,7 +16,7 @@ public class DAOAirport {
 		boolean result = true;
 		try {
 
-			session = HibernateConnection.getSession();
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(airport);
 			session.getTransaction().commit();
@@ -25,8 +25,9 @@ public class DAOAirport {
 			session.getTransaction().rollback();
 
 			result = false;
+		} finally {
+			session.close();
 		}
-
 		return result;
 
 	}
@@ -34,7 +35,7 @@ public class DAOAirport {
 	public static boolean deleteAirport(Airport airport) {
 		boolean result = true;
 		try {
-			session = HibernateConnection.getSession();
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.delete(airport);
 			session.getTransaction().commit();
@@ -43,6 +44,8 @@ public class DAOAirport {
 			session.getTransaction().rollback();
 
 			result = false;
+		} finally {
+			session.close();
 		}
 
 		return result;
@@ -52,12 +55,14 @@ public class DAOAirport {
 		List<Airport> airportList = null;
 		try {
 
-			session = HibernateConnection.getSession();
+			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Airport> query = session.createQuery("from Airport");
 			airportList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 
 		return airportList;
