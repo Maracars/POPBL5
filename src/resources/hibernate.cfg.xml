@@ -18,23 +18,40 @@
         
         <!-- Hibernatek sortzen daben sql dana printeau -->
         <property name="show_sql">false</property>
-
-
-       <mapping class="domain.model.Node"/>
-       <mapping class="domain.dao.DAOGate"/>
-       <mapping class="domain.model.Gate"/>
-       <mapping class="domain.dao.DAOTerminal"/>
-       <mapping class="domain.model.Terminal"/>
-       <mapping class="domain.dao.DAOState"/>
-       <mapping class="domain.model.State"/>
-       <mapping class="domain.dao.DAOCity"/>
-       <mapping class="domain.model.City"/>
-       <mapping class="domain.dao.DAOPlaneMaker"/>
-       <mapping class="domain.model.PlaneMaker"/>
-       <mapping class="domain.dao.DAORoute"/>
-       <mapping class="domain.model.Route"/>
-       <mapping class="domain.dao.DAOAirport"/>
+        
+        
+       <mapping class="domain.model.Airline"/> 
        <mapping class="domain.model.Airport"/>
+       <mapping class="domain.model.City"/>
+       <mapping class="domain.model.Delay"/>
+       <mapping class="domain.model.Flight"/>
+       <mapping class="domain.model.Gate"/>
+       <mapping class="domain.model.Lane"/>
+       <mapping class="domain.model.Node"/>
+       <mapping class="domain.model.Passenger"/>
+       <mapping class="domain.model.Plane"/>
+       <mapping class="domain.model.PlaneMaker"/>
+       <mapping class="domain.model.PlaneMovement"/>
+       <mapping class="domain.model.PlaneStatus"/>
+       <mapping class="domain.model.Route"/>
+       <mapping class="domain.model.State"/>
+       <mapping class="domain.model.Terminal"/>
+       <mapping class="domain.model.User"/>
+       
+       
+       <mapping class="domain.dao.DAOAirport"/>
+       <mapping class="domain.dao.DAOCity"/>
+       <mapping class="domain.dao.DAOGate"/>
+       <mapping class="domain.dao.DAOPlaneMaker"/>
+       <mapping class="domain.dao.DAORoute"/>
+       <mapping class="domain.dao.DAOState"/>
+       <mapping class="domain.dao.DAOTerminal"/>
+       <mapping class="domain.dao.DAOUser"/>
+       
+       
+       
+       
+       
 
 
 
