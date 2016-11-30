@@ -14,7 +14,7 @@ import hibernate.HibernateConnection;
 
 public class DAOUser {
 	private static final String QUERY_USER = "from User";
-	private static final String USERNAME_QUERY = "from User U where U.username = ";
+	private static final String USERNAME_QUERY = "from User U where U.username = '";
 	private static Session session;
 	private final static String SALT = "Kappa123&/()==?%#@|º¡¿@$@4&#%^$*";
 	private final static Integer BASE = 16;
@@ -67,7 +67,7 @@ public class DAOUser {
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<User> query = session
-									.createQuery(USERNAME_QUERY + username);
+									.createQuery(USERNAME_QUERY + username + "'");
 			userList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();

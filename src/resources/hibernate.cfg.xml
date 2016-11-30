@@ -28,7 +28,7 @@
        <mapping class="domain.model.Gate"/>
       <!-- <mapping class="domain.model.Lane"/>-->
        <mapping class="domain.model.Node"/>
-      <!-- <mapping class="domain.model.Passenger"/>-->
+      <mapping class="domain.model.Passenger"/>
        <!--<mapping class="domain.model.Plane"/>-->
        <mapping class="domain.model.PlaneMaker"/>
        <!--<mapping class="domain.model.PlaneMovement"/>-->

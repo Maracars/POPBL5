@@ -11,8 +11,8 @@ public class TestDaoUser {
 
 	private static final String USERNAME = "joanes";
 	private static final String PASSWORD = "1234";
-	private static final String ERROR_REMOVING = "Error removing one plane maker from database";
-	private static final String ERROR_INSERT = "Error insert user maker into database";
+	private static final String ERROR_REMOVING = "Error removing one user from database";
+	private static final String ERROR_INSERT = "Error insert user into database";
 	@Test
 	public void testInsertUserWithoutBirthDateAndWithUsernameAndWithPasswordIntoDB() {
 		User user = new User();

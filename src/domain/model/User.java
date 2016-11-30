@@ -20,7 +20,7 @@ public class User {
 	@GeneratedValue
 	Integer id;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	String password;
 
 	@Column(nullable = false, unique = true)
