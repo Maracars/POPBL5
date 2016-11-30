@@ -53,7 +53,9 @@ public class TestDaoRoute {
 	public void testRemoveOneSpecificRoute() {
 		Route route = new Route();
 		route.setId(1);
-		boolean result = DAORoute.deleteRoute(route);
+		DAORoute.insertRoute(route);
+		//TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
+		boolean result = DAORoute.deleteRoute(DAORoute.loadAllRoutes().get(0));
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 

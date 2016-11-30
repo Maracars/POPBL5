@@ -15,17 +15,17 @@ public class DAORoute {
 	public static boolean insertRoute(Route route) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.save(route);
 			session.getTransaction().commit();
-			HibernateConnection.after();
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			result = false;
 		}
 
@@ -36,14 +36,16 @@ public class DAORoute {
 	public static boolean deleteRoute(Route route) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
+			session.getTransaction().begin();
 			session.delete(route);
-			HibernateConnection.after();
+			session.getTransaction().commit();
+			
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			result = false;
 		}
 
@@ -53,7 +55,7 @@ public class DAORoute {
 	public static List<Route> loadAllRoutes() {
 		List<Route> routeList = null;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Route> query = session.createQuery("from Route");
@@ -61,7 +63,7 @@ public class DAORoute {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		HibernateConnection.after();
+		
 
 		return routeList;
 	}

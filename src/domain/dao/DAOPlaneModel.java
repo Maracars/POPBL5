@@ -15,7 +15,7 @@ public class DAOPlaneModel {
 	public static boolean insertPlaneModel(PlaneModel planeModel) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.persist(planeModel);
@@ -24,7 +24,7 @@ public class DAOPlaneModel {
 			session.getTransaction().rollback();
 			result = false;
 		} finally {
-			HibernateConnection.after();
+			
 
 		}
 
@@ -35,14 +35,16 @@ public class DAOPlaneModel {
 	public static boolean deletePlaneModel(PlaneModel planeMaker) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
+			session.getTransaction().begin();
 			session.delete(planeMaker);
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			result = false;
 		} finally {
-			HibernateConnection.after();
+			
 
 		}
 
@@ -52,7 +54,7 @@ public class DAOPlaneModel {
 	public static List<PlaneModel> loadAllPlaneModels() {
 		List<PlaneModel> PlaneModelList = null;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<PlaneModel> query = session.createQuery("from PlaneModel");
@@ -60,7 +62,7 @@ public class DAOPlaneModel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			HibernateConnection.after();
+			
 
 		}
 

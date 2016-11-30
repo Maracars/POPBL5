@@ -37,7 +37,9 @@ public class TestDaoState {
 	public void testRemoveOneSpecificState() {
 		State state = new State();
 		state.setId(1);
-		boolean result = DAOState.deleteState(state);
+		
+		DAOState.insertState(state);
+		boolean result = DAOState.deleteState(DAOState.loadAllStates().get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

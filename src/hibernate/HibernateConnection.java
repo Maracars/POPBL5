@@ -15,15 +15,7 @@ public class HibernateConnection {
 		session = sessionFactory.openSession();
 	}
 
-	public static void before() {
 
-	}
-
-	public static void after() {
-
-		
-
-	}
 	
 	@Override
 	protected void finalize() throws Throwable {

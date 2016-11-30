@@ -42,7 +42,8 @@ public class TestDaoNode {
 	public void testRemoveOneSpecificnode() {
 		Node node = new Node();
 		node.setId(1);
-		boolean result = DAONode.deleteNode(node);
+		DAONode.insertNode(node);
+		boolean result = DAONode.deleteNode(DAONode.loadAllNodes().get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

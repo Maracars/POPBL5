@@ -49,7 +49,8 @@ public class TestDaoPlaneModel {
 	public void testRemoveOneSpecificPlaneModel() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setId(1);
-		boolean result = DAOPlaneModel.deletePlaneModel(planeModel);
+		DAOPlaneModel.insertPlaneModel(planeModel);
+		boolean result = DAOPlaneModel.deletePlaneModel(DAOPlaneModel.loadAllPlaneModels().get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
