@@ -20,7 +20,7 @@
         <property name="show_sql">false</property>
         
         
-    <!--   <mapping class="domain.model.Airline"/> -->
+       <mapping class="domain.model.Airline"/>
        <mapping class="domain.model.Airport"/>
        <mapping class="domain.model.City"/>
     <!--   <mapping class="domain.model.Delay"/> -->
