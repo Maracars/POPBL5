@@ -1,13 +1,9 @@
 package domain.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -21,10 +17,7 @@ public class Route {
 	Gate arrivalGate;
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	Gate departureGate;
-	
-	@ManyToMany(mappedBy="routesList")
-	Collection<Airline> airlineList = new ArrayList<Airline>();
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -48,14 +41,5 @@ public class Route {
 	public void setDepartureGate(Gate departureGate) {
 		this.departureGate = departureGate;
 	}
-
-	public Collection<Airline> getAirlineList() {
-		return airlineList;
-	}
-
-	public void setAirlineList(Collection<Airline> airlineList) {
-		this.airlineList = airlineList;
-	}
-	
 
 }
