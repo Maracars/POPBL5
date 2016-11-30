@@ -30,6 +30,8 @@ public class TestDaoRoute {
 		Gate departureGate = new Gate();
 		departureGate.setNumber(GATENUM2);
 		Route route = new Route();
+		DAOGate.insertGate(arrivalGate);
+		DAOGate.insertGate(departureGate);
 		route.setArrivalGate(arrivalGate);
 		route.setDepartureGate(departureGate);
 		boolean result = DAORoute.insertRoute(route);

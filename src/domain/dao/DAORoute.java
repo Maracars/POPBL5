@@ -18,7 +18,7 @@ public class DAORoute {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
-			session.persist(route);
+			session.save(route);
 			session.getTransaction().commit();
 			HibernateConnection.after();
 

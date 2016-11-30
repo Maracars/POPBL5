@@ -3,23 +3,25 @@ package domain.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  * @author joanes
  *
  */
 @Entity
-public class Airline {
+public class Airline extends User{
 	@Id
 	@GeneratedValue
 	Integer id;
 
 	String name;
 
-	// TODO tagak jarri
+	@ManyToMany(cascade = CascadeType.ALL)
 	Collection<Route> routesList = new ArrayList<>();
 
 	public Collection<Route> getRoutesList() {

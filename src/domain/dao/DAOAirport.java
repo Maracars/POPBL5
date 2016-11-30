@@ -18,7 +18,7 @@ public class DAOAirport {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
-			session.persist(airport);
+			session.save(airport);
 			session.getTransaction().commit();
 			HibernateConnection.after();
 
