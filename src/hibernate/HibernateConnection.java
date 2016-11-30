@@ -9,19 +9,27 @@ public class HibernateConnection {
 	private static SessionFactory sessionFactory;
 	private static Session session;
 	private final static String HBN_LOCATION = "/resources/hibernate.cfg.xml";
-
-	public static void before() {
-
+	
+	static{
 		sessionFactory = new Configuration().configure(HBN_LOCATION).buildSessionFactory();
 		session = sessionFactory.openSession();
+	}
+
+	public static void before() {
 
 	}
 
 	public static void after() {
 
+		
+
+	}
+	
+	@Override
+	protected void finalize() throws Throwable {
 		session.close();
 		sessionFactory.close();
-
+		super.finalize();
 	}
 
 	public static SessionFactory getSessionFactory() {
