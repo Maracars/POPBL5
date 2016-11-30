@@ -6,15 +6,17 @@ import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 
 import domain.model.Airline;
 import domain.model.Gate;
 import domain.model.Route;
+import domain.model.User;
 
 public class TestDaoAirline {
-	
+
 	private static final String NARANAIR = "Naranair";
 	private static final String ERROR_LOAD = "Error load all airlines from database";
 	private static final String INSERT_ERROR = "Error insert airline into database";
@@ -29,6 +31,7 @@ public class TestDaoAirline {
 		airline.setUsername(USERNAME);
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
+		deleteAllUsers();
 		boolean result = DAOAirline.insertAirline(airline);
 		assertEquals(INSERT_ERROR, true, result);
 	}
@@ -40,6 +43,7 @@ public class TestDaoAirline {
 		airline.setUsername(USERNAME);
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
+		
 		Route route = new Route();
 		Gate arrivalGate = new Gate();
 		route.setArrivalGate(arrivalGate);
@@ -48,6 +52,7 @@ public class TestDaoAirline {
 		Collection<Route> routeList = new ArrayList<>();
 		routeList.add(route);
 		airline.setRoutesList(routeList);
+		deleteAllUsers();
 		boolean result = DAOAirline.insertAirline(airline);
 		assertEquals(INSERT_ERROR, true, result);
 	}
@@ -74,6 +79,14 @@ public class TestDaoAirline {
 	@Test
 	public void testRemoveOneNullAirline() {
 		assertEquals(REMOVE_ERROR, false, DAOAirline.deleteAirline(null));
+	}
+
+	/* For testing, delete all users */
+	private void deleteAllUsers() {
+		List<User> listUsers = DAOUser.loadAllUsers();
+		for (User user : listUsers) {
+			DAOUser.deleteUser(user);
+		}
 	}
 
 }

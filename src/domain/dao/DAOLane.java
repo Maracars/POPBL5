@@ -5,63 +5,66 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
-import domain.model.City;
+
+import domain.model.Lane;
 import hibernate.HibernateConnection;
 
-public class DAOCity {
+public class DAOLane {
 	private static Session session;
 
-	public static boolean insertCity(City city) {
+	public static boolean insertLane(Lane lane) {
 		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
-			session.save(city);
+			session.save(lane);
 			session.getTransaction().commit();
-			HibernateConnection.after();
 
 		} catch (Exception e) {
+
 			session.getTransaction().rollback();
-			HibernateConnection.after();
 			result = false;
+		} finally {
+			HibernateConnection.after();
 		}
 
 		return result;
 
 	}
 
-	public static boolean deleteCity(City city) {
+	public static boolean deleteLane(Lane lane) {
 		boolean result = true;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
-			session.delete(city);
-			HibernateConnection.after();
+			session.delete(lane);
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
 			result = false;
+		} finally {
+			HibernateConnection.after();
 		}
 
 		return result;
 	}
 
-	public static List<City> loadAllCities() {
-		List<City> cityList = null;
+	public static List<Lane> loadAllLanes() {
+		List<Lane> laneList = null;
 		try {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
-			TypedQuery<City> query = session.createQuery("from City");
-			cityList = query.getResultList();
+			TypedQuery<Lane> query = session.createQuery("from Lane");
+			laneList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		HibernateConnection.after();
 
-		return cityList;
+		return laneList;
 	}
+
 
 }

@@ -18,7 +18,6 @@ public class HibernateConnection {
 	}
 
 	public static void after() {
-
 		session.close();
 		sessionFactory.close();
 

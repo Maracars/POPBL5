@@ -1,19 +1,33 @@
 package domain.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+@Entity
 public class Lane {
 
 	@Id
 	@GeneratedValue
-	Integer id;
+	private Integer id;
 
-	// TODO laneType definitu
+	private String name;
+
+	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+	private Node startNode;
 	
-	Node startNode;
+	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+	private Node endNode;
+	
+	public String getName() {
+		return name;
+	}
 
-	Node endNode;
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Integer getId() {
 		return id;

@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
@@ -107,5 +108,22 @@ public class DAOUser {
 		HibernateConnection.after();
 
 		return userList;
+	}
+
+	public static boolean deleteUserWithUsername(User user) {
+		try {
+			HibernateConnection.before();
+			session = HibernateConnection.getSession();
+			Query query = session.createQuery("delete User where username = '"+user.getUsername()+"'");
+			query.executeUpdate();
+			HibernateConnection.after();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			HibernateConnection.after();
+			return false;
+		}
+
+		return true;
+		
 	}
 }

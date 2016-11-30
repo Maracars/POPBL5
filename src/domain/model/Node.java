@@ -1,5 +1,6 @@
 package domain.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,10 +12,15 @@ public class Node {
 
 	@Id
 	@GeneratedValue
-	Integer id;
-	double positionX;
-	double positionY;
-	String name; // Beharrezkoa??
+	private Integer id;
+	
+	@Column(nullable = false)
+	private double positionX;
+	
+	@Column(nullable = false)
+	private double positionY;
+	
+	private String name;
 
 	public Integer getId() {
 		return id;

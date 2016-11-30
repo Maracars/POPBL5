@@ -16,7 +16,7 @@ public class TestDaoCity {
 	private static final String REMOVE_ERROR = "Error removing one city from database";
 
 	@Test
-	public void testInsertCityWithoutIntoDB() {
+	public void testInsertCityWithoutStateIntoDB() {
 		City city = new City();
 		city.setName(BERGARA);
 		boolean result = DAOCity.insertCity(city);
@@ -27,8 +27,11 @@ public class TestDaoCity {
 	public void testInsertCityWithStateIntoDB() {
 		State state = new State();
 		state.setName("Euskal herria");
+		DAOState.insertState(state);
+		
 		City city = new City();
 		city.setName(BERGARA);
+		
 		city.setState(state);
 		boolean result = DAOCity.insertCity(city);
 		assertEquals(INSERT_ERROR, true, result);

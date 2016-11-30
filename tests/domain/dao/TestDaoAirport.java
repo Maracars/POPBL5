@@ -38,6 +38,7 @@ public class TestDaoAirport {
 		airport.setName(HEATHROW);
 		City city = new City();
 		city.setName(BERGARA);
+		DAOCity.insertCity(city);
 		airport.setCity(city);
 		boolean result = DAOAirport.insertAirport(airport);
 		assertEquals(INSERT_ERROR, false, result);

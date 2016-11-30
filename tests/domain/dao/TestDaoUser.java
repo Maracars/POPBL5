@@ -2,6 +2,7 @@ package domain.dao;
 
 import static org.junit.Assert.assertEquals;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -50,6 +51,7 @@ public class TestDaoUser {
 		user.setUsername(USERNAME);
 		user.setBirthDate(new Date());
 		user.setPassword(PASSWORD);
+		deleteAllUsers();
 		boolean result = DAOUser.insertUser(user);
 		assertEquals(ERROR_INSERT, true, result);
 
@@ -72,4 +74,12 @@ public class TestDaoUser {
 		assertEquals(ERROR_REMOVING, false, DAOUser.deleteUser(null));
 	}
 
+	
+	/* For testing, delete all users */
+	private void deleteAllUsers() {
+		List<User> listUsers = DAOUser.loadAllUsers();
+		for (User user : listUsers) {
+			DAOUser.deleteUser(user);
+		}
+	}
 }
