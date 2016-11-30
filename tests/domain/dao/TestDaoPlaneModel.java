@@ -29,6 +29,7 @@ public class TestDaoPlaneModel {
 		planeModel.setName(SERIAL);
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setName(BOEING);
+		DAOPlaneMaker.insertPlaneMaker(planeMaker);
 		planeModel.setPlaneMaker(planeMaker);
 		boolean result = DAOPlaneModel.insertPlaneModel(planeModel);
 		assertEquals(ERROR_INSERT, true, result);
@@ -48,9 +49,12 @@ public class TestDaoPlaneModel {
 	@Test
 	public void testRemoveOneSpecificPlaneModel() {
 		PlaneModel planeModel = new PlaneModel();
-		planeModel.setId(1);
-		DAOPlaneModel.insertPlaneModel(planeModel);
-		boolean result = DAOPlaneModel.deletePlaneModel(DAOPlaneModel.loadAllPlaneModels().get(0));
+		planeModel.setName(SERIAL);
+		PlaneMaker planeMaker = new PlaneMaker();
+		planeMaker.setName(BOEING);
+		DAOPlaneMaker.insertPlaneMaker(planeMaker);
+		planeModel.setPlaneMaker(planeMaker);
+		boolean result = DAOPlaneModel.deletePlaneModel(planeModel);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

@@ -7,10 +7,15 @@ import javax.persistence.Id;
 @Entity
 public class Passenger extends User {
 
-	public Passenger(){
+	@Id
+	@GeneratedValue
+	Integer id;
+	// TODO kanpuak finkatzeko
+	
+	public Passenger() {
 		super();
 	}
-	
+
 	public Passenger(User user) {
 		this.birthDate = user.getBirthDate();
 		this.id = user.getId();
@@ -18,8 +23,4 @@ public class Passenger extends User {
 		this.password = user.getPassword();
 	}
 
-	@Id
-	@GeneratedValue
-	Integer id;
-	// TODO kanpuak finkatzeko
 }

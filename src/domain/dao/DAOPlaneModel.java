@@ -18,16 +18,13 @@ public class DAOPlaneModel {
 			
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
-			session.persist(planeModel);
+			session.save(planeModel);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			result = false;
-		} finally {
-			
-
 		}
-
+		
 		return result;
 
 	}

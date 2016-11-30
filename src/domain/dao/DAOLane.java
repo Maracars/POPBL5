@@ -25,8 +25,6 @@ public class DAOLane {
 
 			session.getTransaction().rollback();
 			result = false;
-		} finally {
-			
 		}
 
 		return result;

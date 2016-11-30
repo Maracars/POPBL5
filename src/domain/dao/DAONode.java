@@ -27,9 +27,6 @@ public class DAONode {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			result = false;
-		}finally {
-			
-			
 		}
 
 		return result;

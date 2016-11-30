@@ -49,8 +49,7 @@ public class TestDaoLane {
 		DAONode.insertNode(endNode);
 
 		nodeList = DAONode.loadAllNodes();
-		System.out.println(nodeList.get(0));
-		System.out.println(nodeList.get(1));
+		
 		lane.setName(LANE_NAME);
 		lane.setStartNode(nodeList.get(0));
 		lane.setEndNode(nodeList.get(1));
@@ -72,10 +71,32 @@ public class TestDaoLane {
 
 	@Test
 	public void testRemoveOneSpecificLane() {
+		Node startNode = new Node();
+		Node endNode = new Node();
+		List<Node> nodeList = null;
 		Lane lane = new Lane();
-		lane.setId(1);
+
+		startNode.setName(NODE1_NAME);
+		startNode.setPositionX(POSITION1);
+		startNode.setPositionY(POSITION2);
+
+		DAONode.insertNode(startNode);
+
+		endNode.setName(NODE2_NAME);
+		endNode.setPositionX(POSITION2);
+		endNode.setPositionY(POSITION1);
+
+		DAONode.insertNode(endNode);
+
+		nodeList = DAONode.loadAllNodes();
+		System.out.println(nodeList.get(0));
+		System.out.println(nodeList.get(1));
+		lane.setName(LANE_NAME);
+		lane.setStartNode(nodeList.get(0));
+		lane.setEndNode(nodeList.get(1));
+
 		DAOLane.insertLane(lane);
-		boolean result = DAOLane.deleteLane(DAOLane.loadAllLanes().get(0));
+		boolean result = DAOLane.deleteLane(lane);
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 

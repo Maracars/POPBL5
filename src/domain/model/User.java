@@ -20,7 +20,7 @@ public class User {
 	public final static String PASSENGER = "passenger";
 
 	@Id
-	@GenericGenerator(name = "inc-gen", strategy ="increment")
+	@GenericGenerator(name = "inc-gen", strategy = "increment")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="inc-gen")
 	Integer id;
 	

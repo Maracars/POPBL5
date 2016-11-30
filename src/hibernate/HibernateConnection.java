@@ -10,7 +10,7 @@ public class HibernateConnection {
 	private static Session session;
 	private final static String HBN_LOCATION = "/resources/hibernate.cfg.xml";
 	
-	static{
+	static {
 		sessionFactory = new Configuration().configure(HBN_LOCATION).buildSessionFactory();
 		session = sessionFactory.openSession();
 	}

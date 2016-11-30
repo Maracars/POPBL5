@@ -1,6 +1,5 @@
 package domain.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +13,7 @@ public class PlaneModel {
 	private Integer id;
 	private String name;
 
-	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+	@ManyToOne(optional = false) //PERSIST kendu dotzet
 	private PlaneMaker planeMaker;
 
 	public Integer getId() {

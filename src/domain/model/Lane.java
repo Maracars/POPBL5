@@ -1,6 +1,5 @@
 package domain.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,10 +14,10 @@ public class Lane {
 
 	private String name;
 
-	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+	@ManyToOne(optional = false)
 	private Node startNode;
 	
-	@ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+	@ManyToOne(optional = false)
 	private Node endNode;
 	
 	public String getName() {
