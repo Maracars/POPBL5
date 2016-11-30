@@ -3,9 +3,6 @@ package domain.dao;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import domain.model.Gate;
 import hibernate.HibernateConnection;
 

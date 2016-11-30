@@ -15,6 +15,10 @@ import domain.model.Terminal;
 
 public class TestDaoAirport {
 	
+	private static final int MAX_FLIGHTS = 300;
+	private static final String EUSKAL_HERRIA = "Euskal Herria";
+	private static final String T1 = "T1";
+	private static final String BERGARA = "Bergara";
 	private static final String ERROR_LOAD = "Error load all airports from database";
 	private static final String HEATHROW = "Heathrow";
 	private static final String INSERT_ERROR = "Error insert airport into database";
@@ -33,7 +37,7 @@ public class TestDaoAirport {
 		Airport airport = new Airport();
 		airport.setName(HEATHROW);
 		City city = new City();
-		city.setName("Bergara");
+		city.setName(BERGARA);
 		airport.setCity(city);
 		boolean result = DAOAirport.insertAirport(airport);
 		assertEquals(INSERT_ERROR, false, result);
@@ -44,7 +48,7 @@ public class TestDaoAirport {
 		Airport airport = new Airport();
 		airport.setName(HEATHROW);
 		Terminal terminal = new Terminal();
-		terminal.setName("T1");
+		terminal.setName(T1);
 		Collection<Terminal> terminalList = new ArrayList<>();
 		terminalList.add(terminal);
 		airport.setTerminalList(terminalList);
@@ -57,17 +61,17 @@ public class TestDaoAirport {
 		Airport airport = new Airport();
 		airport.setName(HEATHROW);
 		Terminal terminal = new Terminal();
-		terminal.setName("T1");
+		terminal.setName(T1);
 		Collection<Terminal> terminalList = new ArrayList<>();
 		terminalList.add(terminal);
 		airport.setTerminalList(terminalList);
 		City city = new City();
-		city.setName("Bergara");
+		city.setName(BERGARA);
 		State state = new State();
-		state.setName("Euskal Herria");
+		state.setName(EUSKAL_HERRIA);
 		city.setState(state);
 		airport.setCity(city);
-		airport.setMaxFlights(300);
+		airport.setMaxFlights(MAX_FLIGHTS);
 		boolean result = DAOAirport.insertAirport(airport);
 		assertEquals(INSERT_ERROR, true, result);
 	}

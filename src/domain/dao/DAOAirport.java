@@ -7,7 +7,6 @@ import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 
 import domain.model.Airport;
-import domain.model.City;
 import hibernate.HibernateConnection;
 
 public class DAOAirport {
@@ -16,7 +15,6 @@ public class DAOAirport {
 	public static boolean insertAirport(Airport airport) {
 		boolean result = true;
 		try {
-			Airport a = airport;
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
