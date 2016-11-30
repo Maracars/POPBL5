@@ -13,8 +13,12 @@ import domain.model.User;
 import hibernate.HibernateConnection;
 
 public class DAOUser {
+	private static final String QUERY_USER = "from User";
+	private static final String USERNAME_QUERY = "from User U where U.username = ";
 	private static Session session;
 	private final static String SALT = "Kappa123&/()==?%#@|º¡¿@$@4&#%^$*";
+	private final static Integer BASE = 16;
+	private final static Integer SIGNAL = 1;
 
 	public static String md5(String input) {
 
@@ -27,7 +31,7 @@ public class DAOUser {
 			input = input  + SALT;
 			MessageDigest digest = MessageDigest.getInstance("MD5");
 			digest.update(input.getBytes(), 0, input.length());
-			md5 = new BigInteger(1, digest.digest()).toString(16);
+			md5 = new BigInteger(SIGNAL, digest.digest()).toString(BASE);
 
 		} catch (NoSuchAlgorithmException e) {
 
@@ -37,8 +41,8 @@ public class DAOUser {
 	}
 
 	public static boolean insertUser(User user) {
-		user.setPassword(md5(user.getPassword()));
 		try {
+			user.setPassword(md5(user.getPassword()));
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
@@ -63,7 +67,7 @@ public class DAOUser {
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<User> query = session
-									.createQuery("from User U where U.username = '" + username + "'");
+									.createQuery(USERNAME_QUERY + username);
 			userList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,7 +99,7 @@ public class DAOUser {
 			HibernateConnection.before();
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
-			TypedQuery<User> query = session.createQuery("from User");
+			TypedQuery<User> query = session.createQuery(QUERY_USER);
 			userList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
