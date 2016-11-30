@@ -31,6 +31,8 @@
       <mapping class="domain.model.Passenger"/>
        <!--<mapping class="domain.model.Plane"/>-->
        <mapping class="domain.model.PlaneMaker"/>
+       <mapping class="domain.model.PlaneModel"/>
+ 
        <!--<mapping class="domain.model.PlaneMovement"/>-->
       <!-- <mapping class="domain.model.PlaneStatus"/>-->
       <mapping class="domain.model.Route"/>
@@ -45,6 +47,7 @@
        <mapping class="domain.dao.DAOCity"/>
        <mapping class="domain.dao.DAOGate"/>
        <mapping class="domain.dao.DAOPlaneMaker"/>
+       <mapping class="domain.dao.DAOPlaneModel"/>
        <mapping class="domain.dao.DAORoute"/>
        <mapping class="domain.dao.DAOState"/>
        <mapping class="domain.dao.DAOTerminal"/>
