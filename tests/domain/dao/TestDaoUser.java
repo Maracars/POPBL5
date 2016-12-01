@@ -64,9 +64,12 @@ public class TestDaoUser {
 	@Test
 	public void testRemoveOneSpecificUser() {
 		User user = new User();
-		user.setId(1);
+		user.setUsername(USERNAME);
+		user.setPassword(PASSWORD);
+		user.setBirthDate(new Date());
+		deleteAllUsers();
 		DAOUser.insertUser(user);
-		boolean result = DAOUser.deleteUser(DAOUser.loadAllUsers().get(0));
+		boolean result = DAOUser.deleteUser((User) HibernateGeneric.loadAllObjects(new User()).get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
