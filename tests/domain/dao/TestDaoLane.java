@@ -25,7 +25,7 @@ public class TestDaoLane {
 	public void testInsertLaneWithoutIntoDB() {
 		Lane lane = new Lane();
 		lane.setName(LANE_NAME);
-		boolean result = DAOLane.insertLane(lane);
+		boolean result = HibernateGeneric.insertObject(lane);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
@@ -33,76 +33,77 @@ public class TestDaoLane {
 	public void testInsertLaneWithNodesIntoDB() {
 		Node startNode = new Node();
 		Node endNode = new Node();
-		List<Node> nodeList = null;
+		List<Object> nodeList = null;
 		Lane lane = new Lane();
 
 		startNode.setName(NODE1_NAME);
 		startNode.setPositionX(POSITION1);
 		startNode.setPositionY(POSITION2);
 
-		DAONode.insertNode(startNode);
+		HibernateGeneric.insertObject(startNode);
 
 		endNode.setName(NODE2_NAME);
 		endNode.setPositionX(POSITION2);
 		endNode.setPositionY(POSITION1);
 
-		DAONode.insertNode(endNode);
+		HibernateGeneric.insertObject(endNode);
 
-		nodeList = DAONode.loadAllNodes();
-		
+		nodeList = HibernateGeneric.loadAllObjects(new Node());
+
 		lane.setName(LANE_NAME);
-		lane.setStartNode(nodeList.get(0));
-		lane.setEndNode(nodeList.get(1));
+		lane.setStartNode((Node) nodeList.get(0));
+		lane.setEndNode((Node) nodeList.get(1));
 
-		boolean result = DAOLane.insertLane(lane);
+		boolean result = HibernateGeneric.insertObject(lane);
+
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
 	@Test
-	public void testLoadAllNodes() {
-		assertNotNull(ERROR_LOAD, DAOLane.loadAllLanes());
+	public void testLoadAllLanes() {
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Lane()));
 
 	}
 
 	@Test
-	public void testInsertNullNodeIntoDB() {
-		assertEquals(INSERT_ERROR, false, DAOLane.insertLane(null));
+	public void testInsertNullLaneIntoDB() {
+		assertEquals(INSERT_ERROR, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Test
 	public void testRemoveOneSpecificLane() {
 		Node startNode = new Node();
 		Node endNode = new Node();
-		List<Node> nodeList = null;
+		List<Object> nodeList = null;
 		Lane lane = new Lane();
 
 		startNode.setName(NODE1_NAME);
 		startNode.setPositionX(POSITION1);
 		startNode.setPositionY(POSITION2);
 
-		DAONode.insertNode(startNode);
+		HibernateGeneric.insertObject(startNode);
 
 		endNode.setName(NODE2_NAME);
 		endNode.setPositionX(POSITION2);
 		endNode.setPositionY(POSITION1);
 
-		DAONode.insertNode(endNode);
+		HibernateGeneric.insertObject(endNode);
 
-		nodeList = DAONode.loadAllNodes();
+		nodeList = HibernateGeneric.loadAllObjects(new Node());
 		System.out.println(nodeList.get(0));
 		System.out.println(nodeList.get(1));
 		lane.setName(LANE_NAME);
-		lane.setStartNode(nodeList.get(0));
-		lane.setEndNode(nodeList.get(1));
+		lane.setStartNode((Node) nodeList.get(0));
+		lane.setEndNode((Node) nodeList.get(1));
 
-		DAOLane.insertLane(lane);
-		boolean result = DAOLane.deleteLane(lane);
+		HibernateGeneric.insertObject(lane);
+		boolean result = HibernateGeneric.deleteObject(lane);
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
 	@Test
 	public void testRemoveOneNullCity() {
-		assertEquals(REMOVE_ERROR, false, DAOCity.deleteCity(null));
+		assertEquals(REMOVE_ERROR, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

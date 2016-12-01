@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import domain.dao.DAOPlaneMaker;
 import domain.model.PlaneMaker;
 
 public class TestDaoPlaneMaker {
@@ -18,33 +17,36 @@ public class TestDaoPlaneMaker {
 	public void testInsertPlaneMakerIntoDB() {
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setName(BOEING);
-		boolean result = DAOPlaneMaker.insertPlaneMaker(planeMaker);
+		boolean result = HibernateGeneric.insertObject(planeMaker);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
 	@Test
 	public void testLoadAllPlaneMakers() {
-		assertNotNull(ERROR_LOAD, DAOPlaneMaker.loadAllPlaneMakers());
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new PlaneMaker()));
 
 	}
 
 	@Test
 	public void testInsertNullPlaneMakerIntoDB() {
-		assertEquals(ERROR_INSERT, false, DAOPlaneMaker.insertPlaneMaker(null));
+		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Test
 	public void testRemoveOneSpecificPlaneMaker() {
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setId(1);
-		DAOPlaneMaker.insertPlaneMaker(planeMaker);
-		boolean result = DAOPlaneMaker.deletePlaneMaker(DAOPlaneMaker.loadAllPlaneMakers().get(0));
+		HibernateGeneric.insertObject(planeMaker);
+		PlaneMaker p = (PlaneMaker) HibernateGeneric.loadAllObjects(new PlaneMaker()).get(0);
+		boolean result = HibernateGeneric.deleteObject(p);
+		//TODO honek TRAVISen ez dau failauko, baina hemen bai,
+		//kontua da PlaneMakerrak PlaneModela daukala eta foreign key bat da
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
 	@Test
 	public void testRemoveOneNullTerminal() {
-		assertEquals(ERROR_REMOVING, false, DAOPlaneMaker.deletePlaneMaker(null));
+		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

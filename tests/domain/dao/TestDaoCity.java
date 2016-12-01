@@ -3,8 +3,6 @@ package domain.dao;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
-import domain.dao.DAOCity;
 import domain.model.City;
 import domain.model.State;
 
@@ -20,7 +18,7 @@ public class TestDaoCity {
 	public void testInsertCityWithoutStateIntoDB() {
 		City city = new City();
 		city.setName(BERGARA);
-		boolean result = DAOCity.insertCity(city);
+		boolean result = HibernateGeneric.insertObject(city);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
@@ -28,40 +26,40 @@ public class TestDaoCity {
 	public void testInsertCityWithStateIntoDB() {
 		State state = new State();
 		state.setName(EUSKAL_HERRIA);
-		DAOState.insertState(state);
-		
+		HibernateGeneric.insertObject(state);
+
 		City city = new City();
 		city.setName(BERGARA);
 		city.setState(state);
-		
-		boolean result = DAOCity.insertCity(city);
+
+		boolean result = HibernateGeneric.insertObject(city);
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
 	@Test
 	public void testLoadAllCities() {
-		assertNotNull(ERROR_LOAD, DAOCity.loadAllCities());
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new City()));
 
 	}
 
 	@Test
 	public void testInsertNullCityIntoDB() {
-		assertEquals(INSERT_ERROR, false, DAOCity.insertCity(null));
+		assertEquals(INSERT_ERROR, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Test
 	public void testRemoveOneSpecificCity() {
 		City city = new City();
 		city.setId(1);
-		DAOCity.insertCity(city);
-		boolean result = DAOCity.deleteCity(DAOCity.loadAllCities().get(0)); 
-		
+		HibernateGeneric.insertObject(city);
+		boolean result = HibernateGeneric.deleteObject((City) HibernateGeneric.loadAllObjects(new City()).get(0));
+
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
 	@Test
 	public void testRemoveOneNullCity() {
-		assertEquals(REMOVE_ERROR, false, DAOCity.deleteCity(null));
+		assertEquals(REMOVE_ERROR, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

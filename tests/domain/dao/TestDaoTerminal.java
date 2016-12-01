@@ -1,6 +1,5 @@
 package domain.dao;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -14,25 +13,23 @@ import domain.model.Terminal;
 
 public class TestDaoTerminal {
 
-
-
 	private static final String ERROR_REMOVING = "Error removing one terminal from database";
 	private static final String ERROR_GETTING = "Error getting all terminals of an airport from database";
 	private static final String ERROR_INSERT = "Error insert terminal into database";
 	private static final String TERMINAL_NAME = "3";
-	
+
 	@Test
 	public void testInsertTerminalWithoutGatesIntoDB() {
 		Terminal terminal = new Terminal();
 		terminal.setName(TERMINAL_NAME);
-		boolean result = DAOTerminal.insertTerminal(terminal);
+		boolean result = HibernateGeneric.insertObject(terminal);
 		assertEquals(ERROR_INSERT, true, result);
 	}
+
 	@Test
 	public void testInsertNullTerminalIntoDB() {
-		assertEquals(ERROR_INSERT, false, DAOTerminal.insertTerminal(null));
+		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
 	}
-
 
 	@Ignore
 	public void testLoadAllTerminalsFromOneSpecificAirport() {
@@ -42,17 +39,22 @@ public class TestDaoTerminal {
 		assertNotNull(ERROR_GETTING, terminalList);
 	}
 
-
 	@Test
 	public void testRemoveOneSpecificTerminal() {
 		Terminal terminal = new Terminal();
 		terminal.setId(1);
-		boolean result = DAOTerminal.deleteTerminal(terminal); // aukeran Terminal bidaldu edo terminalId
+		
+		HibernateGeneric.insertObject(terminal);
+		
+		Terminal t = (Terminal) HibernateGeneric.loadAllObjects(new Terminal()).get(0);
+		boolean result = HibernateGeneric.deleteObject(t);
+		// aukeran Terminal bidaldu edo terminalId
 		assertEquals(ERROR_REMOVING, true, result);
 	}
+
 	@Test
 	public void testRemoveOneNullTerminal() {
-		assertEquals(ERROR_REMOVING, false, DAOTerminal.deleteTerminal(null));
+		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

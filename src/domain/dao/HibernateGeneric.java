@@ -5,19 +5,39 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
-import domain.model.City;
+
 import hibernate.HibernateConnection;
 
-public class DAOCity {
+public class HibernateGeneric {
 	private static Session session;
 
-	public static boolean insertCity(City city) {
+	public static boolean insertObject(Object object) {
 		boolean result = true;
 		try {
 
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
-			session.save(city);
+			session.save(object);
+			session.getTransaction().commit();
+
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			result = false;
+		} finally {
+			session.close();
+		}
+
+		return result;
+
+	}
+
+	public static boolean deleteObject(Object object) {
+		boolean result = true;
+		try {
+
+			session = HibernateConnection.getSessionFactory().openSession();
+			session.getTransaction().begin();
+			session.delete(object);
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
@@ -29,44 +49,23 @@ public class DAOCity {
 		}
 
 		return result;
-
 	}
 
-	public static boolean deleteCity(City city) {
-		boolean result = true;
-		try {
-
-			session = HibernateConnection.getSessionFactory().openSession();
-			session.getTransaction().begin();
-			session.delete(city);
-			session.getTransaction().commit();
-
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-
-			result = false;
-		} finally {
-			session.close();
-		}
-
-		return result;
-	}
-
-	public static List<City> loadAllCities() {
-		List<City> cityList = null;
+	public static List<Object> loadAllObjects(Object o) {
+		List<Object> objectList = null;
 		try {
 
 			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
-			TypedQuery<City> query = session.createQuery("from City");
-			cityList = query.getResultList();
+			TypedQuery<Object> query = session.createQuery("from " + o.getClass().getSimpleName());
+			objectList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 
-		return cityList;
+		return objectList;
 	}
 
 }

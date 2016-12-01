@@ -14,7 +14,7 @@ import domain.model.State;
 import domain.model.Terminal;
 
 public class TestDaoAirport {
-	
+
 	private static final int MAX_FLIGHTS = 300;
 	private static final String EUSKAL_HERRIA = "Euskal Herria";
 	private static final String T1 = "T1";
@@ -28,7 +28,7 @@ public class TestDaoAirport {
 	public void testInsertAirportWithoutCityAndTerminalIntoDB() {
 		Airport airport = new Airport();
 		airport.setName(HEATHROW);
-		boolean result = DAOAirport.insertAirport(airport);
+		boolean result = HibernateGeneric.insertObject(airport);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
@@ -38,12 +38,12 @@ public class TestDaoAirport {
 		airport.setName(HEATHROW);
 		City city = new City();
 		city.setName(BERGARA);
-		DAOCity.insertCity(city);
+		HibernateGeneric.insertObject(city);
 		airport.setCity(city);
-		boolean result = DAOAirport.insertAirport(airport);
+		boolean result = HibernateGeneric.insertObject(airport);
 		assertEquals(INSERT_ERROR, false, result);
 	}
-	
+
 	@Test
 	public void testInsertAirportWithTerminalAndWithoutCityIntoDB() {
 		Airport airport = new Airport();
@@ -53,61 +53,61 @@ public class TestDaoAirport {
 		Collection<Terminal> terminalList = new ArrayList<>();
 		terminalList.add(terminal);
 		airport.setTerminalList(terminalList);
-		boolean result = DAOAirport.insertAirport(airport);
+		boolean result = HibernateGeneric.insertObject(airport);
 		assertEquals(INSERT_ERROR, false, result);
 	}
-	
+
 	@Test
 	public void testInsertAirportWithTerminalAndWithCityIntoDB() {
 		Airport airport = new Airport();
-		
+
 		Terminal terminal = new Terminal();
 		terminal.setName(T1);
-		DAOTerminal.insertTerminal(terminal);
-				
+		HibernateGeneric.insertObject(terminal);
+
 		State state = new State();
 		state.setName(EUSKAL_HERRIA);
-		DAOState.insertState(state);
-		
+		HibernateGeneric.insertObject(state);
 		City city = new City();
 		city.setName(BERGARA);
 		city.setState(state);
-		DAOCity.insertCity(city);	
-		
+		HibernateGeneric.insertObject(city);
+
 		Collection<Terminal> terminalList = new ArrayList<>();
-		terminalList.add(terminal);	
+		terminalList.add(terminal);
 		airport.setTerminalList(terminalList);
 		airport.setName(HEATHROW);
 		airport.setCity(city);
 		airport.setMaxFlights(MAX_FLIGHTS);
-		boolean result = DAOAirport.insertAirport(airport);
+		boolean result = HibernateGeneric.insertObject(airport);
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
 	@Test
 	public void testLoadAllAirports() {
-		assertNotNull(ERROR_LOAD, DAOAirport.loadAllAirports());
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Airport()));
 
 	}
 
 	@Test
 	public void testInsertNullAirportIntoDB() {
-		assertEquals(INSERT_ERROR, false, DAOAirport.insertAirport(null));
+		assertEquals(INSERT_ERROR, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Test
 	public void testRemoveOneSpecificAirport() {
 		Airport airport = new Airport();
 		airport.setId(1);
-		DAOAirport.insertAirport(airport);
-		boolean result = DAOAirport.deleteAirport(DAOAirport.loadAllAirports().get(0)); 
-		
+		HibernateGeneric.insertObject(airport);
+		Airport a = (Airport) HibernateGeneric.loadAllObjects(new Airport()).get(0);
+		boolean result = HibernateGeneric.deleteObject(a);
+
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
 	@Test
 	public void testRemoveOneNullAirport() {
-		assertEquals(REMOVE_ERROR, false, DAOAirport.deleteAirport(null));
+		assertEquals(REMOVE_ERROR, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

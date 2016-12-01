@@ -115,24 +115,26 @@ public class DAOUser {
 	}
 
 	public static boolean deleteUserWithUsername(User user) {
+		int result;
 		try {
 
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 
-			Query query = session.createQuery("delete User where username = '" + user.getUsername() + "'");
-			query.executeUpdate();
+			Query query = session.createQuery("delete User where username = :username");
+			query.setParameter("username", user.getUsername());
+			result = query.executeUpdate();
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 
-			return false;
+			result = 0;
 		} finally {
 			session.close();
 		}
 
-		return true;
+		return result > 0 ? true : false;
 
 	}
 }

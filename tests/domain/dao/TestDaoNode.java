@@ -23,18 +23,18 @@ public class TestDaoNode {
 		node.setName(NODE_NAME);
 		node.setPositionX(POSITION_X);
 		node.setPositionY(POSITION_Y);
-		boolean result = DAONode.insertNode(node);
+		boolean result = HibernateGeneric.insertObject(node);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
 	@Test
 	public void testInsertNodeIntoDBSendingNullAsParameter() {
-		assertEquals(ERROR_INSERT, false, DAONode.insertNode(null));
+		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Test
 	public void testLoadAllNodes() {
-		assertNotNull(ERROR_LOAD, DAONode.loadAllNodes());
+		assertNotNull(ERROR_LOAD,  HibernateGeneric.loadAllObjects(new Node()));
 
 	}
 
@@ -42,15 +42,15 @@ public class TestDaoNode {
 	public void testRemoveOneSpecificnode() {
 		Node node = new Node();
 		node.setId(1);
-		DAONode.insertNode(node);
-		boolean result = DAONode.deleteNode(node);
+		HibernateGeneric.insertObject(node);
+		boolean result = HibernateGeneric.deleteObject(node);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
 	@Test
 	public void testRemoveOneSpecificNodeSendingNullAsParameter() {
 
-		assertEquals(ERROR_REMOVING, false,  DAONode.deleteNode(null));
+		assertEquals(ERROR_REMOVING, false,  HibernateGeneric.deleteObject(null));
 	}
 
 }

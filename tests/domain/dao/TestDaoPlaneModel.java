@@ -20,30 +20,31 @@ public class TestDaoPlaneModel {
 	public void testInsertPlaneModelWithoutPlaneMakerIntoDB() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setName(SERIAL);
-		boolean result = DAOPlaneModel.insertPlaneModel(planeModel);
+		boolean result = HibernateGeneric.insertObject(planeModel);
 		assertEquals(ERROR_INSERT, false, result);
 	}
+
 	@Test
 	public void testInsertPlaneModelWithPlaneMakerIntoDB() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setName(SERIAL);
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setName(BOEING);
-		DAOPlaneMaker.insertPlaneMaker(planeMaker);
+		HibernateGeneric.insertObject(planeMaker);
 		planeModel.setPlaneMaker(planeMaker);
-		boolean result = DAOPlaneModel.insertPlaneModel(planeModel);
+		boolean result = HibernateGeneric.insertObject(planeModel);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
 	@Test
 	public void testLoadAllPlaneModels() {
-		assertNotNull(ERROR_LOAD, DAOPlaneModel.loadAllPlaneModels());
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new PlaneModel()));
 
 	}
 
 	@Test
 	public void testInsertNullPlaneModelIntoDB() {
-		assertEquals(ERROR_INSERT, false, DAOPlaneModel.insertPlaneModel(null));
+		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Test
@@ -52,15 +53,15 @@ public class TestDaoPlaneModel {
 		planeModel.setName(SERIAL);
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setName(BOEING);
-		DAOPlaneMaker.insertPlaneMaker(planeMaker);
+		HibernateGeneric.insertObject(planeMaker);
 		planeModel.setPlaneMaker(planeMaker);
-		boolean result = DAOPlaneModel.deletePlaneModel(planeModel);
+		boolean result = HibernateGeneric.deleteObject(planeModel);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
 	@Test
 	public void testRemoveOneNullPlaneModel() {
-		assertEquals(ERROR_REMOVING, false, DAOPlaneMaker.deletePlaneMaker(null));
+		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

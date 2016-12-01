@@ -21,13 +21,13 @@ public class TestDaoGate {
 	public void testInsertGateIntoDB() {
 		Gate gate = new Gate();
 		gate.setNumber(GATE_NUM);
-		boolean result = DAOGate.insertGate(gate);
+		boolean result = HibernateGeneric.insertObject(gate);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
 	@Test
 	public void testInsertGateIntoDBSendingNullAsParameter() {
-		assertEquals(ERROR_INSERT, false, DAOGate.insertGate(null));
+		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Ignore
@@ -42,15 +42,15 @@ public class TestDaoGate {
 	public void testRemoveOneSpecificGate() {
 		Gate gate = new Gate();
 		gate.setId(1);
-		DAOGate.insertGate(gate);
-		boolean result = DAOGate.deleteGate(DAOGate.loadAllGates().get(0));
+		HibernateGeneric.insertObject(gate);
+		boolean result = HibernateGeneric.deleteObject((Gate) HibernateGeneric.loadAllObjects(new Gate()).get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
 	@Test
 	public void testRemoveOneSpecificGateSendingNullAsParameter() {
 
-		assertEquals(ERROR_REMOVING, false, DAOGate.deleteGate(null));
+		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

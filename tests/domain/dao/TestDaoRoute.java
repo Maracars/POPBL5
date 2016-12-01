@@ -19,7 +19,7 @@ public class TestDaoRoute {
 	@Test
 	public void testInsertRouteWithoutGateIntoDB() {
 		Route route = new Route();
-		boolean result = DAORoute.insertRoute(route);
+		boolean result = HibernateGeneric.insertObject(route);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
@@ -30,38 +30,38 @@ public class TestDaoRoute {
 		Gate departureGate = new Gate();
 		departureGate.setNumber(GATENUM2);
 		Route route = new Route();
-		DAOGate.insertGate(arrivalGate);
-		DAOGate.insertGate(departureGate);
+		HibernateGeneric.insertObject(arrivalGate);
+		HibernateGeneric.insertObject(departureGate);
 		route.setArrivalGate(arrivalGate);
 		route.setDepartureGate(departureGate);
-		boolean result = DAORoute.insertRoute(route);
+		boolean result = HibernateGeneric.insertObject(route);
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
 	@Test
 	public void testLoadAllRoutes() {
-		assertNotNull(ERROR_LOAD, DAORoute.loadAllRoutes());
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Route()));
 
 	}
 
 	@Test
 	public void testInsertNullRouteIntoDB() {
-		assertEquals(INSERT_ERROR, false, DAORoute.insertRoute(null));
+		assertEquals(INSERT_ERROR, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Test
 	public void testRemoveOneSpecificRoute() {
 		Route route = new Route();
 		route.setId(1);
-		DAORoute.insertRoute(route);
-		//TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
-		boolean result = DAORoute.deleteRoute(DAORoute.loadAllRoutes().get(0));
+		HibernateGeneric.insertObject(route);
+		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
+		boolean result = HibernateGeneric.deleteObject((Route) HibernateGeneric.loadAllObjects(new Route()).get(0));
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
 	@Test
 	public void testRemoveOneNullRoute() {
-		assertEquals(REMOVE_ERROR, false, DAORoute.deleteRoute(null));
+		assertEquals(REMOVE_ERROR, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

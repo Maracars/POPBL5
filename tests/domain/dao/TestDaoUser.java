@@ -62,7 +62,7 @@ public class TestDaoUser {
 	}
 
 	@Test
-	public void testRemoveOneSpecificTerminal() {
+	public void testRemoveOneSpecificUser() {
 		User user = new User();
 		user.setId(1);
 		DAOUser.insertUser(user);
@@ -71,8 +71,19 @@ public class TestDaoUser {
 	}
 
 	@Test
-	public void testRemoveOneNullTerminal() {
+	public void testRemoveOneNullUser() {
 		assertEquals(ERROR_REMOVING, false, DAOUser.deleteUser(null));
+	}
+	
+	@Test
+	public void testRemoveOneUserByUsername(){
+		User user = new User();
+		user.setUsername(USERNAME);
+		user.setPassword(PASSWORD);
+		user.setBirthDate(new Date());
+		deleteAllUsers();
+		DAOUser.insertUser(user);
+		
 	}
 
 	

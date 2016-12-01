@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import domain.dao.DAOState;
 import domain.model.State;
 
 public class TestDaoState {
@@ -18,18 +17,18 @@ public class TestDaoState {
 	public void testInsertStateIntoDB() {
 		State state = new State();
 		state.setName(EUSKAL_HERRIA);
-		boolean result = DAOState.insertState(state);
+		boolean result = HibernateGeneric.insertObject(state);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
 	@Test
 	public void testInsertStateIntoDBSendingNullAsParameter() {
-		assertEquals(ERROR_INSERT, false, DAOState.insertState(null));
+		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
 	}
 
 	@Test
 	public void testLoadAllStates() {
-		assertNotNull(ERROR_LOAD, DAOState.loadAllStates());
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new State()));
 
 	}
 
@@ -37,16 +36,17 @@ public class TestDaoState {
 	public void testRemoveOneSpecificState() {
 		State state = new State();
 		state.setId(1);
-		
-		DAOState.insertState(state);
-		boolean result = DAOState.deleteState(DAOState.loadAllStates().get(0));
+
+		HibernateGeneric.insertObject(state);
+		State s = (State) HibernateGeneric.loadAllObjects(new State()).get(0);
+		boolean result = HibernateGeneric.deleteObject(s);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
 	@Test
 	public void testRemoveOneSpecificStateSendingNullAsParameter() {
 
-		assertEquals(ERROR_REMOVING, false, DAOState.deleteState(null));
+		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }
