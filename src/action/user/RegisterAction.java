@@ -12,8 +12,9 @@ import domain.dao.DAOUser;
 import domain.model.Passenger;
 import domain.model.User;
 
-public class RegisterAction extends ActionSupport{
+public class RegisterAction extends ActionSupport {
 
+	private static final String BIRTHDATE_BLANK = "Birthdate cannot be blank";
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 	private static final String PASS_NOT_MATCH = "Passwords do not match!";
 	private static final String REPEAT_PASSWORD = "repeatPassword";
@@ -21,60 +22,63 @@ public class RegisterAction extends ActionSupport{
 	private static final String TOO_YOUNG = "You are too young m8!";
 	private static final String BIRTH_DATE = "birthdate";
 	private static final String PASSWORD_BLANK = "Password cannot be blank";
-	private static final String PASSWORD = "password";
+	private static final String PASSWORD = "user.password";
 	private static final String USERNAME_BLANK = "Username cannot be blank";
-	private static final String USERNAME = "username";
+	private static final String USERNAME = "user.username";
 	private static final long serialVersionUID = 1L;
 
 	User user = new User();
 	String type;
 	String birthdate;
 	String repeatPassword;
-	
+
 	@Override
 	public void validate() {
-		if(!user.getPassword().equals(repeatPassword))
-			addFieldError(REPEAT_PASSWORD, PASS_NOT_MATCH);
-		if(user.getPassword().isEmpty())
+		if (user.getPassword() == null || user.getPassword().isEmpty())
 			addFieldError(PASSWORD, PASSWORD_BLANK);
-		if(user.getUsername().isEmpty())
-			addFieldError(USERNAME, USERNAME_BLANK);
-		if(user.getUsername().isEmpty())
-			addFieldError(USERNAME, USERNAME_BLANK);
-		
-		SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-		try {
-			user.setBirthDate(df.parse(birthdate));
-			LocalDate birthdate = user.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			if(Period.between(birthdate , LocalDate.now()).getYears() < 18)
-				addFieldError(BIRTH_DATE, TOO_YOUNG);
-		} catch (ParseException e) {
-			addFieldError(BIRTH_DATE, INCORRECT_FORMAT);
+		else {
+			if (!user.getPassword().equals(repeatPassword))
+				addFieldError(REPEAT_PASSWORD, PASS_NOT_MATCH);
 		}
-		if(!getFieldErrors().isEmpty()){
+		if (user.getUsername() == null || user.getUsername().isEmpty())
+			addFieldError(USERNAME, USERNAME_BLANK);
+
+		if (birthdate == null || birthdate.isEmpty())
+			addFieldError(BIRTH_DATE, BIRTHDATE_BLANK);
+		else {
+			SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+			try {
+				user.setBirthDate(df.parse(birthdate));
+				LocalDate birthdate = user.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				if (Period.between(birthdate, LocalDate.now()).getYears() < 18)
+					addFieldError(BIRTH_DATE, TOO_YOUNG);
+			} catch (ParseException e) {
+				addFieldError(BIRTH_DATE, INCORRECT_FORMAT);
+			}
+		}
+		if (!getFieldErrors().isEmpty()) {
 			repeatPassword = "";
 			user.setPassword("");
 		}
 	}
-	
+
 	@Override
 	public String execute() throws Exception {
-		type = User.PASSENGER; //Provisional
-		
-		switch(type){
+		type = User.PASSENGER; // Provisional
+
+		switch (type) {
 		case User.PASSENGER:
 			user = new Passenger(user);
 			break;
-		//TODO mas tipos
+		// TODO mas tipos
 		}
-		
+
 		String ret = DAOUser.insertUser(user) ? SUCCESS : ERROR;
 		user = new User();
 		repeatPassword = "";
 		return ret;
 	}
 
-	
 	public String getRepeatPassword() {
 		return repeatPassword;
 	}
@@ -106,9 +110,5 @@ public class RegisterAction extends ActionSupport{
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
-	
-	
-	
-	
 
 }

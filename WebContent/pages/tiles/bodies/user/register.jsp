@@ -6,8 +6,8 @@
 	<div class="jumbotron">
 		<s:form action="registerSubmit" namespace="/" key="User registry form">
 			<s:textfield label="Username" name="user.username" />
-			<s:textfield label="Password" name="user.password" />
-			<s:textfield label="Repeat the password" name="repeatPassword" />
+			<s:password label="Password" name="user.password" />
+			<s:password label="Repeat the password" name="repeatPassword" />
 			<sj:datepicker name="birthdate"
 				displayFormat="dd-mm-yy" changeYear="true" changeMonth="true" showAnim="slideDown" cssClass="bootstrap"
 				label="Birthdate (dd-mm-yyyy)" yearRange="-80:+0" />

@@ -1,19 +1,10 @@
 package action.user;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import java.util.Map.Entry;
-
-import org.apache.struts2.StrutsStatics;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
