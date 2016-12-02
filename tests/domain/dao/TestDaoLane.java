@@ -85,8 +85,7 @@ public class TestDaoLane {
 		HibernateGeneric.insertObject(endNode);
 
 		nodeList = HibernateGeneric.loadAllObjects(new Node());
-		System.out.println(nodeList.get(0));
-		System.out.println(nodeList.get(1));
+
 		lane.setName(LANE_NAME);
 		lane.setStartNode((Node) nodeList.get(0));
 		lane.setEndNode((Node) nodeList.get(1));
