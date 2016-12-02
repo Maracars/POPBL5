@@ -14,7 +14,7 @@ import javax.persistence.ManyToMany;
  *
  */
 @Entity
-public class Airline extends User{
+public class Airline extends User {
 	@Id
 	@GeneratedValue
 	Integer id;

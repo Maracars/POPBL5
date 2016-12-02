@@ -21,7 +21,9 @@ var socket =  io.connect('http://localhost:9092');
         }
                 
         function render (data) {
-        	var notify = $.notify(`<strong>${data.id}</strong> ${data.izena}`, {
+        	var element = $("<li><a href = '#'><i class = 'dropdown-item'><strong>"+data.id + "</strong>"+ data.izena +"</i></a></li>");
+        	$('#alertsList').append(element);
+        	/*var notify = $.notify(`<strong>${data.id}</strong> ${data.izena}`, {
 				                	type: 'success',
 				                	offset: {
 				                		x: 50,
@@ -32,6 +34,7 @@ var socket =  io.connect('http://localhost:9092');
 				                		exit: 'animated lightSpeedOut'
 				                	}
 				                });
+				                */
         }
 
 	

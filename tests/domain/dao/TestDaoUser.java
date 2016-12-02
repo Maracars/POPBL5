@@ -78,7 +78,8 @@ public class TestDaoUser {
 		user.setPassword(PASSWORD);
 		user.setBirthDate(new Date());
 		deleteAllUsers();
-		DAOUser.insertUser(user);
+		boolean result = DAOUser.insertUser(user);
+		assertEquals(ERROR_INSERT, true, result);
 
 	}
 

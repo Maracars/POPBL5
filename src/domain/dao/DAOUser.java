@@ -54,7 +54,7 @@ public class DAOUser {
 			session.getTransaction().rollback();
 
 			return false;
-		}finally {
+		} finally {
 			session.close();
 		}
 
