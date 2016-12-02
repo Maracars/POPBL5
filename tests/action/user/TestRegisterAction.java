@@ -63,6 +63,21 @@ public class TestRegisterAction {
 		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, la.getFieldErrors().size());
 
 	}
+	
+	@Test
+	public void testValidateWrongDateFormat() {
+
+		RegisterAction la = new RegisterAction();
+		la.user.setPassword(SOMETHING);
+		la.repeatPassword = SOMETHING_ELSE;
+		
+		la.setBirthdate("12---3");
+
+		la.validate();
+
+		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, la.getFieldErrors().size());
+
+	}
 
 	@Test
 	public void testExecuteOK() {
