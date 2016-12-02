@@ -12,19 +12,32 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
 public class PGSocketIONotify implements Runnable {
+	private static final String LOCALHOST = "localhost";
+	private static final String SPLITTER = ">";
+	private static final String PG_DRIVER = "org.postgresql.Driver";
+	private static final String DB_PASSWORD = "Nestor123";
+	private static final String DB_USERNAME = "naranairapp";
+	private static final String URL = "jdbc:postgresql://localhost:5432/naranair";
+
+	private static final int LOOP_TIME = 500;
+	private static final int PORT_NMBER = 9092;
 	private PGConnection pgConn;
-	private static  SocketIOServer server ;
-	
+	private static final Configuration conf;
+	private static final SocketIOServer server;
+
+	static {
+		conf = new Configuration();
+		conf.setHostname(LOCALHOST);
+		conf.setPort(PORT_NMBER);
+		server = new SocketIOServer(conf);
+	}
+
 	public PGSocketIONotify(Connection conn) throws SQLException, InterruptedException {
-		
-		Configuration conf = new Configuration();
-		conf.setHostname("localhost");
-		conf.setPort(9092);
-		//9092 portuan egongo da socket.io-ko komunikazinua
-		PGSocketIONotify.server =  new SocketIOServer(conf);
+
+		// 9092 portuan egongo da socket.io-ko komunikazinua
 		this.pgConn = (PGConnection) conn;
 		Statement listenStatement = conn.createStatement();
-		//Ze mezu entzun bihar daben esan, nahi beste mezu entzun leike.
+		// Ze mezu entzun bihar daben esan, nahi beste mezu entzun leike.
 		listenStatement.execute("LISTEN mezua");
 		listenStatement.close();
 	}
@@ -36,23 +49,21 @@ public class PGSocketIONotify implements Runnable {
 			try {
 
 				PGNotification notifications[] = pgConn.getNotifications();
-				
 
 				if (notifications != null) {
 					for (PGNotification pgNotification : notifications) {
-						System.out.println("Got notification: " + pgNotification.getName() + " with payload: "
-								+ pgNotification.getParameter());
-						//PGk JSON bat bidaltzen dau, hori gero javascripten tratauko da
-						String [] tableInfo = pgNotification.getParameter().split(">");
 						
-						
+						// PGk JSON bat bidaltzen dau, hori gero javascripten
+						// tratauko da
+						String[] tableInfo = pgNotification.getParameter().split(SPLITTER);
+
 						server.getBroadcastOperations().sendEvent("chatevent", tableInfo[1]);
 
 					}
 				}
 
 				// wait a while before checking again
-				Thread.sleep(500);
+				Thread.sleep(LOOP_TIME);
 			} catch (SQLException sqlException) {
 				sqlException.printStackTrace();
 			} catch (InterruptedException ie) {
@@ -62,26 +73,23 @@ public class PGSocketIONotify implements Runnable {
 	}
 
 	public static void main(String args[]) throws Exception {
-		
 
-		Class.forName("org.postgresql.Driver");
+		Class.forName(PG_DRIVER);
 
 		// Konexino url-a sortu
-		String url = "jdbc:postgresql://localhost:5432/naranair";
 		// pasahitza eta erabiltzailiakin konexinua sortu
-		Connection lConn = DriverManager.getConnection(url, "naranairapp", "Nestor123");
-		
+		Connection lConn = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
+
 		// Thread-a sortu
 		PGSocketIONotify cl = new PGSocketIONotify(lConn);
 		// Threada korridu
-        (new Thread(cl)).start();
+		(new Thread(cl)).start();
 
 		server.start();
 
-        Thread.sleep(Integer.MAX_VALUE);
+		Thread.sleep(Integer.MAX_VALUE);
 
-        server.stop();
+		server.stop();
 
 	}
 }
-

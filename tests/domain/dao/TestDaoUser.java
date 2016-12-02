@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Test;
 
 import domain.model.User;
+import helpers.MD5;
 
 public class TestDaoUser {
 
@@ -18,9 +19,9 @@ public class TestDaoUser {
 	@Test
 	public void testInsertUserWithoutBirthDateAndWithUsernameAndWithPasswordIntoDB() {
 		User user = new User();
-		user.setPassword(PASSWORD);
+		user.setPassword(MD5.encrypt(PASSWORD));
 		user.setUsername(USERNAME);
-		boolean result = DAOUser.insertUser(user);
+		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
@@ -30,7 +31,7 @@ public class TestDaoUser {
 		User user = new User();
 		user.setUsername(USERNAME);
 		user.setBirthDate(new Date());
-		boolean result = DAOUser.insertUser(user);
+		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
 	}
@@ -39,9 +40,9 @@ public class TestDaoUser {
 	public void testInsertUserWithoutUsernameWithBirthDateAndAndWithPasswordIntoDB() {
 
 		User user = new User();
-		user.setPassword(PASSWORD);
+		user.setPassword(MD5.encrypt(PASSWORD));
 		user.setBirthDate(new Date());
-		boolean result = DAOUser.insertUser(user);
+		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
 	}
@@ -52,9 +53,9 @@ public class TestDaoUser {
 		User user = new User();
 		user.setUsername(USERNAME);
 		user.setBirthDate(new Date());
-		user.setPassword(PASSWORD);
+		user.setPassword(MD5.encrypt(PASSWORD));
 		deleteAllUsers();
-		boolean result = DAOUser.insertUser(user);
+		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, true, result);
 
 	}
@@ -66,27 +67,19 @@ public class TestDaoUser {
 		user.setPassword(PASSWORD);
 		user.setBirthDate(new Date());
 		deleteAllUsers();
-		DAOUser.insertUser(user);
-		boolean result = DAOUser.deleteUser((User) HibernateGeneric.loadAllObjects(new User()).get(0));
+		HibernateGeneric.insertObject(user);
+		boolean result = HibernateGeneric.deleteObject(
+									(User) HibernateGeneric.loadAllObjects(new User()).get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
-	@Test
-	public void testRemoveOneUserByUsername() {
-		User user = new User();
-		user.setUsername(USERNAME);
-		user.setPassword(PASSWORD);
-		user.setBirthDate(new Date());
-		deleteAllUsers();
-		DAOUser.insertUser(user);
-
-	}
+	
 
 	/* For testing, delete all users */
 	private void deleteAllUsers() {
-		List<User> listUsers = DAOUser.loadAllUsers();
-		for (User user : listUsers) {
-			DAOUser.deleteUser(user);
+		List<Object> listUsers = HibernateGeneric.loadAllObjects(new User());
+		for (Object user : listUsers) {
+			HibernateGeneric.deleteObject((User)user);
 		}
 	}
 }

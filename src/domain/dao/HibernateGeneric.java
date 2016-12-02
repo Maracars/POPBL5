@@ -21,6 +21,7 @@ public class HibernateGeneric {
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			session.getTransaction().rollback();
 			result = false;
 		} finally {

@@ -18,6 +18,13 @@
 <script type="text/javascript" src="js/metisMenu.min.js"></script>
 <script type="text/javascript" src="js/sb-admin-2.min.js"></script>
 
+<link href="css/animate.css" rel="stylesheet">
+
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+<script src="js/listener.js"></script>
+<script src="js/bootstrap-notify.min.js"></script>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <title>Naranair - <tiles:insertAttribute name="title"

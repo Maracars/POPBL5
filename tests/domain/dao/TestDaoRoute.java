@@ -50,7 +50,8 @@ public class TestDaoRoute {
 		route.setId(1);
 		HibernateGeneric.insertObject(route);
 		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
-		boolean result = HibernateGeneric.deleteObject((Route) HibernateGeneric.loadAllObjects(new Route()).get(0));
+		boolean result = HibernateGeneric.deleteObject(
+				(Route) HibernateGeneric.loadAllObjects(new Route()).get(0));
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
