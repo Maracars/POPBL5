@@ -26,11 +26,6 @@ public class TestDaoTerminal {
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
-	@Test
-	public void testInsertNullTerminalIntoDB() {
-		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
-	}
-
 	@Ignore
 	public void testLoadAllTerminalsFromOneSpecificAirport() {
 		int airportId = 1;
@@ -43,18 +38,13 @@ public class TestDaoTerminal {
 	public void testRemoveOneSpecificTerminal() {
 		Terminal terminal = new Terminal();
 		terminal.setId(1);
-		
+
 		HibernateGeneric.insertObject(terminal);
-		
+
 		Terminal t = (Terminal) HibernateGeneric.loadAllObjects(new Terminal()).get(0);
 		boolean result = HibernateGeneric.deleteObject(t);
 		// aukeran Terminal bidaldu edo terminalId
 		assertEquals(ERROR_REMOVING, true, result);
-	}
-
-	@Test
-	public void testRemoveOneNullTerminal() {
-		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

@@ -16,7 +16,6 @@ public class TestDaoNode {
 	private static final double POSITION_X = 33.2;
 	private static final double POSITION_Y = 13.2;
 
-
 	@Test
 	public void testInsertNodeIntoDB() {
 		Node node = new Node();
@@ -28,13 +27,8 @@ public class TestDaoNode {
 	}
 
 	@Test
-	public void testInsertNodeIntoDBSendingNullAsParameter() {
-		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
-	}
-
-	@Test
 	public void testLoadAllNodes() {
-		assertNotNull(ERROR_LOAD,  HibernateGeneric.loadAllObjects(new Node()));
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Node()));
 
 	}
 
@@ -45,12 +39,6 @@ public class TestDaoNode {
 		HibernateGeneric.insertObject(node);
 		boolean result = HibernateGeneric.deleteObject(node);
 		assertEquals(ERROR_REMOVING, true, result);
-	}
-
-	@Test
-	public void testRemoveOneSpecificNodeSendingNullAsParameter() {
-
-		assertEquals(ERROR_REMOVING, false,  HibernateGeneric.deleteObject(null));
 	}
 
 }

@@ -42,10 +42,6 @@ public class TestDaoCity {
 
 	}
 
-	@Test
-	public void testInsertNullCityIntoDB() {
-		assertEquals(INSERT_ERROR, false, HibernateGeneric.insertObject(null));
-	}
 
 	@Test
 	public void testRemoveOneSpecificCity() {
@@ -57,9 +53,5 @@ public class TestDaoCity {
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
-	@Test
-	public void testRemoveOneNullCity() {
-		assertEquals(REMOVE_ERROR, false, HibernateGeneric.deleteObject(null));
-	}
 
 }

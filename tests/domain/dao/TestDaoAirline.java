@@ -43,7 +43,7 @@ public class TestDaoAirline {
 		airline.setUsername(USERNAME);
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
-		
+
 		Route route = new Route();
 		Gate arrivalGate = new Gate();
 		route.setArrivalGate(arrivalGate);
@@ -64,11 +64,6 @@ public class TestDaoAirline {
 	}
 
 	@Test
-	public void testInsertNullAirlineIntoDB() {
-		assertEquals(INSERT_ERROR, false, DAOAirline.insertAirline(null));
-	}
-
-	@Test
 	public void testRemoveOneSpecificAirline() {
 		/* Create airline */
 		Airline airline = new Airline();
@@ -76,7 +71,7 @@ public class TestDaoAirline {
 		airline.setUsername(USERNAME);
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
-		
+
 		Route route = new Route();
 		Gate arrivalGate = new Gate();
 		route.setArrivalGate(arrivalGate);
@@ -85,7 +80,7 @@ public class TestDaoAirline {
 		Collection<Route> routeList = new ArrayList<>();
 		routeList.add(route);
 		airline.setRoutesList(routeList);
-		
+
 		/* delete all users to avoid duplicated error */
 		// TODO sortu beharko zan delete funtzioa username emonda
 		deleteAllUsers();
@@ -93,11 +88,6 @@ public class TestDaoAirline {
 		airline = DAOAirline.loadAllAirlines().get(0);
 		boolean result = DAOAirline.deleteAirline(airline);
 		assertEquals(REMOVE_ERROR, true, result);
-	}
-
-	@Test
-	public void testRemoveOneNullAirline() {
-		assertEquals(REMOVE_ERROR, false, DAOAirline.deleteAirline(null));
 	}
 
 	/* For testing, delete all users */

@@ -22,11 +22,6 @@ public class TestDaoState {
 	}
 
 	@Test
-	public void testInsertStateIntoDBSendingNullAsParameter() {
-		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
-	}
-
-	@Test
 	public void testLoadAllStates() {
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new State()));
 
@@ -41,12 +36,6 @@ public class TestDaoState {
 		State s = (State) HibernateGeneric.loadAllObjects(new State()).get(0);
 		boolean result = HibernateGeneric.deleteObject(s);
 		assertEquals(ERROR_REMOVING, true, result);
-	}
-
-	@Test
-	public void testRemoveOneSpecificStateSendingNullAsParameter() {
-
-		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

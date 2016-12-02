@@ -28,25 +28,19 @@ public class TestDaoPlaneMaker {
 	}
 
 	@Test
-	public void testInsertNullPlaneMakerIntoDB() {
-		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
-	}
-
-	@Test
 	public void testRemoveOneSpecificPlaneMaker() {
 		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setId(1);
+		planeMaker.setName(BOEING);
+				
 		HibernateGeneric.insertObject(planeMaker);
+		
 		PlaneMaker p = (PlaneMaker) HibernateGeneric.loadAllObjects(new PlaneMaker()).get(0);
+		
+		// TODO honek TRAVISen ez dau failauko, baina hemen bai,
+		// kontua da PlaneMakerrak PlaneModela daukala eta foreign key bat da
 		boolean result = HibernateGeneric.deleteObject(p);
-		//TODO honek TRAVISen ez dau failauko, baina hemen bai,
-		//kontua da PlaneMakerrak PlaneModela daukala eta foreign key bat da
+		
 		assertEquals(ERROR_REMOVING, true, result);
-	}
-
-	@Test
-	public void testRemoveOneNullTerminal() {
-		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }
