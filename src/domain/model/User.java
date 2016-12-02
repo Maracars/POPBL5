@@ -21,9 +21,9 @@ public class User {
 
 	@Id
 	@GenericGenerator(name = "inc-gen", strategy = "increment")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="inc-gen")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inc-gen")
 	Integer id;
-	
+
 	@Column(nullable = false)
 	String password;
 
