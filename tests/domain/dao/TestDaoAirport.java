@@ -89,10 +89,6 @@ public class TestDaoAirport {
 
 	}
 
-	@Test
-	public void testInsertNullAirportIntoDB() {
-		assertEquals(INSERT_ERROR, false, HibernateGeneric.insertObject(null));
-	}
 
 	@Test
 	public void testRemoveOneSpecificAirport() {
@@ -105,9 +101,6 @@ public class TestDaoAirport {
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
-	@Test
-	public void testRemoveOneNullAirport() {
-		assertEquals(REMOVE_ERROR, false, HibernateGeneric.deleteObject(null));
-	}
+
 
 }

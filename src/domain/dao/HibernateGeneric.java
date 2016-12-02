@@ -14,7 +14,7 @@ public class HibernateGeneric {
 	public static boolean insertObject(Object object) {
 		boolean result = true;
 		try {
-
+			
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(object);
@@ -53,16 +53,18 @@ public class HibernateGeneric {
 
 	public static List<Object> loadAllObjects(Object o) {
 		List<Object> objectList = null;
-		try {
+		if (o != null) {
+			try {
 
-			session = HibernateConnection.getSessionFactory().openSession();
-			@SuppressWarnings("unchecked")
-			TypedQuery<Object> query = session.createQuery("from " + o.getClass().getSimpleName());
-			objectList = query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
+				session = HibernateConnection.getSessionFactory().openSession();
+				@SuppressWarnings("unchecked")
+				TypedQuery<Object> query = session.createQuery("from " + o.getClass().getSimpleName());
+				objectList = query.getResultList();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				session.close();
+			}
 		}
 
 		return objectList;

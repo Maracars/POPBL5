@@ -25,10 +25,7 @@ public class TestDaoGate {
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
-	@Test
-	public void testInsertGateIntoDBSendingNullAsParameter() {
-		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
-	}
+
 
 	@Ignore
 	public void testLoadAllGatesFromOneSpecificTerminal() {
@@ -47,10 +44,6 @@ public class TestDaoGate {
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
-	@Test
-	public void testRemoveOneSpecificGateSendingNullAsParameter() {
 
-		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
-	}
 
 }

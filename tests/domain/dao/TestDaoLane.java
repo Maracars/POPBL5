@@ -66,11 +66,6 @@ public class TestDaoLane {
 	}
 
 	@Test
-	public void testInsertNullLaneIntoDB() {
-		assertEquals(INSERT_ERROR, false, HibernateGeneric.insertObject(null));
-	}
-
-	@Test
 	public void testRemoveOneSpecificLane() {
 		Node startNode = new Node();
 		Node endNode = new Node();
@@ -99,11 +94,6 @@ public class TestDaoLane {
 		HibernateGeneric.insertObject(lane);
 		boolean result = HibernateGeneric.deleteObject(lane);
 		assertEquals(REMOVE_ERROR, true, result);
-	}
-
-	@Test
-	public void testRemoveOneNullCity() {
-		assertEquals(REMOVE_ERROR, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

@@ -43,11 +43,6 @@ public class TestDaoPlaneModel {
 	}
 
 	@Test
-	public void testInsertNullPlaneModelIntoDB() {
-		assertEquals(ERROR_INSERT, false, HibernateGeneric.insertObject(null));
-	}
-
-	@Test
 	public void testRemoveOneSpecificPlaneModel() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setName(SERIAL);
@@ -57,11 +52,6 @@ public class TestDaoPlaneModel {
 		planeModel.setPlaneMaker(planeMaker);
 		boolean result = HibernateGeneric.deleteObject(planeModel);
 		assertEquals(ERROR_REMOVING, true, result);
-	}
-
-	@Test
-	public void testRemoveOneNullPlaneModel() {
-		assertEquals(ERROR_REMOVING, false, HibernateGeneric.deleteObject(null));
 	}
 
 }

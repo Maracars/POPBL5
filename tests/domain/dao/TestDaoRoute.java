@@ -45,11 +45,6 @@ public class TestDaoRoute {
 	}
 
 	@Test
-	public void testInsertNullRouteIntoDB() {
-		assertEquals(INSERT_ERROR, false, HibernateGeneric.insertObject(null));
-	}
-
-	@Test
 	public void testRemoveOneSpecificRoute() {
 		Route route = new Route();
 		route.setId(1);
@@ -57,11 +52,6 @@ public class TestDaoRoute {
 		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
 		boolean result = HibernateGeneric.deleteObject((Route) HibernateGeneric.loadAllObjects(new Route()).get(0));
 		assertEquals(REMOVE_ERROR, true, result);
-	}
-
-	@Test
-	public void testRemoveOneNullRoute() {
-		assertEquals(REMOVE_ERROR, false, HibernateGeneric.deleteObject(null));
 	}
 
 }
