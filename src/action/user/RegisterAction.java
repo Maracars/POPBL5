@@ -12,8 +12,9 @@ import domain.dao.DAOUser;
 import domain.model.Passenger;
 import domain.model.User;
 
-public class RegisterAction extends ActionSupport{
+public class RegisterAction extends ActionSupport {
 
+	private static final int MIN_YEARS = 18;
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 	private static final String PASS_NOT_MATCH = "Passwords do not match!";
 	private static final String REPEAT_PASSWORD = "repeatPassword";
@@ -30,42 +31,41 @@ public class RegisterAction extends ActionSupport{
 	String type;
 	String birthdate;
 	String repeatPassword;
-	
+
 	@Override
 	public void validate() {
-		if(!user.getPassword().equals(repeatPassword))
+		if (!user.getPassword().equals(repeatPassword))
 			addFieldError(REPEAT_PASSWORD, PASS_NOT_MATCH);
-		if(user.getPassword().isEmpty())
+		if (user.getPassword().isEmpty())
 			addFieldError(PASSWORD, PASSWORD_BLANK);
-		if(user.getUsername().isEmpty())
+		if (user.getUsername().isEmpty())
 			addFieldError(USERNAME, USERNAME_BLANK);
-		if(user.getUsername().isEmpty())
+		if (user.getUsername().isEmpty())
 			addFieldError(USERNAME, USERNAME_BLANK);
-		
+
 		SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
 		try {
 			user.setBirthDate(df.parse(birthdate));
 			LocalDate birthdate = user.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			if(Period.between(birthdate , LocalDate.now()).getYears() < 18)
+			if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
 				addFieldError(BIRTH_DATE, TOO_YOUNG);
 		} catch (ParseException e) {
 			addFieldError(BIRTH_DATE, INCORRECT_FORMAT);
 		}
 	}
-	
+
 	@Override
 	public String execute() throws Exception {
 		type = User.PASSENGER;
-		switch(type){
+		switch (type) {
 		case User.PASSENGER:
 			user = new Passenger(user);
 			break;
-		//TODO mas tipos
+		// TODO mas tipos
 		}
 		return DAOUser.insertUser(user) ? SUCCESS : ERROR;
 	}
 
-	
 	public String getRepeatPassword() {
 		return repeatPassword;
 	}
@@ -97,9 +97,5 @@ public class RegisterAction extends ActionSupport{
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
-	
-	
-	
-	
 
 }
