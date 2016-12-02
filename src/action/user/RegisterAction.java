@@ -51,18 +51,27 @@ public class RegisterAction extends ActionSupport{
 		} catch (ParseException e) {
 			addFieldError(BIRTH_DATE, INCORRECT_FORMAT);
 		}
+		if(!getFieldErrors().isEmpty()){
+			repeatPassword = "";
+			user.setPassword("");
+		}
 	}
 	
 	@Override
 	public String execute() throws Exception {
-		type = User.PASSENGER;
+		type = User.PASSENGER; //Provisional
+		
 		switch(type){
 		case User.PASSENGER:
 			user = new Passenger(user);
 			break;
 		//TODO mas tipos
 		}
-		return DAOUser.insertUser(user) ? SUCCESS : ERROR;
+		
+		String ret = DAOUser.insertUser(user) ? SUCCESS : ERROR;
+		user = new User();
+		repeatPassword = "";
+		return ret;
 	}
 
 	

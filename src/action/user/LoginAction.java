@@ -15,16 +15,17 @@ public class LoginAction extends ActionSupport {
 	private String username;
 	private String password;
 
+
 	@Override
 	public void validate() {
 		if (username == null || username.isEmpty()) {
-			password = "";
 			addFieldError("username", "Username cannot be blank!");
 		}
 		if (password == null || password.isEmpty()) {
-			password = "";
 			addFieldError("password", "Password cannot be blank!");
 		}
+		if (!getFieldErrors().isEmpty())
+			password = "";
 	}
 
 	@Override
