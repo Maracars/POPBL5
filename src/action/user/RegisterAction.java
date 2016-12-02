@@ -8,7 +8,7 @@ import java.time.ZoneId;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import domain.dao.DAOUser;
+import domain.dao.HibernateGeneric;
 import domain.model.Passenger;
 import domain.model.User;
 
@@ -63,7 +63,7 @@ public class RegisterAction extends ActionSupport {
 			break;
 		// TODO mas tipos
 		}
-		return DAOUser.insertUser(user) ? SUCCESS : ERROR;
+		return HibernateGeneric.insertObject(user) ? SUCCESS : ERROR;
 	}
 
 	public String getRepeatPassword() {

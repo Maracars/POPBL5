@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import domain.model.Airline;
 import domain.model.Gate;
+import domain.model.Node;
 import domain.model.Route;
 import domain.model.User;
 
@@ -32,7 +33,7 @@ public class TestDaoAirline {
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
 		deleteAllUsers();
-		boolean result = DAOAirline.insertAirline(airline);
+		boolean result = HibernateGeneric.insertObject(airline);
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -44,22 +45,42 @@ public class TestDaoAirline {
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
 
-		Route route = new Route();
+		Node n1 = new Node();
+		n1.setName("NODE_1");
+		n1.setPositionX(3.2);
+		n1.setPositionY(3.2);
+		HibernateGeneric.insertObject(n1);
+		
+		Node n2 = new Node();
+		n2.setName("NODE_2");
+		n2.setPositionX(3.2);
+		n2.setPositionY(3.2);
+		HibernateGeneric.insertObject(n2);
+		
 		Gate arrivalGate = new Gate();
-		route.setArrivalGate(arrivalGate);
+		arrivalGate.setPositionNode(n1);
+		HibernateGeneric.insertObject(arrivalGate);
+			
 		Gate departureGate = new Gate();
+		departureGate.setPositionNode(n2);
+		HibernateGeneric.insertObject(departureGate);
+		
+		Route route = new Route();
+		route.setArrivalGate(arrivalGate);
 		route.setDepartureGate(departureGate);
+		HibernateGeneric.insertObject(route);
+		
 		Collection<Route> routeList = new ArrayList<>();
 		routeList.add(route);
 		airline.setRoutesList(routeList);
+
 		deleteAllUsers();
-		boolean result = DAOAirline.insertAirline(airline);
-		assertEquals(INSERT_ERROR, true, result);
+		assertEquals(INSERT_ERROR, true, HibernateGeneric.insertObject(airline));
 	}
 
 	@Test
 	public void testLoadAllAirlines() {
-		assertNotNull(ERROR_LOAD, DAOAirline.loadAllAirlines());
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Airline()));
 
 	}
 
@@ -72,29 +93,49 @@ public class TestDaoAirline {
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
 
-		Route route = new Route();
+		Node n1 = new Node();
+		n1.setName("NODE_1");
+		n1.setPositionX(3.2);
+		n1.setPositionY(3.2);
+		HibernateGeneric.insertObject(n1);
+		
+		Node n2 = new Node();
+		n2.setName("NODE_2");
+		n2.setPositionX(3.2);
+		n2.setPositionY(3.2);
+		HibernateGeneric.insertObject(n2);
+		
 		Gate arrivalGate = new Gate();
-		route.setArrivalGate(arrivalGate);
+		arrivalGate.setPositionNode(n1);
+		HibernateGeneric.insertObject(arrivalGate);
+			
 		Gate departureGate = new Gate();
+		departureGate.setPositionNode(n2);
+		HibernateGeneric.insertObject(departureGate);
+		
+		Route route = new Route();
+		route.setArrivalGate(arrivalGate);
 		route.setDepartureGate(departureGate);
+		HibernateGeneric.insertObject(route);
+		
 		Collection<Route> routeList = new ArrayList<>();
 		routeList.add(route);
 		airline.setRoutesList(routeList);
-
+		
 		/* delete all users to avoid duplicated error */
 		// TODO sortu beharko zan delete funtzioa username emonda
 		deleteAllUsers();
-		DAOAirline.insertAirline(airline);
-		airline = DAOAirline.loadAllAirlines().get(0);
-		boolean result = DAOAirline.deleteAirline(airline);
+		HibernateGeneric.insertObject(airline);
+		airline = (Airline) HibernateGeneric.loadAllObjects(new Airline()).get(0);
+		boolean result = HibernateGeneric.deleteObject(airline);
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
 	/* For testing, delete all users */
 	private void deleteAllUsers() {
-		List<User> listUsers = DAOUser.loadAllUsers();
-		for (User user : listUsers) {
-			DAOUser.deleteUser(user);
+		List<Object> listUsers = HibernateGeneric.loadAllObjects(new User());
+		for (Object user : listUsers) {
+			HibernateGeneric.deleteObject((User) user);
 		}
 	}
 

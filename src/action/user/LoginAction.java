@@ -7,6 +7,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.DAOUser;
 import domain.model.User;
+import helpers.MD5;
 
 public class LoginAction extends ActionSupport {
 
@@ -32,7 +33,7 @@ public class LoginAction extends ActionSupport {
 		String ret = LOGIN;
 		User user = DAOUser.getUser(username);
 		if (user != null) {
-			String md5pass = DAOUser.md5(password);
+			String md5pass = MD5.encrypt(password);
 			if (user.getPassword().equals(md5pass)) {
 				Map<String, Object> session = ActionContext.getContext().getSession();
 				session.put("user", user);
