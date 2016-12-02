@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import com.opensymphony.xwork2.ActionContext;
 
 import domain.dao.DAOUser;
+import domain.dao.HibernateGeneric;
 import domain.model.User;
 
 public class TestLoginAction {
@@ -119,7 +120,7 @@ public class TestLoginAction {
 		la.setUsername(TEST_USERNAME);
 		la.setPassword(OTHER_PASSWORD);
 
-		DAOUser.insertUser(user);
+		HibernateGeneric.insertObject(user);
 		
 		String result = null;
 		try {
@@ -143,7 +144,7 @@ public class TestLoginAction {
 		la.setUsername(TEST_USERNAME);
 		la.setPassword(OTHER_PASSWORD);
 
-		DAOUser.insertUser(user);
+		HibernateGeneric.insertObject(user);
 
 		try {
 			la.execute();
@@ -164,7 +165,7 @@ public class TestLoginAction {
 		la.setPassword(user.getPassword());
 		la.setUsername(user.getUsername());
 
-		DAOUser.insertUser(user);
+		HibernateGeneric.insertObject(user);
 
 		try {
 			la.execute();
@@ -188,7 +189,7 @@ public class TestLoginAction {
 		la.setPassword(user.getPassword());
 		la.setUsername(user.getUsername());
 
-		DAOUser.insertUser(user);
+		HibernateGeneric.insertObject(user);
 
 		String result = null;
 		try {

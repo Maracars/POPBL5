@@ -6,6 +6,8 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
+import domain.model.User;
+import helpers.MD5;
 import hibernate.HibernateConnection;
 
 public class HibernateGeneric {
@@ -14,13 +16,16 @@ public class HibernateGeneric {
 	public static boolean insertObject(Object object) {
 		boolean result = true;
 		try {
-			
+			if(object instanceof User)
+				((User) object).setPassword(
+						MD5.encrypt(((User) object).getPassword()));
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(object);
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			session.getTransaction().rollback();
 			result = false;
 		} finally {

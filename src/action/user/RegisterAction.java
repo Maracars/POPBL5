@@ -8,19 +8,20 @@ import java.time.ZoneId;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import domain.dao.DAOUser;
+import domain.dao.HibernateGeneric;
 import domain.model.Passenger;
 import domain.model.User;
 
 public class RegisterAction extends ActionSupport {
 
-	private static final String BIRTHDATE_BLANK = "Birthdate cannot be blank";
+	private static final int MIN_YEARS = 18;
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 	private static final String PASS_NOT_MATCH = "Passwords do not match!";
 	private static final String REPEAT_PASSWORD = "repeatPassword";
 	private static final String INCORRECT_FORMAT = "Incorrect format!";
 	private static final String TOO_YOUNG = "You are too young m8!";
 	private static final String BIRTH_DATE = "birthdate";
+	private static final String BIRTHDATE_BLANK = "Birthdate cannot be blank";
 	private static final String PASSWORD_BLANK = "Password cannot be blank";
 	private static final String PASSWORD = "user.password";
 	private static final String USERNAME_BLANK = "Username cannot be blank";
@@ -50,7 +51,7 @@ public class RegisterAction extends ActionSupport {
 			try {
 				user.setBirthDate(df.parse(birthdate));
 				LocalDate birthdate = user.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				if (Period.between(birthdate, LocalDate.now()).getYears() < 18)
+				if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
 					addFieldError(BIRTH_DATE, TOO_YOUNG);
 			} catch (ParseException e) {
 				addFieldError(BIRTH_DATE, INCORRECT_FORMAT);
@@ -64,16 +65,14 @@ public class RegisterAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		type = User.PASSENGER; // Provisional
-
+		type = User.PASSENGER;
 		switch (type) {
 		case User.PASSENGER:
 			user = new Passenger(user);
 			break;
 		// TODO mas tipos
 		}
-
-		String ret = DAOUser.insertUser(user) ? SUCCESS : ERROR;
+		String ret = HibernateGeneric.insertObject(user) ? SUCCESS : ERROR;
 		user = new User();
 		repeatPassword = "";
 		return ret;

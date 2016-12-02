@@ -10,10 +10,10 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import domain.dao.DAOUser;
+import domain.dao.HibernateGeneric;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(DAOUser.class)
+@PrepareForTest(HibernateGeneric.class)
 public class TestRegisterActionStaticMock {
 	
 	private static final String SOMETHING_ELSE = "Something else";
@@ -28,8 +28,8 @@ public class TestRegisterActionStaticMock {
 		la.user.setBirthDate(new Date());
 		la.user.setPassword(SOMETHING_ELSE);
 		
-		PowerMockito.mockStatic(DAOUser.class);
-		PowerMockito.when(DAOUser.insertUser(la.user)).thenReturn(false);
+		PowerMockito.mockStatic(HibernateGeneric.class);
+		PowerMockito.when(HibernateGeneric.insertObject(la.user)).thenReturn(false);
 
 		String result = null;
 		try {

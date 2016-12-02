@@ -42,16 +42,15 @@ public class TestDaoCity {
 
 	}
 
-
 	@Test
 	public void testRemoveOneSpecificCity() {
 		City city = new City();
 		city.setId(1);
 		HibernateGeneric.insertObject(city);
-		boolean result = HibernateGeneric.deleteObject((City) HibernateGeneric.loadAllObjects(new City()).get(0));
+		boolean result = HibernateGeneric.deleteObject(
+				(City) HibernateGeneric.loadAllObjects(new City()).get(0));
 
 		assertEquals(REMOVE_ERROR, true, result);
 	}
-
 
 }
