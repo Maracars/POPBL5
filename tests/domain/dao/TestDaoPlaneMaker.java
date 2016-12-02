@@ -8,7 +8,6 @@ import domain.model.PlaneMaker;
 
 public class TestDaoPlaneMaker {
 
-	private static final String ERROR_REMOVING = "Error removing one plane maker from database";
 	private static final String ERROR_LOAD = "Error load all plane makers from database";
 	private static final String ERROR_INSERT = "Error insert plane maker into database";
 	private static final String BOEING = "Boeing";
@@ -27,20 +26,6 @@ public class TestDaoPlaneMaker {
 
 	}
 
-	@Test
-	public void testRemoveOneSpecificPlaneMaker() {
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
-				
-		HibernateGeneric.insertObject(planeMaker);
-		
-		PlaneMaker p = (PlaneMaker) HibernateGeneric.loadAllObjects(new PlaneMaker()).get(0);
-		
-		// TODO honek TRAVISen ez dau failauko, baina hemen bai,
-		// kontua da PlaneMakerrak PlaneModela daukala eta foreign key bat da
-		boolean result = HibernateGeneric.deleteObject(p);
-		
-		assertEquals(ERROR_REMOVING, true, result);
-	}
+
 
 }

@@ -17,6 +17,14 @@ public class Gate {
 	@OneToOne 
 	Node positionNode;
 
+	public Node getPositionNode() {
+		return positionNode;
+	}
+
+	public void setPositionNode(Node positionNode) {
+		this.positionNode = positionNode;
+	}
+
 	public Integer getId() {
 		return id;
 	}
