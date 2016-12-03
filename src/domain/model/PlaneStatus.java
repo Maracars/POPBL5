@@ -1,5 +1,6 @@
 package domain.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ public class PlaneStatus {
 	@Id
 	@GeneratedValue
 	Integer id;
+	@Column(nullable = false)
 	String name;
 	String description;
 

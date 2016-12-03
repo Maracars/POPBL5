@@ -1,9 +1,9 @@
 package domain.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class PlaneMovement {
@@ -11,15 +11,15 @@ public class PlaneMovement {
 	@Id
 	@GeneratedValue
 	Integer id;
-	@NotNull
+	@Column(nullable = false)
 	Double directionX;
-	@NotNull
+	@Column(nullable = false)
 	Double directionY;
-	@NotNull
+	@Column(nullable = false)
 	Double positionX;
-	@NotNull
+	@Column(nullable = false)
 	Double positionY;
-	@NotNull
+	@Column(nullable = false)
 	Double speed;
 
 	public Integer getId() {

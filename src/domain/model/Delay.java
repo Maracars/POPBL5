@@ -1,8 +1,11 @@
 package domain.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+@Entity
 public class Delay {
 
 	@Id
@@ -13,7 +16,7 @@ public class Delay {
 
 	String description;
 
-	// TODO tagak jarri
+	@ManyToOne(optional = false)
 	Flight affectedFlight;
 
 	public Integer getId() {
