@@ -69,7 +69,9 @@ public class TestDaoUser {
 		deleteAllUsers();
 		HibernateGeneric.insertObject(user);
 		boolean result = HibernateGeneric.deleteObject(
-									(User) HibernateGeneric.loadAllObjects(new User()).get(0));
+				(User) HibernateGeneric.loadAllObjects(
+						new User()).get(0)
+				);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

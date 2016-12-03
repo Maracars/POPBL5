@@ -27,11 +27,11 @@ public class TestLogoutAction {
 	public void destroyTests() {
 		ac = null;
 	}
-	
+
 	@Test
-	public void testExecute(){
-		
-		LogoutAction la =  new LogoutAction();
+	public void testExecute() {
+
+		LogoutAction la = new LogoutAction();
 		String result = null;
 		try {
 			result = la.execute();
@@ -39,9 +39,9 @@ public class TestLogoutAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertEquals("Logout did not work properly", LoginAction.SUCCESS, result);
-		
+
 	}
 
 }
