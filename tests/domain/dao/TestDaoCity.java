@@ -24,15 +24,8 @@ public class TestDaoCity {
 
 	@Test
 	public void testInsertCityWithStateIntoDB() {
-		State state = new State();
-		state.setName(EUSKAL_HERRIA);
-		HibernateGeneric.insertObject(state);
 
-		City city = new City();
-		city.setName(BERGARA);
-		city.setState(state);
-
-		boolean result = HibernateGeneric.insertObject(city);
+		boolean result = HibernateGeneric.insertObject(initCompleteCity());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -44,13 +37,22 @@ public class TestDaoCity {
 
 	@Test
 	public void testRemoveOneSpecificCity() {
-		City city = new City();
-		city.setId(1);
-		HibernateGeneric.insertObject(city);
-		boolean result = HibernateGeneric.deleteObject(
-				(City) HibernateGeneric.loadAllObjects(new City()).get(0));
+
+		HibernateGeneric.insertObject(initCompleteCity());
+		boolean result = HibernateGeneric.deleteObject((City) HibernateGeneric.loadAllObjects(new City()).get(0));
 
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 
+	private City initCompleteCity() {
+		State state = new State();
+		state.setName(EUSKAL_HERRIA);
+		HibernateGeneric.insertObject(state);
+
+		City city = new City();
+		city.setName(BERGARA);
+		city.setState(state);
+
+		return city;
+	}
 }

@@ -16,10 +16,10 @@ public class Lane {
 
 	@ManyToOne(optional = false)
 	private Node startNode;
-	
+
 	@ManyToOne(optional = false)
 	private Node endNode;
-	
+
 	public String getName() {
 		return name;
 	}

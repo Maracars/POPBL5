@@ -8,7 +8,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LogoutAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public String execute() throws Exception {
 		Map<String, Object> session = ActionContext.getContext().getSession();
@@ -16,5 +16,4 @@ public class LogoutAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-	
 }

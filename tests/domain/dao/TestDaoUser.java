@@ -1,11 +1,15 @@
 package domain.dao;
 
 import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
 
+import domain.model.Delay;
+import domain.model.Flight;
+import domain.model.Plane;
 import domain.model.User;
 import helpers.MD5;
 
@@ -66,22 +70,42 @@ public class TestDaoUser {
 		user.setUsername(USERNAME);
 		user.setPassword(PASSWORD);
 		user.setBirthDate(new Date());
+		deleteAllDelays();
+		deleteAllFlights();
+		deleteAllPlanes();
 		deleteAllUsers();
 		HibernateGeneric.insertObject(user);
-		boolean result = HibernateGeneric.deleteObject(
-				(User) HibernateGeneric.loadAllObjects(
-						new User()).get(0)
-				);
+		boolean result = HibernateGeneric.deleteObject((User) HibernateGeneric.loadAllObjects(new User()).get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
-
-	
 
 	/* For testing, delete all users */
 	private void deleteAllUsers() {
 		List<Object> listUsers = HibernateGeneric.loadAllObjects(new User());
 		for (Object user : listUsers) {
-			HibernateGeneric.deleteObject((User)user);
+			HibernateGeneric.deleteObject((User) user);
 		}
 	}
+
+	private void deleteAllFlights() {
+		List<Object> listFlight = HibernateGeneric.loadAllObjects(new Flight());
+		for (Object flight : listFlight) {
+			HibernateGeneric.deleteObject((Flight) flight);
+		}
+	}
+
+	private void deleteAllPlanes() {
+		List<Object> listPlanes = HibernateGeneric.loadAllObjects(new Plane());
+		for (Object plane : listPlanes) {
+			HibernateGeneric.deleteObject((Plane) plane);
+		}
+	}
+
+	private void deleteAllDelays() {
+		List<Object> listDelays = HibernateGeneric.loadAllObjects(new Delay());
+		for (Object delay : listDelays) {
+			HibernateGeneric.deleteObject((Delay) delay);
+		}
+	}
+
 }

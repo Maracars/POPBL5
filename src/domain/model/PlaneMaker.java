@@ -11,7 +11,6 @@ public class PlaneMaker {
 	@GeneratedValue
 	Integer id;
 	String name;
-	
 
 	public Integer getId() {
 		return id;
@@ -28,7 +27,5 @@ public class PlaneMaker {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
 
 }

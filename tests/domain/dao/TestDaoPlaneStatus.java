@@ -12,6 +12,7 @@ public class TestDaoPlaneStatus {
 	private static final String ERROR_REMOVING = "Error removing one planeStatus from database";
 	private static final String ERROR_LOAD = "Error load all planeStatus from database";
 	private static final String ERROR_INSERT = "Error insert planeStatus into database";
+
 	@Test
 	public void testInsertPlaneStatusIntoDB() {
 		PlaneStatus planeStatus = new PlaneStatus();
@@ -23,10 +24,11 @@ public class TestDaoPlaneStatus {
 
 	@Test
 	public void testInsertPlaneStatusWithoutNameIntoDB() {
-		
+
 		boolean result = HibernateGeneric.insertObject(new PlaneStatus());
 		assertEquals(ERROR_INSERT, false, result);
 	}
+
 	@Test
 	public void testLoadAllStates() {
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new PlaneStatus()));

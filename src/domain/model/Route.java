@@ -16,13 +16,13 @@ public class Route {
 	@Id
 	@GeneratedValue
 	Integer id;
-	
+
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	Gate arrivalGate;
-	
+
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	Gate departureGate;
-	
+
 	@ManyToMany(mappedBy = "routesList")
 	Collection<Airline> airlineList = new ArrayList<Airline>();
 

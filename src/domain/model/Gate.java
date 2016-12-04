@@ -14,7 +14,7 @@ public class Gate {
 	private Integer number;
 
 	// TODO tagak jarri
-	@OneToOne 
+	@OneToOne
 	Node positionNode;
 
 	public Node getPositionNode() {

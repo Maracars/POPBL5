@@ -31,30 +31,8 @@ public class TestDaoLane {
 
 	@Test
 	public void testInsertLaneWithNodesIntoDB() {
-		Node startNode = new Node();
-		Node endNode = new Node();
-		List<Object> nodeList = null;
-		Lane lane = new Lane();
 
-		startNode.setName(NODE1_NAME);
-		startNode.setPositionX(POSITION1);
-		startNode.setPositionY(POSITION2);
-
-		HibernateGeneric.insertObject(startNode);
-
-		endNode.setName(NODE2_NAME);
-		endNode.setPositionX(POSITION2);
-		endNode.setPositionY(POSITION1);
-
-		HibernateGeneric.insertObject(endNode);
-
-		nodeList = HibernateGeneric.loadAllObjects(new Node());
-
-		lane.setName(LANE_NAME);
-		lane.setStartNode((Node) nodeList.get(0));
-		lane.setEndNode((Node) nodeList.get(1));
-
-		boolean result = HibernateGeneric.insertObject(lane);
+		boolean result = HibernateGeneric.insertObject(initCompleteLane());
 
 		assertEquals(INSERT_ERROR, true, result);
 	}
@@ -67,6 +45,13 @@ public class TestDaoLane {
 
 	@Test
 	public void testRemoveOneSpecificLane() {
+		Lane lane = initCompleteLane();
+		HibernateGeneric.insertObject(lane);
+		boolean result = HibernateGeneric.deleteObject(lane);
+		assertEquals(REMOVE_ERROR, true, result);
+	}
+
+	private Lane initCompleteLane() {
 		Node startNode = new Node();
 		Node endNode = new Node();
 		List<Object> nodeList = null;
@@ -90,9 +75,7 @@ public class TestDaoLane {
 		lane.setStartNode((Node) nodeList.get(0));
 		lane.setEndNode((Node) nodeList.get(1));
 
-		HibernateGeneric.insertObject(lane);
-		boolean result = HibernateGeneric.deleteObject(lane);
-		assertEquals(REMOVE_ERROR, true, result);
+		return lane;
 	}
 
 }

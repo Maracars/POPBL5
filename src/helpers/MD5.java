@@ -13,14 +13,15 @@ public class MD5 {
 	public static String encrypt(String input) {
 
 		String md5 = null;
+		String saltedInput = null;
 
 		if (null == input)
 			return null;
 
 		try {
-			input = input + SALT;
+			saltedInput = input + SALT;
 			MessageDigest digest = MessageDigest.getInstance("MD5");
-			digest.update(input.getBytes(), 0, input.length());
+			digest.update(saltedInput.getBytes(), 0, saltedInput.length());
 			md5 = new BigInteger(SIGNAL, digest.digest()).toString(BASE);
 
 		} catch (NoSuchAlgorithmException e) {

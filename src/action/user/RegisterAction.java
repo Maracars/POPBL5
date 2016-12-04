@@ -50,7 +50,8 @@ public class RegisterAction extends ActionSupport {
 			SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
 			try {
 				user.setBirthDate(df.parse(birthdate));
-				LocalDate birthdate = user.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				LocalDate birthdate = user.getBirthDate().toInstant()
+						.atZone(ZoneId.systemDefault()).toLocalDate();
 				if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
 					addFieldError(BIRTH_DATE, TOO_YOUNG);
 			} catch (ParseException e) {
@@ -67,10 +68,13 @@ public class RegisterAction extends ActionSupport {
 	public String execute() throws Exception {
 		type = User.PASSENGER;
 		switch (type) {
+		// TODO mas tipos
 		case User.PASSENGER:
 			user = new Passenger(user);
 			break;
-		// TODO mas tipos
+		case "default":
+			break;
+
 		}
 		String ret = HibernateGeneric.insertObject(user) ? SUCCESS : ERROR;
 		user = new User();

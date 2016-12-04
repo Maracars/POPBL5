@@ -25,16 +25,8 @@ public class TestDaoRoute {
 
 	@Test
 	public void testInsertRouteWithGatesIntoDB() {
-		Gate arrivalGate = new Gate();
-		arrivalGate.setNumber(GATENUM1);
-		Gate departureGate = new Gate();
-		departureGate.setNumber(GATENUM2);
-		Route route = new Route();
-		HibernateGeneric.insertObject(arrivalGate);
-		HibernateGeneric.insertObject(departureGate);
-		route.setArrivalGate(arrivalGate);
-		route.setDepartureGate(departureGate);
-		boolean result = HibernateGeneric.insertObject(route);
+
+		boolean result = HibernateGeneric.insertObject(initCompleteRoute());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -46,13 +38,28 @@ public class TestDaoRoute {
 
 	@Test
 	public void testRemoveOneSpecificRoute() {
-		Route route = new Route();
-		route.setId(1);
-		HibernateGeneric.insertObject(route);
+
+		HibernateGeneric.insertObject(initCompleteRoute());
 		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
-		boolean result = HibernateGeneric.deleteObject(
-				(Route) HibernateGeneric.loadAllObjects(new Route()).get(0));
+		boolean result = HibernateGeneric.deleteObject((Route) HibernateGeneric.loadAllObjects(new Route()).get(0));
 		assertEquals(REMOVE_ERROR, true, result);
+	}
+
+	private Route initCompleteRoute() {
+		Gate arrivalGate = new Gate();
+		arrivalGate.setNumber(GATENUM1);
+		HibernateGeneric.insertObject(arrivalGate);
+
+		Gate departureGate = new Gate();
+		departureGate.setNumber(GATENUM2);
+		HibernateGeneric.insertObject(departureGate);
+
+		Route route = new Route();
+		route.setArrivalGate(arrivalGate);
+		route.setDepartureGate(departureGate);
+
+		return route;
+
 	}
 
 }

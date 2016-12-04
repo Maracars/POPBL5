@@ -16,7 +16,6 @@ public class LoginAction extends ActionSupport {
 	private String username;
 	private String password;
 
-
 	@Override
 	public void validate() {
 		if (username == null || username.isEmpty()) {

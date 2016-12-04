@@ -18,11 +18,8 @@ public class TestDaoNode {
 
 	@Test
 	public void testInsertNodeIntoDB() {
-		Node node = new Node();
-		node.setName(NODE_NAME);
-		node.setPositionX(POSITION_X);
-		node.setPositionY(POSITION_Y);
-		boolean result = HibernateGeneric.insertObject(node);
+
+		boolean result = HibernateGeneric.insertObject(initCompleteNode());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -34,11 +31,18 @@ public class TestDaoNode {
 
 	@Test
 	public void testRemoveOneSpecificnode() {
-		Node node = new Node();
-		node.setId(1);
+		Node node = initCompleteNode();
 		HibernateGeneric.insertObject(node);
 		boolean result = HibernateGeneric.deleteObject(node);
 		assertEquals(ERROR_REMOVING, true, result);
+	}
+
+	private Node initCompleteNode() {
+		Node node = new Node();
+		node.setName(NODE_NAME);
+		node.setPositionX(POSITION_X);
+		node.setPositionY(POSITION_Y);
+		return node;
 	}
 
 }

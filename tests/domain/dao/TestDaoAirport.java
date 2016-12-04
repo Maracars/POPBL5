@@ -59,7 +59,28 @@ public class TestDaoAirport {
 
 	@Test
 	public void testInsertAirportWithTerminalAndWithCityIntoDB() {
-		Airport airport = new Airport();
+
+		boolean result = HibernateGeneric.insertObject(initCompleteAirport());
+		assertEquals(INSERT_ERROR, true, result);
+	}
+
+	@Test
+	public void testLoadAllAirports() {
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Airport()));
+
+	}
+
+	@Test
+	public void testRemoveOneSpecificAirport() {
+
+		HibernateGeneric.insertObject(initCompleteAirport());
+		Airport a = (Airport) HibernateGeneric.loadAllObjects(new Airport()).get(0);
+		boolean result = HibernateGeneric.deleteObject(a);
+
+		assertEquals(REMOVE_ERROR, true, result);
+	}
+
+	private Airport initCompleteAirport() {
 
 		Terminal terminal = new Terminal();
 		terminal.setName(T1);
@@ -75,32 +96,14 @@ public class TestDaoAirport {
 
 		Collection<Terminal> terminalList = new ArrayList<>();
 		terminalList.add(terminal);
+
+		Airport airport = new Airport();
 		airport.setTerminalList(terminalList);
 		airport.setName(HEATHROW);
 		airport.setCity(city);
 		airport.setMaxFlights(MAX_FLIGHTS);
-		boolean result = HibernateGeneric.insertObject(airport);
-		assertEquals(INSERT_ERROR, true, result);
+
+		return airport;
 	}
-
-	@Test
-	public void testLoadAllAirports() {
-		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Airport()));
-
-	}
-
-
-	@Test
-	public void testRemoveOneSpecificAirport() {
-		Airport airport = new Airport();
-		airport.setId(1);
-		HibernateGeneric.insertObject(airport);
-		Airport a = (Airport) HibernateGeneric.loadAllObjects(new Airport()).get(0);
-		boolean result = HibernateGeneric.deleteObject(a);
-
-		assertEquals(REMOVE_ERROR, true, result);
-	}
-
-
 
 }

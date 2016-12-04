@@ -13,8 +13,8 @@ public class PlaneModel {
 	private Integer id;
 	private String name;
 
-	@ManyToOne(optional = false) 
-	//@Cascade(value=CascadeType.DELETE) Hau nunbaitt jarri bihar da, 
+	@ManyToOne(optional = false)
+	// @Cascade(value=CascadeType.DELETE) Hau nunbaitt jarri bihar da,
 	private PlaneMaker planeMaker;
 
 	public Integer getId() {

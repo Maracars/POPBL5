@@ -25,8 +25,6 @@ public class TestDaoGate {
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
-
-
 	@Ignore
 	public void testLoadAllGatesFromOneSpecificTerminal() {
 		int terminalId = 1;
@@ -40,11 +38,8 @@ public class TestDaoGate {
 		Gate gate = new Gate();
 		gate.setId(1);
 		HibernateGeneric.insertObject(gate);
-		boolean result = HibernateGeneric.deleteObject(
-				(Gate) HibernateGeneric.loadAllObjects(new Gate()).get(0));
+		boolean result = HibernateGeneric.deleteObject((Gate) HibernateGeneric.loadAllObjects(new Gate()).get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
-
-
 
 }

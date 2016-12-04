@@ -21,6 +21,8 @@ import domain.model.User;
 
 public class TestDaoPlane {
 
+	private static final int GATE_NUM = 99;
+	private static final double NODE_POS = 6.6666;
 	private static final String SERIAL = "SSSS";
 	private static final String USERNAME = "Luffy";
 	private static final String PASSWORD = "1234";
@@ -33,49 +35,8 @@ public class TestDaoPlane {
 	public void testInsertPlaneWithEverythingIntoDB() {
 		// Hau lehenengua ingot berez ezin dalako airline bat delete ein foreign
 		// key bat baldin badauka plane batek
-		deleteAllPlanes();
 
-		Node positionNode = new Node();
-		positionNode.setPositionX(6.6666);
-		positionNode.setPositionY(6.666);
-		HibernateGeneric.insertObject(positionNode);
-
-		Gate gate = new Gate();
-		gate.setPositionNode(positionNode);
-		gate.setNumber(99);
-		HibernateGeneric.insertObject(gate);
-
-		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
-		HibernateGeneric.insertObject(route);
-
-		Collection<Route> routesList = new ArrayList<Route>();
-		routesList.add(route);
-
-		Airline airline = new Airline();
-		airline.setBirthDate(new Date());
-		airline.setName(LUFTHANSA);
-		airline.setPassword(PASSWORD);
-		airline.setUsername(USERNAME);
-		airline.setRoutesList(routesList);
-		deleteAllUsers();
-		HibernateGeneric.insertObject(airline);
-
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
-		HibernateGeneric.insertObject(planeMaker);
-
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setPlaneMaker(planeMaker);
-		HibernateGeneric.insertObject(planeModel);
-
-		Plane plane = new Plane();
-		plane.setAirline(airline);
-		plane.setFabricationDate(new Date());
-		plane.setModel(planeModel);
-		plane.setSerial(SERIAL);
-		boolean result = HibernateGeneric.insertObject(plane);
+		boolean result = HibernateGeneric.insertObject(initCompletePlane());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -86,13 +47,13 @@ public class TestDaoPlane {
 		deleteAllPlanes();
 
 		Node positionNode = new Node();
-		positionNode.setPositionX(6.6666);
-		positionNode.setPositionY(6.666);
+		positionNode.setPositionX(NODE_POS);
+		positionNode.setPositionY(NODE_POS);
 		HibernateGeneric.insertObject(positionNode);
 
 		Gate gate = new Gate();
 		gate.setPositionNode(positionNode);
-		gate.setNumber(99);
+		gate.setNumber(GATE_NUM);
 		HibernateGeneric.insertObject(gate);
 
 		Route route = new Route();
@@ -127,13 +88,13 @@ public class TestDaoPlane {
 		deleteAllPlanes();
 
 		Node positionNode = new Node();
-		positionNode.setPositionX(6.6666);
-		positionNode.setPositionY(6.666);
+		positionNode.setPositionX(NODE_POS);
+		positionNode.setPositionY(NODE_POS);
 		HibernateGeneric.insertObject(positionNode);
 
 		Gate gate = new Gate();
 		gate.setPositionNode(positionNode);
-		gate.setNumber(99);
+		gate.setNumber(GATE_NUM);
 		HibernateGeneric.insertObject(gate);
 
 		Route route = new Route();
@@ -192,6 +153,54 @@ public class TestDaoPlane {
 	public void testLoadAllPlanes() {
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Plane()));
 
+	}
+
+	private Plane initCompletePlane() {
+
+		deleteAllPlanes();
+
+		Node positionNode = new Node();
+		positionNode.setPositionX(NODE_POS);
+		positionNode.setPositionY(NODE_POS);
+		HibernateGeneric.insertObject(positionNode);
+
+		Gate gate = new Gate();
+		gate.setPositionNode(positionNode);
+		gate.setNumber(GATE_NUM);
+		HibernateGeneric.insertObject(gate);
+
+		Route route = new Route();
+		route.setArrivalGate(gate);
+		route.setDepartureGate(gate);
+		HibernateGeneric.insertObject(route);
+
+		Collection<Route> routesList = new ArrayList<Route>();
+		routesList.add(route);
+
+		Airline airline = new Airline();
+		airline.setBirthDate(new Date());
+		airline.setName(LUFTHANSA);
+		airline.setPassword(PASSWORD);
+		airline.setUsername(USERNAME);
+		airline.setRoutesList(routesList);
+		deleteAllUsers();
+		HibernateGeneric.insertObject(airline);
+
+		PlaneMaker planeMaker = new PlaneMaker();
+		planeMaker.setName(BOEING);
+		HibernateGeneric.insertObject(planeMaker);
+
+		PlaneModel planeModel = new PlaneModel();
+		planeModel.setPlaneMaker(planeMaker);
+		HibernateGeneric.insertObject(planeModel);
+
+		Plane plane = new Plane();
+		plane.setAirline(airline);
+		plane.setFabricationDate(new Date());
+		plane.setModel(planeModel);
+		plane.setSerial(SERIAL);
+
+		return plane;
 	}
 
 	/* For testing, delete all users */

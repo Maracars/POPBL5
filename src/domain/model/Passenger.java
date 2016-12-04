@@ -5,9 +5,8 @@ import javax.persistence.Entity;
 @Entity
 public class Passenger extends User {
 
-	
 	// TODO kanpuak finkatzeko
-	
+
 	public Passenger() {
 		super();
 	}

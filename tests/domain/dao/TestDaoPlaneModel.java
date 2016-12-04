@@ -26,13 +26,8 @@ public class TestDaoPlaneModel {
 
 	@Test
 	public void testInsertPlaneModelWithPlaneMakerIntoDB() {
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setName(SERIAL);
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
-		HibernateGeneric.insertObject(planeMaker);
-		planeModel.setPlaneMaker(planeMaker);
-		boolean result = HibernateGeneric.insertObject(planeModel);
+
+		boolean result = HibernateGeneric.insertObject(initCompletePlaneModel());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -44,14 +39,19 @@ public class TestDaoPlaneModel {
 
 	@Test
 	public void testRemoveOneSpecificPlaneModel() {
+
+		boolean result = HibernateGeneric.deleteObject(initCompletePlaneModel());
+		assertEquals(ERROR_REMOVING, true, result);
+	}
+
+	private PlaneModel initCompletePlaneModel() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setName(SERIAL);
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setName(BOEING);
 		HibernateGeneric.insertObject(planeMaker);
 		planeModel.setPlaneMaker(planeMaker);
-		boolean result = HibernateGeneric.deleteObject(planeModel);
-		assertEquals(ERROR_REMOVING, true, result);
+		return planeModel;
 	}
 
 }

@@ -13,13 +13,13 @@ public class Node {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	
+
 	@Column(nullable = false)
 	private double positionX;
-	
+
 	@Column(nullable = false)
 	private double positionY;
-	
+
 	private String name;
 
 	public Integer getId() {
@@ -29,7 +29,6 @@ public class Node {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	public void setPositionX(double positionX2) {
 		this.positionX = positionX2;
