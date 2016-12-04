@@ -59,7 +59,8 @@ public class TestDaoDelay {
 	public void testRemoveOneSpecificDelay() {
 
 		HibernateGeneric.insertObject(initCompleteDelay());
-		boolean result = HibernateGeneric.deleteObject((Delay) HibernateGeneric.loadAllObjects(new Delay()).get(0));
+		boolean result = HibernateGeneric.deleteObject(
+				(Delay) HibernateGeneric.loadAllObjects(new Delay()).get(0));
 
 		assertEquals(REMOVE_ERROR, true, result);
 	}

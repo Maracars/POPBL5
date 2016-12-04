@@ -33,8 +33,7 @@ public class TestDaoState {
 		state.setId(1);
 
 		HibernateGeneric.insertObject(state);
-		State s = (State) HibernateGeneric.loadAllObjects(new State()).get(0);
-		boolean result = HibernateGeneric.deleteObject(s);
+		boolean result = HibernateGeneric.deleteObject(state);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

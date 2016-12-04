@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import domain.model.Airline;
+import domain.model.Delay;
 import domain.model.Flight;
 import domain.model.Gate;
 import domain.model.Node;
@@ -66,6 +67,7 @@ public class TestDaoAirline {
 
 	private Airline initCompleteAirline() {
 
+		deleteAllDelays();
 		deleteAllFlights();
 		deleteAllPlanes();
 		deleteAllUsers();
@@ -127,6 +129,12 @@ public class TestDaoAirline {
 		List<Object> listPlanes = HibernateGeneric.loadAllObjects(new Plane());
 		for (Object plane : listPlanes) {
 			HibernateGeneric.deleteObject((Plane) plane);
+		}
+	}
+	private void deleteAllDelays() {
+		List<Object> listDelays = HibernateGeneric.loadAllObjects(new Delay());
+		for (Object delay : listDelays) {
+			HibernateGeneric.deleteObject((Delay) delay);
 		}
 	}
 
