@@ -1,11 +1,16 @@
 package domain.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
+import domain.model.Airline;
+import domain.model.Lane;
+import domain.model.Plane;
+import domain.model.Route;
 import domain.model.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;
@@ -72,6 +77,46 @@ public class HibernateGeneric {
 		}
 
 		return objectList;
+	}
+
+	public static Route selectRandomArrivalRoute() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Plane getFreePlane() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Route selectDepartureRouteFromAirline(Airline airline) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ArrayList<Plane> getArrivingPlanesSoon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ArrayList<Plane> getDeparturingPlanesSoon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ArrayList<Lane> getFreeLanes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Plane selectPlaneNeedToRevise() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static void revisePlane(Plane planeToRevise) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
