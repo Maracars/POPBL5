@@ -57,10 +57,10 @@ public class FlightCreator implements Runnable {
 		}
 	}
 
-	private void assignRouteInSpecificTime(Route route, Plane plane, boolean mode) { // true
-																						// arrive
-																						// false
-																						// departure
+	private void assignRouteInSpecificTime(Route route, Plane plane, boolean mode) { 
+		// true
+		// arrive
+		// departure
 		Date date = selectDate(mode);// select date
 		Flight flight = createFlight(route, plane, date);
 		HibernateGeneric.insertObject(flight);

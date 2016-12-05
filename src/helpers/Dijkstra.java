@@ -33,7 +33,8 @@ public class Dijkstra {
 	}
 
 	static class Edge {
-		int t, cost;
+		int t;
+		int cost;
 
 		public Edge(int t, int cost) {
 			this.t = t;
@@ -43,7 +44,7 @@ public class Dijkstra {
 
 	// Usage example
 	public static void main(String[] args) {
-		int[][] cost = {{0, 3, 2}, {0, 0, -2}, {0, 0, 0}};
+		int[][] cost = { { 0, 3, 2 }, { 0, 0, -2 }, { 0, 0, 0 } };
 		int n = cost.length;
 		@SuppressWarnings("unchecked")
 		List<Edge>[] graph = Stream.generate(ArrayList::new).limit(n).toArray(List[]::new);
@@ -57,11 +58,6 @@ public class Dijkstra {
 		int[] dist = new int[n];
 		int[] pred = new int[n];
 		shortestPaths(graph, 0, dist, pred);
-		System.out.println(0 == dist[0]);
-		System.out.println(3 == dist[1]);
-		System.out.println(1 == dist[2]);
-		System.out.println(-1 == pred[0]);
-		System.out.println(0 == pred[1]);
-		System.out.println(1 == pred[2]);
+
 	}
 }

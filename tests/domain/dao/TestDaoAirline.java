@@ -16,6 +16,7 @@ import domain.model.Flight;
 import domain.model.Gate;
 import domain.model.Node;
 import domain.model.Plane;
+import domain.model.PlaneMovement;
 import domain.model.Route;
 import domain.model.User;
 
@@ -39,6 +40,7 @@ public class TestDaoAirline {
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
 		deleteAllUsers();
+
 		boolean result = HibernateGeneric.insertObject(airline);
 		assertEquals(INSERT_ERROR, true, result);
 	}
@@ -66,7 +68,7 @@ public class TestDaoAirline {
 	}
 
 	private Airline initCompleteAirline() {
-
+		deleteAllPlaneMovements();
 		deleteAllDelays();
 		deleteAllFlights();
 		deleteAllPlanes();
@@ -106,16 +108,9 @@ public class TestDaoAirline {
 		airline.setPassword(PASSWORD);
 		airline.setBirthDate(new Date());
 		airline.setRoutesList(routeList);
+		DAOUser.deleteUserWithUsername(airline);
 
 		return airline;
-	}
-
-	/* For testing, delete all users */
-	private void deleteAllUsers() {
-		List<Object> listUsers = HibernateGeneric.loadAllObjects(new User());
-		for (Object user : listUsers) {
-			HibernateGeneric.deleteObject((User) user);
-		}
 	}
 
 	private void deleteAllFlights() {
@@ -125,16 +120,31 @@ public class TestDaoAirline {
 		}
 	}
 
+	private void deleteAllUsers() {
+		List<Object> listUser = HibernateGeneric.loadAllObjects(new User());
+		for (Object user : listUser) {
+			HibernateGeneric.deleteObject((User) user);
+		}
+	}
+
 	private void deleteAllPlanes() {
 		List<Object> listPlanes = HibernateGeneric.loadAllObjects(new Plane());
 		for (Object plane : listPlanes) {
 			HibernateGeneric.deleteObject((Plane) plane);
 		}
 	}
+
 	private void deleteAllDelays() {
 		List<Object> listDelays = HibernateGeneric.loadAllObjects(new Delay());
 		for (Object delay : listDelays) {
 			HibernateGeneric.deleteObject((Delay) delay);
+		}
+	}
+
+	private void deleteAllPlaneMovements() {
+		List<Object> planeMovementList = HibernateGeneric.loadAllObjects(new PlaneMovement());
+		for (Object planeMovements : planeMovementList) {
+			HibernateGeneric.deleteObject((PlaneMovement) planeMovements);
 		}
 	}
 

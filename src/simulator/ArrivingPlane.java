@@ -15,7 +15,7 @@ public class ArrivingPlane extends PlaneThread {
 	@Override
 	public void run() {
 		moveToAirport();
-		if (controller.askPermission(this) != true) {
+		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
 			// run?
 			try {

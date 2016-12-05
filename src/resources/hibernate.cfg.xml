@@ -33,7 +33,7 @@
 		<mapping class="domain.model.PlaneMaker" />
 		<mapping class="domain.model.PlaneModel" />
 
-		<!--<mapping class="domain.model.PlaneMovement"/> -->
+		<mapping class="domain.model.PlaneMovement"/>
 		<mapping class="domain.model.PlaneStatus"/>
 		<mapping class="domain.model.Route" />
 		<mapping class="domain.model.State" />

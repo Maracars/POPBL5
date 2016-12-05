@@ -17,7 +17,7 @@ public class Lane {
 
 	private String name;
 
-	private boolean status;
+	private Boolean status;
 
 	@ManyToOne(optional = false)
 	private Node startNode;
@@ -25,7 +25,6 @@ public class Lane {
 	@ManyToOne(optional = false)
 	private Node endNode;
 
-	// konprobau behar da ia benetan ez dauen sortuten
 	@Transient
 	private Semaphore semaphore;
 
@@ -61,11 +60,11 @@ public class Lane {
 		this.endNode = endNode;
 	}
 
-	public boolean isFree() {
+	public Boolean isFree() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 

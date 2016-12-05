@@ -58,7 +58,7 @@ public class TestDaoUser {
 		user.setUsername(USERNAME);
 		user.setBirthDate(new Date());
 		user.setPassword(MD5.encrypt(PASSWORD));
-		deleteAllUsers();
+		DAOUser.deleteUserWithUsername(user);
 		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, true, result);
 
@@ -73,19 +73,12 @@ public class TestDaoUser {
 		deleteAllDelays();
 		deleteAllFlights();
 		deleteAllPlanes();
-		deleteAllUsers();
-		HibernateGeneric.insertObject(user);
-		boolean result = HibernateGeneric.deleteObject(
-				(User) HibernateGeneric.loadAllObjects(new User()).get(0));
-		assertEquals(ERROR_REMOVING, true, result);
-	}
+		DAOUser.deleteUserWithUsername(user);
 
-	/* For testing, delete all users */
-	private void deleteAllUsers() {
-		List<Object> listUsers = HibernateGeneric.loadAllObjects(new User());
-		for (Object user : listUsers) {
-			HibernateGeneric.deleteObject((User) user);
-		}
+		HibernateGeneric.insertObject(user);
+
+		boolean result = DAOUser.deleteUserWithUsername(user);
+		assertEquals(ERROR_REMOVING, true, result);
 	}
 
 	private void deleteAllFlights() {
