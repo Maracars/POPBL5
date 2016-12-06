@@ -14,12 +14,10 @@ public class TestDaoPlaneModel {
 	private static final String ERROR_REMOVING = "Error removing one plane maker from database";
 	private static final String ERROR_LOAD = "Error load all plane makers from database";
 	private static final String ERROR_INSERT = "Error insert plane maker into database";
-	private static final String BOEING = "Boeing";
 
 	@Test
 	public void testInsertPlaneModelWithoutPlaneMakerIntoDB() {
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setName(SERIAL);
+		PlaneModel planeModel = initPlaneModel();
 		boolean result = HibernateGeneric.insertObject(planeModel);
 		assertEquals(ERROR_INSERT, false, result);
 	}
@@ -45,11 +43,22 @@ public class TestDaoPlaneModel {
 	}
 
 	private PlaneModel initCompletePlaneModel() {
+
+		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
+		HibernateGeneric.insertObject(planeMaker);
+
+		PlaneModel planeModel = initPlaneModel(planeMaker);
+		return planeModel;
+	}
+
+	public static PlaneModel initPlaneModel() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setName(SERIAL);
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
-		HibernateGeneric.insertObject(planeMaker);
+		return planeModel;
+	}
+
+	public static PlaneModel initPlaneModel(PlaneMaker planeMaker) {
+		PlaneModel planeModel = initPlaneModel();
 		planeModel.setPlaneMaker(planeMaker);
 		return planeModel;
 	}

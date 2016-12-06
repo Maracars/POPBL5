@@ -15,8 +15,7 @@ public class TestDaoState {
 
 	@Test
 	public void testInsertStateIntoDB() {
-		State state = new State();
-		state.setName(EUSKAL_HERRIA);
+		State state = initState();
 		boolean result = HibernateGeneric.insertObject(state);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -29,12 +28,16 @@ public class TestDaoState {
 
 	@Test
 	public void testRemoveOneSpecificState() {
-		State state = new State();
-		state.setId(1);
-
+		State state = initState();
 		HibernateGeneric.insertObject(state);
 		boolean result = HibernateGeneric.deleteObject(state);
 		assertEquals(ERROR_REMOVING, true, result);
+	}
+
+	public static State initState() {
+		State state = new State();
+		state.setName(EUSKAL_HERRIA);
+		return state;
 	}
 
 }

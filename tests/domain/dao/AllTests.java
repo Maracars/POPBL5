@@ -10,7 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		TestDaoState.class, TestDaoTerminal.class, TestDaoUser.class,
 		TestDaoNode.class, TestDaoPlaneModel.class, TestDaoLane.class, TestDaoAirline.class,
 		TestHibernateGeneric.class, TestDaoPlane.class, TestDaoDelay.class,
-		TestDaoFlight.class, TestDaoPlaneMovements.class})
+		TestDaoFlight.class, TestDaoPlaneMovements.class, TestDaoPassenger.class})
 
 public class AllTests {
 

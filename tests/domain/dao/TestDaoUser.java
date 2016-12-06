@@ -11,7 +11,6 @@ import domain.model.Delay;
 import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.User;
-import helpers.MD5;
 
 public class TestDaoUser {
 
@@ -22,9 +21,7 @@ public class TestDaoUser {
 
 	@Test
 	public void testInsertUserWithoutBirthDateAndWithUsernameAndWithPasswordIntoDB() {
-		User user = new User();
-		user.setPassword(MD5.encrypt(PASSWORD));
-		user.setUsername(USERNAME);
+		User user = initUser(USERNAME, PASSWORD);
 		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 	}
@@ -32,9 +29,7 @@ public class TestDaoUser {
 	@Test
 	public void testInsertUserWithoutPasswordWithBirthDateAndAndWithUsernameIntoDB() {
 
-		User user = new User();
-		user.setUsername(USERNAME);
-		user.setBirthDate(new Date());
+		User user = initUser(USERNAME, new Date());
 		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
@@ -43,9 +38,7 @@ public class TestDaoUser {
 	@Test
 	public void testInsertUserWithoutUsernameWithBirthDateAndAndWithPasswordIntoDB() {
 
-		User user = new User();
-		user.setPassword(MD5.encrypt(PASSWORD));
-		user.setBirthDate(new Date());
+		User user = initUser(new Date(), PASSWORD);
 		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
@@ -54,10 +47,7 @@ public class TestDaoUser {
 	@Test
 	public void testInsertUserWithUsernameWithBirthDateAndAndWithPasswordIntoDB() {
 
-		User user = new User();
-		user.setUsername(USERNAME);
-		user.setBirthDate(new Date());
-		user.setPassword(MD5.encrypt(PASSWORD));
+		User user = initUser(USERNAME, PASSWORD, new Date());
 		DAOUser.deleteUserWithUsername(user);
 		boolean result = HibernateGeneric.insertObject(user);
 		assertEquals(ERROR_INSERT, true, result);
@@ -66,19 +56,46 @@ public class TestDaoUser {
 
 	@Test
 	public void testRemoveOneSpecificUser() {
-		User user = new User();
-		user.setUsername(USERNAME);
-		user.setPassword(PASSWORD);
-		user.setBirthDate(new Date());
+
 		deleteAllDelays();
 		deleteAllFlights();
 		deleteAllPlanes();
+		User user = initUser(USERNAME, PASSWORD, new Date());
 		DAOUser.deleteUserWithUsername(user);
 
 		HibernateGeneric.insertObject(user);
 
 		boolean result = DAOUser.deleteUserWithUsername(user);
 		assertEquals(ERROR_REMOVING, true, result);
+	}
+
+	public static User initUser(String username, String password, Date date) {
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setBirthDate(date);
+		return user;
+	}
+
+	public static User initUser(Date date, String password) {
+		User user = new User();
+		user.setPassword(password);
+		user.setBirthDate(date);
+		return user;
+	}
+
+	public static User initUser(String username, Date date) {
+		User user = new User();
+		user.setUsername(username);
+		user.setBirthDate(date);
+		return user;
+	}
+
+	public static User initUser(String username, String password) {
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		return user;
 	}
 
 	private void deleteAllFlights() {

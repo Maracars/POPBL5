@@ -3,8 +3,6 @@ package domain.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import domain.model.Lane;
@@ -16,16 +14,10 @@ public class TestDaoLane {
 	private static final String INSERT_ERROR = "Error insert lane into database";
 	private static final String REMOVE_ERROR = "Error removing one lane from database";
 	private static final String LANE_NAME = "Principal lane";
-	private static final String NODE1_NAME = "Node A";
-	private static final String NODE2_NAME = "Node B";
-	private static final double POSITION1 = 1.1;
-	private static final double POSITION2 = 2.2;
 
 	@Test
 	public void testInsertLaneWithoutIntoDB() {
-		Lane lane = new Lane();
-		lane.setName(LANE_NAME);
-		boolean result = HibernateGeneric.insertObject(lane);
+		boolean result = HibernateGeneric.insertObject(initLane());
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
@@ -52,30 +44,28 @@ public class TestDaoLane {
 	}
 
 	private Lane initCompleteLane() {
-		Node startNode = new Node();
-		Node endNode = new Node();
-		List<Object> nodeList = null;
-		Lane lane = new Lane();
-
-		startNode.setName(NODE1_NAME);
-		startNode.setPositionX(POSITION1);
-		startNode.setPositionY(POSITION2);
-
+		Node startNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(startNode);
 
-		endNode.setName(NODE2_NAME);
-		endNode.setPositionX(POSITION2);
-		endNode.setPositionY(POSITION1);
-
+		Node endNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(endNode);
 
-		nodeList = HibernateGeneric.loadAllObjects(new Node());
+		return initLane(startNode, endNode);
+	}
 
+	public static Lane initLane() {
+		Lane lane = new Lane();
 		lane.setName(LANE_NAME);
-		lane.setStartNode((Node) nodeList.get(0));
-		lane.setEndNode((Node) nodeList.get(1));
-
 		return lane;
+
+	}
+
+	public static Lane initLane(Node node1, Node node2) {
+		Lane lane = initLane();
+		lane.setEndNode(node1);
+		lane.setStartNode(node2);
+		return lane;
+
 	}
 
 }

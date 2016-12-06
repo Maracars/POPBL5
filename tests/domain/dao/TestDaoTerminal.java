@@ -20,8 +20,7 @@ public class TestDaoTerminal {
 
 	@Test
 	public void testInsertTerminalWithoutGatesIntoDB() {
-		Terminal terminal = new Terminal();
-		terminal.setName(TERMINAL_NAME);
+		Terminal terminal = initTerminal();
 		boolean result = HibernateGeneric.insertObject(terminal);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -36,15 +35,21 @@ public class TestDaoTerminal {
 
 	@Test
 	public void testRemoveOneSpecificTerminal() {
-		Terminal terminal = new Terminal();
-		terminal.setId(1);
+		Terminal terminal = initTerminal();
 
 		HibernateGeneric.insertObject(terminal);
 
-		Terminal t = (Terminal) HibernateGeneric.loadAllObjects(new Terminal()).get(0);
-		boolean result = HibernateGeneric.deleteObject(t);
+		terminal = (Terminal) HibernateGeneric.loadAllObjects(new Terminal()).get(0);
+		boolean result = HibernateGeneric.deleteObject(terminal);
 		// aukeran Terminal bidaldu edo terminalId
 		assertEquals(ERROR_REMOVING, true, result);
+	}
+
+	public static Terminal initTerminal() {
+		Terminal terminal = new Terminal();
+		terminal.setName(TERMINAL_NAME);
+		return terminal;
+
 	}
 
 }

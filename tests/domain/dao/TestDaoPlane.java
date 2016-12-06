@@ -21,15 +21,9 @@ import domain.model.User;
 
 public class TestDaoPlane {
 
-	private static final int GATE_NUM = 99;
-	private static final double NODE_POS = 6.6666;
 	private static final String SERIAL = "SSSS";
-	private static final String USERNAME = "Luffy";
-	private static final String PASSWORD = "1234";
-	private static final String LUFTHANSA = "Lufthansa";
 	private static final String ERROR_LOAD = "Error load all plane makers from database";
 	private static final String ERROR_INSERT = "Error insert plane maker into database";
-	private static final String BOEING = "Boeing";
 
 	@Test
 	public void testInsertPlaneWithEverythingIntoDB() {
@@ -46,37 +40,23 @@ public class TestDaoPlane {
 		// key bat baldin badauka plane batek
 		deleteAllPlanes();
 
-		Node positionNode = new Node();
-		positionNode.setPositionX(NODE_POS);
-		positionNode.setPositionY(NODE_POS);
+		Node positionNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(positionNode);
 
-		Gate gate = new Gate();
-		gate.setPositionNode(positionNode);
-		gate.setNumber(GATE_NUM);
+		Gate gate = TestDaoGate.initGate(positionNode);
 		HibernateGeneric.insertObject(gate);
 
-		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
+		Route route = TestDaoRoute.initRoute(gate, gate);
 		HibernateGeneric.insertObject(route);
 
 		Collection<Route> routesList = new ArrayList<Route>();
 		routesList.add(route);
 
-		Airline airline = new Airline();
-		airline.setBirthDate(new Date());
-		airline.setName(LUFTHANSA);
-		airline.setPassword(PASSWORD);
-		airline.setUsername(USERNAME);
-		airline.setRoutesList(routesList);
+		Airline airline = TestDaoAirline.initAirline(routesList);
 		deleteAllUsers();
 		HibernateGeneric.insertObject(airline);
 
-		Plane plane = new Plane();
-		plane.setAirline(airline);
-		plane.setFabricationDate(new Date());
-		plane.setSerial(SERIAL);
+		Plane plane = initPlane(airline, new Date());
 		boolean result = HibernateGeneric.insertObject(plane);
 		assertEquals(ERROR_INSERT, false, result);
 	}
@@ -87,45 +67,29 @@ public class TestDaoPlane {
 		// key bat baldin badauka plane batek
 		deleteAllPlanes();
 
-		Node positionNode = new Node();
-		positionNode.setPositionX(NODE_POS);
-		positionNode.setPositionY(NODE_POS);
+		Node positionNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(positionNode);
 
-		Gate gate = new Gate();
-		gate.setPositionNode(positionNode);
-		gate.setNumber(GATE_NUM);
+		Gate gate = TestDaoGate.initGate(positionNode);
 		HibernateGeneric.insertObject(gate);
 
-		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
+		Route route = TestDaoRoute.initRoute(gate, gate);
 		HibernateGeneric.insertObject(route);
 
 		Collection<Route> routesList = new ArrayList<Route>();
 		routesList.add(route);
 
-		Airline airline = new Airline();
-		airline.setBirthDate(new Date());
-		airline.setName(LUFTHANSA);
-		airline.setPassword(PASSWORD);
-		airline.setUsername(USERNAME);
-		airline.setRoutesList(routesList);
+		Airline airline = TestDaoAirline.initAirline(routesList);
 		deleteAllUsers();
 		HibernateGeneric.insertObject(airline);
 
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
+		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
 		HibernateGeneric.insertObject(planeMaker);
 
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setPlaneMaker(planeMaker);
+		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
 		HibernateGeneric.insertObject(planeModel);
 
-		Plane plane = new Plane();
-		plane.setAirline(airline);
-		plane.setModel(planeModel);
-		plane.setSerial(SERIAL);
+		Plane plane = initPlane(airline, planeModel);
 		boolean result = HibernateGeneric.insertObject(plane);
 		assertEquals(ERROR_INSERT, false, result);
 	}
@@ -133,18 +97,13 @@ public class TestDaoPlane {
 	@Test
 	public void testInsertPlaneWithoutAirlineIntoDB() {
 
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
+		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
 		HibernateGeneric.insertObject(planeMaker);
 
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setPlaneMaker(planeMaker);
+		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
 		HibernateGeneric.insertObject(planeModel);
 
-		Plane plane = new Plane();
-		plane.setModel(planeModel);
-		plane.setFabricationDate(new Date());
-		plane.setSerial(SERIAL);
+		Plane plane = initPlane(planeModel, new Date());
 		boolean result = HibernateGeneric.insertObject(plane);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -159,48 +118,70 @@ public class TestDaoPlane {
 
 		deleteAllPlanes();
 
-		Node positionNode = new Node();
-		positionNode.setPositionX(NODE_POS);
-		positionNode.setPositionY(NODE_POS);
+		Node positionNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(positionNode);
 
-		Gate gate = new Gate();
-		gate.setPositionNode(positionNode);
-		gate.setNumber(GATE_NUM);
+		Gate gate = TestDaoGate.initGate(positionNode);
 		HibernateGeneric.insertObject(gate);
 
-		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
+		Route route = TestDaoRoute.initRoute(gate, gate);
 		HibernateGeneric.insertObject(route);
 
 		Collection<Route> routesList = new ArrayList<Route>();
 		routesList.add(route);
 
-		Airline airline = new Airline();
-		airline.setBirthDate(new Date());
-		airline.setName(LUFTHANSA);
-		airline.setPassword(PASSWORD);
-		airline.setUsername(USERNAME);
-		airline.setRoutesList(routesList);
+		Airline airline = TestDaoAirline.initAirline(routesList);
 		deleteAllUsers();
 		HibernateGeneric.insertObject(airline);
 
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
+		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
 		HibernateGeneric.insertObject(planeMaker);
 
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setPlaneMaker(planeMaker);
+		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
 		HibernateGeneric.insertObject(planeModel);
 
+		return initPlane(airline, planeModel, new Date());
+	}
+
+	public static Plane initPlane() {
 		Plane plane = new Plane();
-		plane.setAirline(airline);
-		plane.setFabricationDate(new Date());
-		plane.setModel(planeModel);
 		plane.setSerial(SERIAL);
+		return plane;
+
+	}
+
+	public static Plane initPlane(Airline airline, PlaneModel planeModel, Date date) {
+		Plane plane = initPlane();
+		plane.setAirline(airline);
+		plane.setModel(planeModel);
+		plane.setFabricationDate(date);
 
 		return plane;
+
+	}
+
+	public static Plane initPlane(Airline airline, Date date) {
+		Plane plane = initPlane();
+		plane.setAirline(airline);
+		plane.setFabricationDate(date);
+
+		return plane;
+
+	}
+
+	public static Plane initPlane(PlaneModel planeModel, Date date) {
+		Plane plane = initPlane();
+		plane.setModel(planeModel);
+		plane.setFabricationDate(date);
+		return plane;
+
+	}
+
+	public static Plane initPlane(Airline airline, PlaneModel planeModel) {
+		Plane plane = initPlane();
+		plane.setAirline(airline);
+		plane.setModel(planeModel);
+		return null;
 	}
 
 	/* For testing, delete all users */

@@ -1,14 +1,15 @@
 package domain.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+
 import domain.model.City;
 import domain.model.State;
 
 public class TestDaoCity {
 
-	private static final String EUSKAL_HERRIA = "Euskal herria";
 	private static final String ERROR_LOAD = "Error load all cities from database";
 	private static final String BERGARA = "Bergara";
 	private static final String INSERT_ERROR = "Error insert city into database";
@@ -16,8 +17,7 @@ public class TestDaoCity {
 
 	@Test
 	public void testInsertCityWithoutStateIntoDB() {
-		City city = new City();
-		city.setName(BERGARA);
+		City city = initCity();
 		boolean result = HibernateGeneric.insertObject(city);
 		assertEquals(INSERT_ERROR, false, result);
 	}
@@ -46,14 +46,21 @@ public class TestDaoCity {
 	}
 
 	private City initCompleteCity() {
-		State state = new State();
-		state.setName(EUSKAL_HERRIA);
+		State state = TestDaoState.initState();
 		HibernateGeneric.insertObject(state);
 
+		return initCity(state);
+	}
+
+	public static City initCity() {
 		City city = new City();
 		city.setName(BERGARA);
-		city.setState(state);
+		return city;
+	}
 
+	public static City initCity(State state) {
+		City city = initCity();
+		city.setState(state);
 		return city;
 	}
 }

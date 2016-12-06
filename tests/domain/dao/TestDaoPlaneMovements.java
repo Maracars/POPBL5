@@ -26,27 +26,18 @@ public class TestDaoPlaneMovements {
 	private static final double SPEED = 0.0;
 	private static final double POSITION = 3.2;
 	private static final double DIRECTION = 3.2;
-	private static final String SERIAL = "SS88";
 	private static final String ERROR_REMOVING = "Error removing one plane maker from database";
 	private static final String ERROR_LOAD = "Error load all plane makers from database";
 	private static final String ERROR_INSERT = "Error insert plane maker into database";
-	private static final String BOEING = "Boeing";
-	private static final int GATE_NUM = 99;
-	private static final double NODE_POS = 6.6666;
-	private static final String USERNAME = "Luffy";
-	private static final String PASSWORD = "1234";
-	private static final String LUFTHANSA = "Lufthansa";
-
 	@Test
-	public void testInsertPlaneModelWithNothingIntoDB() {
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setName(SERIAL);
-		boolean result = HibernateGeneric.insertObject(planeModel);
+	public void testInsertPlaneMovementsWithNothingIntoDB() {
+		PlaneMovement planeMovement = new PlaneMovement();
+		boolean result = HibernateGeneric.insertObject(planeMovement);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
 	@Test
-	public void testInsertPlaneModelWithPlaneMakerIntoDB() {
+	public void testInsertPlaneMovementlWithEverythingIntoDB() {
 
 		boolean result = HibernateGeneric.insertObject(initCompletePlaneMovements());
 		assertEquals(ERROR_INSERT, true, result);
@@ -70,56 +61,50 @@ public class TestDaoPlaneMovements {
 		deleteAllFlights();
 		deleteAllPlanes();
 
-		Node positionNode = new Node();
-		positionNode.setPositionX(NODE_POS);
-		positionNode.setPositionY(NODE_POS);
+		Node positionNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(positionNode);
 
-		Gate gate = new Gate();
-		gate.setPositionNode(positionNode);
-		gate.setNumber(GATE_NUM);
+		Gate gate = TestDaoGate.initGate(positionNode);
 		HibernateGeneric.insertObject(gate);
 
-		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
+		Route route = TestDaoRoute.initRoute(gate, gate);
 		HibernateGeneric.insertObject(route);
 
 		Collection<Route> routesList = new ArrayList<Route>();
 		routesList.add(route);
 
-		Airline airline = new Airline();
-		airline.setBirthDate(new Date());
-		airline.setName(LUFTHANSA);
-		airline.setPassword(PASSWORD);
-		airline.setUsername(USERNAME);
-		airline.setRoutesList(routesList);
+		Airline airline = TestDaoAirline.initAirline(routesList);
 		deleteAllUsers();
 		HibernateGeneric.insertObject(airline);
 
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
+		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
 		HibernateGeneric.insertObject(planeMaker);
 
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setPlaneMaker(planeMaker);
+		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
 		HibernateGeneric.insertObject(planeModel);
 
-		Plane plane = new Plane();
-		plane.setAirline(airline);
-		plane.setFabricationDate(new Date());
-		plane.setModel(planeModel);
-		plane.setSerial(SERIAL);
+		Plane plane = TestDaoPlane.initPlane(airline, planeModel, new Date());
 		HibernateGeneric.insertObject(plane);
-		
+
+		PlaneMovement planeMovement = initPlaneMovement(plane);
+		return planeMovement;
+	}
+	
+	public static PlaneMovement initPlaneMovement() {
 		PlaneMovement planeMovement = new PlaneMovement();
 		planeMovement.setDirectionX(DIRECTION);
 		planeMovement.setDirectionY(DIRECTION);
 		planeMovement.setPositionX(POSITION);
 		planeMovement.setPositionY(POSITION);
 		planeMovement.setSpeed(SPEED);
+		return planeMovement;
+		
+	}
+	public static PlaneMovement initPlaneMovement(Plane plane) {
+		PlaneMovement planeMovement = initPlaneMovement();
 		planeMovement.setPlane(plane);
 		return planeMovement;
+		
 	}
 
 	/* For testing, delete all users */
@@ -136,19 +121,19 @@ public class TestDaoPlaneMovements {
 			HibernateGeneric.deleteObject((Plane) plane);
 		}
 	}
+
 	private void deleteAllFlights() {
 		List<Object> listFligths = HibernateGeneric.loadAllObjects(new Flight());
 		for (Object flight : listFligths) {
 			HibernateGeneric.deleteObject((Flight) flight);
 		}
 	}
-	
+
 	private void deleteAllPlaneMovements() {
 		List<Object> planeMovementList = HibernateGeneric.loadAllObjects(new PlaneMovement());
 		for (Object planeMovements : planeMovementList) {
 			HibernateGeneric.deleteObject((PlaneMovement) planeMovements);
 		}
 	}
-
 
 }

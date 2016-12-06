@@ -14,8 +14,7 @@ public class TestDaoPlaneMaker {
 
 	@Test
 	public void testInsertPlaneMakerIntoDB() {
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(BOEING);
+		PlaneMaker planeMaker = initPlaneMaker();
 		boolean result = HibernateGeneric.insertObject(planeMaker);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -24,6 +23,12 @@ public class TestDaoPlaneMaker {
 	public void testLoadAllPlaneMakers() {
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new PlaneMaker()));
 
+	}
+
+	public static PlaneMaker initPlaneMaker() {
+		PlaneMaker planeMaker = new PlaneMaker();
+		planeMaker.setName(BOEING);
+		return planeMaker;
 	}
 
 }

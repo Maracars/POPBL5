@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import domain.dao.DAOGate;
 import domain.model.Gate;
+import domain.model.Node;
 
 public class TestDaoGate {
 
@@ -19,9 +20,7 @@ public class TestDaoGate {
 
 	@Test
 	public void testInsertGateIntoDB() {
-		Gate gate = new Gate();
-		gate.setNumber(GATE_NUM);
-		boolean result = HibernateGeneric.insertObject(gate);
+		boolean result = HibernateGeneric.insertObject(initGate());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -38,8 +37,22 @@ public class TestDaoGate {
 		Gate gate = new Gate();
 		gate.setId(1);
 		HibernateGeneric.insertObject(gate);
-		boolean result = HibernateGeneric.deleteObject((Gate) HibernateGeneric.loadAllObjects(new Gate()).get(0));
+		boolean result = HibernateGeneric.deleteObject(
+				(Gate) HibernateGeneric.loadAllObjects(new Gate()).get(0));
 		assertEquals(ERROR_REMOVING, true, result);
+	}
+
+	public static Gate initGate(Node node) {
+		Gate gate = initGate();
+		gate.setPositionNode(node);
+		return gate;
+
+	}
+
+	public static Gate initGate() {
+		Gate gate = new Gate();
+		gate.setNumber(GATE_NUM);
+		return gate;
 	}
 
 }

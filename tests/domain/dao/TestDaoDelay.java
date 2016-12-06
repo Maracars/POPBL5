@@ -23,11 +23,6 @@ import domain.model.User;
 
 public class TestDaoDelay {
 
-	private static final String PLANEMAKER_NAME = "B";
-	private static final String NAME = "JOanes";
-	private static final String USERNAME = "naranairapp";
-	private static final String PASSWORD = "Nestor123";
-	private static final double NODE_POS = 3.2;
 	private static final String ERROR_LOAD = "Error load all cities from database";
 	private static final String INSERT_ERROR = "Error insert city into database";
 	private static final String REMOVE_ERROR = "Error removing one city from database";
@@ -66,68 +61,49 @@ public class TestDaoDelay {
 	}
 
 	private Delay initCompleteDelay() {
-		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName(PLANEMAKER_NAME);
+		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
 		HibernateGeneric.insertObject(planeMaker);
 
-		PlaneModel planeModel = new PlaneModel();
-		planeModel.setPlaneMaker(planeMaker);
+		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
 		HibernateGeneric.insertObject(planeModel);
 
 		deleteAllFlights();
 		deleteAllPlanes();
 		deleteAllUsers();
 
-		Airline airline = new Airline();
-		airline.setBirthDate(new Date());
-		airline.setName(NAME);
-		airline.setPassword(PASSWORD);
-		airline.setUsername(USERNAME);
+		Airline airline = TestDaoAirline.initAirline();
 		HibernateGeneric.insertObject(airline);
 
-		Plane plane = new Plane();
-		plane.setFabricationDate(new Date());
-		plane.setModel(planeModel);
-		plane.setAirline(airline);
+		Plane plane = TestDaoPlane.initPlane(airline, planeModel, new Date());
 		HibernateGeneric.insertObject(plane);
 
-		Passenger passenger = new Passenger();
-		passenger.setBirthDate(new Date());
-		passenger.setPassword(PASSWORD_2);
-		passenger.setUsername(USERNAME_2);
+		Passenger passenger = TestDaoPassenger.initPassenger(USERNAME_2, PASSWORD_2, new Date());
+
 		HibernateGeneric.insertObject(passenger);
 
 		List<Passenger> passengerList = new ArrayList<>();
 		passengerList.add(passenger);
 
-		Node node = new Node();
-		node.setPositionX(NODE_POS);
-		node.setPositionY(NODE_POS);
+		Node node = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(node);
 
-		Gate gate = new Gate();
-		gate.setPositionNode(node);
+		Gate gate = TestDaoGate.initGate(node);
 		HibernateGeneric.insertObject(gate);
 
-		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
+		Route route = TestDaoRoute.initRoute(gate, gate);
 		HibernateGeneric.insertObject(route);
 
-		Flight flight = new Flight();
-		flight.setExpectedArrivalDate(new Date());
-		flight.setExpectedDepartureDate(new Date());
-		flight.setPlane(plane);
-		flight.setPassengerList(passengerList);
-		flight.setRealArrivalDate(new Date());
-		flight.setRealDepartureDate(new Date());
-		flight.setRoute(route);
+		Flight flight = TestDaoFlight.initFlight(plane, route, passengerList);
 		HibernateGeneric.insertObject(flight);
 
+		return initDelay(flight);
+	}
+
+	public static Delay initDelay(Flight flight) {
 		Delay delay = new Delay();
 		delay.setAffectedFlight(flight);
-
 		return delay;
+
 	}
 
 	/* For testing, delete all users */
