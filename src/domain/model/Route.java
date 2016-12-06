@@ -26,9 +26,9 @@ public class Route {
 	Gate departureGate;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="AirlineRoutes",
-    joinColumns=@JoinColumn(name="RouteId"),
-    inverseJoinColumns=@JoinColumn(name="AirlineId"))
+	@JoinTable(name = "AirlineRoutes",
+    joinColumns = @JoinColumn(name = "RouteId"),
+    inverseJoinColumns = @JoinColumn(name = "AirlineId"))
 	
 	Collection<Airline> airlineList = new ArrayList<Airline>();
 

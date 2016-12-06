@@ -58,7 +58,8 @@ public class TestDaoFlight {
 	public void testRemoveOneSpecificFlight() {
 
 		HibernateGeneric.insertObject(initCompleteFlight());
-		boolean result = HibernateGeneric.deleteObject((Flight) HibernateGeneric.loadAllObjects(new Flight()).get(0));
+		boolean result = HibernateGeneric.deleteObject(
+				(Flight) HibernateGeneric.loadAllObjects(new Flight()).get(0));
 
 		assertEquals(REMOVE_ERROR, true, result);
 	}

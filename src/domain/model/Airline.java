@@ -19,9 +19,9 @@ public class Airline extends User {
 	String name;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="AirlineRoutes",
-            joinColumns=@JoinColumn(name="AirlineId"),
-            inverseJoinColumns=@JoinColumn(name="RouteId"))
+	@JoinTable(name = "AirlineRoutes",
+            joinColumns = @JoinColumn(name = "AirlineId"),
+            inverseJoinColumns = @JoinColumn(name = "RouteId"))
 	Collection<Route> routesList = new ArrayList<>();
 
 	public Collection<Route> getRoutesList() {
