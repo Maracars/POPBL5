@@ -11,19 +11,23 @@ import java.util.List;
 import org.junit.Test;
 
 import domain.model.Airline;
+import domain.model.Airport;
+import domain.model.City;
 import domain.model.Gate;
 import domain.model.Node;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import domain.model.Route;
+import domain.model.State;
+import domain.model.Terminal;
 import domain.model.User;
 
 public class TestDaoPlane {
 
 	private static final String SERIAL = "SSSS";
-	private static final String ERROR_LOAD = "Error load all plane makers from database";
-	private static final String ERROR_INSERT = "Error insert plane maker into database";
+	private static final String ERROR_LOAD = "Error load all planes from database";
+	private static final String ERROR_INSERT = "Error insert plane into database";
 
 	@Test
 	public void testInsertPlaneWithEverythingIntoDB() {
@@ -42,8 +46,20 @@ public class TestDaoPlane {
 
 		Node positionNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(positionNode);
+		
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+		
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+		
+		Airport airport = TestDaoAirport.initAirport(city);
+		HibernateGeneric.insertObject(airport);
 
-		Gate gate = TestDaoGate.initGate(positionNode);
+		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		HibernateGeneric.insertObject(terminal);
+
+		Gate gate = TestDaoGate.initGate(positionNode, terminal);
 		HibernateGeneric.insertObject(gate);
 
 		Route route = TestDaoRoute.initRoute(gate, gate);
@@ -70,7 +86,19 @@ public class TestDaoPlane {
 		Node positionNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(positionNode);
 
-		Gate gate = TestDaoGate.initGate(positionNode);
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+		
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+		
+		Airport airport = TestDaoAirport.initAirport(city);
+		HibernateGeneric.insertObject(airport);
+
+		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		HibernateGeneric.insertObject(terminal);
+
+		Gate gate = TestDaoGate.initGate(positionNode, terminal);
 		HibernateGeneric.insertObject(gate);
 
 		Route route = TestDaoRoute.initRoute(gate, gate);
@@ -121,7 +149,19 @@ public class TestDaoPlane {
 		Node positionNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(positionNode);
 
-		Gate gate = TestDaoGate.initGate(positionNode);
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+		
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+		
+		Airport airport = TestDaoAirport.initAirport(city);
+		HibernateGeneric.insertObject(airport);
+
+		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		HibernateGeneric.insertObject(terminal);
+
+		Gate gate = TestDaoGate.initGate(positionNode, terminal);
 		HibernateGeneric.insertObject(gate);
 
 		Route route = TestDaoRoute.initRoute(gate, gate);

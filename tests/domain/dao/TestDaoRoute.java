@@ -5,8 +5,12 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import domain.model.Airport;
+import domain.model.City;
 import domain.model.Gate;
 import domain.model.Route;
+import domain.model.State;
+import domain.model.Terminal;
 
 public class TestDaoRoute {
 
@@ -45,7 +49,20 @@ public class TestDaoRoute {
 	}
 
 	private Route initCompleteRoute() {
-		Gate gate = TestDaoGate.initGate();
+		
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+		
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+		
+		Airport airport = TestDaoAirport.initAirport(city);
+		HibernateGeneric.insertObject(airport);
+
+		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		HibernateGeneric.insertObject(terminal);
+		
+		Gate gate = TestDaoGate.initGate(terminal);
 		HibernateGeneric.insertObject(gate);
 
 		return initRoute(gate, gate);

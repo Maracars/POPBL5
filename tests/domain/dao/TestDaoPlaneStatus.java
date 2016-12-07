@@ -17,7 +17,7 @@ public class TestDaoPlaneStatus {
 
 	@Test
 	public void testInsertPlaneStatusIntoDB() {
-		PlaneStatus planeStatus = initPlane();
+		PlaneStatus planeStatus = initPlaneStatus();
 		boolean result = HibernateGeneric.insertObject(planeStatus);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -36,16 +36,16 @@ public class TestDaoPlaneStatus {
 	}
 
 	@Test
-	public void testRemoveOneSpecificState() {
-		PlaneStatus planeStatus = new PlaneStatus();
+	public void testRemoveOneSpecificPlaneStatus() {
+		PlaneStatus planeStatus = initPlaneStatus();
 
 		HibernateGeneric.insertObject(planeStatus);
-		State s = (State) HibernateGeneric.loadAllObjects(new State()).get(0);
+		PlaneStatus s = (PlaneStatus) HibernateGeneric.loadAllObjects(new PlaneStatus()).get(0);
 		boolean result = HibernateGeneric.deleteObject(s);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
-	public static PlaneStatus initPlane() {
+	public static PlaneStatus initPlaneStatus() {
 		PlaneStatus planeStatus = new PlaneStatus();
 		planeStatus.setDescription(DESCRIPTION);
 		planeStatus.setName(NAME);

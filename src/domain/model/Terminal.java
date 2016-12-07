@@ -1,21 +1,9 @@
 package domain.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
-import domain.model.Gate;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Terminal {
@@ -23,12 +11,17 @@ public class Terminal {
 	@GeneratedValue
 	Integer id;
 	String name;
-	@ElementCollection
-	@JoinTable(name = "TerminalGates", joinColumns = @JoinColumn(name = "terminalID"))
-	@GenericGenerator(name = "sequence", strategy = "sequence")
 
-	@CollectionId(columns = { @Column(name = "gateID") }, generator = "sequence", type = @Type(type = "long"))
-	Collection<Gate> gatesList = new ArrayList<>();
+	public Airport getAirport() {
+		return airport;
+	}
+
+	public void setAirport(Airport airport) {
+		this.airport = airport;
+	}
+
+	@ManyToOne
+	Airport airport;
 
 	public Integer getId() {
 		return id;
@@ -44,14 +37,6 @@ public class Terminal {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Collection<Gate> getGatesList() {
-		return gatesList;
-	}
-
-	public void setGatesList(Collection<Gate> gatesList) {
-		this.gatesList = gatesList;
 	}
 
 }

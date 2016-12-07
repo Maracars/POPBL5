@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import domain.dao.DAOTerminal;
+import domain.model.Airport;
+import domain.model.City;
+import domain.model.State;
 import domain.model.Terminal;
 
 public class TestDaoTerminal {
@@ -35,8 +37,16 @@ public class TestDaoTerminal {
 
 	@Test
 	public void testRemoveOneSpecificTerminal() {
-		Terminal terminal = initTerminal();
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+		
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+		
+		Airport airport = TestDaoAirport.initAirport(city);
+		HibernateGeneric.insertObject(airport);
 
+		Terminal terminal = TestDaoTerminal.initTerminal(airport);
 		HibernateGeneric.insertObject(terminal);
 
 		terminal = (Terminal) HibernateGeneric.loadAllObjects(new Terminal()).get(0);
@@ -48,6 +58,12 @@ public class TestDaoTerminal {
 	public static Terminal initTerminal() {
 		Terminal terminal = new Terminal();
 		terminal.setName(TERMINAL_NAME);
+		return terminal;
+
+	}
+	public static Terminal initTerminal(Airport airport) {
+		Terminal terminal = initTerminal();
+		terminal.setAirport(airport);
 		return terminal;
 
 	}

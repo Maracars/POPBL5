@@ -3,6 +3,7 @@ package domain.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -16,6 +17,17 @@ public class Gate {
 	// TODO tagak jarri
 	@OneToOne
 	Node positionNode;
+
+	@ManyToOne(optional = false)
+	Terminal terminal;
+
+	public Terminal getTerminal() {
+		return terminal;
+	}
+
+	public void setTerminal(Terminal terminal) {
+		this.terminal = terminal;
+	}
 
 	public Node getPositionNode() {
 		return positionNode;

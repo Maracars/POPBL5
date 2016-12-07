@@ -3,15 +3,11 @@ package domain.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.junit.Test;
 
 import domain.model.Airport;
 import domain.model.City;
 import domain.model.State;
-import domain.model.Terminal;
 
 public class TestDaoAirport {
 
@@ -38,20 +34,8 @@ public class TestDaoAirport {
 		HibernateGeneric.insertObject(city);
 
 		Airport airport = initAirport(city);
-		airport.setTerminalList(null);
 		boolean result = HibernateGeneric.insertObject(airport);
-		assertEquals(INSERT_ERROR, false, result);
-	}
-
-	@Test
-	public void testInsertAirportWithTerminalAndWithoutCityIntoDB() {
-
-		Terminal terminal = TestDaoTerminal.initTerminal();
-		Collection<Terminal> terminalList = new ArrayList<>();
-		terminalList.add(terminal);
-		Airport airport = initAirport(terminalList);
-		boolean result = HibernateGeneric.insertObject(airport);
-		assertEquals(INSERT_ERROR, false, result);
+		assertEquals(INSERT_ERROR, true, result);
 	}
 
 	@Test
@@ -78,33 +62,15 @@ public class TestDaoAirport {
 	}
 
 	private Airport initCompleteAirport() {
-
-		Terminal terminal = TestDaoTerminal.initTerminal();
-		HibernateGeneric.insertObject(terminal);
-
+		
 		State state = TestDaoState.initState();
 		HibernateGeneric.insertObject(state);
-
+		
 		City city = TestDaoCity.initCity(state);
 		HibernateGeneric.insertObject(city);
 
-		Collection<Terminal> terminalList = new ArrayList<>();
-		terminalList.add(terminal);
 
-		return initAirport(terminalList, city);
-	}
-
-	public static Airport initAirport(Collection<Terminal> terminalList, City city) {
-		Airport airport = initAirport();
-		airport.setTerminalList(terminalList);
-		airport.setCity(city);
-		return airport;
-	}
-
-	public static Airport initAirport(Collection<Terminal> terminalList) {
-		Airport airport = initAirport();
-		airport.setTerminalList(terminalList);
-		return airport;
+		return initAirport(city);
 	}
 
 	public static Airport initAirport(City city) {

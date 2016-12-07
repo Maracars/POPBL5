@@ -11,6 +11,8 @@ import java.util.List;
 import org.junit.Test;
 
 import domain.model.Airline;
+import domain.model.Airport;
+import domain.model.City;
 import domain.model.Delay;
 import domain.model.Flight;
 import domain.model.Gate;
@@ -18,6 +20,8 @@ import domain.model.Node;
 import domain.model.Plane;
 import domain.model.PlaneMovement;
 import domain.model.Route;
+import domain.model.State;
+import domain.model.Terminal;
 import domain.model.User;
 
 public class TestDaoAirline {
@@ -72,11 +76,23 @@ public class TestDaoAirline {
 
 		Node n2 = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(n2);
+		
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+		
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+		
+		Airport airport = TestDaoAirport.initAirport(city);
+		HibernateGeneric.insertObject(airport);
 
-		Gate arrivalGate = TestDaoGate.initGate(n1);
+		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		HibernateGeneric.insertObject(terminal);
+		
+		Gate arrivalGate = TestDaoGate.initGate(n1, terminal);
 		HibernateGeneric.insertObject(arrivalGate);
 
-		Gate departureGate = TestDaoGate.initGate(n2);
+		Gate departureGate = TestDaoGate.initGate(n2, terminal);
 		HibernateGeneric.insertObject(departureGate);
 
 		Route route = TestDaoRoute.initRoute(arrivalGate, departureGate);

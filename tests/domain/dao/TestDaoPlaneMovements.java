@@ -11,6 +11,9 @@ import java.util.List;
 import org.junit.Test;
 
 import domain.model.Airline;
+import domain.model.Airport;
+import domain.model.City;
+import domain.model.Delay;
 import domain.model.Flight;
 import domain.model.Gate;
 import domain.model.Node;
@@ -19,6 +22,8 @@ import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import domain.model.PlaneMovement;
 import domain.model.Route;
+import domain.model.State;
+import domain.model.Terminal;
 import domain.model.User;
 
 public class TestDaoPlaneMovements {
@@ -29,6 +34,7 @@ public class TestDaoPlaneMovements {
 	private static final String ERROR_REMOVING = "Error removing one plane maker from database";
 	private static final String ERROR_LOAD = "Error load all plane makers from database";
 	private static final String ERROR_INSERT = "Error insert plane maker into database";
+
 	@Test
 	public void testInsertPlaneMovementsWithNothingIntoDB() {
 		PlaneMovement planeMovement = new PlaneMovement();
@@ -58,13 +64,28 @@ public class TestDaoPlaneMovements {
 
 	private PlaneMovement initCompletePlaneMovements() {
 		deleteAllPlaneMovements();
+		deleteAllDelays();
 		deleteAllFlights();
 		deleteAllPlanes();
+		deleteAllUsers();
+
 
 		Node positionNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(positionNode);
 
-		Gate gate = TestDaoGate.initGate(positionNode);
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+		
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+		
+		Airport airport = TestDaoAirport.initAirport(city);
+		HibernateGeneric.insertObject(airport);
+
+		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		HibernateGeneric.insertObject(terminal);
+
+		Gate gate = TestDaoGate.initGate(positionNode, terminal);
 		HibernateGeneric.insertObject(gate);
 
 		Route route = TestDaoRoute.initRoute(gate, gate);
@@ -74,7 +95,6 @@ public class TestDaoPlaneMovements {
 		routesList.add(route);
 
 		Airline airline = TestDaoAirline.initAirline(routesList);
-		deleteAllUsers();
 		HibernateGeneric.insertObject(airline);
 
 		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
@@ -89,7 +109,7 @@ public class TestDaoPlaneMovements {
 		PlaneMovement planeMovement = initPlaneMovement(plane);
 		return planeMovement;
 	}
-	
+
 	public static PlaneMovement initPlaneMovement() {
 		PlaneMovement planeMovement = new PlaneMovement();
 		planeMovement.setDirectionX(DIRECTION);
@@ -98,13 +118,14 @@ public class TestDaoPlaneMovements {
 		planeMovement.setPositionY(POSITION);
 		planeMovement.setSpeed(SPEED);
 		return planeMovement;
-		
+
 	}
+
 	public static PlaneMovement initPlaneMovement(Plane plane) {
 		PlaneMovement planeMovement = initPlaneMovement();
 		planeMovement.setPlane(plane);
 		return planeMovement;
-		
+
 	}
 
 	/* For testing, delete all users */
@@ -133,6 +154,13 @@ public class TestDaoPlaneMovements {
 		List<Object> planeMovementList = HibernateGeneric.loadAllObjects(new PlaneMovement());
 		for (Object planeMovements : planeMovementList) {
 			HibernateGeneric.deleteObject((PlaneMovement) planeMovements);
+		}
+	}
+	
+	private void deleteAllDelays() {
+		List<Object> listDelays = HibernateGeneric.loadAllObjects(new Delay());
+		for (Object delay : listDelays) {
+			HibernateGeneric.deleteObject((Delay) delay);
 		}
 	}
 

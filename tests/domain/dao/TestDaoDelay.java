@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import domain.model.Airline;
+import domain.model.Airport;
 import domain.model.City;
 import domain.model.Delay;
 import domain.model.Flight;
@@ -19,6 +20,8 @@ import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import domain.model.Route;
+import domain.model.State;
+import domain.model.Terminal;
 import domain.model.User;
 
 public class TestDaoDelay {
@@ -86,8 +89,20 @@ public class TestDaoDelay {
 
 		Node node = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(node);
+		
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+		
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+		
+		Airport airport = TestDaoAirport.initAirport(city);
+		HibernateGeneric.insertObject(airport);
 
-		Gate gate = TestDaoGate.initGate(node);
+		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		HibernateGeneric.insertObject(terminal);
+
+		Gate gate = TestDaoGate.initGate(node, terminal);
 		HibernateGeneric.insertObject(gate);
 
 		Route route = TestDaoRoute.initRoute(gate, gate);
