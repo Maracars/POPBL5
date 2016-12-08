@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 
 import domain.model.Airline;
+import domain.model.Airport;
 import domain.model.Lane;
 import domain.model.Plane;
 import domain.model.Route;
@@ -16,6 +17,8 @@ import helpers.MD5;
 import hibernate.HibernateConnection;
 
 public class HibernateGeneric {
+	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = 
+			"from Route as r join r.departureGate as g join g.terminal as t join t.airport as a where a.id = ";
 	private static Session session;
 
 	public static boolean insertObject(Object object) {
@@ -79,12 +82,23 @@ public class HibernateGeneric {
 		return objectList;
 	}
 
-	public static Route selectRandomArrivalRoute() {
-		// TODO Auto-generated method stub
-		return null;
+	public static List<Route> selectRandomArrivalRouteFromAirport(int airportId) {
+		List<Route> routeList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			@SuppressWarnings("unchecked")
+			TypedQuery<Route> query = session.createQuery(QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID + airportId);
+			routeList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return routeList;
 	}
 
-	public static Plane getFreePlane() {
+	public static Plane getFreePlane(Route route) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -116,7 +130,7 @@ public class HibernateGeneric {
 
 	public static void revisePlane(Plane planeToRevise) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

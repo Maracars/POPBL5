@@ -2,6 +2,7 @@ package simulator;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.dao.HibernateGeneric;
@@ -47,8 +48,8 @@ public class FlightCreator implements Runnable {
 	private void programFlights() {
 		Plane plane = new Plane();
 		while (!checkScheduleFull()) {
-			Route route = HibernateGeneric.selectRandomArrivalRoute();
-			if ((plane = HibernateGeneric.getFreePlane()) == null) {
+			Route route = selectRandomArrivalRoute();
+			if ((plane = HibernateGeneric.getFreePlane(route)) == null) {
 				plane = createPlane(route);
 			}
 			assignRouteInSpecificTime(route, plane, ARRIVAL);
@@ -57,10 +58,13 @@ public class FlightCreator implements Runnable {
 		}
 	}
 
+	private Route selectRandomArrivalRoute() {
+		List<Route> routeList = HibernateGeneric.selectRandomArrivalRouteFromAirport(1); 
+		// TODO aukeratu bat aleatoriamente listatik eta airporId hori behar dan moduen hartu eta ez MAGICNUMBER
+		return new Route();
+	}
+
 	private void assignRouteInSpecificTime(Route route, Plane plane, boolean mode) { 
-		// true
-		// arrive
-		// departure
 		Date date = selectDate(mode);// select date
 		Flight flight = createFlight(route, plane, date);
 		HibernateGeneric.insertObject(flight);
