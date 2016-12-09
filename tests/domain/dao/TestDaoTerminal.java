@@ -49,7 +49,6 @@ public class TestDaoTerminal {
 		Terminal terminal = TestDaoTerminal.initTerminal(airport);
 		HibernateGeneric.insertObject(terminal);
 
-		terminal = (Terminal) HibernateGeneric.loadAllObjects(new Terminal()).get(0);
 		boolean result = HibernateGeneric.deleteObject(terminal);
 		// aukeran Terminal bidaldu edo terminalId
 		assertEquals(ERROR_REMOVING, true, result);
