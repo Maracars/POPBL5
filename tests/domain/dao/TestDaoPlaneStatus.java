@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import domain.model.PlaneStatus;
-import domain.model.State;
 
 public class TestDaoPlaneStatus {
 

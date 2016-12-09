@@ -1,13 +1,6 @@
 package domain.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
 /**
  * @author joanes
@@ -17,20 +10,6 @@ import javax.persistence.ManyToMany;
 public class Airline extends User {
 
 	String name;
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "AirlineRoutes",
-            joinColumns = @JoinColumn(name = "AirlineId"),
-            inverseJoinColumns = @JoinColumn(name = "RouteId"))
-	Collection<Route> routesList = new ArrayList<>();
-
-	public Collection<Route> getRoutesList() {
-		return routesList;
-	}
-
-	public void setRoutesList(Collection<Route> routesList) {
-		this.routesList = routesList;
-	}
 
 	public Integer getId() {
 		return id;

@@ -3,27 +3,18 @@ package domain.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
 
 import domain.model.Airline;
-import domain.model.Airport;
-import domain.model.City;
 import domain.model.Delay;
 import domain.model.Flight;
-import domain.model.Gate;
-import domain.model.Node;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import domain.model.PlaneMovement;
-import domain.model.Route;
-import domain.model.State;
-import domain.model.Terminal;
 import domain.model.User;
 
 public class TestDaoPlaneMovements {
@@ -69,32 +60,7 @@ public class TestDaoPlaneMovements {
 		deleteAllPlanes();
 		deleteAllUsers();
 
-
-		Node positionNode = TestDaoNode.initNode();
-		HibernateGeneric.insertObject(positionNode);
-
-		State state = TestDaoState.initState();
-		HibernateGeneric.insertObject(state);
-		
-		City city = TestDaoCity.initCity(state);
-		HibernateGeneric.insertObject(city);
-		
-		Airport airport = TestDaoAirport.initAirport(city);
-		HibernateGeneric.insertObject(airport);
-
-		Terminal terminal = TestDaoTerminal.initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
-
-		Gate gate = TestDaoGate.initGate(positionNode, terminal);
-		HibernateGeneric.insertObject(gate);
-
-		Route route = TestDaoRoute.initRoute(gate, gate);
-		HibernateGeneric.insertObject(route);
-
-		Collection<Route> routesList = new ArrayList<Route>();
-		routesList.add(route);
-
-		Airline airline = TestDaoAirline.initAirline(routesList);
+		Airline airline = TestDaoAirline.initAirline();
 		HibernateGeneric.insertObject(airline);
 
 		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
@@ -156,7 +122,7 @@ public class TestDaoPlaneMovements {
 			HibernateGeneric.deleteObject((PlaneMovement) planeMovements);
 		}
 	}
-	
+
 	private void deleteAllDelays() {
 		List<Object> listDelays = HibernateGeneric.loadAllObjects(new Delay());
 		for (Object delay : listDelays) {

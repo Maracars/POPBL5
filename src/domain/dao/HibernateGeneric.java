@@ -20,7 +20,9 @@ import hibernate.HibernateConnection;
 public class HibernateGeneric {
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = "from Route as r "
-			+ "where r.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
+			+ "where r.arrivalGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
+	private static final String QUERY_DEPARTURE_ROUTES_OF_AIRLINE_FROM_AIRPORTID = "from Route as r "
+			+ "where r.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID + " and ";
 	private static Session session;
 
 	public static boolean insertObject(Object object) {
