@@ -6,8 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import domain.model.Airport;
+import domain.model.City;
 import domain.model.Lane;
 import domain.model.Node;
+import domain.model.State;
 
 public class TestDaoLane {
 
@@ -29,10 +31,10 @@ public class TestDaoLane {
 
 		assertEquals(INSERT_ERROR, true, result);
 	}
-	
+
 	@Test
 	public void testInsertLaneWithoutNodesIntoDB() {
-		
+
 		Airport airport = TestDaoAirport.initAirport();
 		HibernateGeneric.insertObject(airport);
 
@@ -41,58 +43,57 @@ public class TestDaoLane {
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
-	@Test 
+	@Test
 	public void testInsertLaneWithoutStatusIntoDB() {
 		Node startNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(startNode);
 
 		Node endNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(endNode);
-		
+
 		Airport airport = TestDaoAirport.initAirport();
 		HibernateGeneric.insertObject(airport);
-		
+
 		boolean result = HibernateGeneric.insertObject(initLane(startNode, endNode, airport, true));
-		
+
 		assertEquals(INSERT_ERROR, false, result);
-		
+
 	}
-	
-	@Test 
+
+	@Test
 	public void testInsertLaneWithoutPrincipalIntoDB() {
 		Node startNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(startNode);
 
 		Node endNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(endNode);
-		
+
 		Airport airport = TestDaoAirport.initAirport();
 		HibernateGeneric.insertObject(airport);
-		
+
 		boolean result = HibernateGeneric.insertObject(initLane(startNode, endNode, true, airport));
-		
+
 		assertEquals(INSERT_ERROR, false, result);
-		
+
 	}
-	
-	@Test 
+
+	@Test
 	public void testInsertLaneWithoutAirportIntoDB() {
 		Node startNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(startNode);
 
 		Node endNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(endNode);
-		
-		
+
 		boolean result = HibernateGeneric.insertObject(initLane(startNode, endNode, true, true));
-		
+
 		assertEquals(INSERT_ERROR, false, result);
-		
+
 	}
 
 	@Test
 	public void testLoadAllLanes() {
-		
+
 		HibernateGeneric.insertObject(initCompleteLane());
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Lane()));
 
@@ -112,8 +113,14 @@ public class TestDaoLane {
 
 		Node endNode = TestDaoNode.initNode();
 		HibernateGeneric.insertObject(endNode);
-		
-		Airport airport = TestDaoAirport.initAirport();
+
+		State state = TestDaoState.initState();
+		HibernateGeneric.insertObject(state);
+
+		City city = TestDaoCity.initCity(state);
+		HibernateGeneric.insertObject(city);
+
+		Airport airport = TestDaoAirport.initAirport(city);
 		HibernateGeneric.insertObject(airport);
 
 		return initLane(startNode, endNode, true, true, airport);
@@ -130,48 +137,51 @@ public class TestDaoLane {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
 		lane.setStartNode(node2);
+		lane.setPrincipal(principal);
+		lane.setStatus(status);
+		lane.setAirport(airport);
 		return lane;
 
 	}
-	
+
 	public static Lane initLane(Node node1, Node node2, boolean principal, Airport airport) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
 		lane.setStartNode(node2);
 		lane.setAirport(airport);
 		lane.setPrincipal(principal);
-		
+
 		return lane;
 
 	}
-	
+
 	public static Lane initLane(Node node1, Node node2, Airport airport, boolean status) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
 		lane.setStartNode(node2);
 		lane.setAirport(airport);
 		lane.setStatus(status);
-		
+
 		return lane;
 
 	}
-	
+
 	private Lane initLane(Node node1, Node node2, boolean status, boolean principal) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
 		lane.setStartNode(node2);
 		lane.setStatus(status);
 		lane.setPrincipal(principal);
-		
+
 		return lane;
 	}
-	
+
 	private Lane initLane(boolean status, boolean principal, Airport airport) {
 		Lane lane = initLane();
 		lane.setStatus(status);
 		lane.setPrincipal(principal);
 		lane.setAirport(airport);
-		
+
 		return lane;
 	}
 
