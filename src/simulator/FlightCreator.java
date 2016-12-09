@@ -59,7 +59,7 @@ public class FlightCreator implements Runnable {
 	}
 
 	private Route selectRandomArrivalRoute() {
-		List<Route> routeList = HibernateGeneric.selectRandomArrivalRouteFromAirport(1); 
+		List<Route> routeList = HibernateGeneric.getRandomArrivalRouteFromAirport(1); 
 		// TODO aukeratu bat aleatoriamente listatik eta airporId hori behar dan moduen hartu eta ez MAGICNUMBER
 		return new Route();
 	}

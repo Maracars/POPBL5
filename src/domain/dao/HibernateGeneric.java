@@ -3,6 +3,7 @@ package domain.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
@@ -17,8 +18,9 @@ import helpers.MD5;
 import hibernate.HibernateConnection;
 
 public class HibernateGeneric {
-	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = 
-			"from Route as r join r.departureGate as g join g.terminal as t join t.airport as a where a.id = ";
+	private static final String PARAMETER_AIRPORT_ID = "airportId";
+	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = "from Route as r "
+			+ "where r.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
 	private static Session session;
 
 	public static boolean insertObject(Object object) {
@@ -82,12 +84,14 @@ public class HibernateGeneric {
 		return objectList;
 	}
 
-	public static List<Route> selectRandomArrivalRouteFromAirport(int airportId) {
+	@SuppressWarnings("unchecked")
+	public static List<Route> getRandomArrivalRouteFromAirport(int airportId) {
+		//TODO hau ondo dabil, kontua da oindio randomena daola gehitzeko, eta ez dau lista bat bueltauko
 		List<Route> routeList = null;
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
-			@SuppressWarnings("unchecked")
-			TypedQuery<Route> query = session.createQuery(QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID + airportId);
+			Query query = session.createQuery(QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID);
+			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 			routeList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
