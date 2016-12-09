@@ -20,7 +20,7 @@ public class HibernateGeneric {
 	private static final int MILIS_TO_SECOND = 1000;
 	private static final int MIN_TO_HOURS = 60;
 	private static final int HOURS_TO_DAY = 24;
-	private static final int DAY_NUMBER = 2;
+	private static final int ARRIVAL_DAY_MARGIN = 2;
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 	private static final String PARAMETER_SOON_DATE = "soonDate";
 	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = "from Route as r "
@@ -33,7 +33,10 @@ public class HibernateGeneric {
 	private static final String QUERY_SOON_ARRIVAL_PLANE = "select f.plane from Flight as f join f.plane as p "
 			+ "where f.expectedArrivalDate < current_date";
 	private static final String QUERY_ARRIVAL_PLANES_SOON = "select f.plane from Flight as f right join f.plane as p "
-			+ "where f.realArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE;
+			+ "where f.expectedArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE;
+	private static final int DEPARTURE_DAY_MARGIN = 0;
+	private static final String QUERY_DEPARTURING_PLANES_SOON = "select f.plane from Flight as f right join f.plane as p "
+			+ "where f.expectedDepartureDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE;
 	private static Session session;
 
 	public static boolean insertObject(Object object) {
@@ -159,7 +162,7 @@ public class HibernateGeneric {
 			// TODO PLANESTATUS GEHITZEN DANIAN HAU INPLEMENTATZEKO GERATZEN DA
 			Query query = session.createQuery(QUERY_ARRIVAL_PLANES_SOON);
 			query.setParameter(PARAMETER_SOON_DATE, new Date(
-					soon.getTime() + (MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY * DAY_NUMBER)));
+					soon.getTime() + (MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY * ARRIVAL_DAY_MARGIN)));
 
 			planeList = query.getResultList();
 		} catch (Exception e) {
@@ -171,9 +174,25 @@ public class HibernateGeneric {
 		return planeList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<Plane> getDeparturingPlanesSoon() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Plane> planeList = null;
+		Date soon = new Date();
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			// TODO PLANESTATUS GEHITZEN DANIAN HAU INPLEMENTATZEKO GERATZEN DA
+			Query query = session.createQuery(QUERY_DEPARTURING_PLANES_SOON);
+			query.setParameter(PARAMETER_SOON_DATE, new Date(
+					soon.getTime() + (MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY * DEPARTURE_DAY_MARGIN)));
+
+			planeList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return planeList;
 	}
 
 	public static List<Lane> getFreeLanes() {
