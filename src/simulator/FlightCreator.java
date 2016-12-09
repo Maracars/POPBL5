@@ -1,6 +1,5 @@
 package simulator;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,7 +28,7 @@ public class FlightCreator implements Runnable {
 	}
 
 	private void createThreadsOfFlights() {
-		ArrayList<Plane> planeList = HibernateGeneric.getArrivingPlanesSoon();
+		List<Plane> planeList = HibernateGeneric.getArrivingPlanesSoon();
 		for (Plane plane : planeList) {
 			if (activePlanesNum.get() < MAX_ACTIVE_PLANES) {
 				new Thread(new ArrivingPlane(plane, controller));

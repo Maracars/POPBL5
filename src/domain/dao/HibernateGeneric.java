@@ -1,6 +1,6 @@
 package domain.dao;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -16,7 +16,13 @@ import helpers.MD5;
 import hibernate.HibernateConnection;
 
 public class HibernateGeneric {
+	private static final int SECOND_TO_MIN = 60;
+	private static final int MILIS_TO_SECOND = 1000;
+	private static final int MIN_TO_HOURS = 60;
+	private static final int HOURS_TO_DAY = 24;
+	private static final int DAY_NUMBER = 2;
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
+	private static final String PARAMETER_SOON_DATE = "soonDate";
 	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = "from Route as r "
 			+ "where r.arrivalGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
 	private static final String QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID = "from Route as r "
@@ -25,7 +31,9 @@ public class HibernateGeneric {
 			+ "with f.realArrivalDate < current_date";
 
 	private static final String QUERY_SOON_ARRIVAL_PLANE = "select f.plane from Flight as f join f.plane as p "
-			+ "with f.expectedArrivalDate < current_date";
+			+ "where f.expectedArrivalDate < current_date";
+	private static final String QUERY_ARRIVAL_PLANES_SOON = "select f.plane from Flight as f right join f.plane as p "
+			+ "where f.realArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE;
 	private static Session session;
 
 	public static boolean insertObject(Object object) {
@@ -109,8 +117,7 @@ public class HibernateGeneric {
 	}
 
 	public static Plane getFreePlane() {
-		// TODO hau ondo dabil, kontua da oindio randomena daola gehitzeko, eta
-		// ez dau lista bat bueltauko
+
 		Plane plane = null;
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
@@ -127,8 +134,7 @@ public class HibernateGeneric {
 
 	@SuppressWarnings("unchecked")
 	public static Route selectDepartureRouteFromAirport(int airportId) {
-		// TODO hau ondo dabil, kontua da oindio randomena daola gehitzeko, eta
-		// ez dau lista bat bueltauko
+
 		List<Route> routeList = null;
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
@@ -144,17 +150,33 @@ public class HibernateGeneric {
 		return routeList.get(0);
 	}
 
-	public static ArrayList<Plane> getArrivingPlanesSoon() {
+	@SuppressWarnings("unchecked")
+	public static List<Plane> getArrivingPlanesSoon() {
+		List<Plane> planeList = null;
+		Date soon = new Date();
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			// TODO PLANESTATUS GEHITZEN DANIAN HAU INPLEMENTATZEKO GERATZEN DA
+			Query query = session.createQuery(QUERY_ARRIVAL_PLANES_SOON);
+			query.setParameter(PARAMETER_SOON_DATE, new Date(
+					soon.getTime() + (MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY * DAY_NUMBER)));
+
+			planeList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return planeList;
+	}
+
+	public static List<Plane> getDeparturingPlanesSoon() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static ArrayList<Plane> getDeparturingPlanesSoon() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public static ArrayList<Lane> getFreeLanes() {
+	public static List<Lane> getFreeLanes() {
 		// TODO Auto-generated method stub
 		return null;
 	}
