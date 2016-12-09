@@ -12,14 +12,12 @@ public class TestDaoNode {
 	private static final String ERROR_REMOVING = "Error removing one node from database";
 	private static final String ERROR_LOAD = "Error load all nodes from database";
 	private static final String ERROR_INSERT = "Error insert node into database";
-	private static final String NODE_NAME = "Node A";
-	private static final double POSITION_X = 33.2;
-	private static final double POSITION_Y = 13.2;
+
 
 	@Test
 	public void testInsertNodeIntoDB() {
 
-		boolean result = HibernateGeneric.insertObject(initNode());
+		boolean result = HibernateGeneric.insertObject(Initializer.initNode());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -31,18 +29,12 @@ public class TestDaoNode {
 
 	@Test
 	public void testRemoveOneSpecificnode() {
-		Node node = initNode();
+		Node node = Initializer.initNode();
 		HibernateGeneric.insertObject(node);
 		boolean result = HibernateGeneric.deleteObject(node);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
-	public static Node initNode() {
-		Node node = new Node();
-		node.setName(NODE_NAME);
-		node.setPositionX(POSITION_X);
-		node.setPositionY(POSITION_Y);
-		return node;
-	}
+	
 
 }

@@ -11,11 +11,10 @@ public class TestDaoState {
 	private static final String ERROR_REMOVING = "Error removing one gate from database";
 	private static final String ERROR_LOAD = "Error load all states from database";
 	private static final String ERROR_INSERT = "Error insert gate into database";
-	private static final String EUSKAL_HERRIA = "Euskal Herria";
 
 	@Test
 	public void testInsertStateIntoDB() {
-		State state = initState();
+		State state = Initializer.initState();
 		boolean result = HibernateGeneric.insertObject(state);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -28,16 +27,12 @@ public class TestDaoState {
 
 	@Test
 	public void testRemoveOneSpecificState() {
-		State state = initState();
+		State state = Initializer.initState();
 		HibernateGeneric.insertObject(state);
 		boolean result = HibernateGeneric.deleteObject(state);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
-	public static State initState() {
-		State state = new State();
-		state.setName(EUSKAL_HERRIA);
-		return state;
-	}
+
 
 }

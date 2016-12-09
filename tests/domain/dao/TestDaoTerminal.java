@@ -18,11 +18,10 @@ public class TestDaoTerminal {
 	private static final String ERROR_REMOVING = "Error removing one terminal from database";
 	private static final String ERROR_GETTING = "Error getting all terminals of an airport from database";
 	private static final String ERROR_INSERT = "Error insert terminal into database";
-	private static final String TERMINAL_NAME = "3";
 
 	@Test
 	public void testInsertTerminalWithoutGatesIntoDB() {
-		Terminal terminal = initTerminal();
+		Terminal terminal = Initializer.initTerminal();
 		boolean result = HibernateGeneric.insertObject(terminal);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -37,16 +36,16 @@ public class TestDaoTerminal {
 
 	@Test
 	public void testRemoveOneSpecificTerminal() {
-		State state = TestDaoState.initState();
+		State state = Initializer.initState();
 		HibernateGeneric.insertObject(state);
 		
-		City city = TestDaoCity.initCity(state);
+		City city = Initializer.initCity(state);
 		HibernateGeneric.insertObject(city);
 		
-		Airport airport = TestDaoAirport.initAirport(city);
+		Airport airport = Initializer.initAirport(city);
 		HibernateGeneric.insertObject(airport);
 
-		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport);
 		HibernateGeneric.insertObject(terminal);
 
 		boolean result = HibernateGeneric.deleteObject(terminal);
@@ -54,17 +53,5 @@ public class TestDaoTerminal {
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
-	public static Terminal initTerminal() {
-		Terminal terminal = new Terminal();
-		terminal.setName(TERMINAL_NAME);
-		return terminal;
-
-	}
-	public static Terminal initTerminal(Airport airport) {
-		Terminal terminal = initTerminal();
-		terminal.setAirport(airport);
-		return terminal;
-
-	}
 
 }

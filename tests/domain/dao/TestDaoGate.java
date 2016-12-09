@@ -20,23 +20,22 @@ public class TestDaoGate {
 	private static final String ERROR_REMOVING = "Error removing one gate from database";
 	private static final String ERROR_GETTING = "Error getting all gates of a terminal from database";
 	private static final String ERROR_INSERT = "Error insert gate into database";
-	private static final int GATE_NUM = 3;
 
 	@Test
 	public void testInsertGateIntoDB() {
-		State state = TestDaoState.initState();
+		State state = Initializer.initState();
 		HibernateGeneric.insertObject(state);
 		
-		City city = TestDaoCity.initCity(state);
+		City city = Initializer.initCity(state);
 		HibernateGeneric.insertObject(city);
 		
-		Airport airport = TestDaoAirport.initAirport(city);
+		Airport airport = Initializer.initAirport(city);
 		HibernateGeneric.insertObject(airport);
 
-		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport);
 		HibernateGeneric.insertObject(terminal);
 
-		boolean result = HibernateGeneric.insertObject(initGate(terminal));
+		boolean result = HibernateGeneric.insertObject(Initializer.initGate(terminal));
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -50,54 +49,28 @@ public class TestDaoGate {
 
 	@Test
 	public void testRemoveOneSpecificGate() {
-		Node node = TestDaoNode.initNode();
+		Node node = Initializer.initNode();
 		HibernateGeneric.insertObject(node);
 		
-		State state = TestDaoState.initState();
+		State state = Initializer.initState();
 		HibernateGeneric.insertObject(state);
 		
-		City city = TestDaoCity.initCity(state);
+		City city = Initializer.initCity(state);
 		HibernateGeneric.insertObject(city);
 		
-		Airport airport = TestDaoAirport.initAirport(city);
+		Airport airport = Initializer.initAirport(city);
 		HibernateGeneric.insertObject(airport);
 
-		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport);
 		HibernateGeneric.insertObject(terminal);
 		
-		Gate gate = initGate(node, terminal);
+		Gate gate = Initializer.initGate(node, terminal);
 		HibernateGeneric.insertObject(gate);
 		
 		boolean result = HibernateGeneric.deleteObject(gate);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
-	public static Gate initGate(Node node) {
-		Gate gate = initGate();
-		gate.setPositionNode(node);
-		return gate;
 
-	}
-
-	public static Gate initGate(Node node, Terminal terminal) {
-		Gate gate = initGate();
-		gate.setPositionNode(node);
-		gate.setTerminal(terminal);
-		return gate;
-
-	}
-
-	public static Gate initGate(Terminal terminal) {
-		Gate gate = initGate();
-		gate.setTerminal(terminal);
-		return gate;
-
-	}
-
-	public static Gate initGate() {
-		Gate gate = new Gate();
-		gate.setNumber(GATE_NUM);
-		return gate;
-	}
 
 }

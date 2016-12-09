@@ -28,7 +28,7 @@ public class TestDaoRoute {
 	@Test
 	public void testInsertRouteWithGatesIntoDB() {
 
-		boolean result = HibernateGeneric.insertObject(initCompleteRoute());
+		boolean result = HibernateGeneric.insertObject(Initializer.initCompleteRoute());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -41,7 +41,7 @@ public class TestDaoRoute {
 	@Test
 	public void testRemoveOneSpecificRoute() {
 
-		HibernateGeneric.insertObject(initCompleteRoute());
+		HibernateGeneric.insertObject(Initializer.initCompleteRoute());
 		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
 		boolean result = HibernateGeneric.deleteObject((Route) HibernateGeneric.loadAllObjects(new Route()).get(0));
 		assertEquals(REMOVE_ERROR, true, result);
@@ -50,22 +50,22 @@ public class TestDaoRoute {
 	@Test
 	public void testGetListOfArrivalRoutesOfAirportByAirportId() {
 
-		State state = TestDaoState.initState();
+		State state = Initializer.initState();
 		HibernateGeneric.insertObject(state);
 
-		City city = TestDaoCity.initCity(state);
+		City city = Initializer.initCity(state);
 		HibernateGeneric.insertObject(city);
 
-		Airport airport = TestDaoAirport.initAirport(city);
+		Airport airport = Initializer.initAirport(city);
 		HibernateGeneric.insertObject(airport);
 
-		Terminal terminal = TestDaoTerminal.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport);
 		HibernateGeneric.insertObject(terminal);
 
-		Gate gate = TestDaoGate.initGate(terminal);
+		Gate gate = Initializer.initGate(terminal);
 		HibernateGeneric.insertObject(gate);
 
-		Route expectedRoute = initRoute(gate, gate);
+		Route expectedRoute = Initializer.initRoute(gate, gate);
 		HibernateGeneric.insertObject(expectedRoute);
 
 		Route actualRoute = HibernateGeneric.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
@@ -74,31 +74,6 @@ public class TestDaoRoute {
 
 	}
 
-	private Route initCompleteRoute() {
 
-		State state = TestDaoState.initState();
-		HibernateGeneric.insertObject(state);
-
-		City city = TestDaoCity.initCity(state);
-		HibernateGeneric.insertObject(city);
-
-		Airport airport = TestDaoAirport.initAirport(city);
-		HibernateGeneric.insertObject(airport);
-
-		Terminal terminal = TestDaoTerminal.initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
-
-		Gate gate = TestDaoGate.initGate(terminal);
-		HibernateGeneric.insertObject(gate);
-
-		return initRoute(gate, gate);
-	}
-
-	public static Route initRoute(Gate arrivalGate, Gate departureGate) {
-		Route route = new Route();
-		route.setArrivalGate(arrivalGate);
-		route.setDepartureGate(departureGate);
-		return route;
-	}
 
 }
