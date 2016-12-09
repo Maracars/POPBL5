@@ -2,6 +2,7 @@ package domain.model;
 
 import java.util.concurrent.Semaphore;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,13 +18,20 @@ public class Lane {
 
 	private String name;
 
+	@Column(nullable=false)
 	private Boolean status;
+	
+	@Column(nullable=false)
+	private Boolean principal;
 
 	@ManyToOne(optional = false)
 	private Node startNode;
 
 	@ManyToOne(optional = false)
 	private Node endNode;
+	
+	@ManyToOne(optional = false)
+	private Airport airport;
 
 	@Transient
 	private Semaphore semaphore;
@@ -62,6 +70,22 @@ public class Lane {
 
 	public Boolean isFree() {
 		return status;
+	}
+
+	public Boolean isPrincipal() {
+		return principal;
+	}
+
+	public Airport getAirport() {
+		return airport;
+	}
+
+	public void setAirport(Airport airport) {
+		this.airport = airport;
+	}
+
+	public void setPrincipal(Boolean principal) {
+		this.principal = principal;
 	}
 
 	public void setStatus(Boolean status) {
