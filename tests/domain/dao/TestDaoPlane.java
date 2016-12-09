@@ -12,6 +12,7 @@ import domain.model.Airline;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
+import domain.model.PlaneStatus;
 import domain.model.User;
 
 public class TestDaoPlane {
@@ -38,8 +39,11 @@ public class TestDaoPlane {
 		Airline airline = TestDaoAirline.initAirline();
 		deleteAllUsers();
 		HibernateGeneric.insertObject(airline);
+		
+		PlaneStatus planeStatus = TestDaoPlaneStatus.initPlaneStatus();
+		HibernateGeneric.insertObject(planeStatus);
 
-		Plane plane = initPlane(airline, new Date());
+		Plane plane = initPlane(airline, new Date(), planeStatus);
 		boolean result = HibernateGeneric.insertObject(plane);
 		assertEquals(ERROR_INSERT, false, result);
 	}
@@ -59,8 +63,11 @@ public class TestDaoPlane {
 
 		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
 		HibernateGeneric.insertObject(planeModel);
+		
+		PlaneStatus planeStatus = TestDaoPlaneStatus.initPlaneStatus();
+		HibernateGeneric.insertObject(planeStatus);
 
-		Plane plane = initPlane(airline, planeModel);
+		Plane plane = initPlane(airline, planeModel, planeStatus);
 		boolean result = HibernateGeneric.insertObject(plane);
 		assertEquals(ERROR_INSERT, false, result);
 	}
@@ -73,10 +80,34 @@ public class TestDaoPlane {
 
 		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
 		HibernateGeneric.insertObject(planeModel);
+		
+		PlaneStatus planeStatus = TestDaoPlaneStatus.initPlaneStatus();
+		HibernateGeneric.insertObject(planeStatus);
 
-		Plane plane = initPlane(planeModel, new Date());
+		Plane plane = initPlane(planeModel, new Date(), planeStatus);
 		boolean result = HibernateGeneric.insertObject(plane);
 		assertEquals(ERROR_INSERT, true, result);
+	}
+	
+	@Test
+	public void testInsertPlaneWithoutPlaneStatusIntoDB(){
+		
+		deleteAllPlanes();
+		
+		Airline airline = TestDaoAirline.initAirline();
+		deleteAllUsers();
+		HibernateGeneric.insertObject(airline);
+		
+		PlaneMaker planeMaker = TestDaoPlaneMaker.initPlaneMaker();
+		HibernateGeneric.insertObject(planeMaker);
+
+		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
+		HibernateGeneric.insertObject(planeModel);
+		
+		Plane plane = initPlane(planeModel, new Date(), airline);
+		boolean result = HibernateGeneric.insertObject(plane);
+		assertEquals(ERROR_INSERT, false, result);
+		
 	}
 
 	@Test
@@ -98,8 +129,11 @@ public class TestDaoPlane {
 
 		PlaneModel planeModel = TestDaoPlaneModel.initPlaneModel(planeMaker);
 		HibernateGeneric.insertObject(planeModel);
+		
+		PlaneStatus planeStatus = TestDaoPlaneStatus.initPlaneStatus();
+		HibernateGeneric.insertObject(planeStatus);
 
-		return initPlane(airline, planeModel, new Date());
+		return initPlane(airline, planeModel, new Date(), planeStatus);
 	}
 
 	public static Plane initPlane() {
@@ -109,38 +143,53 @@ public class TestDaoPlane {
 
 	}
 
-	public static Plane initPlane(Airline airline, PlaneModel planeModel, Date date) {
+	public static Plane initPlane(Airline airline, PlaneModel planeModel, Date date, PlaneStatus planeStatus) {
 		Plane plane = initPlane();
 		plane.setAirline(airline);
 		plane.setModel(planeModel);
 		plane.setFabricationDate(date);
+		plane.setPlaneStatus(planeStatus);
 
 		return plane;
 
 	}
 
-	public static Plane initPlane(Airline airline, Date date) {
+	public static Plane initPlane(Airline airline, Date date, PlaneStatus planeStatus) {
 		Plane plane = initPlane();
 		plane.setAirline(airline);
 		plane.setFabricationDate(date);
-
+		plane.setPlaneStatus(planeStatus);
+		
 		return plane;
 
 	}
 
-	public static Plane initPlane(PlaneModel planeModel, Date date) {
+	public static Plane initPlane(PlaneModel planeModel, Date date, PlaneStatus planeStatus) {
 		Plane plane = initPlane();
 		plane.setModel(planeModel);
 		plane.setFabricationDate(date);
+		plane.setPlaneStatus(planeStatus);
+		
 		return plane;
 
 	}
 
-	public static Plane initPlane(Airline airline, PlaneModel planeModel) {
+	public static Plane initPlane(Airline airline, PlaneModel planeModel, PlaneStatus planeStatus) {
 		Plane plane = initPlane();
 		plane.setAirline(airline);
 		plane.setModel(planeModel);
-		return null;
+		plane.setPlaneStatus(planeStatus);
+		
+		return plane;
+	}
+	
+	private Plane initPlane(PlaneModel planeModel, Date date, Airline airline) {
+		Plane plane = initPlane();
+		plane.setAirline(airline);
+		plane.setModel(planeModel);
+		plane.setFabricationDate(date);
+		
+		return plane;
 	}
 
 	/* For testing, delete all users */

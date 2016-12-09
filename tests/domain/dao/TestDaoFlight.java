@@ -21,6 +21,7 @@ import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import domain.model.PlaneMovement;
+import domain.model.PlaneStatus;
 import domain.model.Route;
 import domain.model.State;
 import domain.model.Terminal;
@@ -78,8 +79,11 @@ public class TestDaoFlight {
 
 		Airline airline = TestDaoAirline.initAirline();
 		HibernateGeneric.insertObject(airline);
+		
+		PlaneStatus planeStatus = TestDaoPlaneStatus.initPlaneStatus();
+		HibernateGeneric.insertObject(planeStatus);
 
-		Plane plane = TestDaoPlane.initPlane(airline, planeModel, new Date());
+		Plane plane = TestDaoPlane.initPlane(airline, planeModel, new Date(), planeStatus);
 		HibernateGeneric.insertObject(plane);
 
 		Passenger passenger = TestDaoPassenger.initPassenger(USERNAME_2, PASSWORD_2, new Date());

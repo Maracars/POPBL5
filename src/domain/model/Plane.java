@@ -30,6 +30,18 @@ public class Plane {
 	@ManyToOne
 	// TODO taga definitu
 	Airline airline;
+	
+	@ManyToOne(optional = false)
+	PlaneStatus planeStatus;
+	
+
+	public PlaneStatus getPlaneStatus() {
+		return planeStatus;
+	}
+
+	public void setPlaneStatus(PlaneStatus planeStatus) {
+		this.planeStatus = planeStatus;
+	}
 
 	public Airline getAirline() {
 		return airline;
