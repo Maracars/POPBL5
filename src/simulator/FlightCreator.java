@@ -49,22 +49,23 @@ public class FlightCreator implements Runnable {
 		Plane plane = new Plane();
 		while (!checkScheduleFull()) {
 			Route route = selectRandomArrivalRoute();
-			if ((plane = HibernateGeneric.getFreePlane(route)) == null) {
+			if ((plane = HibernateGeneric.getFreePlane()) == null) {
 				plane = createPlane(route);
 			}
 			assignRouteInSpecificTime(route, plane, ARRIVAL);
-			route = HibernateGeneric.selectDepartureRouteFromAirline(plane.getAirline());
+			route = HibernateGeneric.selectDepartureRouteFromAirport(plane.getAirline().getId());
 			assignRouteInSpecificTime(route, plane, DEPARTURE);
 		}
 	}
 
 	private Route selectRandomArrivalRoute() {
-		List<Route> routeList = HibernateGeneric.getRandomArrivalRouteFromAirport(1); 
-		// TODO aukeratu bat aleatoriamente listatik eta airporId hori behar dan moduen hartu eta ez MAGICNUMBER
-		return new Route();
+		List<Route> routeList = HibernateGeneric.getRandomArrivalRouteFromAirport(1);
+		// TODO aukeratu bat aleatoriamente listatik eta airporId hori behar dan
+		// moduen hartu eta ez MAGICNUMBER
+		return routeList.get(0);
 	}
 
-	private void assignRouteInSpecificTime(Route route, Plane plane, boolean mode) { 
+	private void assignRouteInSpecificTime(Route route, Plane plane, boolean mode) {
 		Date date = selectDate(mode);// select date
 		Flight flight = createFlight(route, plane, date);
 		HibernateGeneric.insertObject(flight);

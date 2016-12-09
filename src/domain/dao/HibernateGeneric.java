@@ -8,8 +8,6 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
-import domain.model.Airline;
-import domain.model.Airport;
 import domain.model.Lane;
 import domain.model.Plane;
 import domain.model.Route;
@@ -21,8 +19,13 @@ public class HibernateGeneric {
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = "from Route as r "
 			+ "where r.arrivalGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
-	private static final String QUERY_DEPARTURE_ROUTES_OF_AIRLINE_FROM_AIRPORTID = "from Route as r "
-			+ "where r.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID + " and ";
+	private static final String QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID = "from Route as r "
+			+ "where r.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
+	private static final String QUERY_FREE_PLANE = "select f.plane from Flight as f right join f.plane as p "
+			+ "with f.realArrivalDate < current_date";
+
+	private static final String QUERY_SOON_ARRIVAL_PLANE = "select f.plane from Flight as f join f.plane as p "
+			+ "with f.expectedArrivalDate < current_date";
 	private static Session session;
 
 	public static boolean insertObject(Object object) {
@@ -88,7 +91,8 @@ public class HibernateGeneric {
 
 	@SuppressWarnings("unchecked")
 	public static List<Route> getRandomArrivalRouteFromAirport(int airportId) {
-		//TODO hau ondo dabil, kontua da oindio randomena daola gehitzeko, eta ez dau lista bat bueltauko
+		// TODO hau ondo dabil, kontua da oindio randomena daola gehitzeko, eta
+		// ez dau lista bat bueltauko
 		List<Route> routeList = null;
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
@@ -104,14 +108,40 @@ public class HibernateGeneric {
 		return routeList;
 	}
 
-	public static Plane getFreePlane(Route route) {
-		// TODO Auto-generated method stub
-		return null;
+	public static Plane getFreePlane() {
+		// TODO hau ondo dabil, kontua da oindio randomena daola gehitzeko, eta
+		// ez dau lista bat bueltauko
+		Plane plane = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(QUERY_FREE_PLANE);
+			plane = (Plane) query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return plane;
 	}
 
-	public static Route selectDepartureRouteFromAirline(Airline airline) {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("unchecked")
+	public static Route selectDepartureRouteFromAirport(int airportId) {
+		// TODO hau ondo dabil, kontua da oindio randomena daola gehitzeko, eta
+		// ez dau lista bat bueltauko
+		List<Route> routeList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID);
+			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
+			routeList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return routeList.get(0);
 	}
 
 	public static ArrayList<Plane> getArrivingPlanesSoon() {

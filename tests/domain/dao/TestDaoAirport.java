@@ -15,7 +15,6 @@ public class TestDaoAirport {
 	private static final String ERROR_LOAD = "Error load all airports from database";
 	private static final String HEATHROW = "Heathrow";
 	private static final String INSERT_ERROR = "Error insert airport into database";
-	private static final String REMOVE_ERROR = "Error removing one airport from database";
 
 	@Test
 	public void testInsertAirportWithoutCityAndTerminalIntoDB() {
@@ -51,24 +50,13 @@ public class TestDaoAirport {
 
 	}
 
-	@Test
-	public void testRemoveOneSpecificAirport() {
-
-		HibernateGeneric.insertObject(initCompleteAirport());
-		Airport a = (Airport) HibernateGeneric.loadAllObjects(new Airport()).get(0);
-		boolean result = HibernateGeneric.deleteObject(a);
-
-		assertEquals(REMOVE_ERROR, true, result);
-	}
-
 	private Airport initCompleteAirport() {
-		
+
 		State state = TestDaoState.initState();
 		HibernateGeneric.insertObject(state);
-		
+
 		City city = TestDaoCity.initCity(state);
 		HibernateGeneric.insertObject(city);
-
 
 		return initAirport(city);
 	}

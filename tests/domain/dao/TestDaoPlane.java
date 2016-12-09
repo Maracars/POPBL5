@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import domain.model.Airline;
+import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
@@ -84,9 +85,35 @@ public class TestDaoPlane {
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Plane()));
 
 	}
+	
+	@Test
+	public void testGetFreePlaneWithPastFlight() {
+		Plane plane = initCompletePlane();
+		HibernateGeneric.insertObject(plane);
+		
+		Flight flight = TestDaoFlight.initFlight(plane);
+		Date date = new Date();
+		date.setTime(date.getTime() - 111111);
+		flight.setRealArrivalDate(date);
+		HibernateGeneric.insertObject(flight);
+		
+		Plane resultPlane = HibernateGeneric.getFreePlane();
+		assertNotNull("a", resultPlane);
+	}
+	
+	@Test
+	public void testGetFreePlaneWithoutFlight() {
+		Plane plane = initCompletePlane();
+		HibernateGeneric.insertObject(plane);
+		
+		Plane resultPlane = HibernateGeneric.getFreePlane();
+		assertNotNull("a", resultPlane);
+	}
+	
 
 	private Plane initCompletePlane() {
-
+		
+		deleteAllFlights();
 		deleteAllPlanes();
 
 		Airline airline = TestDaoAirline.initAirline();
@@ -155,6 +182,12 @@ public class TestDaoPlane {
 		List<Object> listPlanes = HibernateGeneric.loadAllObjects(new Plane());
 		for (Object plane : listPlanes) {
 			HibernateGeneric.deleteObject((Plane) plane);
+		}
+	}
+	private void deleteAllFlights() {
+		List<Object> listFlight = HibernateGeneric.loadAllObjects(new Flight());
+		for (Object flight : listFlight) {
+			HibernateGeneric.deleteObject((Flight) flight);
 		}
 	}
 

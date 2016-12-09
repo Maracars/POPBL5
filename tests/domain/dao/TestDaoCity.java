@@ -38,9 +38,9 @@ public class TestDaoCity {
 	@Test
 	public void testRemoveOneSpecificCity() {
 
-		HibernateGeneric.insertObject(initCompleteCity());
-		boolean result = HibernateGeneric.deleteObject(
-				(City) HibernateGeneric.loadAllObjects(new City()).get(0));
+		City city = initCompleteCity();
+		HibernateGeneric.insertObject(city);
+		boolean result = HibernateGeneric.deleteObject(city);
 
 		assertEquals(REMOVE_ERROR, true, result);
 	}

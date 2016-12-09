@@ -1,6 +1,5 @@
 package domain.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,10 +11,10 @@ public class City {
 	@Id
 	@GeneratedValue
 	Integer id;
+
 	String name;
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	// Honek dana gordeko dau, hirixa
-	// eta estatua
+
+	@ManyToOne
 	@NotNull
 	State state;
 
