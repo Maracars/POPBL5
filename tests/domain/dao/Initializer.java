@@ -678,4 +678,12 @@ public class Initializer {
 		}
 	}
 
+	public static void deleteAllLanes() {
+		List<Object> lanesList = HibernateGeneric.loadAllObjects(new Lane());
+		for(Object lanes : lanesList){
+			HibernateGeneric.deleteObject((Lane) lanes);
+		}
+		
+	}
+
 }

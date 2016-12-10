@@ -37,6 +37,8 @@ public class HibernateGeneric {
 	private static final int DEPARTURE_DAY_MARGIN = 0;
 	private static final String QUERY_DEPARTURING_PLANES_SOON = "select f.plane from Flight as f right join f.plane as p "
 			+ "where f.expectedDepartureDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE;
+	private static final String QUERY_FREE_LANES = "from Lane as l "
+			+ "where l.principal is true and l.status is true and l.airport.id = :" + PARAMETER_AIRPORT_ID;
 	private static Session session;
 
 	public static boolean insertObject(Object object) {
@@ -195,9 +197,22 @@ public class HibernateGeneric {
 		return planeList;
 	}
 
-	public static List<Lane> getFreeLanes() {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("unchecked")
+	public static List<Lane> getFreeLanes(int airportId) {
+		List<Lane> laneList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(QUERY_FREE_LANES);
+			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
+			if(query.getResultList().size() > 0){
+				laneList = query.getResultList();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return laneList;
 	}
 
 	public static Plane selectPlaneNeedToRevise() {

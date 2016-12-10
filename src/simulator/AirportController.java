@@ -13,7 +13,7 @@ public class AirportController implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			if (activePlaneList.size() > 0 && (freeLaneList = HibernateGeneric.getFreeLanes()) != null) { //Aldatzeko aiport Id
+			if (activePlaneList.size() > 0 && (freeLaneList = HibernateGeneric.getFreeLanes(1)) != null) { //Aldatzeko aiport Id
 				PlaneThread plane = activePlaneList.get(0);
 				plane.setLane(freeLaneList.get(0));
 				activePlaneList.remove(plane);
@@ -25,7 +25,7 @@ public class AirportController implements Runnable {
 
 	public boolean askPermission(PlaneThread plane) {
 		boolean ret;
-		if (activePlaneList.size() == 0 && (freeLaneList = HibernateGeneric.getFreeLanes()) != null) { //Aldatzeko airport Id
+		if (activePlaneList.size() == 0 && (freeLaneList = HibernateGeneric.getFreeLanes(1)) != null) { //Aldatzeko airport Id
 			plane.setLane(freeLaneList.get(0));
 			ret = true;
 		} else {
