@@ -30,8 +30,6 @@ public class HibernateGeneric {
 	private static final String QUERY_FREE_PLANE = "select f.plane from Flight as f right join f.plane as p "
 			+ "with f.realArrivalDate < current_date";
 
-	private static final String QUERY_SOON_ARRIVAL_PLANE = "select f.plane from Flight as f join f.plane as p "
-			+ "where f.expectedArrivalDate < current_date";
 	private static final String QUERY_ARRIVAL_PLANES_SOON = "select f.plane from Flight as f right join f.plane as p "
 			+ "where f.expectedArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE;
 	private static final int DEPARTURE_DAY_MARGIN = 0;
@@ -39,6 +37,7 @@ public class HibernateGeneric {
 			+ "where f.expectedDepartureDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE;
 	private static final String QUERY_FREE_LANES = "from Lane as l "
 			+ "where l.principal is true and l.status is true and l.airport.id = :" + PARAMETER_AIRPORT_ID;
+	private static final String QUERY_PLANES_NEED_REVISE = "from Plane as p where p.status.name = 'NEEDS REVISION'";
 	private static Session session;
 
 	public static boolean insertObject(Object object) {
@@ -163,8 +162,8 @@ public class HibernateGeneric {
 			session = HibernateConnection.getSessionFactory().openSession();
 			// TODO PLANESTATUS GEHITZEN DANIAN HAU INPLEMENTATZEKO GERATZEN DA
 			Query query = session.createQuery(QUERY_ARRIVAL_PLANES_SOON);
-			query.setParameter(PARAMETER_SOON_DATE, new Date(
-					soon.getTime() + (MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY * ARRIVAL_DAY_MARGIN)));
+			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime()
+					+ (MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY * ARRIVAL_DAY_MARGIN)));
 
 			planeList = query.getResultList();
 		} catch (Exception e) {
@@ -184,8 +183,8 @@ public class HibernateGeneric {
 			session = HibernateConnection.getSessionFactory().openSession();
 			// TODO PLANESTATUS GEHITZEN DANIAN HAU INPLEMENTATZEKO GERATZEN DA
 			Query query = session.createQuery(QUERY_DEPARTURING_PLANES_SOON);
-			query.setParameter(PARAMETER_SOON_DATE, new Date(
-					soon.getTime() + (MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY * DEPARTURE_DAY_MARGIN)));
+			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime()
+					+ (MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY * DEPARTURE_DAY_MARGIN)));
 
 			planeList = query.getResultList();
 		} catch (Exception e) {
@@ -204,7 +203,7 @@ public class HibernateGeneric {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_FREE_LANES);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
-			if(query.getResultList().size() > 0){
+			if (query.getResultList().size() > 0) {
 				laneList = query.getResultList();
 			}
 		} catch (Exception e) {
@@ -216,11 +215,22 @@ public class HibernateGeneric {
 	}
 
 	public static Plane selectPlaneNeedToRevise() {
-		// TODO Auto-generated method stub
-		return null;
+		Plane plane = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(QUERY_PLANES_NEED_REVISE);
+			plane = (Plane) query.getSingleResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return plane;
 	}
 
-	public static void revisePlane(Plane planeToRevise) {
+	public static boolean revisePlane(Plane planeToRevise) {
+		return false;
 		// TODO Auto-generated method stub
 
 	}

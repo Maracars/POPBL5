@@ -27,6 +27,16 @@ public class TestDaoPlane {
 	}
 
 	@Test
+	public void testselectPlaneNeedToReviseDB() {
+
+		Plane planeExpected = Initializer.initCompletePlane();
+
+		HibernateGeneric.insertObject(planeExpected);
+		Plane planeResult = HibernateGeneric.selectPlaneNeedToRevise();
+		assertEquals(ERROR_INSERT, planeExpected.getId(), planeResult.getId());
+	}
+
+	@Test
 	public void testInsertPlaneWithoutModelIntoDB() {
 
 		Initializer.deleteAllPlanes();
@@ -118,7 +128,7 @@ public class TestDaoPlane {
 		assertNotNull(ERROR_LOAD, HibernateGeneric.getArrivingPlanesSoon());
 
 	}
-	
+
 	@Test
 	public void getSoonDeparturingPlanesFromDB() {
 		Plane plane = Initializer.initCompletePlane();

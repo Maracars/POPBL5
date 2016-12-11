@@ -48,7 +48,7 @@ public class Initializer {
 	private static final double POSITION = 3.2;
 	private static final double DIRECTION = 3.2;
 
-	private static final String NAME = "OK";
+	private static final String NAME = "NEEDS REVISION";
 	private static final String DESCRIPTION = "The plane does not have any problem";
 
 	private static final String EUSKAL_HERRIA = "Euskal Herria";
