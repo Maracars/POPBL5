@@ -1,7 +1,6 @@
 package simulator;
 
 import domain.dao.DAOPlane;
-import domain.dao.HibernateGeneric;
 import domain.model.Plane;
 
 public class AutomaticMaintenance implements Runnable {
@@ -10,7 +9,10 @@ public class AutomaticMaintenance implements Runnable {
 	public void run() {
 		while (true) {
 			Plane planeToRevise = DAOPlane.selectPlaneNeedToRevise();
-			HibernateGeneric.revisePlane(planeToRevise);
+			if (planeToRevise != null) {
+				DAOPlane.revisePlane(planeToRevise);
+				System.out.println("Plane revised");
+			}
 			// sleep??
 		}
 

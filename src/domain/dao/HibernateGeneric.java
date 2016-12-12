@@ -6,7 +6,6 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
-import domain.model.Plane;
 import domain.model.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;
@@ -74,12 +73,6 @@ public class HibernateGeneric {
 		}
 
 		return objectList;
-	}
-
-	public static boolean revisePlane(Plane planeToRevise) {
-		return false;
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -19,7 +19,7 @@ public class DAOPlane {
 	private static final int ARRIVAL_DAY_MARGIN = 2;
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 	private static final String PARAMETER_SOON_DATE = "soonDate";
-	
+
 	private static final String QUERY_ARRIVAL_PLANES_SOON = "select f.plane from Flight as f right join f.plane as p "
 			+ "where f.expectedArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
 			+ " and p.status.positionStatus = 'ARRIVING'";
@@ -102,6 +102,12 @@ public class DAOPlane {
 		}
 
 		return plane;
+	}
+
+	public static boolean revisePlane(Plane planeToRevise) {
+		return false;
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -17,7 +17,7 @@ public class FlightCreator implements Runnable {
 	private static final boolean DEPARTURE = true;
 	private static final int MAX_ACTIVE_PLANES = 6;
 
-	private final AtomicInteger activePlanesNum = new AtomicInteger(0);
+	private AtomicInteger activePlanesNum = new AtomicInteger(0);
 
 	private AirportController controller;
 
@@ -35,6 +35,7 @@ public class FlightCreator implements Runnable {
 			if (activePlanesNum.get() < MAX_ACTIVE_PLANES) {
 				new Thread(new ArrivingPlane(plane, controller));
 				activePlanesNum.incrementAndGet();
+				System.out.println("New plane ARRIVING.");
 			}
 		}
 
@@ -43,6 +44,7 @@ public class FlightCreator implements Runnable {
 			if (activePlanesNum.get() < MAX_ACTIVE_PLANES) {
 				new Thread(new DeparturingPlane(plane, controller));
 				activePlanesNum.incrementAndGet();
+				System.out.println("New plane wants to DEPARTURE");
 			}
 		}
 	}
@@ -55,8 +57,10 @@ public class FlightCreator implements Runnable {
 				plane = createPlane(route);
 			}
 			assignRouteInSpecificTime(route, plane, ARRIVAL);
+			System.out.println("New ARRIVING flight created.");
 			route = DAORoute.selectDepartureRouteFromAirport(plane.getAirline().getId());
 			assignRouteInSpecificTime(route, plane, DEPARTURE);
+			System.out.println("New DEPARTURING flight created.");
 		}
 	}
 
@@ -93,7 +97,6 @@ public class FlightCreator implements Runnable {
 	}
 
 	private boolean checkScheduleFull() {
-		
 		// TODO
 		return false;
 	}
