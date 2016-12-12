@@ -9,7 +9,10 @@ public class AutomaticMaintenance implements Runnable {
 	public void run() {
 		while (true) {
 			Plane planeToRevise = HibernateGeneric.selectPlaneNeedToRevise();
-			HibernateGeneric.revisePlane(planeToRevise);
+			if (planeToRevise != null) {
+				HibernateGeneric.revisePlane(planeToRevise);
+				System.out.println("Plane revised");
+			}
 			// sleep??
 		}
 

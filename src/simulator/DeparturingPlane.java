@@ -14,18 +14,21 @@ public class DeparturingPlane extends PlaneThread {
 
 	@Override
 	public void run() {
+		System.out.println("DEPARTUR plane ask PERMISSION");
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
 			// run?
 			try {
 				semControllerPermision.acquire();
 				waitingThread.interrupt();
-				goToDestine();
-				goOutFromMap();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		goToDestine();
+		System.out.println("Departure plane ready TO GO");
+		goOutFromMap();
+		System.out.println("Departure plane went OUT");
 
 	}
 

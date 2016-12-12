@@ -15,18 +15,21 @@ public class ArrivingPlane extends PlaneThread {
 	@Override
 	public void run() {
 		moveToAirport();
+		System.out.println("Arriving plane ASK PERMISSION");
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
 			// run?
 			try {
 				semControllerPermision.acquire();
 				waitingThread.interrupt();
-				landPlane();
-				goToDestine();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		landPlane();
+		System.out.println("Arriving plane LANDED");
+		goToDestine();
+		System.out.println("Arriving plane went to PARKING");
 
 	}
 

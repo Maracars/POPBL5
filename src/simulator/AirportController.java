@@ -18,6 +18,7 @@ public class AirportController implements Runnable {
 				plane.setLane(freeLaneList.get(0));
 				activePlaneList.remove(plane);
 				plane.givePermission();
+				System.out.println("Controller gives one PERMISSION");
 			}
 		}
 
@@ -28,9 +29,11 @@ public class AirportController implements Runnable {
 		if (activePlaneList.size() == 0 && (freeLaneList = HibernateGeneric.getFreeLanes(1)) != null) { //Aldatzeko airport Id
 			plane.setLane(freeLaneList.get(0));
 			ret = true;
+			System.out.println("Controller gives specific PERMISSION");
 		} else {
 			activePlaneList.add(plane);
 			ret = false;
+			System.out.println("Controller DENIES specific PERMISSION");
 		}
 		return ret;
 	}
