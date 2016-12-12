@@ -1,13 +1,12 @@
 package simulator;
 
-import domain.dao.Initializer;
 import domain.model.Airport;
 
 public class MainThread {
 
 	public static void main(String[] args) {
 
-		Airport airport = Initializer.initCompleteAirport();
+		Airport airport = new Airport();
 
 		FlightCreator fc = new FlightCreator(airport);
 		AirportController ac = new AirportController(airport);
