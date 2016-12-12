@@ -3,7 +3,6 @@ package domain.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.model.Airport;
@@ -43,7 +42,7 @@ public class TestDaoLane {
 
 		assertEquals(INSERT_ERROR, false, result);
 	}
-	
+
 	@Test
 	public void testInsertLaneWithoutStatusIntoDB() {
 		Node startNode = Initializer.initNode();
@@ -107,32 +106,31 @@ public class TestDaoLane {
 		boolean result = HibernateGeneric.deleteObject(lane);
 		assertEquals(REMOVE_ERROR, true, result);
 	}
-	
+
 	@Test
 	public void testGetFreeLanes() {
-		
+
 		Initializer.deleteAllLanes();
-		
+
 		Node startNode = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(startNode);
 
 		Node endNode = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(endNode);
-		
+
 		State state = Initializer.initState();
 		HibernateGeneric.saveOrUpdateObject(state);
-		
+
 		City city = Initializer.initCity(state);
 		HibernateGeneric.saveOrUpdateObject(city);
-		
+
 		Airport airport = Initializer.initAirport(city);
 		HibernateGeneric.saveOrUpdateObject(airport);
-		
+
 		Lane lane = Initializer.initLane(startNode, endNode, true, true, airport);
 		HibernateGeneric.saveOrUpdateObject(lane);
-		
+
 		assertNotNull(ERROR_GETFREELANES, DAOLane.getFreeLanes(airport.getId()));
 	}
-
 
 }

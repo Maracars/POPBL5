@@ -105,7 +105,7 @@ public class FlightCreator implements Runnable {
 	}
 
 	private boolean checkScheduleFull(Airport airport) {
-		Integer weekPlane = DAOSimulator.getNumberOfFlightsInAWeekFromAirport(airport.getId());
+		long weekPlane = DAOSimulator.getNumberOfFlightsInAWeekFromAirport(airport.getId());
 		return weekPlane > airport.getMaxFlights();
 	}
 

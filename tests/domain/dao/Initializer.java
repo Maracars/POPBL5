@@ -599,7 +599,7 @@ public class Initializer {
 
 		HibernateGeneric.saveOrUpdateObject(route);
 
-		return initFlight(plane, passengerList);
+		return initFlight(plane, route, passengerList);
 	}
 
 	public static Flight initFlight(Plane plane, Route route) {
