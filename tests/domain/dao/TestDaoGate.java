@@ -24,18 +24,18 @@ public class TestDaoGate {
 	@Test
 	public void testInsertGateIntoDB() {
 		State state = Initializer.initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 		
 		City city = Initializer.initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 		
 		Airport airport = Initializer.initAirport(city);
-		HibernateGeneric.insertObject(airport);
+		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
+		HibernateGeneric.saveOrUpdateObject(terminal);
 
-		boolean result = HibernateGeneric.insertObject(Initializer.initGate(terminal));
+		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initGate(terminal));
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -50,22 +50,22 @@ public class TestDaoGate {
 	@Test
 	public void testRemoveOneSpecificGate() {
 		Node node = Initializer.initNode();
-		HibernateGeneric.insertObject(node);
+		HibernateGeneric.saveOrUpdateObject(node);
 		
 		State state = Initializer.initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 		
 		City city = Initializer.initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 		
 		Airport airport = Initializer.initAirport(city);
-		HibernateGeneric.insertObject(airport);
+		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
+		HibernateGeneric.saveOrUpdateObject(terminal);
 		
 		Gate gate = Initializer.initGate(node, terminal);
-		HibernateGeneric.insertObject(gate);
+		HibernateGeneric.saveOrUpdateObject(gate);
 		
 		boolean result = HibernateGeneric.deleteObject(gate);
 		assertEquals(ERROR_REMOVING, true, result);

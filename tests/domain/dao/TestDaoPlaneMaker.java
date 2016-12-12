@@ -14,7 +14,7 @@ public class TestDaoPlaneMaker {
 	@Test
 	public void testInsertPlaneMakerIntoDB() {
 		PlaneMaker planeMaker = Initializer.initPlaneMaker();
-		boolean result = HibernateGeneric.insertObject(planeMaker);
+		boolean result = HibernateGeneric.saveOrUpdateObject(planeMaker);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 

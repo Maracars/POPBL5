@@ -22,7 +22,7 @@ public class TestDaoTerminal {
 	@Test
 	public void testInsertTerminalWithoutGatesIntoDB() {
 		Terminal terminal = Initializer.initTerminal();
-		boolean result = HibernateGeneric.insertObject(terminal);
+		boolean result = HibernateGeneric.saveOrUpdateObject(terminal);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -37,16 +37,16 @@ public class TestDaoTerminal {
 	@Test
 	public void testRemoveOneSpecificTerminal() {
 		State state = Initializer.initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 		
 		City city = Initializer.initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 		
 		Airport airport = Initializer.initAirport(city);
-		HibernateGeneric.insertObject(airport);
+		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
+		HibernateGeneric.saveOrUpdateObject(terminal);
 
 		boolean result = HibernateGeneric.deleteObject(terminal);
 		// aukeran Terminal bidaldu edo terminalId

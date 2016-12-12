@@ -29,7 +29,7 @@ public class TestRegisterActionStaticMock {
 		la.user.setPassword(SOMETHING_ELSE);
 
 		PowerMockito.mockStatic(HibernateGeneric.class);
-		PowerMockito.when(HibernateGeneric.insertObject(la.user)).thenReturn(false);
+		PowerMockito.when(HibernateGeneric.saveOrUpdateObject(la.user)).thenReturn(false);
 
 		String result = null;
 		try {
