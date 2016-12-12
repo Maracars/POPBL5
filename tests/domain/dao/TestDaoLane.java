@@ -131,7 +131,7 @@ public class TestDaoLane {
 		Lane lane = Initializer.initLane(startNode, endNode, true, true, airport);
 		HibernateGeneric.saveOrUpdateObject(lane);
 		
-		assertNotNull(ERROR_GETFREELANES, HibernateGeneric.getFreeLanes(airport.getId()));
+		assertNotNull(ERROR_GETFREELANES, DAOLane.getFreeLanes(airport.getId()));
 	}
 
 

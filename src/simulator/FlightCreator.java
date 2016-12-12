@@ -4,8 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import domain.dao.DAOPlane;
+import domain.dao.DAORoute;
 import domain.dao.HibernateGeneric;
-import domain.dao.Initializer;
 import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.Route;
@@ -29,7 +30,7 @@ public class FlightCreator implements Runnable {
 	}
 
 	private void createThreadsOfFlights() {
-		List<Plane> planeList = HibernateGeneric.getArrivingPlanesSoon();
+		List<Plane> planeList = DAOPlane.getArrivingPlanesSoon();
 		for (Plane plane : planeList) {
 			if (activePlanesNum.get() < MAX_ACTIVE_PLANES) {
 				new Thread(new ArrivingPlane(plane, controller));
@@ -37,7 +38,7 @@ public class FlightCreator implements Runnable {
 			}
 		}
 
-		planeList = HibernateGeneric.getDeparturingPlanesSoon(1);
+		planeList = DAOPlane.getDeparturingPlanesSoon(1);
 		for (Plane plane : planeList) {
 			if (activePlanesNum.get() < MAX_ACTIVE_PLANES) {
 				new Thread(new DeparturingPlane(plane, controller));
@@ -50,17 +51,17 @@ public class FlightCreator implements Runnable {
 		Plane plane = new Plane();
 		while (!checkScheduleFull()) {
 			Route route = selectRandomArrivalRoute();
-			if ((plane = HibernateGeneric.getFreePlane()) == null) {
+			if ((plane = DAOPlane.getFreePlane()) == null) {
 				plane = createPlane(route);
 			}
 			assignRouteInSpecificTime(route, plane, ARRIVAL);
-			route = HibernateGeneric.selectDepartureRouteFromAirport(plane.getAirline().getId());
+			route = DAORoute.selectDepartureRouteFromAirport(plane.getAirline().getId());
 			assignRouteInSpecificTime(route, plane, DEPARTURE);
 		}
 	}
 
 	private Route selectRandomArrivalRoute() {
-		List<Route> routeList = HibernateGeneric.getRandomArrivalRouteFromAirport(1);
+		List<Route> routeList = DAORoute.getRandomArrivalRouteFromAirport(1);
 		// TODO aukeratu bat aleatoriamente listatik eta airporId hori behar dan
 		// moduen hartu eta ez MAGICNUMBER
 		return routeList.get(0);
@@ -92,6 +93,7 @@ public class FlightCreator implements Runnable {
 	}
 
 	private boolean checkScheduleFull() {
+		
 		// TODO
 		return false;
 	}

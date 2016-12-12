@@ -17,6 +17,8 @@ import domain.model.PlaneStatus;
 
 public class TestDaoPlane {
 
+	private static final String ERROR_LOADING_PLANE_WITHOUT_FLIGHT = "ERROR LOADING PLANE WITHOUT FLIGHT";
+	private static final String ERROR_LOADING_FREE_PLANE_WITH_PAST_FLIGHT = "ERROR LOADING FREE PLANE WITH PAST FLIGHT";
 	private static final String ERROR_LOAD = "Error load all planes from database";
 	private static final String ERROR_INSERT = "Error insert plane into database";
 
@@ -33,7 +35,7 @@ public class TestDaoPlane {
 		Plane planeExpected = Initializer.initCompletePlane();
 
 		HibernateGeneric.saveOrUpdateObject(planeExpected);
-		Plane planeResult = HibernateGeneric.selectPlaneNeedToRevise();
+		Plane planeResult = DAOPlane.selectPlaneNeedToRevise();
 		assertEquals(ERROR_INSERT, planeExpected.getId(), planeResult.getId());
 	}
 
@@ -126,7 +128,7 @@ public class TestDaoPlane {
 		flight.setExpectedArrivalDate(date);
 		HibernateGeneric.saveOrUpdateObject(flight);
 
-		assertNotNull(ERROR_LOAD, HibernateGeneric.getArrivingPlanesSoon());
+		assertNotNull(ERROR_LOAD, DAOPlane.getArrivingPlanesSoon());
 
 	}
 
@@ -147,7 +149,7 @@ public class TestDaoPlane {
 		Airport airport = Initializer.initCompleteAirport();
 		HibernateGeneric.saveOrUpdateObject(airport);
 
-		assertNotNull(ERROR_LOAD, HibernateGeneric.getDeparturingPlanesSoon(airport.getId()));
+		assertNotNull(ERROR_LOAD, DAOPlane.getDeparturingPlanesSoon(airport.getId()));
 
 	}
 
@@ -168,8 +170,8 @@ public class TestDaoPlane {
 		flight.setRealArrivalDate(date);
 		HibernateGeneric.saveOrUpdateObject(flight);
 
-		Plane resultPlane = HibernateGeneric.getFreePlane();
-		assertNotNull("a", resultPlane);
+		Plane resultPlane = DAOPlane.getFreePlane();
+		assertNotNull(ERROR_LOADING_FREE_PLANE_WITH_PAST_FLIGHT, resultPlane);
 	}
 
 	@Test
@@ -177,8 +179,8 @@ public class TestDaoPlane {
 		Plane plane = Initializer.initCompletePlane();
 		HibernateGeneric.saveOrUpdateObject(plane);
 
-		Plane resultPlane = HibernateGeneric.getFreePlane();
-		assertNotNull("a", resultPlane);
+		Plane resultPlane = DAOPlane.getFreePlane();
+		assertNotNull(ERROR_LOADING_PLANE_WITHOUT_FLIGHT, resultPlane);
 	}
 
 }

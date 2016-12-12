@@ -68,7 +68,7 @@ public class TestDaoRoute {
 		Route expectedRoute = Initializer.initRoute(gate, gate);
 		HibernateGeneric.saveOrUpdateObject(expectedRoute);
 
-		Route actualRoute = HibernateGeneric.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
+		Route actualRoute = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
 
 		assertEquals(expectedRoute.getId(), actualRoute.getId());
 
