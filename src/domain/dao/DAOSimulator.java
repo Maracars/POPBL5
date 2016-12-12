@@ -24,9 +24,9 @@ public class DAOSimulator {
 			+ "and f.route.arrivalGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID + ")";
 	private static Session session;
 
-	public static int getNumberOfFlightsInAWeekFromAirport(int airportId) {
+	public static Integer getNumberOfFlightsInAWeekFromAirport(int airportId) {
 
-		int numFlights = -1;
+		Integer numFlights = null;
 		Date soon = new Date();
 
 		try {
@@ -34,7 +34,7 @@ public class DAOSimulator {
 			Query query = session.createQuery(QUERY_COUNT_FLIGHTS_IN_WEEK);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 			query.setParameter(PARAMETER_MARGIN_WEEK, new Date(soon.getTime() + (MILIS_TO_DAYS * WEEK_MARGIN)));
-			numFlights = (int) query.getSingleResult();
+			numFlights = (Integer) query.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

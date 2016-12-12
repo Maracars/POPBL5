@@ -6,7 +6,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.dao.DAOPlane;
 import domain.dao.DAORoute;
+import domain.dao.DAOSimulator;
 import domain.dao.HibernateGeneric;
+import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.Route;
@@ -20,6 +22,12 @@ public class FlightCreator implements Runnable {
 	private AtomicInteger activePlanesNum = new AtomicInteger(0);
 
 	private AirportController controller;
+	private Airport airport;
+	
+
+	public FlightCreator(Airport airport) {
+		this.airport = airport;
+	}
 
 	@Override
 	public void run() {
@@ -51,7 +59,7 @@ public class FlightCreator implements Runnable {
 
 	private void programFlights() {
 		Plane plane = new Plane();
-		while (!checkScheduleFull()) {
+		while (!checkScheduleFull(airport)) {
 			Route route = selectRandomArrivalRoute();
 			if ((plane = DAOPlane.getFreePlane()) == null) {
 				plane = createPlane(route);
@@ -65,7 +73,7 @@ public class FlightCreator implements Runnable {
 	}
 
 	private Route selectRandomArrivalRoute() {
-		List<Route> routeList = DAORoute.getRandomArrivalRouteFromAirport(1);
+		List<Route> routeList = DAORoute.getRandomArrivalRouteFromAirport(airport.getId());
 		// TODO aukeratu bat aleatoriamente listatik eta airporId hori behar dan
 		// moduen hartu eta ez MAGICNUMBER
 		return routeList.get(0);
@@ -96,9 +104,9 @@ public class FlightCreator implements Runnable {
 		return null;
 	}
 
-	private boolean checkScheduleFull() {
-		// TODO
-		return false;
+	private boolean checkScheduleFull(Airport airport) {
+		Integer weekPlane = DAOSimulator.getNumberOfFlightsInAWeekFromAirport(airport.getId());
+		return weekPlane > airport.getMaxFlights();
 	}
 
 	public synchronized void activePlaneFinished() {
