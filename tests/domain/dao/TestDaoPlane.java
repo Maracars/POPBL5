@@ -8,6 +8,7 @@ import java.util.Date;
 import org.junit.Test;
 
 import domain.model.Airline;
+import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
@@ -22,8 +23,18 @@ public class TestDaoPlane {
 	@Test
 	public void testInsertPlaneWithEverythingIntoDB() {
 
-		boolean result = HibernateGeneric.insertObject(Initializer.initCompletePlane());
+		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlane());
 		assertEquals(ERROR_INSERT, true, result);
+	}
+
+	@Test
+	public void testselectPlaneNeedToReviseDB() {
+
+		Plane planeExpected = Initializer.initCompletePlane();
+
+		HibernateGeneric.saveOrUpdateObject(planeExpected);
+		Plane planeResult = HibernateGeneric.selectPlaneNeedToRevise();
+		assertEquals(ERROR_INSERT, planeExpected.getId(), planeResult.getId());
 	}
 
 	@Test
@@ -33,13 +44,13 @@ public class TestDaoPlane {
 
 		Airline airline = Initializer.initAirline();
 		Initializer.deleteAllUsers();
-		HibernateGeneric.insertObject(airline);
+		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneStatus planeStatus = Initializer.initPlaneStatus();
-		HibernateGeneric.insertObject(planeStatus);
+		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
 		Plane plane = Initializer.initPlane(airline, new Date(), planeStatus);
-		boolean result = HibernateGeneric.insertObject(plane);
+		boolean result = HibernateGeneric.saveOrUpdateObject(plane);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
@@ -50,19 +61,19 @@ public class TestDaoPlane {
 
 		Airline airline = Initializer.initAirline();
 		Initializer.deleteAllUsers();
-		HibernateGeneric.insertObject(airline);
+		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneMaker planeMaker = Initializer.initPlaneMaker();
-		HibernateGeneric.insertObject(planeMaker);
+		HibernateGeneric.saveOrUpdateObject(planeMaker);
 
 		PlaneModel planeModel = Initializer.initPlaneModel(planeMaker);
-		HibernateGeneric.insertObject(planeModel);
+		HibernateGeneric.saveOrUpdateObject(planeModel);
 
 		PlaneStatus planeStatus = Initializer.initPlaneStatus();
-		HibernateGeneric.insertObject(planeStatus);
+		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
 		Plane plane = Initializer.initPlane(airline, planeModel, planeStatus);
-		boolean result = HibernateGeneric.insertObject(plane);
+		boolean result = HibernateGeneric.saveOrUpdateObject(plane);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
@@ -70,16 +81,16 @@ public class TestDaoPlane {
 	public void testInsertPlaneWithoutAirlineIntoDB() {
 
 		PlaneMaker planeMaker = Initializer.initPlaneMaker();
-		HibernateGeneric.insertObject(planeMaker);
+		HibernateGeneric.saveOrUpdateObject(planeMaker);
 
 		PlaneModel planeModel = Initializer.initPlaneModel(planeMaker);
-		HibernateGeneric.insertObject(planeModel);
+		HibernateGeneric.saveOrUpdateObject(planeModel);
 
 		PlaneStatus planeStatus = Initializer.initPlaneStatus();
-		HibernateGeneric.insertObject(planeStatus);
+		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
 		Plane plane = Initializer.initPlane(planeModel, new Date(), planeStatus);
-		boolean result = HibernateGeneric.insertObject(plane);
+		boolean result = HibernateGeneric.saveOrUpdateObject(plane);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -90,16 +101,16 @@ public class TestDaoPlane {
 
 		Airline airline = Initializer.initAirline();
 		Initializer.deleteAllUsers();
-		HibernateGeneric.insertObject(airline);
+		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneMaker planeMaker = Initializer.initPlaneMaker();
-		HibernateGeneric.insertObject(planeMaker);
+		HibernateGeneric.saveOrUpdateObject(planeMaker);
 
 		PlaneModel planeModel = Initializer.initPlaneModel(planeMaker);
-		HibernateGeneric.insertObject(planeModel);
+		HibernateGeneric.saveOrUpdateObject(planeModel);
 
 		Plane plane = Initializer.initPlane(planeModel, new Date(), airline);
-		boolean result = HibernateGeneric.insertObject(plane);
+		boolean result = HibernateGeneric.saveOrUpdateObject(plane);
 		assertEquals(ERROR_INSERT, false, result);
 
 	}
@@ -107,30 +118,36 @@ public class TestDaoPlane {
 	@Test
 	public void getSoonArrivingPlanesFromDB() {
 		Plane plane = Initializer.initCompletePlane();
-		HibernateGeneric.insertObject(plane);
+		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Flight flight = Initializer.initFlight(plane);
 		Date date = new Date();
 		date.setTime(date.getTime() + 111111);
 		flight.setExpectedArrivalDate(date);
-		HibernateGeneric.insertObject(flight);
+		HibernateGeneric.saveOrUpdateObject(flight);
 
 		assertNotNull(ERROR_LOAD, HibernateGeneric.getArrivingPlanesSoon());
 
 	}
-	
+
 	@Test
 	public void getSoonDeparturingPlanesFromDB() {
 		Plane plane = Initializer.initCompletePlane();
-		HibernateGeneric.insertObject(plane);
+		plane.getPlaneStatus().setTechnicalStatus("OK");
+		plane.getPlaneStatus().setPositionStatus("ON AIRPORT");
+		HibernateGeneric.saveOrUpdateObject(plane);
+		
 
 		Flight flight = Initializer.initFlight(plane);
 		Date date = new Date();
 		date.setTime(date.getTime() + 111111);
 		flight.setExpectedDepartureDate(date);
-		HibernateGeneric.insertObject(flight);
+		HibernateGeneric.saveOrUpdateObject(flight);
 
-		assertNotNull(ERROR_LOAD, HibernateGeneric.getDeparturingPlanesSoon());
+		Airport airport = Initializer.initCompleteAirport();
+		HibernateGeneric.saveOrUpdateObject(airport);
+
+		assertNotNull(ERROR_LOAD, HibernateGeneric.getDeparturingPlanesSoon(airport.getId()));
 
 	}
 
@@ -143,13 +160,13 @@ public class TestDaoPlane {
 	@Test
 	public void testGetFreePlaneWithPastFlight() {
 		Plane plane = Initializer.initCompletePlane();
-		HibernateGeneric.insertObject(plane);
+		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Flight flight = Initializer.initFlight(plane);
 		Date date = new Date();
 		date.setTime(date.getTime() - 111111);
 		flight.setRealArrivalDate(date);
-		HibernateGeneric.insertObject(flight);
+		HibernateGeneric.saveOrUpdateObject(flight);
 
 		Plane resultPlane = HibernateGeneric.getFreePlane();
 		assertNotNull("a", resultPlane);
@@ -158,7 +175,7 @@ public class TestDaoPlane {
 	@Test
 	public void testGetFreePlaneWithoutFlight() {
 		Plane plane = Initializer.initCompletePlane();
-		HibernateGeneric.insertObject(plane);
+		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Plane resultPlane = HibernateGeneric.getFreePlane();
 		assertNotNull("a", resultPlane);

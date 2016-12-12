@@ -36,7 +36,8 @@ public class FlightCreator implements Runnable {
 				System.out.println("New plane ARRIVING.");
 			}
 		}
-		planeList = HibernateGeneric.getDeparturingPlanesSoon();
+
+		planeList = HibernateGeneric.getDeparturingPlanesSoon(1);
 		for (Plane plane : planeList) {
 			if (activePlanesNum.get() < MAX_ACTIVE_PLANES) {
 				new Thread(new DeparturingPlane(plane, controller));
@@ -71,7 +72,7 @@ public class FlightCreator implements Runnable {
 	private void assignRouteInSpecificTime(Route route, Plane plane, boolean mode) {
 		Date date = selectDate(mode);// select date
 		Flight flight = createFlight(route, plane, date);
-		HibernateGeneric.insertObject(flight);
+		HibernateGeneric.saveOrUpdateObject(flight);
 	}
 
 	private Date selectDate(boolean mode) {

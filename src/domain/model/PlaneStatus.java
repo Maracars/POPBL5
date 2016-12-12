@@ -11,8 +11,10 @@ public class PlaneStatus {
 	@GeneratedValue
 	Integer id;
 	@Column(nullable = false)
-	String name;
-	String description;
+	String technicalStatus;
+	
+	@Column(nullable = false)
+	String positionStatus;
 
 	public Integer getId() {
 		return id;
@@ -22,20 +24,20 @@ public class PlaneStatus {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getTechnicalStatus() {
+		return technicalStatus;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTechnicalStatus(String technicalStatus) {
+		this.technicalStatus = technicalStatus;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getPositionStatus() {
+		return positionStatus;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setPositionStatus(String positionStatus) {
+		this.positionStatus = positionStatus;
 	}
 
 }

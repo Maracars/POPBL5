@@ -76,7 +76,7 @@ public class RegisterAction extends ActionSupport {
 			break;
 
 		}
-		String ret = HibernateGeneric.insertObject(user) ? SUCCESS : ERROR;
+		String ret = HibernateGeneric.saveOrUpdateObject(user) ? SUCCESS : ERROR;
 		user = new User();
 		repeatPassword = "";
 		return ret;

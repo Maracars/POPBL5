@@ -20,7 +20,7 @@ public class TestDaoUser {
 	@Test
 	public void testInsertUserWithoutBirthDateAndWithUsernameAndWithPasswordIntoDB() {
 		User user = Initializer.initUser(USERNAME, PASSWORD);
-		boolean result = HibernateGeneric.insertObject(user);
+		boolean result = HibernateGeneric.saveOrUpdateObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
@@ -28,7 +28,7 @@ public class TestDaoUser {
 	public void testInsertUserWithoutPasswordWithBirthDateAndAndWithUsernameIntoDB() {
 
 		User user = Initializer.initUser(USERNAME, new Date());
-		boolean result = HibernateGeneric.insertObject(user);
+		boolean result = HibernateGeneric.saveOrUpdateObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
 	}
@@ -37,7 +37,7 @@ public class TestDaoUser {
 	public void testInsertUserWithoutUsernameWithBirthDateAndAndWithPasswordIntoDB() {
 
 		User user = Initializer.initUser(new Date(), PASSWORD);
-		boolean result = HibernateGeneric.insertObject(user);
+		boolean result = HibernateGeneric.saveOrUpdateObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
 	}
@@ -47,7 +47,7 @@ public class TestDaoUser {
 
 		User user = Initializer.initUser(USERNAME, PASSWORD, new Date());
 		DAOUser.deleteUserWithUsername(user);
-		boolean result = HibernateGeneric.insertObject(user);
+		boolean result = HibernateGeneric.saveOrUpdateObject(user);
 		assertEquals(ERROR_INSERT, true, result);
 
 	}
@@ -57,7 +57,7 @@ public class TestDaoUser {
 
 		User user = Initializer.initUser(USERNAME, PASSWORD, new Date());
 		DAOUser.deleteUserWithUsername(user);
-		HibernateGeneric.insertObject(user);
+		HibernateGeneric.saveOrUpdateObject(user);
 		
 		assertNotNull(ERROR_LOAD, DAOUser.getUser(USERNAME));
 	}
@@ -71,7 +71,7 @@ public class TestDaoUser {
 		User user = Initializer.initUser(USERNAME, PASSWORD, new Date());
 		DAOUser.deleteUserWithUsername(user);
 
-		HibernateGeneric.insertObject(user);
+		HibernateGeneric.saveOrUpdateObject(user);
 
 		boolean result = DAOUser.deleteUserWithUsername(user);
 		assertEquals(ERROR_REMOVING, true, result);

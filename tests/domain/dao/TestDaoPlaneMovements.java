@@ -17,14 +17,14 @@ public class TestDaoPlaneMovements {
 	@Test
 	public void testInsertPlaneMovementsWithNothingIntoDB() {
 		PlaneMovement planeMovement = new PlaneMovement();
-		boolean result = HibernateGeneric.insertObject(planeMovement);
+		boolean result = HibernateGeneric.saveOrUpdateObject(planeMovement);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
 	@Test
 	public void testInsertPlaneMovementlWithEverythingIntoDB() {
 
-		boolean result = HibernateGeneric.insertObject(Initializer.initCompletePlaneMovements());
+		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneMovements());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 

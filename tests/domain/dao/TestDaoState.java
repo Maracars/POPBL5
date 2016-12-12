@@ -15,7 +15,7 @@ public class TestDaoState {
 	@Test
 	public void testInsertStateIntoDB() {
 		State state = Initializer.initState();
-		boolean result = HibernateGeneric.insertObject(state);
+		boolean result = HibernateGeneric.saveOrUpdateObject(state);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -28,7 +28,7 @@ public class TestDaoState {
 	@Test
 	public void testRemoveOneSpecificState() {
 		State state = Initializer.initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 		boolean result = HibernateGeneric.deleteObject(state);
 		assertEquals(ERROR_REMOVING, true, result);
 	}

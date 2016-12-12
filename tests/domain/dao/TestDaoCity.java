@@ -16,14 +16,14 @@ public class TestDaoCity {
 	@Test
 	public void testInsertCityWithoutStateIntoDB() {
 		City city = Initializer.initCity();
-		boolean result = HibernateGeneric.insertObject(city);
+		boolean result = HibernateGeneric.saveOrUpdateObject(city);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
 	@Test
 	public void testInsertCityWithStateIntoDB() {
 
-		boolean result = HibernateGeneric.insertObject(Initializer.initCompleteCity());
+		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteCity());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -37,7 +37,7 @@ public class TestDaoCity {
 	public void testRemoveOneSpecificCity() {
 
 		City city = Initializer.initCompleteCity();
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 		boolean result = HibernateGeneric.deleteObject(city);
 
 		assertEquals(REMOVE_ERROR, true, result);

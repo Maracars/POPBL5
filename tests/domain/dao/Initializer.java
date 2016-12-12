@@ -48,8 +48,8 @@ public class Initializer {
 	private static final double POSITION = 3.2;
 	private static final double DIRECTION = 3.2;
 
-	private static final String NAME = "OK";
-	private static final String DESCRIPTION = "The plane does not have any problem";
+	private static final String POSITION_STATUS = "ARRIVING";
+	private static final String TECHNICAL_STATUS = "NEEDS REVISION";
 
 	private static final String EUSKAL_HERRIA = "Euskal Herria";
 
@@ -107,19 +107,19 @@ public class Initializer {
 	public static Route initCompleteRoute() {
 
 		State state = initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 
 		City city = initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 
 		Airport airport = initAirport(city);
-		HibernateGeneric.insertObject(airport);
+		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
+		HibernateGeneric.saveOrUpdateObject(terminal);
 
 		Gate gate = initGate(terminal);
-		HibernateGeneric.insertObject(gate);
+		HibernateGeneric.saveOrUpdateObject(gate);
 
 		return initRoute(gate, gate);
 	}
@@ -133,8 +133,8 @@ public class Initializer {
 
 	public static PlaneStatus initPlaneStatus() {
 		PlaneStatus planeStatus = new PlaneStatus();
-		planeStatus.setDescription(DESCRIPTION);
-		planeStatus.setName(NAME);
+		planeStatus.setTechnicalStatus(TECHNICAL_STATUS);
+		planeStatus.setPositionStatus(POSITION_STATUS);
 		return planeStatus;
 	}
 
@@ -146,19 +146,19 @@ public class Initializer {
 		deleteAllUsers();
 
 		Airline airline = initAirline();
-		HibernateGeneric.insertObject(airline);
+		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneMaker planeMaker = initPlaneMaker();
-		HibernateGeneric.insertObject(planeMaker);
+		HibernateGeneric.saveOrUpdateObject(planeMaker);
 
 		PlaneModel planeModel = initPlaneModel(planeMaker);
-		HibernateGeneric.insertObject(planeModel);
+		HibernateGeneric.saveOrUpdateObject(planeModel);
 
 		PlaneStatus planeStatus = initPlaneStatus();
-		HibernateGeneric.insertObject(planeStatus);
+		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
 		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus);
-		HibernateGeneric.insertObject(plane);
+		HibernateGeneric.saveOrUpdateObject(plane);
 
 		PlaneMovement planeMovement = initPlaneMovement(plane);
 		return planeMovement;
@@ -185,7 +185,7 @@ public class Initializer {
 	public static PlaneModel initCompletePlaneModel() {
 
 		PlaneMaker planeMaker = initPlaneMaker();
-		HibernateGeneric.insertObject(planeMaker);
+		HibernateGeneric.saveOrUpdateObject(planeMaker);
 
 		PlaneModel planeModel = initPlaneModel(planeMaker);
 		return planeModel;
@@ -216,16 +216,16 @@ public class Initializer {
 
 		Airline airline = initAirline();
 		deleteAllUsers();
-		HibernateGeneric.insertObject(airline);
+		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneMaker planeMaker = initPlaneMaker();
-		HibernateGeneric.insertObject(planeMaker);
+		HibernateGeneric.saveOrUpdateObject(planeMaker);
 
 		PlaneModel planeModel = initPlaneModel(planeMaker);
-		HibernateGeneric.insertObject(planeModel);
+		HibernateGeneric.saveOrUpdateObject(planeModel);
 
 		PlaneStatus planeStatus = initPlaneStatus();
-		HibernateGeneric.insertObject(planeStatus);
+		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
 		return initPlane(airline, planeModel, new Date(), planeStatus);
 	}
@@ -325,19 +325,19 @@ public class Initializer {
 
 	public static Lane initCompleteLane() {
 		Node startNode = initNode();
-		HibernateGeneric.insertObject(startNode);
+		HibernateGeneric.saveOrUpdateObject(startNode);
 
 		Node endNode = initNode();
-		HibernateGeneric.insertObject(endNode);
+		HibernateGeneric.saveOrUpdateObject(endNode);
 
 		State state = initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 
 		City city = initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 
 		Airport airport = initAirport(city);
-		HibernateGeneric.insertObject(airport);
+		HibernateGeneric.saveOrUpdateObject(airport);
 
 		return initLane(startNode, endNode, true, true, airport);
 	}
@@ -455,10 +455,10 @@ public class Initializer {
 	public static Airport initCompleteAirport() {
 
 		State state = initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 
 		City city = initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 
 		return initAirport(city);
 	}
@@ -478,7 +478,7 @@ public class Initializer {
 
 	public static City initCompleteCity() {
 		State state = initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 
 		return initCity(state);
 	}
@@ -497,64 +497,64 @@ public class Initializer {
 
 	public static Delay initCompleteDelay() {
 		PlaneMaker planeMaker = initPlaneMaker();
-		HibernateGeneric.insertObject(planeMaker);
+		HibernateGeneric.saveOrUpdateObject(planeMaker);
 
 		PlaneModel planeModel = initPlaneModel(planeMaker);
-		HibernateGeneric.insertObject(planeModel);
+		HibernateGeneric.saveOrUpdateObject(planeModel);
 
 		deleteAllFlights();
 		deleteAllPlanes();
 		deleteAllUsers();
 
 		Airline airline = initAirline();
-		HibernateGeneric.insertObject(airline);
+		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneStatus planeStatus = initPlaneStatus();
-		HibernateGeneric.insertObject(planeStatus);
+		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
 		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus);
-		HibernateGeneric.insertObject(plane);
+		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Passenger passenger = initPassenger(USERNAME_2, PASSWORD_2, new Date());
 
-		HibernateGeneric.insertObject(passenger);
+		HibernateGeneric.saveOrUpdateObject(passenger);
 
 		List<Passenger> passengerList = new ArrayList<>();
 		passengerList.add(passenger);
 
 		Node node = initNode();
-		HibernateGeneric.insertObject(node);
+		HibernateGeneric.saveOrUpdateObject(node);
 
 		State state = initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 
 		City city = initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 
 		Airport airport = initAirport(city);
-		HibernateGeneric.insertObject(airport);
+		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
+		HibernateGeneric.saveOrUpdateObject(terminal);
 
 		Gate gate = initGate(node, terminal);
-		HibernateGeneric.insertObject(gate);
+		HibernateGeneric.saveOrUpdateObject(gate);
 
 		Route route = initRoute(gate, gate);
-		HibernateGeneric.insertObject(route);
+		HibernateGeneric.saveOrUpdateObject(route);
 
 		Flight flight = initFlight(plane, route, passengerList);
-		HibernateGeneric.insertObject(flight);
+		HibernateGeneric.saveOrUpdateObject(flight);
 
 		return initDelay(flight);
 	}
 
 	public static Flight initCompleteFlight() {
 		PlaneMaker planeMaker = initPlaneMaker();
-		HibernateGeneric.insertObject(planeMaker);
+		HibernateGeneric.saveOrUpdateObject(planeMaker);
 
 		PlaneModel planeModel = initPlaneModel(planeMaker);
-		HibernateGeneric.insertObject(planeModel);
+		HibernateGeneric.saveOrUpdateObject(planeModel);
 
 		deleteAllPlaneMovements();
 		deleteAllDelays();
@@ -563,41 +563,41 @@ public class Initializer {
 		deleteAllUsers();
 
 		Airline airline = initAirline();
-		HibernateGeneric.insertObject(airline);
+		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneStatus planeStatus = initPlaneStatus();
-		HibernateGeneric.insertObject(planeStatus);
+		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
 		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus);
-		HibernateGeneric.insertObject(plane);
+		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Passenger passenger = initPassenger(USERNAME_2, PASSWORD_2, new Date());
-		HibernateGeneric.insertObject(passenger);
+		HibernateGeneric.saveOrUpdateObject(passenger);
 
 		List<Passenger> passengerList = new ArrayList<>();
 		passengerList.add(passenger);
 
 		Node node = initNode();
-		HibernateGeneric.insertObject(node);
+		HibernateGeneric.saveOrUpdateObject(node);
 
 		State state = initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 
 		City city = initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 
 		Airport airport = initAirport(city);
-		HibernateGeneric.insertObject(airport);
+		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
+		HibernateGeneric.saveOrUpdateObject(terminal);
 
 		Gate gate = initGate(node, terminal);
-		HibernateGeneric.insertObject(gate);
+		HibernateGeneric.saveOrUpdateObject(gate);
 
 		Route route = initRoute(gate, gate);
 
-		HibernateGeneric.insertObject(route);
+		HibernateGeneric.saveOrUpdateObject(route);
 
 		return initFlight(plane, passengerList);
 	}
@@ -680,10 +680,10 @@ public class Initializer {
 
 	public static void deleteAllLanes() {
 		List<Object> lanesList = HibernateGeneric.loadAllObjects(new Lane());
-		for(Object lanes : lanesList){
+		for (Object lanes : lanesList) {
 			HibernateGeneric.deleteObject((Lane) lanes);
 		}
-		
+
 	}
 
 }

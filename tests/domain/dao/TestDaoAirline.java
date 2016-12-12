@@ -19,14 +19,14 @@ public class TestDaoAirline {
 		Airline airline = Initializer.initAirline();
 		Initializer.deleteAllUsers();
 
-		boolean result = HibernateGeneric.insertObject(airline);
+		boolean result = HibernateGeneric.saveOrUpdateObject(airline);
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
 	@Test
 	public void testInsertAirlineWithRoutes() {
 
-		assertEquals(INSERT_ERROR, true, HibernateGeneric.insertObject(Initializer.initCompleteAirline()));
+		assertEquals(INSERT_ERROR, true, HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteAirline()));
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class TestDaoAirline {
 	public void testRemoveOneSpecificAirline() {
 		/* Create airline */
 
-		HibernateGeneric.insertObject(Initializer.initCompleteAirline());
+		HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteAirline());
 		Airline airline = (Airline) HibernateGeneric.loadAllObjects(new Airline()).get(0);
 		boolean result = HibernateGeneric.deleteObject(airline);
 		assertEquals(REMOVE_ERROR, true, result);

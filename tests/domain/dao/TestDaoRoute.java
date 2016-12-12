@@ -21,14 +21,14 @@ public class TestDaoRoute {
 	@Test
 	public void testInsertRouteWithoutGateIntoDB() {
 		Route route = new Route();
-		boolean result = HibernateGeneric.insertObject(route);
+		boolean result = HibernateGeneric.saveOrUpdateObject(route);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
 	@Test
 	public void testInsertRouteWithGatesIntoDB() {
 
-		boolean result = HibernateGeneric.insertObject(Initializer.initCompleteRoute());
+		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteRoute());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -41,7 +41,7 @@ public class TestDaoRoute {
 	@Test
 	public void testRemoveOneSpecificRoute() {
 
-		HibernateGeneric.insertObject(Initializer.initCompleteRoute());
+		HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteRoute());
 		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
 		boolean result = HibernateGeneric.deleteObject((Route) HibernateGeneric.loadAllObjects(new Route()).get(0));
 		assertEquals(REMOVE_ERROR, true, result);
@@ -51,22 +51,22 @@ public class TestDaoRoute {
 	public void testGetListOfArrivalRoutesOfAirportByAirportId() {
 
 		State state = Initializer.initState();
-		HibernateGeneric.insertObject(state);
+		HibernateGeneric.saveOrUpdateObject(state);
 
 		City city = Initializer.initCity(state);
-		HibernateGeneric.insertObject(city);
+		HibernateGeneric.saveOrUpdateObject(city);
 
 		Airport airport = Initializer.initAirport(city);
-		HibernateGeneric.insertObject(airport);
+		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
-		HibernateGeneric.insertObject(terminal);
+		HibernateGeneric.saveOrUpdateObject(terminal);
 
 		Gate gate = Initializer.initGate(terminal);
-		HibernateGeneric.insertObject(gate);
+		HibernateGeneric.saveOrUpdateObject(gate);
 
 		Route expectedRoute = Initializer.initRoute(gate, gate);
-		HibernateGeneric.insertObject(expectedRoute);
+		HibernateGeneric.saveOrUpdateObject(expectedRoute);
 
 		Route actualRoute = HibernateGeneric.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
 

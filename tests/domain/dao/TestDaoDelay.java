@@ -18,7 +18,7 @@ public class TestDaoDelay {
 	@Test
 	public void testInsertDelayWithEverythingIntoDB() {
 
-		boolean result = HibernateGeneric.insertObject(Initializer.initCompleteDelay());
+		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteDelay());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -26,7 +26,7 @@ public class TestDaoDelay {
 	public void testInsertDelayWithoutFlightIntoDB() {
 
 		Delay delay = new Delay();
-		boolean result = HibernateGeneric.insertObject(delay);
+		boolean result = HibernateGeneric.saveOrUpdateObject(delay);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
@@ -39,7 +39,7 @@ public class TestDaoDelay {
 	@Test
 	public void testRemoveOneSpecificDelay() {
 
-		HibernateGeneric.insertObject(Initializer.initCompleteDelay());
+		HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteDelay());
 		boolean result = HibernateGeneric.deleteObject(
 				(Delay) HibernateGeneric.loadAllObjects(new Delay()).get(0));
 

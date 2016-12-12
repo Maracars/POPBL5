@@ -32,15 +32,15 @@ public class Plane {
 	Airline airline;
 	
 	@ManyToOne(optional = false)
-	PlaneStatus planeStatus;
+	PlaneStatus status;
 	
 
 	public PlaneStatus getPlaneStatus() {
-		return planeStatus;
+		return status;
 	}
 
 	public void setPlaneStatus(PlaneStatus planeStatus) {
-		this.planeStatus = planeStatus;
+		this.status = planeStatus;
 	}
 
 	public Airline getAirline() {
