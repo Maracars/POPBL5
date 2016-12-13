@@ -5,11 +5,10 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import domain.model.Address;
 import domain.model.Airport;
-import domain.model.City;
 import domain.model.Lane;
 import domain.model.Node;
-import domain.model.State;
 
 public class TestDaoLane {
 
@@ -125,13 +124,10 @@ public class TestDaoLane {
 		Node endNode = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(endNode);
 
-		State state = Initializer.initState();
-		HibernateGeneric.saveOrUpdateObject(state);
+		Address address = Initializer.initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 
-		City city = Initializer.initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-
-		Airport airport = Initializer.initAirport(city);
+		Airport airport = Initializer.initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Lane lane = Initializer.initLane(startNode, endNode, true, true, airport);

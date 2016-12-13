@@ -5,11 +5,10 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import domain.model.Address;
 import domain.model.Airport;
-import domain.model.City;
 import domain.model.Gate;
 import domain.model.Route;
-import domain.model.State;
 import domain.model.Terminal;
 
 public class TestDaoRoute {
@@ -52,13 +51,10 @@ public class TestDaoRoute {
 	@Test
 	public void testGetListOfArrivalRoutesOfAirportByAirportId() {
 
-		State state = Initializer.initState();
-		HibernateGeneric.saveOrUpdateObject(state);
+		Address address = Initializer.initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 
-		City city = Initializer.initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-
-		Airport airport = Initializer.initAirport(city);
+		Airport airport = Initializer.initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);

@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 import domain.model.Address;
 
@@ -32,8 +31,8 @@ public class Controller extends User{
 	String name;
 	String secondName;
 
-	@ManyToOne//(cascade = CascadeType.PERSIST)
-	@NotNull
+	@ManyToOne(optional = true) //TODO HAU BEGIRATZEKO DAGO
+
 	Address address;
 	
 	@Temporal(TemporalType.DATE)

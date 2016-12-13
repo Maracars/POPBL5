@@ -1,10 +1,12 @@
 package domain.dao;
 
 import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
+
 import org.junit.Test;
 
-import domain.model.Passenger;
+import domain.model.users.Passenger;
 
 public class TestDaoPassenger {
 
@@ -16,8 +18,9 @@ public class TestDaoPassenger {
 	@Test
 	public void testInsertUserWithoutBirthDateAndWithUsernameAndWithPasswordIntoDB() {
 		Passenger user = Initializer.initPassenger(USERNAME, PASSWORD);
+		DAOUser.deleteUserWithUsername(user);
 		boolean result = HibernateGeneric.saveOrUpdateObject(user);
-		assertEquals(ERROR_INSERT, false, result);
+		assertEquals(ERROR_INSERT, true, result);
 	}
 
 	@Test

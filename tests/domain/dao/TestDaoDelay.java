@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import domain.model.City;
 import domain.model.Delay;
 
 public class TestDaoDelay {
@@ -32,7 +31,7 @@ public class TestDaoDelay {
 
 	@Test
 	public void testLoadAllDelays() {
-		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new City()));
+		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Delay()));
 
 	}
 

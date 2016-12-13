@@ -5,9 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import domain.model.Address;
 import domain.model.Airport;
-import domain.model.City;
-import domain.model.State;
 
 public class TestDaoAirport {
 
@@ -24,13 +23,10 @@ public class TestDaoAirport {
 	@Test
 	public void testInsertAirportWithCityAndWithoutTerminalIntoDB() {
 
-		State state = Initializer.initState();
-		HibernateGeneric.saveOrUpdateObject(state);
+		Address address = Initializer.initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 
-		City city = Initializer.initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-
-		Airport airport = Initializer.initAirport(city);
+		Airport airport = Initializer.initAirport(address);
 		boolean result = HibernateGeneric.saveOrUpdateObject(airport);
 		assertEquals(INSERT_ERROR, true, result);
 	}

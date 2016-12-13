@@ -3,11 +3,10 @@ package domain.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Date;
-
 import org.junit.Test;
 
-import domain.model.User;
+import domain.model.users.User;
+
 
 public class TestDaoUser {
 
@@ -18,44 +17,28 @@ public class TestDaoUser {
 	private static final String ERROR_LOAD = "Null when getting user by username";
 
 	@Test
-	public void testInsertUserWithoutBirthDateAndWithUsernameAndWithPasswordIntoDB() {
+	public void testInsertUserWithUsernameAndWithPasswordIntoDB() {
 		User user = Initializer.initUser(USERNAME, PASSWORD);
-		boolean result = HibernateGeneric.saveOrUpdateObject(user);
-		assertEquals(ERROR_INSERT, false, result);
-	}
-
-	@Test
-	public void testInsertUserWithoutPasswordWithBirthDateAndAndWithUsernameIntoDB() {
-
-		User user = Initializer.initUser(USERNAME, new Date());
-		boolean result = HibernateGeneric.saveOrUpdateObject(user);
-		assertEquals(ERROR_INSERT, false, result);
-
-	}
-
-	@Test
-	public void testInsertUserWithoutUsernameWithBirthDateAndAndWithPasswordIntoDB() {
-
-		User user = Initializer.initUser(new Date(), PASSWORD);
-		boolean result = HibernateGeneric.saveOrUpdateObject(user);
-		assertEquals(ERROR_INSERT, false, result);
-
-	}
-
-	@Test
-	public void testInsertUserWithUsernameWithBirthDateAndAndWithPasswordIntoDB() {
-
-		User user = Initializer.initUser(USERNAME, PASSWORD, new Date());
 		DAOUser.deleteUserWithUsername(user);
 		boolean result = HibernateGeneric.saveOrUpdateObject(user);
 		assertEquals(ERROR_INSERT, true, result);
+	}
+
+	@Test
+	public void testInsertUserWithoutPasswordAndUsernameIntoDB() {
+
+		User user = Initializer.initUser();
+		boolean result = HibernateGeneric.saveOrUpdateObject(user);
+		assertEquals(ERROR_INSERT, false, result);
 
 	}
+
+
 
 	@Test
 	public void getUsernameWhereUsernameFromDB() {
 
-		User user = Initializer.initUser(USERNAME, PASSWORD, new Date());
+		User user = Initializer.initUser(USERNAME, PASSWORD);
 		DAOUser.deleteUserWithUsername(user);
 		HibernateGeneric.saveOrUpdateObject(user);
 
@@ -65,7 +48,7 @@ public class TestDaoUser {
 	@Test
 	public void testRemoveOneSpecificUser() {
 
-		User user = Initializer.initUser(USERNAME, PASSWORD, new Date());
+		User user = Initializer.initUser(USERNAME, PASSWORD);
 		DAOUser.deleteUserWithUsername(user);
 
 		HibernateGeneric.saveOrUpdateObject(user);

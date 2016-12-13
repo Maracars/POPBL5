@@ -7,13 +7,13 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import domain.model.Airline;
 import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import domain.model.PlaneStatus;
+import domain.model.users.Airline;
 
 public class TestDaoPlane {
 

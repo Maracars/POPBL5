@@ -1,5 +1,6 @@
 package domain.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,11 +11,16 @@ public class Address {
 	@Id
 	@GeneratedValue
 	int id;
-
+	
+	@Column(nullable = false)
 	String country;
+	@Column(nullable = false)
 	String region;
+	@Column(nullable = false)
 	String city;
-	String streetAndNumber;
+	@Column(nullable = false)
+	String streetAndNumber;	
+	@Column(nullable = false)
 	String postCode;
 	
 	public int getId() {

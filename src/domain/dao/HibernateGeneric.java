@@ -40,7 +40,7 @@ public class HibernateGeneric {
 		boolean result = true;
 		try {
 
-			session = HibernateConnection.getSessionFactory().getCurrentSession();
+			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.delete(object);
 			session.getTransaction().commit();

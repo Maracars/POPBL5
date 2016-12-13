@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import domain.model.Airline;
+import domain.model.users.Airline;
 
 public class TestDaoAirline {
 
@@ -34,7 +34,7 @@ public class TestDaoAirline {
 	@Test
 	public void testRemoveOneSpecificAirline() {
 		/* Create airline */
-		Airline airline = Initializer.initCompleteAirline();
+		Airline airline = Initializer.initAirline();
 		DAOUser.deleteUserWithUsername(airline);
 		HibernateGeneric.saveOrUpdateObject(airline);
 		Airline airline2 = (Airline) HibernateGeneric.loadAllObjects(new Airline()).get(0);

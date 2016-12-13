@@ -8,11 +8,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.dao.DAOGate;
+import domain.model.Address;
 import domain.model.Airport;
-import domain.model.City;
 import domain.model.Gate;
 import domain.model.Node;
-import domain.model.State;
 import domain.model.Terminal;
 
 public class TestDaoGate {
@@ -23,13 +22,10 @@ public class TestDaoGate {
 
 	@Test
 	public void testInsertGateIntoDB() {
-		State state = Initializer.initState();
-		HibernateGeneric.saveOrUpdateObject(state);
-		
-		City city = Initializer.initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-		
-		Airport airport = Initializer.initAirport(city);
+		Address address = Initializer.initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
+
+		Airport airport = Initializer.initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
@@ -52,13 +48,10 @@ public class TestDaoGate {
 		Node node = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(node);
 		
-		State state = Initializer.initState();
-		HibernateGeneric.saveOrUpdateObject(state);
-		
-		City city = Initializer.initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-		
-		Airport airport = Initializer.initAirport(city);
+		Address address = Initializer.initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
+
+		Airport airport = Initializer.initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);

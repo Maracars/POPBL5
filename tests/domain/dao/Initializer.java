@@ -4,27 +4,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import domain.model.Airline;
+import domain.model.Address;
 import domain.model.Airport;
-import domain.model.City;
 import domain.model.Delay;
 import domain.model.Flight;
 import domain.model.Gate;
 import domain.model.Lane;
 import domain.model.Node;
-import domain.model.Passenger;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import domain.model.PlaneMovement;
 import domain.model.PlaneStatus;
 import domain.model.Route;
-import domain.model.State;
 import domain.model.Terminal;
-import domain.model.User;
+import domain.model.users.Airline;
+import domain.model.users.Passenger;
+import domain.model.users.User;
 
 public class Initializer {
 
+	private static final String EMAIL = "jajaja@mondragon.edu";
+	private static final String STREET_AND_NUMBER = "Sofia erreginaren kalea jajajaja";
+	private static final String REGION = "DEBAGOIENA";
+	private static final String POSTCODE = "20570";
 	private static final String USERNAME = "naranair";
 	private static final String PASSWORD = "Nestor123";
 	private static final String NARANAIR = "Naranair";
@@ -55,27 +58,7 @@ public class Initializer {
 
 	private static final String TERMINAL_NAME = "3";
 
-	public static User initUser(String username, String password, Date date) {
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setBirthDate(date);
-		return user;
-	}
-
-	public static User initUser(Date date, String password) {
-		User user = new User();
-		user.setPassword(password);
-		user.setBirthDate(date);
-		return user;
-	}
-
-	public static User initUser(String username, Date date) {
-		User user = new User();
-		user.setUsername(username);
-		user.setBirthDate(date);
-		return user;
-	}
+	
 
 	public static User initUser(String username, String password) {
 		User user = new User();
@@ -83,6 +66,11 @@ public class Initializer {
 		user.setPassword(password);
 		return user;
 	}
+	public static User initUser() {
+		return new User();
+	}
+	
+	
 
 	public static Terminal initTerminal() {
 		Terminal terminal = new Terminal();
@@ -98,21 +86,12 @@ public class Initializer {
 
 	}
 
-	public static State initState() {
-		State state = new State();
-		state.setName(EUSKAL_HERRIA);
-		return state;
-	}
-
 	public static Route initCompleteRoute() {
 
-		State state = initState();
-		HibernateGeneric.saveOrUpdateObject(state);
+		Address address = initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 
-		City city = initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-
-		Airport airport = initAirport(city);
+		Airport airport = initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);
@@ -275,6 +254,7 @@ public class Initializer {
 		plane.setAirline(airline);
 		plane.setModel(planeModel);
 		plane.setFabricationDate(date);
+		
 
 		return plane;
 	}
@@ -307,6 +287,29 @@ public class Initializer {
 		user.setPassword(password);
 		return user;
 	}
+	public static Passenger initCompletePassenger() {
+		
+		Address address = initAddress();
+		
+		Passenger passenger = new Passenger();
+		passenger.setUsername(USERNAME);
+		passenger.setPassword(PASSWORD);
+		passenger.setAddress(address);
+		passenger.setEmail(EMAIL);
+		passenger.setBirthDate(new Date());
+		return passenger;
+	}
+
+	public static Address initAddress() {
+
+		Address address = new Address();
+		address.setCity(BERGARA);
+		address.setCountry(EUSKAL_HERRIA);
+		address.setPostCode(POSTCODE);
+		address.setRegion(REGION);
+		address.setStreetAndNumber(STREET_AND_NUMBER);
+		return address;
+	}
 
 	public static Node initNode() {
 		Node node = new Node();
@@ -323,13 +326,10 @@ public class Initializer {
 		Node endNode = initNode();
 		HibernateGeneric.saveOrUpdateObject(endNode);
 
-		State state = initState();
-		HibernateGeneric.saveOrUpdateObject(state);
+		Address address = initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 
-		City city = initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-
-		Airport airport = initAirport(city);
+		Airport airport = initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		return initLane(startNode, endNode, true, true, airport);
@@ -422,37 +422,31 @@ public class Initializer {
 		return gate;
 	}
 
-	public static Airline initCompleteAirline() {
-
-		Airline airline = initAirline();
-
-		return airline;
-	}
 
 	public static Airline initAirline() {
+		Address address = initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
+		
 		Airline airline = new Airline();
 		airline.setName(NARANAIR);
 		airline.setUsername(USERNAME);
 		airline.setPassword(PASSWORD);
-		airline.setBirthDate(new Date());
+		airline.setAddress(address);
 		return airline;
 
 	}
 
 	public static Airport initCompleteAirport() {
 
-		State state = initState();
-		HibernateGeneric.saveOrUpdateObject(state);
+		Address address = initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 
-		City city = initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-
-		return initAirport(city);
+		return initAirport(address);
 	}
 
-	public static Airport initAirport(City city) {
+	public static Airport initAirport(Address address) {
 		Airport airport = initAirport();
-		airport.setCity(city);
+		airport.setAddress(address);
 		return airport;
 	}
 
@@ -461,25 +455,6 @@ public class Initializer {
 		airport.setName(HEATHROW);
 		airport.setMaxFlights(MAX_FLIGHTS);
 		return airport;
-	}
-
-	public static City initCompleteCity() {
-		State state = initState();
-		HibernateGeneric.saveOrUpdateObject(state);
-
-		return initCity(state);
-	}
-
-	public static City initCity() {
-		City city = new City();
-		city.setName(BERGARA);
-		return city;
-	}
-
-	public static City initCity(State state) {
-		City city = initCity();
-		city.setState(state);
-		return city;
 	}
 
 	public static Delay initCompleteDelay() {
@@ -509,13 +484,10 @@ public class Initializer {
 		Node node = initNode();
 		HibernateGeneric.saveOrUpdateObject(node);
 
-		State state = initState();
-		HibernateGeneric.saveOrUpdateObject(state);
+		Address address = initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 
-		City city = initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-
-		Airport airport = initAirport(city);
+		Airport airport = initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);
@@ -560,13 +532,10 @@ public class Initializer {
 		Node node = initNode();
 		HibernateGeneric.saveOrUpdateObject(node);
 
-		State state = initState();
-		HibernateGeneric.saveOrUpdateObject(state);
+		Address address = initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 
-		City city = initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
-
-		Airport airport = initAirport(city);
+		Airport airport = initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);
