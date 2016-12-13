@@ -10,6 +10,14 @@ import domain.model.State;
 import domain.model.Terminal;
 
 public class MainThread {
+	private static final int GATE_NUMBER = 2;
+	private static final String TERMINAL_NAME = "T1";
+	private static final String STATE_NAME = "EH";
+	private static final String CITY_NAME = "Dima";
+	private static final String NODE_NAME = "n";
+	private static final String AIRPORT_NAME = "Naranair";
+	private static final int MAX_ACTIVE_PLANES = 6;
+
 
 	public static void main(String[] args) {
 
@@ -21,7 +29,6 @@ public class MainThread {
 
 		Thread airController = new Thread(ac);
 		airController.start();
-		System.out.println("ok");
 		Thread flightCreator = new Thread(fc);
 		flightCreator.start();
 		Thread automaticMaintainance = new Thread(am);
@@ -32,33 +39,33 @@ public class MainThread {
 	private static Airport initializeExampleOnDB() {
 
 		State state = new State();
-		state.setName("EH");
+		state.setName(STATE_NAME);
 		HibernateGeneric.saveOrUpdateObject(state);
 
 		City city = new City();
-		city.setName("Dima");
+		city.setName(CITY_NAME);
 		city.setState(state);
 		HibernateGeneric.saveOrUpdateObject(city);
 
 		Airport airport = new Airport();
-		airport.setMaxFlights(6);
-		airport.setName("Naranair");
+		airport.setMaxFlights(MAX_ACTIVE_PLANES);
+		airport.setName(AIRPORT_NAME);
 		airport.setCity(city);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Node node = new Node();
-		node.setName("n");
+		node.setName(NODE_NAME);
 		node.setPositionX(2);
 		node.setPositionY(3);
 		HibernateGeneric.saveOrUpdateObject(node);
 
 		Terminal terminal = new Terminal();
 		terminal.setAirport(airport);
-		terminal.setName("T1");
+		terminal.setName(TERMINAL_NAME);
 		HibernateGeneric.saveOrUpdateObject(terminal);
 
 		Gate gate = new Gate();
-		gate.setNumber(2);
+		gate.setNumber(GATE_NUMBER);
 		gate.setTerminal(terminal);
 		gate.setPositionNode(node);
 		HibernateGeneric.saveOrUpdateObject(gate);

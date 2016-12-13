@@ -33,7 +33,8 @@ public class DAOSimulator {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_COUNT_FLIGHTS_IN_WEEK);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
-			query.setParameter(PARAMETER_MARGIN_WEEK, new Date(soon.getTime() + (MILIS_TO_DAYS * WEEK_MARGIN)));
+			query.setParameter(PARAMETER_MARGIN_WEEK, new Date(soon.getTime() 
+					+ (MILIS_TO_DAYS * WEEK_MARGIN)));
 			numFlights = (Long) query.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();

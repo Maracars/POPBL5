@@ -15,6 +15,7 @@ import domain.model.Route;
 
 public class FlightCreator implements Runnable {
 
+	private static final int TWELVE_HOURS = 43200000;
 	private static final boolean ARRIVAL = false;
 	private static final boolean DEPARTURE = true;
 	private static final int MAX_ACTIVE_PLANES = 6;
@@ -90,7 +91,7 @@ public class FlightCreator implements Runnable {
 		// TODO Auto-generated method stub
 		Date date = new Date();
 
-		return new Date(date.getTime() + 43200000);
+		return new Date(date.getTime() + TWELVE_HOURS);
 	}
 
 	private Flight createFlight(Route route, Plane plane, Date date, boolean mode) {

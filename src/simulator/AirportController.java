@@ -20,7 +20,8 @@ public class AirportController implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			if (activePlaneList.size() > 0 && (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
+			if (activePlaneList.size() > 0 
+					&& (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
 				PlaneThread plane = activePlaneList.get(0);
 				plane.setLane(freeLaneList.get(0));
 				activePlaneList.remove(plane);
@@ -33,7 +34,8 @@ public class AirportController implements Runnable {
 
 	public boolean askPermission(PlaneThread plane) {
 		boolean ret;
-		if (activePlaneList.size() == 0 && (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
+		if (activePlaneList.size() == 0 
+				&& (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
 			plane.setLane(freeLaneList.get(0));
 			ret = true;
 			System.out.println("Controller gives specific PERMISSION");

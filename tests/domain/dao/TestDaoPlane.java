@@ -17,8 +17,9 @@ import domain.model.PlaneStatus;
 
 public class TestDaoPlane {
 
-	private static final String ERROR_LOADING_PLANE_WITHOUT_FLIGHT = "ERROR LOADING PLANE WITHOUT FLIGHT";
-	private static final String ERROR_LOADING_FREE_PLANE_WITH_PAST_FLIGHT = "ERROR LOADING FREE PLANE WITH PAST FLIGHT";
+	private static final int ADDED_TIME = 111111;
+	private static final String ERROR_LOADING_PLANE_WITHOUT_FLIGHT = "ERROR LOAD PLANE WITHOUT FLIGHT";
+	private static final String ERROR_LOAD_FREE_PLANE_WITH_PAST_FLIGHT = "ERROR LOAD FREE PLANE WITH PAST FLIGHT";
 	private static final String ERROR_LOAD = "Error load all planes from database";
 	private static final String ERROR_INSERT = "Error insert plane into database";
 
@@ -115,11 +116,12 @@ public class TestDaoPlane {
 */
 		Flight flight = Initializer.initCompleteFlight();
 		Date date = new Date();
-		date.setTime(date.getTime() + 111111);
+		date.setTime(date.getTime() + ADDED_TIME);
 		flight.setExpectedArrivalDate(date);
 		HibernateGeneric.saveOrUpdateObject(flight);
+		int id = flight.getRoute().getArrivalGate().getTerminal().getAirport().getId();
 
-		assertNotNull(ERROR_LOAD, DAOPlane.getArrivingPlanesSoon(flight.getRoute().getArrivalGate().getTerminal().getAirport().getId()));
+		assertNotNull(ERROR_LOAD, DAOPlane.getArrivingPlanesSoon(id));
 
 	}
 
@@ -132,7 +134,7 @@ public class TestDaoPlane {
 
 		Flight flight = Initializer.initFlight(plane);
 		Date date = new Date();
-		date.setTime(date.getTime() + 111111);
+		date.setTime(date.getTime() + ADDED_TIME);
 		flight.setExpectedDepartureDate(date);
 		HibernateGeneric.saveOrUpdateObject(flight);
 
@@ -156,12 +158,12 @@ public class TestDaoPlane {
 
 		Flight flight = Initializer.initFlight(plane);
 		Date date = new Date();
-		date.setTime(date.getTime() - 111111);
+		date.setTime(date.getTime() - ADDED_TIME);
 		flight.setRealArrivalDate(date);
 		HibernateGeneric.saveOrUpdateObject(flight);
 
 		Plane resultPlane = DAOPlane.getFreePlane();
-		assertNotNull(ERROR_LOADING_FREE_PLANE_WITH_PAST_FLIGHT, resultPlane);
+		assertNotNull(ERROR_LOAD_FREE_PLANE_WITH_PAST_FLIGHT, resultPlane);
 	}
 
 	@Test
