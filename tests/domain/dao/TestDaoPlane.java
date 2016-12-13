@@ -110,16 +110,16 @@ public class TestDaoPlane {
 
 	@Test
 	public void getSoonArrivingPlanesFromDB() {
-		Plane plane = Initializer.initCompletePlane();
+		/*Plane plane = Initializer.initCompletePlane();
 		HibernateGeneric.saveOrUpdateObject(plane);
-
-		Flight flight = Initializer.initFlight(plane);
+*/
+		Flight flight = Initializer.initCompleteFlight();
 		Date date = new Date();
 		date.setTime(date.getTime() + 111111);
 		flight.setExpectedArrivalDate(date);
 		HibernateGeneric.saveOrUpdateObject(flight);
 
-		assertNotNull(ERROR_LOAD, DAOPlane.getArrivingPlanesSoon());
+		assertNotNull(ERROR_LOAD, DAOPlane.getArrivingPlanesSoon(flight.getRoute().getArrivalGate().getTerminal().getAirport().getId()));
 
 	}
 

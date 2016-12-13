@@ -8,7 +8,7 @@ import domain.model.Airport;
 import domain.model.Lane;
 
 public class AirportController implements Runnable {
-	private ArrayList<PlaneThread> activePlaneList;
+	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
 	private List<Lane> freeLaneList;
 	private Airport airport;
 

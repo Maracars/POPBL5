@@ -32,7 +32,7 @@ public class Route {
 		this.id = id;
 	}
 
-	Gate getArrivalGate() {
+	public Gate getArrivalGate() {
 		return arrivalGate;
 	}
 

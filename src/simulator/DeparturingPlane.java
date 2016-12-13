@@ -14,7 +14,7 @@ public class DeparturingPlane extends PlaneThread {
 
 	@Override
 	public void run() {
-		System.out.println("DEPARTUR plane ask PERMISSION");
+		System.out.println("DEPARTURE plane ask PERMISSION");
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
 			// run?
@@ -29,6 +29,7 @@ public class DeparturingPlane extends PlaneThread {
 		System.out.println("Departure plane ready TO GO");
 		goOutFromMap();
 		System.out.println("Departure plane went OUT");
+		//set plane status arriving??
 
 	}
 
