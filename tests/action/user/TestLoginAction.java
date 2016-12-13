@@ -14,7 +14,7 @@ import com.opensymphony.xwork2.ActionContext;
 
 import domain.dao.DAOUser;
 import domain.dao.HibernateGeneric;
-import domain.model.User;
+import domain.model.users.User;
 
 public class TestLoginAction {
 

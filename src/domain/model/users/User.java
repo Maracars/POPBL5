@@ -1,6 +1,4 @@
-package domain.model;
-
-import java.util.Date;
+package domain.model.users;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -20,22 +16,18 @@ import org.hibernate.annotations.GenericGenerator;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
-	public final static String PASSENGER = "passenger";
-
 	@Id
 	@GenericGenerator(name = "inc-gen", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inc-gen")
-	Integer id;
+	private Integer id;
 
 	@Column(nullable = false)
-	String password;
+	private String password;
 
 	@Column(nullable = false, unique = true)
-	String username;
+	private String username;
 
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	Date birthDate;
+	private String email;
 
 	public Integer getId() {
 		return id;
@@ -61,12 +53,14 @@ public class User {
 		this.username = username;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setEmail(String email) {
+		this.email = email;
 	}
+	
+	
 
 }

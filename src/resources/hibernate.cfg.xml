@@ -10,25 +10,27 @@
 		<property name="hibernate.connection.password">Nestor123</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/naranair</property>
 
-
-
-		<property name="connection_pool_size">1</property>
+		<property name="connection_pool_size">3</property>
 
 		<property name="hbm2ddl.auto">update</property>
 
 		<!-- Hibernatek sortzen daben sql dana printeau -->
 		<property name="show_sql">true</property>
 
-
-		<mapping class="domain.model.Airline"/>
+		<mapping class="domain.model.Address"/>
+		<mapping class="domain.model.users.Airline"/>
 		<mapping class="domain.model.Airport" />
-		<mapping class="domain.model.City" />
-		 <mapping class="domain.model.Delay"/> 
+		<mapping class="domain.model.Delay"/> 
 		<mapping class="domain.model.Flight"/>
 		<mapping class="domain.model.Gate" />
 		<mapping class="domain.model.Lane"/>
 		<mapping class="domain.model.Node" />
-		<mapping class="domain.model.Passenger" />
+		<mapping class="domain.model.users.User" />
+		<mapping class="domain.model.users.Passenger" />
+		<mapping class="domain.model.users.Airline" />
+		<mapping class="domain.model.users.Mantainance" />
+		<mapping class="domain.model.users.Admin" />
+		<mapping class="domain.model.users.Controller" />
 		<mapping class="domain.model.Plane"/>
 		<mapping class="domain.model.PlaneMaker" />
 		<mapping class="domain.model.PlaneModel" />
@@ -36,9 +38,8 @@
 		<!--<mapping class="domain.model.PlaneMovement"/> -->
 		<mapping class="domain.model.PlaneStatus"/>
 		<mapping class="domain.model.Route" />
-		<mapping class="domain.model.State" />
 		<mapping class="domain.model.Terminal" />
-		<mapping class="domain.model.User" />
+		
 
 
 

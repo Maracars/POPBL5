@@ -1,89 +1,96 @@
 package action.user;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Map;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.HibernateGeneric;
-import domain.model.Passenger;
-import domain.model.User;
+import domain.model.users.User;
 
-public class RegisterAction extends ActionSupport {
+public abstract class RegisterAction extends ActionSupport {
 
-	private static final int MIN_YEARS = 18;
-	private static final String DATE_FORMAT = "dd-MM-yyyy";
-	private static final String PASS_NOT_MATCH = "Passwords do not match!";
-	private static final String REPEAT_PASSWORD = "repeatPassword";
-	private static final String INCORRECT_FORMAT = "Incorrect format!";
-	private static final String TOO_YOUNG = "You are too young m8!";
-	private static final String BIRTH_DATE = "birthdate";
-	private static final String BIRTHDATE_BLANK = "Birthdate cannot be blank";
-	private static final String PASSWORD_BLANK = "Password cannot be blank";
-	private static final String PASSWORD = "user.password";
-	private static final String USERNAME_BLANK = "Username cannot be blank";
-	private static final String USERNAME = "user.username";
 	private static final long serialVersionUID = 1L;
-
+	private static final String ERROR_SAVING = "user.errorSaving";
+	private static final String PASS_NOT_MATCH = "user.passwordNotMatch";
+	private static final String REPEAT_PASSWORD = "repeatPassword";
+	private static final String PASSWORD_BLANK = "user.passwordBlank";
+	private static final String PASSWORD = "user.password";
+	private static final String USERNAME_BLANK = "user.usernameBlank";
+	private static final String USERNAME = "user.username";
+	private static final String EMAIL_BLANK = "user.emailBlank";
+	private static final String EMAIL = "user.email";
+	private static final String NO_PERMISSION = "user.noPermission";
+	
 	User user = new User();
-	String type;
-	String birthdate;
 	String repeatPassword;
-
+	ArrayList<Class<?>> allowedUsers = new ArrayList<>();
+	
 	@Override
 	public void validate() {
+
+		if (user.getEmail() == null || user.getEmail().isEmpty())
+			addFieldError(EMAIL, getText(EMAIL_BLANK));
 		if (user.getPassword() == null || user.getPassword().isEmpty())
-			addFieldError(PASSWORD, PASSWORD_BLANK);
+			addFieldError(PASSWORD, getText(PASSWORD_BLANK));
 		else {
 			if (!user.getPassword().equals(repeatPassword))
-				addFieldError(REPEAT_PASSWORD, PASS_NOT_MATCH);
+				addFieldError(REPEAT_PASSWORD, getText(PASS_NOT_MATCH));
 		}
 		if (user.getUsername() == null || user.getUsername().isEmpty())
-			addFieldError(USERNAME, USERNAME_BLANK);
+			addFieldError(USERNAME, getText(USERNAME_BLANK));
 
-		if (birthdate == null || birthdate.isEmpty())
-			addFieldError(BIRTH_DATE, BIRTHDATE_BLANK);
-		else {
-			SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-			try {
-				user.setBirthDate(df.parse(birthdate));
-				LocalDate birthdate = user.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
-					addFieldError(BIRTH_DATE, TOO_YOUNG);
-			} catch (ParseException e) {
-				addFieldError(BIRTH_DATE, INCORRECT_FORMAT);
-			}
-		}
+		userSpecificValidate();
+
 		if (!getFieldErrors().isEmpty()) {
 			repeatPassword = "";
 			user.setPassword("");
 		}
 	}
-
+	
+	abstract void userSpecificValidate();
+	
 	@Override
 	public String execute() throws Exception {
-		type = User.PASSENGER;
-		switch (type) {
-		case User.PASSENGER:
-			user = new Passenger(user);
-			break;
-		// TODO mas tipos
+		String ret = SUCCESS;
+
+		ret = validateUserAccess();
+
+		if (ret != ERROR) {
+			ret = userSpecificInsert();
+			ret = HibernateGeneric.insertObject(user) ? SUCCESS : ERROR;
+			addActionError(getText(ERROR_SAVING));
 		}
-		String ret = HibernateGeneric.insertObject(user) ? SUCCESS : ERROR;
-		user = new User();
-		repeatPassword = "";
+
+		if (!getFieldErrors().isEmpty()) {
+			repeatPassword = "";
+			user.setPassword("");
+		}
+
 		return ret;
 	}
+	
+	public abstract String userSpecificInsert();
 
-	public String getRepeatPassword() {
-		return repeatPassword;
-	}
+	private String validateUserAccess() {
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		User sessionUser = (User) session.get("user");
+		String ret = SUCCESS;
 
-	public void setRepeatPassword(String repeatPassword) {
-		this.repeatPassword = repeatPassword;
+		if (allowedUsers.size() > 0) {
+			ret = ERROR;
+			if (user != null) {
+				for (Class<?> c : allowedUsers) {
+					if (c == sessionUser.getClass())
+						ret = SUCCESS;
+				}
+			}
+			if (ret == ERROR) {
+				addActionError(getText(NO_PERMISSION));
+			}
+		}
+		return ret;
 	}
 
 	public User getUser() {
@@ -94,20 +101,22 @@ public class RegisterAction extends ActionSupport {
 		this.user = user;
 	}
 
-	public String getType() {
-		return type;
+	public String getRepeatPassword() {
+		return repeatPassword;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setRepeatPassword(String repeatPassword) {
+		this.repeatPassword = repeatPassword;
 	}
 
-	public String getBirthdate() {
-		return birthdate;
+	public ArrayList<Class<?>> getAllowedUsers() {
+		return allowedUsers;
 	}
 
-	public void setBirthdate(String birthdate) {
-		this.birthdate = birthdate;
+	public void setAllowedUsers(ArrayList<Class<?>> allowedUsers) {
+		this.allowedUsers = allowedUsers;
 	}
+	
+	
 
 }

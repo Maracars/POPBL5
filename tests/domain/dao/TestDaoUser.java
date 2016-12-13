@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import domain.model.User;
+import domain.model.users.User;
 import helpers.MD5;
 
 public class TestDaoUser {

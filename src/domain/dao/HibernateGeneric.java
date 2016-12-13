@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
-import domain.model.User;
+import domain.model.users.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;
 
@@ -40,7 +40,7 @@ public class HibernateGeneric {
 		boolean result = true;
 		try {
 
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSessionFactory().getCurrentSession();
 			session.getTransaction().begin();
 			session.delete(object);
 			session.getTransaction().commit();

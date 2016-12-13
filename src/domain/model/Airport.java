@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Airport {
+public class Airport{
 
 	@Id
 	@GeneratedValue
@@ -22,9 +22,8 @@ public class Airport {
 	Integer maxFlights;
 
 	
-	@ManyToOne//(cascade = CascadeType.PERSIST)
-	@NotNull
-	City city;
+	@ManyToOne(optional = false)
+	Address address;
 
 	@OneToMany//(cascade = CascadeType.PERSIST)
 	@NotNull
@@ -62,12 +61,14 @@ public class Airport {
 		this.maxFlights = maxFlights;
 	}
 
-	public City getCity() {
-		return city;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setCity(City city) {
-		this.city = city;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
+
+	
 
 }

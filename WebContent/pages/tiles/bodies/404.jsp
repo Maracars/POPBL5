@@ -4,8 +4,8 @@
 <div class="container-fluid">
 	<div class="jumbotron">
 		<h1>404</h1>
-		<h2>?¿?¿ Not Found ?¿?¿</h2>
-		<p>The resource you were looking for was not found</p>
+		<h2>?¿?¿ <s:text name="global.notFound"/> ?¿?¿</h2>
+		<p><s:text name="global.resourceNotFound"/></p>
 		<img class="img-responsive center-block" alt="Error 404 Image" src="rsc/img/404.png">
 	</div>
 </div>

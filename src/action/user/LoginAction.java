@@ -6,7 +6,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.DAOUser;
-import domain.model.User;
+import domain.model.users.User;
 import helpers.MD5;
 
 public class LoginAction extends ActionSupport {
@@ -20,10 +20,10 @@ public class LoginAction extends ActionSupport {
 	@Override
 	public void validate() {
 		if (username == null || username.isEmpty()) {
-			addFieldError("username", "Username cannot be blank!");
+			addFieldError("username", getText("user.usernameBlank"));
 		}
 		if (password == null || password.isEmpty()) {
-			addFieldError("password", "Password cannot be blank!");
+			addFieldError("password", getText("user.passwordBlank"));
 		}
 		if (!getFieldErrors().isEmpty())
 			password = "";
@@ -40,10 +40,10 @@ public class LoginAction extends ActionSupport {
 				session.put("user", user);
 				ret = SUCCESS;
 			} else {
-				addActionError("Incorrect password!");
+				addActionError(getText("user.incorrectPassword"));
 			}
 		} else {
-			addActionError("Unknown username!");
+			addActionError(getText("user.unknownUser"));
 		}
 		password = "";
 		return ret;

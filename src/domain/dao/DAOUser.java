@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
-import domain.model.User;
+import domain.model.users.User;
 import hibernate.HibernateConnection;
 
 public class DAOUser {

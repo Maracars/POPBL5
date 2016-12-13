@@ -4,8 +4,10 @@
    "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.custom.i18n.resources" value="global" />
 
-	<package name="default" extends="struts-default">
+	<package name="default" namespace="/" extends="struts-default">
 
 		<result-types>
 			<result-type name="tiles"
@@ -20,12 +22,20 @@
 			<result type="tiles">index</result>
 		</action>
 
+		<action name="locale" class="action.locale.Locale">
+			<result name="success" type="redirectAction">index</result>
+		</action>
+
 		<action name="stats">
 			<result type="tiles">stats</result>
 		</action>
 
 		<action name="flights">
 			<result type="tiles">flights</result>
+		</action>
+
+		<action name="log">
+			<result type="tiles">log</result>
 		</action>
 
 		<action name="500">
@@ -49,24 +59,93 @@
 			<result name="input" type="tiles">login</result>
 			<result name="success" type="tiles">index</result>
 		</action>
-		
-		<action name="registerSubmit" class="action.user.RegisterAction">
-			<result name="login" type="tiles">register</result>
-			<result name="input" type="tiles">register</result>
-			<result name="success" type="tiles">index</result>
-		</action>
 
 		<action name="logout" class="action.user.LogoutAction">
 			<result type="tiles">index</result>
-		</action>
-		
-		<action name="register">
-			<result type="tiles">register</result>
 		</action>
 
 		<action name="login">
 			<result type="tiles">login</result>
 		</action>
+
+		<action name="accountManager">
+			<result type="tiles">accountManager</result>
+		</action>
+
+	</package>
+
+	<package name="register" namespace="/register" extends="default">
+
+		<action name="PassengerSubmit" class="action.user.RegisterPassengerAction">
+			<result name="login" type="tiles">registerPassenger</result>
+			<result name="error" type="tiles">registerPassenger</result>
+			<result name="input" type="tiles">registerPassenger</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+		</action>
+
+		<action name="Passenger">
+			<result type="tiles">registerPassenger</result>
+		</action>
+
+		<action name="AdminSubmit" class="action.user.RegisterAdminAction">
+			<result name="login" type="tiles">registerAdmin</result>
+			<result name="error" type="tiles">registerAdmin</result>
+			<result name="input" type="tiles">registerAdmin</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+		</action>
+
+		<action name="Admin">
+			<result type="tiles">registerAdmin</result>
+		</action>
+
+		<action name="AirlineSubmit" class="action.user.RegisterAirlineAction">
+			<result name="login" type="tiles">registerAirline</result>
+			<result name="error" type="tiles">registerAirline</result>
+			<result name="input" type="tiles">registerAirline</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+		</action>
+
+		<action name="Airline">
+			<result type="tiles">registerAirline</result>
+		</action>
+
+		<action name="ControllerSubmit" class="action.user.RegisterControllerAction">
+			<result name="login" type="tiles">registerController</result>
+			<result name="error" type="tiles">registerController</result>
+			<result name="input" type="tiles">registerController</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+		</action>
+
+		<action name="Controller">
+			<result type="tiles">registerController</result>
+		</action>
+
+		<action name="MantainanceSubmit" class="action.user.RegisterMantainaceAction">
+			<result name="login" type="tiles">registerMantainance</result>
+			<result name="error" type="tiles">registerMantainance</result>
+			<result name="input" type="tiles">registerMantainance</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+		</action>
+
+		<action name="Mantainance">
+			<result type="tiles">registerMantainance</result>
+		</action>
+
 	</package>
 
 </struts>

@@ -10,11 +10,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import domain.model.Airline;
 import domain.model.Gate;
 import domain.model.Node;
 import domain.model.Route;
-import domain.model.User;
+import domain.model.users.Airline;
+import domain.model.users.User;
 
 public class TestDaoAirline {
 

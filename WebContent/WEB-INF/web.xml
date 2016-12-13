@@ -13,6 +13,12 @@
      	 /WEB-INF/tiles.xml
    	</param-value>
    	</context-param>
+   	
+   	<listener>  
+	    <listener-class>
+	       initialization.AdminInitialization
+	    </listener-class>
+	</listener>  
    
 	<listener>
 	<listener-class>

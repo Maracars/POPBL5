@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import domain.model.users.Airline;
 @Entity
 public class Plane {
 

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import domain.model.users.Airline;
+
 @Entity
 public class Route {
 

@@ -1,4 +1,4 @@
-package domain.model;
+package domain.model.users;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +6,11 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
+import domain.model.Address;
+import domain.model.Route;
 
 /**
  * @author joanes
@@ -18,6 +23,21 @@ public class Airline extends User {
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	Collection<Route> routesList = new ArrayList<>();
+	
+	@ManyToOne//(cascade = CascadeType.PERSIST)
+	@NotNull
+	Address address;
+
+	public Airline(){
+		super();
+	}
+	
+	public Airline(User user) {
+		this.setEmail(user.getEmail());
+		this.setId(user.getId());
+		this.setPassword(user.getPassword());
+		this.setUsername(user.getUsername());
+	}
 
 	public Collection<Route> getRoutesList() {
 		return routesList;
@@ -25,14 +45,6 @@ public class Airline extends User {
 
 	public void setRoutesList(Collection<Route> routesList) {
 		this.routesList = routesList;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -43,6 +55,14 @@ public class Airline extends User {
 		this.name = name;
 	}
 
-	// TODO hemen finkatzeko dare kanpuak
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	
 
 }

@@ -1,0 +1,24 @@
+.console li:nth-child(even){
+  background-color: #515151;
+  padding: 5px;
+  border-left: lightgrey solid 2px;
+  margin-left: 2em;
+}
+.console li:nth-child(odd){
+  background-color: #000000;
+  padding: 5px;
+  border-left: grey solid 2px;
+  margin-left: 2em;
+}
+
+.console{
+	font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
+	overflow: scroll;
+	height: 800px;
+	width: 100%;
+	margin: 0px auto;
+	display: block;
+	color: #00FF00;
+	background-color: black;
+	border:grey solid 5px;
+}
