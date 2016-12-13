@@ -3,7 +3,11 @@ package domain.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Gate {
@@ -14,8 +18,21 @@ public class Gate {
 	private Integer number;
 
 	// TODO tagak jarri
-	@OneToOne 
+	@OneToOne
 	Node positionNode;
+
+	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+
+	Terminal terminal;
+
+	public Terminal getTerminal() {
+		return terminal;
+	}
+
+	public void setTerminal(Terminal terminal) {
+		this.terminal = terminal;
+	}
 
 	public Node getPositionNode() {
 		return positionNode;

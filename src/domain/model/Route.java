@@ -1,16 +1,12 @@
 package domain.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import domain.model.users.Airline;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Route {
@@ -18,15 +14,15 @@ public class Route {
 	@Id
 	@GeneratedValue
 	Integer id;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+
+	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	Gate arrivalGate;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+
+	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+
 	Gate departureGate;
-	
-	@ManyToMany(mappedBy = "routesList")
-	Collection<Airline> airlineList = new ArrayList<Airline>();
 
 	public Integer getId() {
 		return id;
@@ -36,7 +32,7 @@ public class Route {
 		this.id = id;
 	}
 
-	Gate getArrivalGate() {
+	public Gate getArrivalGate() {
 		return arrivalGate;
 	}
 

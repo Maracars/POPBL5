@@ -4,13 +4,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import domain.model.users.Passenger;
 
@@ -33,10 +40,15 @@ public class Flight {
 	@Temporal(TemporalType.TIMESTAMP)
 	Date expectedArrivalDate;
 
-	@ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "userFlights", joinColumns = {
+			@JoinColumn(name = "FlightId", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "PassengerId", nullable = false, updatable = false) })
+
 	Collection<Passenger> passengerList = new ArrayList<>();
 
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	Plane plane;
 
 	// TODO tagak jarri
@@ -44,6 +56,8 @@ public class Flight {
 	Route route;
 
 	Float price;
+	
+	
 
 	public Float getPrice() {
 		return price;

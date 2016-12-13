@@ -12,18 +12,15 @@ function render(data) {
 }
 
 socket.on("connect", function() {
-	// console.log("jajaja konektau in da");
 });
 
 socket.on("chatevent", function(data) {
 	var data2 = JSON.parse(data);
 
-	// console.log(data2.izena);
 	render(data2);
 });
 
 socket.on("disconnect", function() {
-	// console.log("jajaja deskonektau in da");
 });
 
 function sendDisconnect() {

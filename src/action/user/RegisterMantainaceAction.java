@@ -88,7 +88,7 @@ public class RegisterMantainaceAction extends RegisterAction{
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.insertObject(((Mantainance)user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveOrUpdateObject(((Mantainance)user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 

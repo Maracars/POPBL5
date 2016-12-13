@@ -87,7 +87,7 @@ public class RegisterAdminAction extends RegisterAction{
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.insertObject(((Admin)user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveOrUpdateObject(((Admin)user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 

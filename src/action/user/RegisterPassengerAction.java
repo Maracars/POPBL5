@@ -8,7 +8,6 @@ import java.time.ZoneId;
 
 import domain.dao.HibernateGeneric;
 import domain.model.Address;
-import domain.model.users.Admin;
 import domain.model.users.Passenger;
 
 public class RegisterPassengerAction extends RegisterAction {
@@ -86,7 +85,7 @@ public class RegisterPassengerAction extends RegisterAction {
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.insertObject(((Passenger)user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveOrUpdateObject(((Passenger)user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 

@@ -59,7 +59,7 @@ public abstract class RegisterAction extends ActionSupport {
 
 		if (ret != ERROR) {
 			ret = userSpecificInsert();
-			ret = HibernateGeneric.insertObject(user) ? SUCCESS : ERROR;
+			ret = HibernateGeneric.saveOrUpdateObject(user) ? SUCCESS : ERROR;
 			addActionError(getText(ERROR_SAVING));
 		}
 

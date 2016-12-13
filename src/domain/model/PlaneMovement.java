@@ -4,6 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class PlaneMovement {
@@ -21,6 +25,19 @@ public class PlaneMovement {
 	Double positionY;
 	@Column(nullable = false)
 	Double speed;
+
+	@ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+
+	Plane plane;
+
+	public Plane getPlane() {
+		return plane;
+	}
+
+	public void setPlane(Plane plane) {
+		this.plane = plane;
+	}
 
 	public Integer getId() {
 		return id;

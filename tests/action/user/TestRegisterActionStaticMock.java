@@ -15,7 +15,7 @@ import domain.dao.HibernateGeneric;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(HibernateGeneric.class)
 public class TestRegisterActionStaticMock {
-	
+
 	private static final String SOMETHING_ELSE = "Something else";
 	private static final String SOMETHING = "Something";
 
@@ -27,9 +27,9 @@ public class TestRegisterActionStaticMock {
 		la.user.setUsername(SOMETHING);
 		la.user.setBirthDate(new Date());
 		la.user.setPassword(SOMETHING_ELSE);
-		
+
 		PowerMockito.mockStatic(HibernateGeneric.class);
-		PowerMockito.when(HibernateGeneric.insertObject(la.user)).thenReturn(false);
+		PowerMockito.when(HibernateGeneric.saveOrUpdateObject(la.user)).thenReturn(false);
 
 		String result = null;
 		try {
@@ -42,5 +42,4 @@ public class TestRegisterActionStaticMock {
 		assertEquals("Incorrect result", RegisterAction.ERROR, result);
 	}
 
-	
 }

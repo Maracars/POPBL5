@@ -11,14 +11,14 @@ import helpers.MD5;
 import hibernate.HibernateConnection;
 
 public class HibernateGeneric {
+
 	private static Session session;
 
-	public static boolean insertObject(Object object) {
+	public static boolean saveOrUpdateObject(Object object) {
 		boolean result = true;
 		try {
-			if(object instanceof User)
-				((User) object).setPassword(
-						MD5.encrypt(((User) object).getPassword()));
+			if (object instanceof User)
+				((User) object).setPassword(MD5.encrypt(((User) object).getPassword()));
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
 			session.save(object);

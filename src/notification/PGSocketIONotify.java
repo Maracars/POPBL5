@@ -52,7 +52,7 @@ public class PGSocketIONotify implements Runnable {
 
 				if (notifications != null) {
 					for (PGNotification pgNotification : notifications) {
-						
+
 						// PGk JSON bat bidaltzen dau, hori gero javascripten
 						// tratauko da
 						String[] tableInfo = pgNotification.getParameter().split(SPLITTER);

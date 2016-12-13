@@ -53,7 +53,7 @@ public class RegisterAirlineAction extends RegisterAction {
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.insertObject(((Airline)user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveOrUpdateObject(((Airline)user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 
