@@ -4,8 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import domain.dao.InterceptorJAJA;
-
 public class HibernateConnection {
 
 	private static SessionFactory sessionFactory;
@@ -13,10 +11,9 @@ public class HibernateConnection {
 	private final static String HBN_LOCATION = "/resources/hibernate.cfg.xml";
 
 	static {
-		sessionFactory = new Configuration().setInterceptor(new InterceptorJAJA())
-				.configure(HBN_LOCATION).buildSessionFactory();
+		sessionFactory = new Configuration().configure(HBN_LOCATION).buildSessionFactory();
 		session = sessionFactory.openSession();
-		
+
 	}
 
 	@Override
