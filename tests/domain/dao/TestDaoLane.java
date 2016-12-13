@@ -110,7 +110,6 @@ public class TestDaoLane {
 	@Test
 	public void testGetFreeLanes() {
 
-		Initializer.deleteAllLanes();
 
 		Node startNode = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(startNode);

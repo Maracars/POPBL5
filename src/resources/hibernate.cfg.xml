@@ -17,7 +17,7 @@
 		<property name="hbm2ddl.auto">update</property>
 
 		<!-- Hibernatek sortzen daben sql dana printeau -->
-		<property name="show_sql">true</property>
+		<property name="show_sql">update</property>
 		<!--<property name="format_sql">true</property>-->
 		<!--<property name="use_sql_comments">true</property>-->
 
@@ -49,6 +49,7 @@
 		<mapping class="domain.dao.DAOPlaneMaker" />
 		<mapping class="domain.dao.DAOTerminal" />
 		<mapping class="domain.dao.DAOUser" />
+		<mapping class="domain.dao.DAOFlight" />
 
 
 

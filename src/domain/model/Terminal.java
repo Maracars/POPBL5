@@ -5,12 +5,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Terminal {
 	@Id
 	@GeneratedValue
 	Integer id;
 	String name;
+	
+	@ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+	Airport airport;
+
 
 	public Airport getAirport() {
 		return airport;
@@ -19,9 +27,6 @@ public class Terminal {
 	public void setAirport(Airport airport) {
 		this.airport = airport;
 	}
-
-	@ManyToOne
-	Airport airport;
 
 	public Integer getId() {
 		return id;

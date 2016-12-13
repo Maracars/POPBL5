@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Delay {
 
@@ -17,6 +20,8 @@ public class Delay {
 	String description;
 
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+
 	Flight affectedFlight;
 
 	public Integer getId() {

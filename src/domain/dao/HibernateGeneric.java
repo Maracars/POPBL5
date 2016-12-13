@@ -21,7 +21,7 @@ public class HibernateGeneric {
 				((User) object).setPassword(MD5.encrypt(((User) object).getPassword()));
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
-			session.saveOrUpdate(object);
+			session.save(object);
 			session.getTransaction().commit();
 
 		} catch (Exception e) {

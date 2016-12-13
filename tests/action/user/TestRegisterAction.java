@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -78,7 +79,7 @@ public class TestRegisterAction {
 
 	}
 
-	@Test
+	@Ignore
 	public void testExecuteOK() {
 
 		RegisterAction la = new RegisterAction();

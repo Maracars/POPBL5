@@ -9,8 +9,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.model.Airport;
-import domain.model.City;
-import domain.model.State;
 import domain.model.Terminal;
 
 public class TestDaoTerminal {
@@ -21,7 +19,10 @@ public class TestDaoTerminal {
 
 	@Test
 	public void testInsertTerminalWithoutGatesIntoDB() {
-		Terminal terminal = Initializer.initTerminal();
+		Airport airport = Initializer.initCompleteAirport();
+		HibernateGeneric.saveOrUpdateObject(airport);
+		
+		Terminal terminal = Initializer.initTerminal(airport);
 		boolean result = HibernateGeneric.saveOrUpdateObject(terminal);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -36,13 +37,9 @@ public class TestDaoTerminal {
 
 	@Test
 	public void testRemoveOneSpecificTerminal() {
-		State state = Initializer.initState();
-		HibernateGeneric.saveOrUpdateObject(state);
 		
-		City city = Initializer.initCity(state);
-		HibernateGeneric.saveOrUpdateObject(city);
 		
-		Airport airport = Initializer.initAirport(city);
+		Airport airport = Initializer.initCompleteAirport();
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);

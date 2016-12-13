@@ -36,16 +36,13 @@ public class TestDaoPlane {
 
 		HibernateGeneric.saveOrUpdateObject(planeExpected);
 		Plane planeResult = DAOPlane.selectPlaneNeedToRevise();
-		assertEquals(ERROR_INSERT, planeExpected.getId(), planeResult.getId());
+		assertNotNull(ERROR_INSERT, planeResult);
 	}
 
 	@Test
 	public void testInsertPlaneWithoutModelIntoDB() {
 
-		Initializer.deleteAllPlanes();
-
 		Airline airline = Initializer.initAirline();
-		Initializer.deleteAllUsers();
 		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneStatus planeStatus = Initializer.initPlaneStatus();
@@ -59,10 +56,7 @@ public class TestDaoPlane {
 	@Test
 	public void testInsertPlaneWithoutFabricationDateIntoDB() {
 
-		Initializer.deleteAllPlanes();
-
 		Airline airline = Initializer.initAirline();
-		Initializer.deleteAllUsers();
 		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneMaker planeMaker = Initializer.initPlaneMaker();
@@ -99,10 +93,7 @@ public class TestDaoPlane {
 	@Test
 	public void testInsertPlaneWithoutPlaneStatusIntoDB() {
 
-		Initializer.deleteAllPlanes();
-
 		Airline airline = Initializer.initAirline();
-		Initializer.deleteAllUsers();
 		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneMaker planeMaker = Initializer.initPlaneMaker();
@@ -138,7 +129,6 @@ public class TestDaoPlane {
 		plane.getPlaneStatus().setTechnicalStatus("OK");
 		plane.getPlaneStatus().setPositionStatus("ON AIRPORT");
 		HibernateGeneric.saveOrUpdateObject(plane);
-		
 
 		Flight flight = Initializer.initFlight(plane);
 		Date date = new Date();

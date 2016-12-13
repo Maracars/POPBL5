@@ -11,6 +11,7 @@ import domain.model.Plane;
 import hibernate.HibernateConnection;
 
 public class DAOPlane {
+	private static final int MAX_RESULTS = 1;
 	private static final int SECOND_TO_MIN = 60;
 	private static final int MILIS_TO_SECOND = 1000;
 	private static final int MIN_TO_HOURS = 60;
@@ -78,7 +79,7 @@ public class DAOPlane {
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_PLANES_NEED_REVISE);
-			plane = (Plane) query.getSingleResult();
+			plane = (Plane) query.setMaxResults(MAX_RESULTS).getSingleResult();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,7 +95,7 @@ public class DAOPlane {
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_FREE_PLANE);
-			plane = (Plane) query.getSingleResult();
+			plane = (Plane) query.setMaxResults(MAX_RESULTS).getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

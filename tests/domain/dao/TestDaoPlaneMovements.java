@@ -9,7 +9,6 @@ import domain.model.PlaneMovement;
 
 public class TestDaoPlaneMovements {
 
-
 	private static final String ERROR_REMOVING = "Error removing one plane maker from database";
 	private static final String ERROR_LOAD = "Error load all plane makers from database";
 	private static final String ERROR_INSERT = "Error insert plane maker into database";
@@ -23,8 +22,9 @@ public class TestDaoPlaneMovements {
 
 	@Test
 	public void testInsertPlaneMovementlWithEverythingIntoDB() {
+		PlaneMovement planeMovement = Initializer.initCompletePlaneMovements();
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneMovements());
+		boolean result = HibernateGeneric.saveOrUpdateObject(planeMovement);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -40,7 +40,5 @@ public class TestDaoPlaneMovements {
 		boolean result = HibernateGeneric.deleteObject(Initializer.initCompletePlaneMovements());
 		assertEquals(ERROR_REMOVING, true, result);
 	}
-
-
 
 }

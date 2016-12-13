@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Route {
 
@@ -13,9 +16,12 @@ public class Route {
 	Integer id;
 
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	Gate arrivalGate;
 
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+
 	Gate departureGate;
 
 	public Integer getId() {

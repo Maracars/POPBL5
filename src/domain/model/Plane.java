@@ -10,6 +10,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Plane {
 
@@ -20,6 +23,7 @@ public class Plane {
 	String serial;
 
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	PlaneModel model;
 
 	// TODO POSITION ZELA?
@@ -28,12 +32,15 @@ public class Plane {
 	Date fabricationDate;
 
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
+
 	// TODO taga definitu
 	Airline airline;
-	
+
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+
 	PlaneStatus status;
-	
 
 	public PlaneStatus getPlaneStatus() {
 		return status;

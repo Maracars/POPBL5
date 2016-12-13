@@ -1,8 +1,10 @@
 package domain.dao;
 
 import javax.persistence.Query;
+
 import org.hibernate.Session;
 
+import domain.model.Airline;
 import domain.model.User;
 import hibernate.HibernateConnection;
 
@@ -33,6 +35,12 @@ public class DAOUser {
 	public static boolean deleteUserWithUsername(User user) {
 		int result;
 		try {
+			if (user instanceof Airline) {
+				Airline airline = (Airline) user;
+				System.out.println(airline.getUsername());
+				DAOFlight.setNullAirlineFlights(airline.getUsername());
+
+			}
 
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
@@ -43,6 +51,7 @@ public class DAOUser {
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			session.getTransaction().rollback();
 
 			result = 0;

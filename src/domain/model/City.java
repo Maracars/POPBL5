@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class City {
@@ -14,8 +16,9 @@ public class City {
 
 	String name;
 
-	@ManyToOne
-	@NotNull
+	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+
 	State state;
 
 	public Integer getId() {

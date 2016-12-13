@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class PlaneModel {
 
@@ -14,7 +17,8 @@ public class PlaneModel {
 	private String name;
 
 	@ManyToOne(optional = false)
-	// @Cascade(value=CascadeType.DELETE) Hau nunbaitt jarri bihar da,
+    @OnDelete(action = OnDeleteAction.CASCADE)
+
 	private PlaneMaker planeMaker;
 
 	public Integer getId() {

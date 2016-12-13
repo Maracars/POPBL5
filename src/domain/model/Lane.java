@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Lane {
 
@@ -18,19 +21,22 @@ public class Lane {
 
 	private String name;
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private Boolean status;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private Boolean principal;
 
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Node startNode;
 
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Node endNode;
-	
+
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Airport airport;
 
 	@Transient

@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 public class Airport {
@@ -17,8 +19,8 @@ public class Airport {
 
 	Integer maxFlights;
 
-	@ManyToOne // (cascade = CascadeType.PERSIST)
-	@NotNull
+	@ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
 	City city;
 
 	public Integer getId() {

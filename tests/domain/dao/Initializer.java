@@ -139,13 +139,9 @@ public class Initializer {
 	}
 
 	public static PlaneMovement initCompletePlaneMovements() {
-		deleteAllPlaneMovements();
-		deleteAllDelays();
-		deleteAllFlights();
-		deleteAllPlanes();
-		deleteAllUsers();
 
 		Airline airline = initAirline();
+		DAOUser.deleteUserWithUsername(airline);
 		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneMaker planeMaker = initPlaneMaker();
@@ -211,11 +207,8 @@ public class Initializer {
 
 	public static Plane initCompletePlane() {
 
-		deleteAllFlights();
-		deleteAllPlanes();
-
 		Airline airline = initAirline();
-		deleteAllUsers();
+		DAOUser.deleteUserWithUsername(airline);
 		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneMaker planeMaker = initPlaneMaker();
@@ -430,14 +423,8 @@ public class Initializer {
 	}
 
 	public static Airline initCompleteAirline() {
-		deleteAllPlaneMovements();
-		deleteAllDelays();
-		deleteAllFlights();
-		deleteAllPlanes();
-		deleteAllUsers();
 
 		Airline airline = initAirline();
-		DAOUser.deleteUserWithUsername(airline);
 
 		return airline;
 	}
@@ -502,11 +489,8 @@ public class Initializer {
 		PlaneModel planeModel = initPlaneModel(planeMaker);
 		HibernateGeneric.saveOrUpdateObject(planeModel);
 
-		deleteAllFlights();
-		deleteAllPlanes();
-		deleteAllUsers();
-
 		Airline airline = initAirline();
+		DAOUser.deleteUserWithUsername(airline);
 		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneStatus planeStatus = initPlaneStatus();
@@ -516,7 +500,7 @@ public class Initializer {
 		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Passenger passenger = initPassenger(USERNAME_2, PASSWORD_2, new Date());
-
+		DAOUser.deleteUserWithUsername(passenger);
 		HibernateGeneric.saveOrUpdateObject(passenger);
 
 		List<Passenger> passengerList = new ArrayList<>();
@@ -556,13 +540,8 @@ public class Initializer {
 		PlaneModel planeModel = initPlaneModel(planeMaker);
 		HibernateGeneric.saveOrUpdateObject(planeModel);
 
-		deleteAllPlaneMovements();
-		deleteAllDelays();
-		deleteAllFlights();
-		deleteAllPlanes();
-		deleteAllUsers();
-
 		Airline airline = initAirline();
+		DAOUser.deleteUserWithUsername(airline);
 		HibernateGeneric.saveOrUpdateObject(airline);
 
 		PlaneStatus planeStatus = initPlaneStatus();
@@ -572,6 +551,7 @@ public class Initializer {
 		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Passenger passenger = initPassenger(USERNAME_2, PASSWORD_2, new Date());
+		DAOUser.deleteUserWithUsername(passenger);
 		HibernateGeneric.saveOrUpdateObject(passenger);
 
 		List<Passenger> passengerList = new ArrayList<>();
@@ -640,49 +620,6 @@ public class Initializer {
 		Delay delay = new Delay();
 		delay.setAffectedFlight(flight);
 		return delay;
-
-	}
-
-	public static void deleteAllFlights() {
-		List<Object> listFlight = HibernateGeneric.loadAllObjects(new Flight());
-		for (Object flight : listFlight) {
-			HibernateGeneric.deleteObject((Flight) flight);
-		}
-	}
-
-	public static void deleteAllUsers() {
-		List<Object> listUser = HibernateGeneric.loadAllObjects(new User());
-		for (Object user : listUser) {
-			HibernateGeneric.deleteObject((User) user);
-		}
-	}
-
-	public static void deleteAllPlanes() {
-		List<Object> listPlanes = HibernateGeneric.loadAllObjects(new Plane());
-		for (Object plane : listPlanes) {
-			HibernateGeneric.deleteObject((Plane) plane);
-		}
-	}
-
-	public static void deleteAllDelays() {
-		List<Object> listDelays = HibernateGeneric.loadAllObjects(new Delay());
-		for (Object delay : listDelays) {
-			HibernateGeneric.deleteObject((Delay) delay);
-		}
-	}
-
-	public static void deleteAllPlaneMovements() {
-		List<Object> planeMovementList = HibernateGeneric.loadAllObjects(new PlaneMovement());
-		for (Object planeMovements : planeMovementList) {
-			HibernateGeneric.deleteObject((PlaneMovement) planeMovements);
-		}
-	}
-
-	public static void deleteAllLanes() {
-		List<Object> lanesList = HibernateGeneric.loadAllObjects(new Lane());
-		for (Object lanes : lanesList) {
-			HibernateGeneric.deleteObject((Lane) lanes);
-		}
 
 	}
 

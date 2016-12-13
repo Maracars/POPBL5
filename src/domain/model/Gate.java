@@ -6,6 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Gate {
 
@@ -19,6 +22,8 @@ public class Gate {
 	Node positionNode;
 
 	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+
 	Terminal terminal;
 
 	public Terminal getTerminal() {
