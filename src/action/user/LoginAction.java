@@ -42,7 +42,7 @@ public class LoginAction extends ActionSupport {
 				addActionError(getText("user.incorrectPassword"));
 			}
 		} else {
-			addActionError(getText("user.unknownUser"));
+			addActionError(getText("user.unknownUsername"));
 		}
 		password = "";
 		return ret;

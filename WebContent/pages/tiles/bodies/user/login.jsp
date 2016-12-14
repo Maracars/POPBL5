@@ -19,7 +19,7 @@
 
 			<div style="margin-top: 50px;" class="well center-block">
 				<span><s:text name="user.notRegisteredYet" />, <s:a
-						action="register">
+						action="Passenger" namespace="register">
 						<s:text name="global.register" />!</s:a></span>
 			</div>
 		</div>
