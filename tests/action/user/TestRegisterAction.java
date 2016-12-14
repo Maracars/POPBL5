@@ -3,71 +3,94 @@ package action.user;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 
-import org.junit.Ignore;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.opensymphony.xwork2.ActionContext;
+
+import domain.dao.DAOUser;
+import domain.dao.Initializer;
+import domain.model.Address;
+import domain.model.users.Passenger;
 
 public class TestRegisterAction {
 	private static final String SOMETHING_ELSE = "Something else";
 	private static final String SOMETHING = "Something";
 	private static final String FIELD_ACTION_ERROR = "Field errors not generated properly";
-	private static final int _3_ERRORS = 3;
+	private static final int _11_ERRORS = 11;
 	ActionContext ac;
+	
+	RegisterPassengerAction la;
+	
+	@Before
+	public void prepareTests() {
+
+		ac = Mockito.mock(ActionContext.class);
+		Mockito.when(ac.getSession()).thenReturn(new HashMap<>());
+		
+		la = Mockito.spy(new RegisterPassengerAction());
+		Mockito.doReturn(new Locale("en")).when(la).getLocale();	
+		Mockito.doReturn("dd-MM-yyyy").when(la).getText(Mockito.anyString());
+		
+		ActionContext.setContext(ac);
+	}
+
+	@After
+	public void destroyTests() {
+		ac = null;
+	}
 
 	@Test
 	public void testValidateNoData() {
-
-		RegisterAction la = new RegisterAction();
-
+	
 		la.validate();
 
-		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, la.getFieldErrors().size());
+		assertEquals(FIELD_ACTION_ERROR, _11_ERRORS, la.getFieldErrors().size());
 
 	}
 
 	@Test
 	public void testValidateUnder18() {
 
-		RegisterAction la = new RegisterAction();
-		la.birthdate = "11-11-3000";
+		
+		la.setBirthdate("11-11-3000");
 
 		la.validate();
 
-		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, la.getFieldErrors().size());
+		assertEquals(FIELD_ACTION_ERROR, _11_ERRORS, la.getFieldErrors().size());
 
 	}
 
 	@Test
 	public void testValidateRepeatPassEmpty() {
-
-		RegisterAction la = new RegisterAction();
 		la.user.setPassword(SOMETHING);
 
 		la.validate();
 
-		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, la.getFieldErrors().size());
+		assertEquals(FIELD_ACTION_ERROR, _11_ERRORS, la.getFieldErrors().size());
 
 	}
 
 	@Test
 	public void testValidatePasswordsNotMatch() {
 
-		RegisterAction la = new RegisterAction();
 		la.user.setPassword(SOMETHING);
 		la.repeatPassword = SOMETHING_ELSE;
 
 		la.validate();
 
-		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, la.getFieldErrors().size());
+		assertEquals(FIELD_ACTION_ERROR, _11_ERRORS, la.getFieldErrors().size());
 
 	}
 
 	@Test
 	public void testValidateWrongDateFormat() {
 
-		RegisterAction la = new RegisterAction();
 		la.user.setPassword(SOMETHING);
 		la.repeatPassword = SOMETHING_ELSE;
 
@@ -75,24 +98,26 @@ public class TestRegisterAction {
 
 		la.validate();
 
-		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, la.getFieldErrors().size());
+		assertEquals(FIELD_ACTION_ERROR, _11_ERRORS, la.getFieldErrors().size());
 
 	}
 
-	@Ignore
+	@Test
 	public void testExecuteOK() {
 
-		RegisterAction la = new RegisterAction();
-
 		la.user.setUsername(SOMETHING);
-		la.user.setBirthDate(new Date());
+		la.user = new Passenger(la.user);
+		((Passenger)la.user).setBirthDate(new Date());
+		((Passenger)la.user).setAddress(Initializer.initAddress());
+		
 		la.user.setPassword(SOMETHING_ELSE);
-
+		
+		DAOUser.deleteUserWithUsername(la.user);
+		
 		String result = null;
 		try {
 			result = la.execute();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

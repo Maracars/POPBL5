@@ -11,7 +11,7 @@ import helpers.MD5;
 public class TestMD5 {
 
 	private static final String NOT_EXISTING_ALGORYTHM = "MDMA";
-	private static final String RESULT_JOANES = "190e705eb4164f500ed435cb69689cb6";
+	private static final String RESULT_JOANES = "8a0c1cb66fa580f4ac9476193002e8e6";
 	private static final String USERNAME = "Joanes";
 	private static final String ENCRYPT_USERNAME_TEST = "The MD5 helper did not encrypt well";
 
