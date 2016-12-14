@@ -10,13 +10,11 @@ import domain.model.Lane;
 import hibernate.HibernateConnection;
 
 public class DAOLane {
-	
+
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 	private static final String QUERY_FREE_LANES = "from Lane as l "
 			+ "where l.principal is true and l.status is true and l.airport.id = :" + PARAMETER_AIRPORT_ID;
 	private static Session session;
-
-	
 
 	@SuppressWarnings("unchecked")
 	public static List<Lane> getFreeLanes(int airportId) {
@@ -34,5 +32,25 @@ public class DAOLane {
 			session.close();
 		}
 		return laneList;
+	}
+
+	public static boolean updateLane(Lane lane) {
+		boolean result = true;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			session.getTransaction().begin();
+			session.update(lane);
+			session.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			result = false;
+		} finally {
+			session.close();
+		}
+
+		return result;
+
 	}
 }

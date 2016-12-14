@@ -2,6 +2,7 @@ package simulator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import domain.dao.DAOLane;
 import domain.model.Airport;
@@ -11,32 +12,54 @@ public class AirportController implements Runnable {
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
 	private List<Lane> freeLaneList;
 	private Airport airport;
+	public Semaphore mutex;
 
 	public AirportController(Airport airport) {
 
 		this.airport = airport;
+		mutex = new Semaphore(1,true);
 	}
 
 	@Override
 	public void run() {
 		while (true) {
+			try {
+				mutex.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (activePlaneList.size() > 0 
 					&& (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
 				PlaneThread plane = activePlaneList.get(0);
-				plane.setLane(freeLaneList.get(0));
+				Lane lane = freeLaneList.get(0);
+				lane.setStatus(false);
+				plane.setLane(lane);
+				DAOLane.updateLane(lane);
 				activePlaneList.remove(plane);
 				plane.givePermission();
 				System.out.println("Controller gives one PERMISSION");
 			}
+			mutex.release();
 		}
 
 	}
 
 	public boolean askPermission(PlaneThread plane) {
 		boolean ret;
+		try {
+			mutex.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (activePlaneList.size() == 0 
 				&& (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
-			plane.setLane(freeLaneList.get(0));
+			
+			Lane lane = freeLaneList.get(0);
+			lane.setStatus(false);
+			plane.setLane(lane);
+			DAOLane.updateLane(lane);
 			ret = true;
 			System.out.println("Controller gives specific PERMISSION");
 		} else {
@@ -44,6 +67,7 @@ public class AirportController implements Runnable {
 			ret = false;
 			System.out.println("Controller DENIES specific PERMISSION");
 		}
+		mutex.release();
 		return ret;
 	}
 

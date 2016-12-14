@@ -48,6 +48,10 @@ public class DAOSimulator {
 	}
 
 	public static Date getCorrectDateFromSchedule(int planeId, int airportId) {
+		
+		Date date = null;
+		
+		try {
 
 		session = HibernateConnection.getSessionFactory().openSession();
 
@@ -58,7 +62,15 @@ public class DAOSimulator {
 				.setParameter("planeId", planeId).setParameter("airportId", airportId);
 
 		query.execute();
+		date =  (Timestamp) query.getOutputParameterValue("correctDate");
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
 
-		return (Timestamp) query.getOutputParameterValue("correctDate");
+		return date;
 	}
 }

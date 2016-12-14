@@ -26,18 +26,18 @@ public class DAOPlane {
 			+ "where f.expectedArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
 			+ " and p.status.positionStatus = 'ARRIVING'" + "and f.route.departureGate.terminal.airport.id = :"
 			+ PARAMETER_AIRPORT_ID;
-	private static final int DEPARTURE_DAY_MARGIN = 2;
+	private static final int DEPARTURE_HOUR_MARGIN = 3;
 	private static final String QUERY_DEPARTURING_PLANES_SOON = SELECT_PLANE
 			+ "where f.expectedDepartureDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
 			+ " and p.status.positionStatus = 'ON AIRPORT' and p.status.technicalStatus = 'OK' "
 			+ "and f.route.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
-	
+
 	private static final String QUERY_PLANES_NEED_REVISE = "from Plane as p "
 			+ "where p.status.technicalStatus = 'NEEDS REVISION'";
 
-	private static final String QUERY_FREE_PLANE = SELECT_PLANE 
-			+ "with f.realArrivalDate < current_date";
-	
+	private static final String QUERY_FREE_PLANE = SELECT_PLANE + "where f.realArrivalDate < current_date";
+	private static final int MILIS_TO_HOURS = MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS;
+
 	private static Session session;
 
 	@SuppressWarnings("unchecked")
@@ -47,8 +47,7 @@ public class DAOPlane {
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_ARRIVAL_PLANES_SOON);
-			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime() 
-					+ (MILIS_TO_DAYS * ARRIVAL_DAY_MARGIN)));
+			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime() + (MILIS_TO_DAYS * ARRIVAL_DAY_MARGIN)));
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 
 			planeList = query.getResultList();
@@ -69,8 +68,7 @@ public class DAOPlane {
 			session = HibernateConnection.getSessionFactory().openSession();
 			// TODO PLANESTATUS GEHITZEN DANIAN HAU INPLEMENTATZEKO GERATZEN DA
 			Query query = session.createQuery(QUERY_DEPARTURING_PLANES_SOON);
-			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime() 
-					+ (MILIS_TO_DAYS * DEPARTURE_DAY_MARGIN)));
+			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime() + (MILIS_TO_HOURS * DEPARTURE_HOUR_MARGIN)));
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 
 			planeList = query.getResultList();
@@ -98,20 +96,21 @@ public class DAOPlane {
 		return plane;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static Plane getFreePlane() {
 
-		Plane plane = null;
+		List<Plane> planeList = null;
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_FREE_PLANE);
-			plane = (Plane) query.setMaxResults(MAX_RESULTS).getSingleResult();
+			planeList = query.setMaxResults(MAX_RESULTS).getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 
-		return plane;
+		return planeList.size() > 0 ? planeList.get(0) : null;
 	}
 
 	public static boolean revisePlane(Plane planeToRevise) {

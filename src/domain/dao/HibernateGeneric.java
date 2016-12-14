@@ -6,6 +6,7 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
+import domain.model.Plane;
 import domain.model.users.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;
@@ -75,4 +76,24 @@ public class HibernateGeneric {
 		return objectList;
 	}
 
+	public static boolean updateObject(Object object) {
+		boolean result = true;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			session.getTransaction().begin();
+			session.update(object);
+			session.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			result = false;
+		} finally {
+			session.close();
+		}
+
+		return result;
+
+	}
+	
 }

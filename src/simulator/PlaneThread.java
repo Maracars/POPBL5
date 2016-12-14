@@ -2,6 +2,7 @@ package simulator;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.model.Lane;
 import domain.model.Plane;
@@ -13,7 +14,8 @@ public abstract class PlaneThread implements Runnable {
 	protected AirportController controller;
 	protected Semaphore semControllerPermision;
 	protected Lane momentLane;
-	private Lane lane;
+	protected Lane lane;
+	protected AtomicInteger activePlanes;
 
 	@Override
 	abstract public void run();

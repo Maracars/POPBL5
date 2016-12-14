@@ -1,15 +1,18 @@
 package simulator;
 
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import domain.dao.DAOLane;
 import domain.model.Plane;
 
 public class DeparturingPlane extends PlaneThread {
 
-	public DeparturingPlane(Plane plane, AirportController controller) {
+	public DeparturingPlane(Plane plane, AirportController controller, AtomicInteger activePlanesNum) {
 		this.plane = plane;
 		semControllerPermision = new Semaphore(0, true);
 		this.controller = controller;
+		this.activePlanes = activePlanesNum;
 	}
 
 	@Override
@@ -27,14 +30,24 @@ public class DeparturingPlane extends PlaneThread {
 		}
 		//goToDestine();
 		System.out.println("Departure plane ready TO GO");
-		goOutFromMap();
+		
 		System.out.println("Departure plane went OUT");
+		goOutFromMap();
 		//set plane status arriving??
 
 	}
 
 	private void goOutFromMap() {
-		// TODO Auto-generated method stub
+		lane.setStatus(true);
+		try {
+			controller.mutex.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DAOLane.updateLane(lane);
+		controller.mutex.release();
+		activePlanes.decrementAndGet();
 
 	}
 
