@@ -31,8 +31,7 @@ public class Controller extends User{
 	String name;
 	String secondName;
 
-	@ManyToOne(optional = true) //TODO HAU BEGIRATZEKO DAGO
-
+	@ManyToOne(optional = false)
 	Address address;
 	
 	@Temporal(TemporalType.DATE)

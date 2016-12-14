@@ -1,6 +1,7 @@
 package simulator;
 
 import domain.dao.HibernateGeneric;
+import domain.dao.Initializer;
 import domain.model.Address;
 import domain.model.Airport;
 import domain.model.Gate;
@@ -11,9 +12,6 @@ import domain.model.Terminal;
 public class MainThread {
 	private static final int GATE_NUMBER = 2;
 	private static final String TERMINAL_NAME = "T1";
-	private static final String STATE_NAME = "EH";
-	private static final String CITY_NAME = "Dima";
-	private static final String NODE_NAME = "n";
 	private static final String AIRPORT_NAME = "Naranair";
 	private static final int MAX_ACTIVE_PLANES = 6;
 
@@ -37,12 +35,7 @@ public class MainThread {
 
 	private static Airport initializeExampleOnDB() {
 
-		Address address = new Address();
-		address.setCountry(STATE_NAME);
-		address.setCity(CITY_NAME);
-		address.setPostCode("19369");
-		address.setRegion("Bizkaia");
-		address.setStreetAndNumber("Carrer 0");
+		Address address = Initializer.initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
 
 		Airport airport = new Airport();
@@ -51,10 +44,7 @@ public class MainThread {
 		airport.setAddress(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
-		Node node = new Node();
-		node.setName(NODE_NAME);
-		node.setPositionX(2);
-		node.setPositionY(3);
+		Node node = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(node);
 
 		Terminal terminal = new Terminal();

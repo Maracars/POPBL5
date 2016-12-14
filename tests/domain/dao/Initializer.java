@@ -20,7 +20,6 @@ import domain.model.Route;
 import domain.model.Terminal;
 import domain.model.users.Airline;
 import domain.model.users.Passenger;
-import domain.model.users.User;
 
 public class Initializer {
 
@@ -58,19 +57,7 @@ public class Initializer {
 
 	private static final String TERMINAL_NAME = "3";
 
-	
 
-	public static User initUser(String username, String password) {
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
-		return user;
-	}
-	public static User initUser() {
-		return new User();
-	}
-	
-	
 
 	public static Terminal initTerminal() {
 		Terminal terminal = new Terminal();
@@ -290,10 +277,11 @@ public class Initializer {
 	public static Passenger initCompletePassenger() {
 		
 		Address address = initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
 		
 		Passenger passenger = new Passenger();
-		passenger.setUsername(USERNAME);
-		passenger.setPassword(PASSWORD);
+		passenger.setUsername(USERNAME_2);
+		passenger.setPassword(PASSWORD_2);
 		passenger.setAddress(address);
 		passenger.setEmail(EMAIL);
 		passenger.setBirthDate(new Date());
@@ -474,7 +462,7 @@ public class Initializer {
 		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus);
 		HibernateGeneric.saveOrUpdateObject(plane);
 
-		Passenger passenger = initPassenger(USERNAME_2, PASSWORD_2, new Date());
+		Passenger passenger = initCompletePassenger();
 		DAOUser.deleteUserWithUsername(passenger);
 		HibernateGeneric.saveOrUpdateObject(passenger);
 
@@ -522,7 +510,7 @@ public class Initializer {
 		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus);
 		HibernateGeneric.saveOrUpdateObject(plane);
 
-		Passenger passenger = initPassenger(USERNAME_2, PASSWORD_2, new Date());
+		Passenger passenger = initCompletePassenger();
 		DAOUser.deleteUserWithUsername(passenger);
 		HibernateGeneric.saveOrUpdateObject(passenger);
 

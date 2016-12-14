@@ -9,32 +9,26 @@ import javax.persistence.TemporalType;
 
 import domain.model.Address;
 
-
 @Entity
-public class Mantainance extends User{
-	
+public class Mantainance extends User {
+
 	public Mantainance(User user) {
 		this.setEmail(user.getEmail());
 		this.setId(user.getId());
 		this.setPassword(user.getPassword());
 		this.setUsername(user.getUsername());
 	}
-	
-	
 
 	public Mantainance() {
 		super();
 	}
 
-
-
 	String name;
 	String secondName;
-	
-	@ManyToOne(optional = true) //TODO HAU BEGIRATZEKO DAGO
 
+	@ManyToOne(optional = false)
 	Address address;
-	
+
 	@Temporal(TemporalType.DATE)
 	Date birthDate;
 
@@ -69,6 +63,5 @@ public class Mantainance extends User{
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	
-	
+
 }

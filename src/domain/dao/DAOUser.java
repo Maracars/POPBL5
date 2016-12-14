@@ -10,7 +10,6 @@ import hibernate.HibernateConnection;
 
 public class DAOUser {
 	private static final String PARAMETER_USERNAME = "username";
-	private static final String DELETE_USER_WHERE_USERNAME = "delete User where username = :" + PARAMETER_USERNAME;
 	private static final String USERNAME_QUERY = "from User U where U.username = :" + PARAMETER_USERNAME;
 	private static Session session;
 
@@ -37,15 +36,15 @@ public class DAOUser {
 		try {
 			if (user instanceof Airline) {
 				Airline airline = (Airline) user;
-				System.out.println(airline.getUsername());
 				DAOFlight.setNullAirlineFlights(airline.getUsername());
 
 			}
 
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
+			System.out.println(user.getClass().getSimpleName());
 
-			Query query = session.createQuery(DELETE_USER_WHERE_USERNAME);
+			Query query = session.createQuery("delete " + user.getClass().getSimpleName() + " where username = :" + PARAMETER_USERNAME);
 			query.setParameter(PARAMETER_USERNAME, user.getUsername());
 			result = query.executeUpdate();
 			session.getTransaction().commit();
@@ -62,4 +61,6 @@ public class DAOUser {
 		return result > 0 ? true : false;
 
 	}
+	
+
 }

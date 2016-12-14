@@ -14,7 +14,7 @@ public class Airline extends User {
 
 	String name;
 
-	@ManyToOne(optional = true) //TODO HAU BEGIRATZEKO DAGO
+	@ManyToOne(optional = false) 
 	Address address;
 
 	public Airline() {

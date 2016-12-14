@@ -18,7 +18,7 @@ public class Passenger extends User {
 	@Temporal(TemporalType.DATE)
 	Date birthDate;
 	
-	@ManyToOne(optional = true) //TODO HAU BEGIRATZEKO DAGO
+	@ManyToOne(optional = false) 
 	Address address;
 	
 	

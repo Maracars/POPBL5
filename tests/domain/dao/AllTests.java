@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ TestDaoAirport.class,  TestDaoGate.class,
 	TestDaoPlaneMaker.class, TestDaoRoute.class,
-		TestDaoAddress.class, TestDaoTerminal.class, TestDaoUser.class,
+		TestDaoAddress.class, TestDaoTerminal.class, 
 		TestDaoNode.class, TestDaoPlaneModel.class, TestDaoLane.class, TestDaoAirline.class,
 		TestHibernateGeneric.class, TestDaoPlane.class, TestDaoDelay.class,
 		TestDaoFlight.class, TestDaoPlaneMovements.class, TestDaoPassenger.class,

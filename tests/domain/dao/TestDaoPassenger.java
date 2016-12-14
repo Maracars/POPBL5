@@ -20,7 +20,7 @@ public class TestDaoPassenger {
 		Passenger user = Initializer.initPassenger(USERNAME, PASSWORD);
 		DAOUser.deleteUserWithUsername(user);
 		boolean result = HibernateGeneric.saveOrUpdateObject(user);
-		assertEquals(ERROR_INSERT, true, result);
+		assertEquals(ERROR_INSERT, false, result);
 	}
 
 	@Test
@@ -47,19 +47,19 @@ public class TestDaoPassenger {
 		Passenger user = Initializer.initPassenger(USERNAME, PASSWORD, new Date());
 		DAOUser.deleteUserWithUsername(user);
 		boolean result = HibernateGeneric.saveOrUpdateObject(user);
-		assertEquals(ERROR_INSERT, true, result);
+		assertEquals(ERROR_INSERT, false, result);
 
 	}
 
 	@Test
 	public void testRemoveOneSpecificUser() {
 
-		Passenger user = Initializer.initPassenger(USERNAME, PASSWORD, new Date());
-		DAOUser.deleteUserWithUsername(user);
+		Passenger passenger = Initializer.initCompletePassenger();
+		DAOUser.deleteUserWithUsername(passenger);
 
-		HibernateGeneric.saveOrUpdateObject(user);
+		HibernateGeneric.saveOrUpdateObject(passenger);
 
-		boolean result = DAOUser.deleteUserWithUsername(user);
+		boolean result = DAOUser.deleteUserWithUsername(passenger);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
