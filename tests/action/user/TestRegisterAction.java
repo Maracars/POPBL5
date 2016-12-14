@@ -14,6 +14,8 @@ import org.mockito.Mockito;
 import com.opensymphony.xwork2.ActionContext;
 
 import domain.dao.DAOUser;
+import domain.dao.Initializer;
+import domain.model.Address;
 import domain.model.users.Passenger;
 
 public class TestRegisterAction {
@@ -106,6 +108,8 @@ public class TestRegisterAction {
 		la.user.setUsername(SOMETHING);
 		la.user = new Passenger(la.user);
 		((Passenger)la.user).setBirthDate(new Date());
+		((Passenger)la.user).setAddress(Initializer.initAddress());
+		
 		la.user.setPassword(SOMETHING_ELSE);
 		
 		DAOUser.deleteUserWithUsername(la.user);

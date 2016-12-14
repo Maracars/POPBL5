@@ -22,11 +22,11 @@ public abstract class RegisterAction extends ActionSupport {
 	private static final String EMAIL_BLANK = "user.emailBlank";
 	private static final String EMAIL = "user.email";
 	private static final String NO_PERMISSION = "user.noPermission";
-	
+
 	User user = new User();
 	String repeatPassword;
 	ArrayList<Class<?>> allowedUsers = new ArrayList<>();
-	
+
 	@Override
 	public void validate() {
 
@@ -48,17 +48,18 @@ public abstract class RegisterAction extends ActionSupport {
 			user.setPassword("");
 		}
 	}
-	
+
 	abstract void userSpecificValidate();
-	
+
 	@Override
 	public String execute() throws Exception {
 		String ret = SUCCESS;
 
 		ret = validateUserAccess();
-
-		if (ret != ERROR) {
+		if (ret != ERROR)
 			ret = userSpecificInsert();
+		if (ret != ERROR) {
+
 			ret = HibernateGeneric.saveOrUpdateObject(user) ? SUCCESS : ERROR;
 			addActionError(getText(ERROR_SAVING));
 		}
@@ -70,7 +71,7 @@ public abstract class RegisterAction extends ActionSupport {
 
 		return ret;
 	}
-	
+
 	public abstract String userSpecificInsert();
 
 	private String validateUserAccess() {
@@ -116,7 +117,5 @@ public abstract class RegisterAction extends ActionSupport {
 	public void setAllowedUsers(ArrayList<Class<?>> allowedUsers) {
 		this.allowedUsers = allowedUsers;
 	}
-	
-	
 
 }
