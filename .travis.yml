@@ -16,4 +16,6 @@ services:
 before_script:
   - psql -c "create database naranair;" -U postgres
   - psql -c "CREATE USER naranairapp WITH SUPERUSER PASSWORD 'Nestor123';" -U postgres
+  - psql -c naranair < POSTGRES/function.sql -U postgres
+
 
