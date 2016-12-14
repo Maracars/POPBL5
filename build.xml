@@ -64,7 +64,7 @@
           <formatter type="plain" usefile="false"/>
           <formatter type="xml" />
           <batchtest todir="${test.results.dir}">
-              <fileset dir="${test.src.dir}" includes="**/*Test*.java" />
+              <fileset dir="${test.src.dir}" includes="**/AllTests.java" />
           </batchtest>
           <classpath>
             <path refid="classpath.test" />

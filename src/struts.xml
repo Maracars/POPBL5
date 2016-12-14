@@ -132,7 +132,7 @@
 			<result type="tiles">registerController</result>
 		</action>
 
-		<action name="MantainanceSubmit" class="action.user.RegisterMantainaceAction">
+		<action name="MantainanceSubmit" class="action.user.RegisterMantainanceAction">
 			<result name="login" type="tiles">registerMantainance</result>
 			<result name="error" type="tiles">registerMantainance</result>
 			<result name="input" type="tiles">registerMantainance</result>
