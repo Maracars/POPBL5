@@ -1,8 +1,11 @@
 package domain.dao;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.ParameterMode;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 
 import org.hibernate.Session;
 
@@ -45,7 +48,17 @@ public class DAOSimulator {
 	}
 
 	public static Date getCorrectDateFromSchedule(int planeId, int airportId) {
-		Date date = null;
-		return date;
+
+		session = HibernateConnection.getSessionFactory().openSession();
+
+		StoredProcedureQuery query = session.createStoredProcedureQuery("selectDate")
+				.registerStoredProcedureParameter("planeId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("airportId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("correctDate", Timestamp.class, ParameterMode.OUT)
+				.setParameter("planeId", planeId).setParameter("airportId", airportId);
+
+		query.execute();
+
+		return (Timestamp) query.getOutputParameterValue("correctDate");
 	}
 }

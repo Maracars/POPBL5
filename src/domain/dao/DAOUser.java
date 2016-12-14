@@ -42,9 +42,9 @@ public class DAOUser {
 
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.getTransaction().begin();
-			System.out.println(user.getClass().getSimpleName());
 
-			Query query = session.createQuery("delete " + user.getClass().getSimpleName() + " where username = :" + PARAMETER_USERNAME);
+			Query query = session.createQuery(
+					"delete " + user.getClass().getSimpleName() + " where username = :" + PARAMETER_USERNAME);
 			query.setParameter(PARAMETER_USERNAME, user.getUsername());
 			result = query.executeUpdate();
 			session.getTransaction().commit();
@@ -61,6 +61,5 @@ public class DAOUser {
 		return result > 0 ? true : false;
 
 	}
-	
 
 }

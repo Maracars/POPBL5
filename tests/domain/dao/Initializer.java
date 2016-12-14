@@ -30,7 +30,7 @@ public class Initializer {
 	private static final String USERNAME = "naranair";
 	private static final String PASSWORD = "Nestor123";
 	private static final String NARANAIR = "Naranair";
-	private static final int MAX_FLIGHTS = 300;
+	private static final int MAX_FLIGHTS = 6;
 	private static final String HEATHROW = "Heathrow";
 	private static final String BERGARA = "Bergara";
 	private static final String PASSWORD_2 = "Joxantonio";
