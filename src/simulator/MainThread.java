@@ -1,10 +1,13 @@
 package simulator;
 
+import java.util.concurrent.Semaphore;
+
 import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
 import domain.model.Address;
 import domain.model.Airport;
 import domain.model.Gate;
+import domain.model.Lane;
 import domain.model.Node;
 import domain.model.Route;
 import domain.model.Terminal;
@@ -14,6 +17,7 @@ public class MainThread {
 	private static final String TERMINAL_NAME = "T1";
 	private static final String AIRPORT_NAME = "Naranair";
 	private static final int MAX_ACTIVE_PLANES = 6;
+	private static final String LANE_NAME = "Pincipal Lane";
 
 
 	public static void main(String[] args) {
@@ -62,6 +66,16 @@ public class MainThread {
 		route.setArrivalGate(gate);
 		route.setDepartureGate(gate);
 		HibernateGeneric.saveOrUpdateObject(route);
+		
+		Lane lane = new Lane();
+		lane.setAirport(airport);
+		lane.setPrincipal(true);
+		lane.setName(LANE_NAME);
+		lane.setSemaphore(new Semaphore(1, true));
+		lane.setStartNode(node);
+		lane.setEndNode(node);
+		lane.setStatus(true);
+		HibernateGeneric.saveOrUpdateObject(lane);
 
 		return airport;
 

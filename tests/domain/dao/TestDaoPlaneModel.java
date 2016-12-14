@@ -9,9 +9,10 @@ import domain.model.PlaneModel;
 
 public class TestDaoPlaneModel {
 
-	private static final String ERROR_REMOVING = "Error removing one plane maker from database";
-	private static final String ERROR_LOAD = "Error load all plane makers from database";
-	private static final String ERROR_INSERT = "Error insert plane maker into database";
+	private static final String ERROR_REMOVING = "Error removing one plane model from database";
+	private static final String ERROR_LOAD = "Error load all plane models from database";
+	private static final String ERROR_INSERT = "Error insert plane model into database";
+	private static final String GETTER_ERROR = "Error getting one plane model";
 
 	@Test
 	public void testInsertPlaneModelWithoutPlaneMakerIntoDB() {
@@ -40,5 +41,12 @@ public class TestDaoPlaneModel {
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
+	@Test
+	public void testGetOnePlaneModel() {
+
+		HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneModel());
+		PlaneModel planeModel = DAOPlaneModel.getRandomPlaneModel();
+		assertNotNull(GETTER_ERROR, planeModel);
+	}
 
 }

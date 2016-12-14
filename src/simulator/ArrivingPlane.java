@@ -29,7 +29,7 @@ public class ArrivingPlane extends PlaneThread {
 		}
 		landPlane();
 		System.out.println("Arriving plane LANDED");
-		goToDestine();
+		//goToDestine();
 		System.out.println("Arriving plane went to PARKING");
 		//set plane status OnAirport eta NeedRevision
 	}
