@@ -5,20 +5,25 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.dao.DAOPlane;
+import domain.dao.DAOPlaneModel;
 import domain.dao.DAORoute;
 import domain.dao.DAOSimulator;
 import domain.dao.HibernateGeneric;
 import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Plane;
+import domain.model.PlaneStatus;
 import domain.model.Route;
 
 public class FlightCreator implements Runnable {
 
+	private static final String TECHNICAL_STATUS = "OK";
+	private static final String POSITION_STATUS = "ARRIVING";
 	private static final int TWELVE_HOURS = 43200000;
 	private static final boolean ARRIVAL = false;
 	private static final boolean DEPARTURE = true;
 	private static final int MAX_ACTIVE_PLANES = 6;
+	private static final int SERIAL_LENGTH = 5;
 
 	private AtomicInteger activePlanesNum = new AtomicInteger(0);
 
@@ -65,7 +70,7 @@ public class FlightCreator implements Runnable {
 		while (!checkScheduleFull(airport)) {
 			Route route = selectRandomArrivalRoute();
 			if ((plane = DAOPlane.getFreePlane()) == null) {
-				plane = createPlane(route);
+				plane = createPlane();
 			}
 			assignRouteInSpecificTime(route, plane, ARRIVAL);
 			System.out.println("New ARRIVING flight created.");
@@ -88,9 +93,9 @@ public class FlightCreator implements Runnable {
 	}
 
 	private Date selectDate(boolean mode) {
-		// TODO Auto-generated method stub
 		Date date = new Date();
 
+		// TODO selectDate datubaseko funtzioagaz linkau
 		return new Date(date.getTime() + TWELVE_HOURS);
 	}
 
@@ -103,15 +108,34 @@ public class FlightCreator implements Runnable {
 		}
 		flight.setRoute(route);
 		flight.setPlane(plane);
-		// prezioa hemen ipini??
 		return flight;
 	}
 
-	private Plane createPlane(Route route) {
-		// TODO Auto-generated method stub
+	private Plane createPlane() {
+		PlaneStatus planestatus = new PlaneStatus();
+		planestatus.setPositionStatus(POSITION_STATUS);
+		planestatus.setTechnicalStatus(TECHNICAL_STATUS);
+		HibernateGeneric.saveOrUpdateObject(planestatus);
 
-		// plane status ARRIVING???
-		return null;
+		Plane plane = new Plane();
+		plane.setFabricationDate(new Date());
+		plane.setPlaneStatus(planestatus);
+		plane.setModel(DAOPlaneModel.getRandomPlaneModel());
+		plane.setSerial(createSerial());
+
+		return plane;
+	}
+
+	private String createSerial() {
+		String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+				"S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+		String serial = "";
+		for (int i = 0; i < SERIAL_LENGTH; i++) {
+			int numRandom = (int) Math.round(Math.random() * letters.length);
+			serial = serial + letters[numRandom];
+		}
+
+		return serial;
 	}
 
 	private boolean checkScheduleFull(Airport airport) {

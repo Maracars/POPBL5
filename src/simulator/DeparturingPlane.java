@@ -25,7 +25,7 @@ public class DeparturingPlane extends PlaneThread {
 				e.printStackTrace();
 			}
 		}
-		goToDestine();
+		//goToDestine();
 		System.out.println("Departure plane ready TO GO");
 		goOutFromMap();
 		System.out.println("Departure plane went OUT");
