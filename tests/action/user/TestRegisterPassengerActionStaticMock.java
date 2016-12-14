@@ -19,7 +19,7 @@ import domain.model.users.Passenger;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(HibernateGeneric.class)
-public class TestRegisterActionStaticMock {
+public class TestRegisterPassengerActionStaticMock {
 
 	private static final String SOMETHING_ELSE = "Something else";
 	private static final String SOMETHING = "Something";

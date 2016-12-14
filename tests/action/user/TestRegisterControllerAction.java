@@ -15,28 +15,34 @@ import com.opensymphony.xwork2.ActionContext;
 
 import domain.dao.DAOUser;
 import domain.dao.Initializer;
-import domain.model.Address;
-import domain.model.users.Passenger;
+import domain.model.users.Admin;
+import domain.model.users.Controller;
+import initialization.AdminInitialization;
 
-public class TestRegisterAction {
+public class TestRegisterControllerAction {
 	private static final String SOMETHING_ELSE = "Something else";
 	private static final String SOMETHING = "Something";
 	private static final String FIELD_ACTION_ERROR = "Field errors not generated properly";
 	private static final int _11_ERRORS = 11;
 	ActionContext ac;
-	
-	RegisterPassengerAction la;
-	
+
+	RegisterControllerAction la;
+
 	@Before
 	public void prepareTests() {
-
+		AdminInitialization initaializer = new AdminInitialization();
+		initaializer.contextInitialized(null);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("user", DAOUser.getUser("admin"));
+		
 		ac = Mockito.mock(ActionContext.class);
-		Mockito.when(ac.getSession()).thenReturn(new HashMap<>());
-		
-		la = Mockito.spy(new RegisterPassengerAction());
-		Mockito.doReturn(new Locale("en")).when(la).getLocale();	
+		Mockito.when(ac.getSession()).thenReturn(map);
+
+		la = Mockito.spy(new RegisterControllerAction());
+		Mockito.doReturn(new Locale("en")).when(la).getLocale();
 		Mockito.doReturn("dd-MM-yyyy").when(la).getText(Mockito.anyString());
-		
+
 		ActionContext.setContext(ac);
 	}
 
@@ -47,7 +53,7 @@ public class TestRegisterAction {
 
 	@Test
 	public void testValidateNoData() {
-	
+
 		la.validate();
 
 		assertEquals(FIELD_ACTION_ERROR, _11_ERRORS, la.getFieldErrors().size());
@@ -57,7 +63,6 @@ public class TestRegisterAction {
 	@Test
 	public void testValidateUnder18() {
 
-		
 		la.setBirthdate("11-11-3000");
 
 		la.validate();
@@ -106,23 +111,22 @@ public class TestRegisterAction {
 	public void testExecuteOK() {
 
 		la.user.setUsername(SOMETHING);
-		la.user = new Passenger(la.user);
-		((Passenger)la.user).setBirthDate(new Date());
-		((Passenger)la.user).setAddress(Initializer.initAddress());
-		
+		la.user = new Controller(la.user);
+		((Controller) la.user).setBirthDate(new Date());
+		((Controller) la.user).setAddress(Initializer.initAddress());
+
 		la.user.setPassword(SOMETHING_ELSE);
+
 		
-		DAOUser.deleteUserWithUsername(la.user);
-		
+		la.allowedUsers.add(Admin.class);
 		String result = null;
 		try {
 			result = la.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		DAOUser.deleteUserWithUsername(la.user);
 		assertEquals("Incorrect result", RegisterAction.SUCCESS, result);
 
 	}
-
 }

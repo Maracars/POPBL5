@@ -11,7 +11,7 @@ import domain.model.Address;
 import domain.model.users.Admin;
 import domain.model.users.Mantainance;
 
-public class RegisterMantainaceAction extends RegisterAction{
+public class RegisterMantainanceAction extends RegisterAction{
 
 	private static final long serialVersionUID = 1L;
 	private static final String NAME_FIELD = "name";
