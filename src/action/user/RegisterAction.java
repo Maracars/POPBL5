@@ -25,6 +25,7 @@ public abstract class RegisterAction extends ActionSupport {
 
 	User user = new User();
 	String repeatPassword;
+	String url;
 	ArrayList<Class<?>> allowedUsers = new ArrayList<>();
 
 	@Override
@@ -67,8 +68,11 @@ public abstract class RegisterAction extends ActionSupport {
 		if (!getFieldErrors().isEmpty()) {
 			repeatPassword = "";
 			user.setPassword("");
+		}else{
+			url = (String) ActionContext.getContext().getSession().get("lastPage");
+			ActionContext.getContext().getSession().remove("lastPage");
 		}
-
+		
 		return ret;
 	}
 
@@ -117,5 +121,15 @@ public abstract class RegisterAction extends ActionSupport {
 	public void setAllowedUsers(ArrayList<Class<?>> allowedUsers) {
 		this.allowedUsers = allowedUsers;
 	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	
 
 }

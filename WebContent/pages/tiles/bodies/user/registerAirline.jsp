@@ -12,12 +12,12 @@
 					<s:text name="user.accountInfo" />
 				</h4>
 				<s:textfield labelSeparator=":"
-					label="<s:text name="user.username"/>" name="user.username" />
+					key="user.username" name="user.username" />
 				<s:password labelSeparator=":"
-					label="<s:text name="user.password"/>" name="user.password" />
+					key="user.password" name="user.password" />
 				<s:password labelSeparator=":"
-					label="<s:text name="user.repeatPassword"/>" name="repeatPassword" />
-				<s:textfield labelSeparator=":" label="<s:text name="user.email"/>"
+					key="user.repeatPassword" name="repeatPassword" />
+				<s:textfield labelSeparator=":" key="user.email"
 					name="user.email" />
 			</div>
 			<div class="well">
@@ -25,24 +25,24 @@
 					<s:text name="user.companyInfo" />
 				</h4>
 				<s:textfield labelSeparator=":"
-					label="<s:text name="user.companyName"/>" name="name" />
+					key="user.companyName" name="name" />
 			</div>
 			<div class="well">
 				<h4>
 					<s:text name="user.address" />
 				</h4>
 				<s:textfield labelSeparator=":"
-					label="<s:text name="user.country"/>" name="address.country" />
-				<s:textfield labelSeparator=":" label="<s:text name="user.region"/>"
+					key="user.country" name="address.country" />
+				<s:textfield labelSeparator=":" key="user.region"
 					name="address.region" />
-				<s:textfield labelSeparator=":" label="<s:text name="user.city"/>"
+				<s:textfield labelSeparator=":" key="user.city"
 					name="address.city" />
 				<s:textfield labelSeparator=":"
-					label="<s:text name="user.streetAndNo"/>"
+					key="user.streetAndNo"
 					name="address.streetAndNumber" />
 				<s:textfield labelSeparator=":"
-					label="<s:text name="user.postCode"/>" name="address.postCode" />
-				<s:submit cssClass="btn btn-primary  col-sm-offset-3" />
+					key="user.postCode" name="address.postCode" />
+				<s:submit key="global.submit" cssClass="btn btn-primary  col-sm-offset-3" />
 
 			</div>
 

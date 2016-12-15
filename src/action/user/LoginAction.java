@@ -15,6 +15,7 @@ public class LoginAction extends ActionSupport {
 
 	private String username;
 	private String password;
+	private String url;
 
 	@Override
 	public void validate() {
@@ -45,6 +46,11 @@ public class LoginAction extends ActionSupport {
 			addActionError(getText("user.unknownUsername"));
 		}
 		password = "";
+		
+		if (ret.equals(SUCCESS)) {
+			url = (String) ActionContext.getContext().getSession().get("lastPage");
+			ActionContext.getContext().getSession().remove("lastPage");
+		}
 		return ret;
 	}
 
@@ -62,6 +68,14 @@ public class LoginAction extends ActionSupport {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

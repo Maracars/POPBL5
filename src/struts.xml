@@ -23,7 +23,7 @@
 		</action>
 
 		<action name="locale" class="action.locale.Locale">
-			<result name="success" type="redirectAction">index</result>
+			<result name="success" type="redirect">%{url}</result>
 		</action>
 
 		<action name="stats">
@@ -57,14 +57,14 @@
 		<action name="loginSubmit" class="action.user.LoginAction">
 			<result name="login" type="tiles">login</result>
 			<result name="input" type="tiles">login</result>
-			<result name="success" type="tiles">index</result>
+			<result name="success" type="redirect">%{url}</result>
 		</action>
 
 		<action name="logout" class="action.user.LogoutAction">
-			<result type="tiles">index</result>
+			<result type="redirect">%{url}</result>
 		</action>
 
-		<action name="login">
+		<action name="login" class="action.StepAction">
 			<result type="tiles">login</result>
 		</action>
 
@@ -80,13 +80,10 @@
 			<result name="login" type="tiles">registerPassenger</result>
 			<result name="error" type="tiles">registerPassenger</result>
 			<result name="input" type="tiles">registerPassenger</result>
-			<result name="success" type="redirectAction">
-				<param name="actionName">index</param>
-				<param name="namespace">/</param>
-			</result>
+			<result name="success" type="redirect">%{url}</result>
 		</action>
 
-		<action name="Passenger">
+		<action name="Passenger" class="action.StepAction">
 			<result type="tiles">registerPassenger</result>
 		</action>
 
@@ -94,13 +91,10 @@
 			<result name="login" type="tiles">registerAdmin</result>
 			<result name="error" type="tiles">registerAdmin</result>
 			<result name="input" type="tiles">registerAdmin</result>
-			<result name="success" type="redirectAction">
-				<param name="actionName">index</param>
-				<param name="namespace">/</param>
-			</result>
+			<result name="success" type="redirect">%{url}</result>
 		</action>
 
-		<action name="Admin">
+		<action name="Admin" class="action.StepAction">
 			<result type="tiles">registerAdmin</result>
 		</action>
 
@@ -108,13 +102,10 @@
 			<result name="login" type="tiles">registerAirline</result>
 			<result name="error" type="tiles">registerAirline</result>
 			<result name="input" type="tiles">registerAirline</result>
-			<result name="success" type="redirectAction">
-				<param name="actionName">index</param>
-				<param name="namespace">/</param>
-			</result>
+			<result name="success" type="redirect">%{url}</result>
 		</action>
 
-		<action name="Airline">
+		<action name="Airline" class="action.StepAction">
 			<result type="tiles">registerAirline</result>
 		</action>
 
@@ -122,13 +113,10 @@
 			<result name="login" type="tiles">registerController</result>
 			<result name="error" type="tiles">registerController</result>
 			<result name="input" type="tiles">registerController</result>
-			<result name="success" type="redirectAction">
-				<param name="actionName">index</param>
-				<param name="namespace">/</param>
-			</result>
+			<result name="success" type="redirect">%{url}</result>
 		</action>
 
-		<action name="Controller">
+		<action name="Controller" class="action.StepAction">
 			<result type="tiles">registerController</result>
 		</action>
 
@@ -136,13 +124,10 @@
 			<result name="login" type="tiles">registerMantainance</result>
 			<result name="error" type="tiles">registerMantainance</result>
 			<result name="input" type="tiles">registerMantainance</result>
-			<result name="success" type="redirectAction">
-				<param name="actionName">index</param>
-				<param name="namespace">/</param>
-			</result>
+			<result name="success" type="redirect">%{url}</result>
 		</action>
 
-		<action name="Mantainance">
+		<action name="Mantainance" class="action.StepAction">
 			<result type="tiles">registerMantainance</result>
 		</action>
 
