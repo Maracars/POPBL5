@@ -19,7 +19,6 @@ public class MainThread {
 	private static final int MAX_ACTIVE_PLANES = 6;
 	private static final String LANE_NAME = "Pincipal Lane";
 
-
 	public static void createMainThread(String[] args) {
 
 		Airport airport = initializeExampleOnDB();
@@ -32,8 +31,8 @@ public class MainThread {
 		airController.start();
 		Thread flightCreator = new Thread(fc);
 		flightCreator.start();
-		//Thread automaticMaintainance = new Thread(am);
-		//automaticMaintainance.start();
+		// Thread automaticMaintainance = new Thread(am);
+		// automaticMaintainance.start();
 
 	}
 
@@ -66,7 +65,7 @@ public class MainThread {
 		route.setArrivalGate(gate);
 		route.setDepartureGate(gate);
 		HibernateGeneric.saveOrUpdateObject(route);
-		
+
 		Lane lane = new Lane();
 		lane.setAirport(airport);
 		lane.setPrincipal(true);
@@ -76,7 +75,7 @@ public class MainThread {
 		lane.setEndNode(node);
 		lane.setStatus(true);
 		HibernateGeneric.saveOrUpdateObject(lane);
-		
+
 		HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneModel());
 
 		return airport;

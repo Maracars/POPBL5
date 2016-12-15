@@ -14,6 +14,8 @@ import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.PlaneStatus;
 import domain.model.Route;
+import helpers.MD5;
+import notification.Notification;
 
 public class FlightCreator implements Runnable {
 
@@ -35,8 +37,6 @@ public class FlightCreator implements Runnable {
 	private AirportController controller;
 	private Airport airport;
 
-	int contador = 0;
-
 	public FlightCreator(Airport airport, AirportController ac) {
 		this.airport = airport;
 		this.controller = ac;
@@ -47,6 +47,10 @@ public class FlightCreator implements Runnable {
 		while (true) {
 			programFlights();
 			createThreadsOfFlights();
+			Notification.sendNotification(MD5.encrypt("controller"),
+					"Schedule full, checking if any flight is arriving/departuring soon");
+			System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
+
 			try {
 				Thread.sleep(SLEEP_5_MINUTES_IN_MILIS);
 			} catch (InterruptedException e) {
@@ -66,24 +70,22 @@ public class FlightCreator implements Runnable {
 			}
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
 
-			if (flight != null)
-				System.out.println("ARRIVING flight created. " + "Plane: " + plane.getSerial() + " ArrivalDate:"
-						+ flight.getExpectedArrivalDate());
+			if (flight != null) {
+				Notification.sendNotification(MD5.encrypt("controller"), "ARRIVING flight created. " + "Plane: "
+						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
+			}
 
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
 
-			if (flight != null)
-				System.out.println("DEPARTURE flight created. " + "Plane: " + plane.getSerial() + " DepartureDate:"
-						+ flight.getExpectedDepartureDate());
+			if (flight != null) {
+				Notification.sendNotification(MD5.encrypt("controller"), "DEPARTURE flight created. " + "Plane: "
+						+ plane.getSerial() + " DepartureDate:" + flight.getExpectedDepartureDate());
+			}
 
 			plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_ARRIVING);
 			HibernateGeneric.updateObject(plane.getPlaneStatus());
-			// borrau!!!
-			contador = contador + 2;
-			if (contador >= airport.getMaxFlights() * HOURS_IN_DAY * DAYS_IN_WEEK) {
-				System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
-			}
+
 		}
 	}
 
