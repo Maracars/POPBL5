@@ -52,20 +52,32 @@ public class FlightCreator implements Runnable {
 	private void programFlights() {
 		Plane plane = new Plane();
 		while (!checkScheduleFull(airport)) {
+			Flight flight;
 			Route route = selectRandomArrivalRoute();
 			if ((plane = DAOPlane.getFreePlane()) == null) {
 				plane = createPlane();
 			}
-			assignRouteInSpecificTime(route, plane, ARRIVAL);
-			System.out.println("New ARRIVING flight created.");
+			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
+			
+			if (flight != null)
+				System.out.println("ARRIVING flight created. "
+						+ "Plane: "+ plane.getSerial()
+						+" ArrivalDate:" + flight.getExpectedArrivalDate());
+			
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
-			assignRouteInSpecificTime(route, plane, DEPARTURE);
-			System.out.println("New DEPARTURING flight created.");
+			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
+			
+			if (flight != null)
+				System.out.println("DEPARTURE flight created. "
+						+ "Plane: "+ plane.getSerial()
+						+" DepartureDate:" + flight.getExpectedDepartureDate());
+			
 			plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_ARRIVING);
 			HibernateGeneric.updateObject(plane.getPlaneStatus());
+			// borrau!!!
 			contador = contador + 2;
-			if (contador > 1000) {
-				System.out.println("AAA");
+			if (contador >= airport.getMaxFlights() * HOURS_IN_DAY * DAYS_IN_WEEK) {
+				System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
 			}
 		}
 	}
@@ -79,7 +91,6 @@ public class FlightCreator implements Runnable {
 				arrivalPlane.start();
 				plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_WAITING_TO_ARRIVE);
 				HibernateGeneric.updateObject(plane.getPlaneStatus());
-				System.out.println("New plane ARRIVING.");
 			}
 		}
 
@@ -91,7 +102,6 @@ public class FlightCreator implements Runnable {
 				departurePlane.start();
 				plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_WAITING_TO_DEPARTURE);
 				HibernateGeneric.updateObject(plane.getPlaneStatus());
-				System.out.println("New plane wants to DEPARTURE");
 			}
 		}
 	}
@@ -102,20 +112,21 @@ public class FlightCreator implements Runnable {
 		return routeList.get(0);
 	}
 
-	private void assignRouteInSpecificTime(Route route, Plane plane, boolean mode) {
+	private Flight assignRouteInSpecificTime(Route route, Plane plane, boolean mode) {
+		Flight flight = null;
 		Date date = selectDate(mode, plane);
 		if (date != null) {
-			Flight flight = createFlight(route, plane, date, mode);
+			flight = createFlight(route, plane, date, mode);
 			HibernateGeneric.saveOrUpdateObject(flight);
 		}
+		return flight;
 	}
 
 	private Date selectDate(boolean mode, Plane plane) {
 		Date date = null;
 		date = DAOSimulator.getCorrectDateFromSchedule(plane.getId(), airport.getId());
 
-		// TODO selectDate datubaseko funtzioagaz linkau
-		return date;// new Date(date.getTime() + TWELVE_HOURS);
+		return date;
 	}
 
 	private Flight createFlight(Route route, Plane plane, Date date, boolean mode) {

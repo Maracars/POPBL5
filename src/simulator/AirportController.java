@@ -14,10 +14,14 @@ public class AirportController implements Runnable {
 	private Airport airport;
 	public Semaphore mutex;
 
+	public Semaphore getMutex() {
+		return mutex;
+	}
+
 	public AirportController(Airport airport) {
 
 		this.airport = airport;
-		mutex = new Semaphore(1,true);
+		mutex = new Semaphore(1, true);
 	}
 
 	@Override
@@ -29,8 +33,7 @@ public class AirportController implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (activePlaneList.size() > 0 
-					&& (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
+			if (activePlaneList.size() > 0 && (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
 				PlaneThread plane = activePlaneList.get(0);
 				Lane lane = freeLaneList.get(0);
 				lane.setStatus(false);
@@ -38,7 +41,7 @@ public class AirportController implements Runnable {
 				DAOLane.updateLane(lane);
 				activePlaneList.remove(plane);
 				plane.givePermission();
-				System.out.println("Controller gives one PERMISSION");
+				System.out.println("Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
 			}
 			mutex.release();
 		}
@@ -53,19 +56,18 @@ public class AirportController implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (activePlaneList.size() == 0 
-				&& (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
-			
+		if (activePlaneList.size() == 0 && (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
+
 			Lane lane = freeLaneList.get(0);
 			lane.setStatus(false);
 			plane.setLane(lane);
 			DAOLane.updateLane(lane);
 			ret = true;
-			System.out.println("Controller gives specific PERMISSION");
+			System.out.println("Controller GIVES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
 		} else {
 			activePlaneList.add(plane);
 			ret = false;
-			System.out.println("Controller DENIES specific PERMISSION");
+			System.out.println("Controller DENIES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
 		}
 		mutex.release();
 		return ret;

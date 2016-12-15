@@ -17,9 +17,9 @@ public class ArrivingPlane extends PlaneThread {
 
 	@Override
 	public void run() {
-		//set plane status waiting to arrive (hau hemen edo thread zortuterakoan)
+		System.out.println("Plane " + plane.getSerial() + " ARRIVING");
 		moveToAirport();
-		System.out.println("Arriving plane ASK PERMISSION");
+		System.out.println("Plane " + plane.getSerial() + " ASK PERMISSION TO ARRIVE");
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
 			// run?
@@ -30,12 +30,11 @@ public class ArrivingPlane extends PlaneThread {
 				e.printStackTrace();
 			}
 		}
-		
-		System.out.println("Arriving plane LANDED");
-		//goToDestine();
-		System.out.println("Arriving plane went to PARKING");
+
+		System.out.println("Plane " + plane.getSerial() + " LANDED");
+		// goToDestine();
 		landPlane();
-		//set plane status OnAirport eta NeedRevision
+		// set plane status OnAirport eta NeedRevision
 	}
 
 	private void landPlane() {
@@ -47,7 +46,7 @@ public class ArrivingPlane extends PlaneThread {
 			e.printStackTrace();
 		}
 		DAOLane.updateLane(lane);
-		controller.mutex.release();
+		controller.getMutex().release();
 		activePlanes.decrementAndGet();
 
 	}
