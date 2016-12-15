@@ -26,6 +26,21 @@
 			<result name="success" type="redirect">%{url}</result>
 		</action>
 
+		<action name="launchSimulator" class="action.StartSimulatorAction">
+
+			<interceptor-ref name="store">
+				<param name="operationMode">STORE</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+
+			<result name="success" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">log</param>
+				<param name=""></param>
+			</result>
+		</action>
+
+
 		<action name="stats">
 			<result type="tiles">stats</result>
 		</action>
@@ -35,6 +50,11 @@
 		</action>
 
 		<action name="log">
+
+			<interceptor-ref name="store">
+				<param name="operationMode">RETRIEVE</param>
+			</interceptor-ref>
+
 			<result type="tiles">log</result>
 		</action>
 

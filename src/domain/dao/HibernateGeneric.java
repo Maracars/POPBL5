@@ -6,7 +6,6 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
-import domain.model.Plane;
 import domain.model.users.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;

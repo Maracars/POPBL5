@@ -6,48 +6,17 @@
 		<div>
 
 			<div class="container">
-				<h1><s:text name="log.consoleLog"/></h1>
+
+				<h1>
+					<s:text name="log.consoleLog" />
+				</h1>
+				<div class="well">
+					<s:a action="launchSimulator" namespace="/" class="btn btn-primary">
+						<s:text name="global.startSimulator" />
+					</s:a>
+				</div>
+				<s:actionmessage />
 				<ol class="console">
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
-					<li>element1 jajaj a ver</li>
 
 				</ol>
 			</div>
