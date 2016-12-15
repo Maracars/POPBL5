@@ -35,8 +35,6 @@ public class FlightCreator implements Runnable {
 	private AirportController controller;
 	private Airport airport;
 
-	int contador = 0;
-
 	public FlightCreator(Airport airport, AirportController ac) {
 		this.airport = airport;
 		this.controller = ac;
@@ -47,6 +45,7 @@ public class FlightCreator implements Runnable {
 		while (true) {
 			programFlights();
 			createThreadsOfFlights();
+			System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
 			try {
 				Thread.sleep(SLEEP_5_MINUTES_IN_MILIS);
 			} catch (InterruptedException e) {
@@ -79,11 +78,6 @@ public class FlightCreator implements Runnable {
 
 			plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_ARRIVING);
 			HibernateGeneric.updateObject(plane.getPlaneStatus());
-			// borrau!!!
-			contador = contador + 2;
-			if (contador >= airport.getMaxFlights() * HOURS_IN_DAY * DAYS_IN_WEEK) {
-				System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
-			}
 		}
 	}
 
