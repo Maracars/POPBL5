@@ -33,6 +33,7 @@ import action.user.TestRegisterPassengerActionStaticMock;
 		TestDaoPlane.class,
 		TestDaoDelay.class,
 		TestDaoFlight.class,
+		TestDaoSimulator.class,
 		TestDaoPlaneMovements.class,
 		TestDaoPassenger.class, 
 		//TestMD5.class,
