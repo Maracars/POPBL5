@@ -35,9 +35,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <tiles:importAttribute name="title"/>
 <title>Naranair - <s:property value="%{getText(#attr.title)}"/> </title> 
+
+
 </head>
 <body>
-
 	<div id="wrapper">
 		<nav style="margin: 0px; background-color: black;"
 			class="navbar navbar-default navbar-static-top" role="navigation"
