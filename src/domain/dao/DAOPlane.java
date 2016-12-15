@@ -15,9 +15,9 @@ public class DAOPlane {
 	private static final int SECOND_TO_MIN = 60;
 	private static final int MILIS_TO_SECOND = 1000;
 	private static final int MIN_TO_HOURS = 60;
-	private static final int HOURS_TO_DAY = 24;
-	private static final int MILIS_TO_DAYS = MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY;
-	private static final int ARRIVAL_DAY_MARGIN = 2;
+	//private static final int HOURS_TO_DAY = 24;
+	//private static final int MILIS_TO_DAYS = MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY;
+	private static final int ARRIVAL_HOUR_MARGIN = 2;
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 	private static final String PARAMETER_SOON_DATE = "soonDate";
 
@@ -35,7 +35,7 @@ public class DAOPlane {
 	private static final String QUERY_PLANES_NEED_REVISE = "from Plane as p "
 			+ "where p.status.technicalStatus = 'NEEDS REVISION'";
 
-	private static final String QUERY_FREE_PLANE = SELECT_PLANE + "where f.realArrivalDate < current_date";
+	private static final String QUERY_FREE_PLANE = SELECT_PLANE + "where f.realArrivalDate < current_timestamp or f is null";
 	private static final int MILIS_TO_HOURS = MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS;
 
 	private static Session session;
@@ -47,7 +47,7 @@ public class DAOPlane {
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_ARRIVAL_PLANES_SOON);
-			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime() + (MILIS_TO_DAYS * ARRIVAL_DAY_MARGIN)));
+			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime() + (MILIS_TO_HOURS * ARRIVAL_HOUR_MARGIN)));
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 
 			planeList = query.getResultList();
