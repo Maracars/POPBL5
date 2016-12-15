@@ -19,6 +19,8 @@ public class LogoutAction extends ActionSupport {
 	public String execute() throws Exception {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		session.remove("user");
+		session.remove("listenerUser");
+		session.remove("listenerRole");		
 		HttpServletRequest request = ServletActionContext.getRequest();
 		url = request.getHeader("referer"); 
 		return SUCCESS;
