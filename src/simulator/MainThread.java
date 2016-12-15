@@ -20,7 +20,7 @@ public class MainThread {
 	private static final String LANE_NAME = "Pincipal Lane";
 
 
-	public static void main(String[] args) {
+	public static void mainThreadCreator() {
 
 		Airport airport = initializeExampleOnDB();
 		AirportController ac = new AirportController(airport);
