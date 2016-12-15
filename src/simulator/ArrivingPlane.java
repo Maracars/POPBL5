@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import domain.dao.DAOLane;
 import domain.model.Plane;
 import helpers.MD5;
-import notification.Notification;
+import notification.PGSocketIONotify;
 
 public class ArrivingPlane extends PlaneThread {
 
@@ -19,9 +19,9 @@ public class ArrivingPlane extends PlaneThread {
 
 	@Override
 	public void run() {
-		Notification.sendNotification(MD5.encrypt("controller"), "Plane " + plane.getSerial() + " ARRIVING");
+		PGSocketIONotify.sendNotification(MD5.encrypt("controller"), "Plane " + plane.getSerial() + " ARRIVING");
 		moveToAirport();
-		Notification.sendNotification(MD5.encrypt("controller"),
+		PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
 				"Plane " + plane.getSerial() + " ASK PERMISSION TO ARRIVE");
 
 		if (!controller.askPermission(this)) {
@@ -34,8 +34,8 @@ public class ArrivingPlane extends PlaneThread {
 				e.printStackTrace();
 			}
 		}
-		
-		Notification.sendNotification(MD5.encrypt("controller"), "Plane " + plane.getSerial() + " LANDED");
+
+		PGSocketIONotify.sendNotification(MD5.encrypt("controller"), "Plane " + plane.getSerial() + " LANDED");
 
 		// goToDestine();
 		landPlane();

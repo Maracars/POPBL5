@@ -16,6 +16,7 @@ import domain.model.PlaneStatus;
 import domain.model.Route;
 import helpers.MD5;
 import notification.Notification;
+import notification.PGSocketIONotify;
 
 public class FlightCreator implements Runnable {
 
@@ -47,7 +48,7 @@ public class FlightCreator implements Runnable {
 		while (true) {
 			programFlights();
 			createThreadsOfFlights();
-			Notification.sendNotification(MD5.encrypt("controller"),
+			PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
 					"Schedule full, checking if any flight is arriving/departuring soon");
 			System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
 			try {
@@ -70,13 +71,12 @@ public class FlightCreator implements Runnable {
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
 
 			if (flight != null) {
-				Notification.sendNotification(MD5.encrypt("controller"), "ARRIVING flight created. " + "Plane: "
+				PGSocketIONotify.sendNotification(MD5.encrypt("controller"), "ARRIVING flight created. " + "Plane: "
 						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
 			}
 
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
-
 
 			plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_ARRIVING);
 			HibernateGeneric.updateObject(plane.getPlaneStatus());

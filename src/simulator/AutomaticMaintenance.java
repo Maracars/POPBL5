@@ -4,7 +4,7 @@ import domain.dao.DAOPlane;
 import domain.model.Airport;
 import domain.model.Plane;
 import helpers.MD5;
-import notification.Notification;
+import notification.PGSocketIONotify;
 
 public class AutomaticMaintenance implements Runnable {
 
@@ -22,7 +22,8 @@ public class AutomaticMaintenance implements Runnable {
 			Plane planeToRevise = DAOPlane.selectPlaneNeedToRevise();
 			if (planeToRevise != null) {
 				DAOPlane.revisePlane(planeToRevise);
-				Notification.sendNotification(MD5.encrypt("controller"),
+				System.out.println("JODER BA HONA ASKHJDFADFBKRHNFKJWEHBJ");
+				PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
 						"Plane " + planeToRevise.getSerial() + " REVISED");
 
 			}

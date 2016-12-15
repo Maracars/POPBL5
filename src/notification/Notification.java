@@ -15,15 +15,13 @@ public class Notification {
 		conf.setHostname(LOCALHOST);
 		conf.setPort(PORT_NMBER);
 		server = new SocketIOServer(conf);
+		server.start();
+
 	}
 
 	public static void sendNotification(String receivingGroup, String message) {
-		server.start();
 
 		server.getBroadcastOperations().sendEvent(receivingGroup, message);
-
-		server.stop();
-
 	}
 
 }

@@ -39,10 +39,10 @@
 
 
 </head>
-<body>
+<body onload = "onLoadFunction()">
 
-	<input type="hidden" name="listenerRole" value="${sessionScope.listenerRole}">
-	<input type="hidden" name="listenerUser" value="${sessionScope.listenerUser}">
+	<input type="hidden" id ="listenerRole" name="listenerRole" value="${sessionScope.listenerRole}">
+	<input type="hidden" id = "listenerUser" name="listenerUser" value="${sessionScope.listenerUser}">
 	
 	<div id="wrapper">
 		<nav style="margin: 0px; background-color: black;"
