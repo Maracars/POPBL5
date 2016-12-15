@@ -6,6 +6,7 @@ import domain.model.Plane;
 
 public class AutomaticMaintenance implements Runnable {
 
+	private static final int SLEEP_TIME_5_MIN_IN_MILIS = 5 * 60 * 1000;
 	private Airport airport;
 
 	public AutomaticMaintenance(Airport airport) {
@@ -21,7 +22,13 @@ public class AutomaticMaintenance implements Runnable {
 				DAOPlane.revisePlane(planeToRevise);
 				System.out.println("Plane " + planeToRevise.getSerial() + " REVISED");
 			}
-			// sleep??
+
+			try {
+				Thread.sleep(SLEEP_TIME_5_MIN_IN_MILIS);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}

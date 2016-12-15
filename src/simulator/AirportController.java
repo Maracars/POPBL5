@@ -9,6 +9,7 @@ import domain.model.Airport;
 import domain.model.Lane;
 
 public class AirportController implements Runnable {
+	private static final int SLEEP_TIME_5_SEGS_IN_MILIS = 5000;
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
 	private List<Lane> freeLaneList;
 	private Airport airport;
@@ -44,6 +45,12 @@ public class AirportController implements Runnable {
 				System.out.println("Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
 			}
 			mutex.release();
+			try {
+				Thread.sleep(SLEEP_TIME_5_SEGS_IN_MILIS);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}

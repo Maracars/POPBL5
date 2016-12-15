@@ -17,6 +17,7 @@ import domain.model.Route;
 
 public class FlightCreator implements Runnable {
 
+	private static final int SLEEP_5_MINUTES_IN_MILIS = 5 * 60 * 1000;
 	private static final String POSITION_STATUS_WAITING_TO_ARRIVE = "WAITING TO ARRIVE";
 	private static final int DAYS_IN_WEEK = 7;
 	private static final int HOURS_IN_DAY = 24;
@@ -46,6 +47,12 @@ public class FlightCreator implements Runnable {
 		while (true) {
 			programFlights();
 			createThreadsOfFlights();
+			try {
+				Thread.sleep(SLEEP_5_MINUTES_IN_MILIS);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -58,20 +65,18 @@ public class FlightCreator implements Runnable {
 				plane = createPlane();
 			}
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
-			
+
 			if (flight != null)
-				System.out.println("ARRIVING flight created. "
-						+ "Plane: "+ plane.getSerial()
-						+" ArrivalDate:" + flight.getExpectedArrivalDate());
-			
+				System.out.println("ARRIVING flight created. " + "Plane: " + plane.getSerial() + " ArrivalDate:"
+						+ flight.getExpectedArrivalDate());
+
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
-			
+
 			if (flight != null)
-				System.out.println("DEPARTURE flight created. "
-						+ "Plane: "+ plane.getSerial()
-						+" DepartureDate:" + flight.getExpectedDepartureDate());
-			
+				System.out.println("DEPARTURE flight created. " + "Plane: " + plane.getSerial() + " DepartureDate:"
+						+ flight.getExpectedDepartureDate());
+
 			plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_ARRIVING);
 			HibernateGeneric.updateObject(plane.getPlaneStatus());
 			// borrau!!!
