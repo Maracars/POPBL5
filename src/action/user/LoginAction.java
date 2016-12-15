@@ -1,5 +1,7 @@
 package action.user;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -38,6 +40,8 @@ public class LoginAction extends ActionSupport {
 			if (user.getPassword().equals(md5pass)) {
 				Map<String, Object> session = ActionContext.getContext().getSession();
 				session.put("user", user);
+				session.put("listenerUser", getListenerUser(user));
+				session.put("listenerRole", getListenerRole(user));
 				ret = SUCCESS;
 			} else {
 				addActionError(getText("user.incorrectPassword"));
@@ -51,6 +55,28 @@ public class LoginAction extends ActionSupport {
 			url = (String) ActionContext.getContext().getSession().get("lastPage");
 			ActionContext.getContext().getSession().remove("lastPage");
 		}
+		return ret;
+	}
+
+	private String getListenerRole(User user) {
+		String ret = null;
+		try {
+			ret = MD5.encrypt(user.getClass().getSimpleName());
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		return ret;
+	}
+	
+	private String getListenerUser(User user) {
+		String ret = null;
+		try {
+			ret = MD5.encrypt(user.getUsername());
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
 		return ret;
 	}
 

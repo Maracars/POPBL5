@@ -50,7 +50,6 @@ public class FlightCreator implements Runnable {
 			Notification.sendNotification(MD5.encrypt("controller"),
 					"Schedule full, checking if any flight is arriving/departuring soon");
 			System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
-
 			try {
 				Thread.sleep(SLEEP_5_MINUTES_IN_MILIS);
 			} catch (InterruptedException e) {
@@ -78,10 +77,6 @@ public class FlightCreator implements Runnable {
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
 
-			if (flight != null) {
-				Notification.sendNotification(MD5.encrypt("controller"), "DEPARTURE flight created. " + "Plane: "
-						+ plane.getSerial() + " DepartureDate:" + flight.getExpectedDepartureDate());
-			}
 
 			plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_ARRIVING);
 			HibernateGeneric.updateObject(plane.getPlaneStatus());

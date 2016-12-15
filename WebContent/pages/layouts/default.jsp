@@ -37,8 +37,13 @@
 <title>Naranair - <s:property value="%{getText(#attr.title)}"/> </title> 
 
 
+
 </head>
 <body>
+
+	<input type="hidden" name="listenerRole" value="${sessionScope.listenerRole}">
+	<input type="hidden" name="listenerUser" value="${sessionScope.listenerUser}">
+	
 	<div id="wrapper">
 		<nav style="margin: 0px; background-color: black;"
 			class="navbar navbar-default navbar-static-top" role="navigation"

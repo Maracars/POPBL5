@@ -19,6 +19,7 @@ public class MainThread {
 	private static final int MAX_ACTIVE_PLANES = 6;
 	private static final String LANE_NAME = "Pincipal Lane";
 
+
 	public static void createMainThread(String[] args) {
 
 		Airport airport = initializeExampleOnDB();
@@ -41,15 +42,28 @@ public class MainThread {
 		Address address = Initializer.initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
 
+		Airport myAirport = new Airport();
+		myAirport.setMaxFlights(MAX_ACTIVE_PLANES);
+		myAirport.setName(AIRPORT_NAME);
+		myAirport.setAddress(address);
+		HibernateGeneric.saveOrUpdateObject(myAirport);
+
 		Airport airport = new Airport();
 		airport.setMaxFlights(MAX_ACTIVE_PLANES);
 		airport.setName(AIRPORT_NAME);
 		airport.setAddress(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
-
+		
 		Node node = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(node);
+		Node myNode = Initializer.initNode();
+		HibernateGeneric.saveOrUpdateObject(myNode);
 
+		Terminal myTerminal = new Terminal();
+		myTerminal.setAirport(myAirport);
+		myTerminal.setName(TERMINAL_NAME);
+		HibernateGeneric.saveOrUpdateObject(myTerminal);
+		
 		Terminal terminal = new Terminal();
 		terminal.setAirport(airport);
 		terminal.setName(TERMINAL_NAME);
@@ -60,14 +74,24 @@ public class MainThread {
 		gate.setTerminal(terminal);
 		gate.setPositionNode(node);
 		HibernateGeneric.saveOrUpdateObject(gate);
+		Gate myGate = new Gate();
+		myGate.setNumber(GATE_NUMBER);
+		myGate.setTerminal(myTerminal);
+		myGate.setPositionNode(myNode);
+		HibernateGeneric.saveOrUpdateObject(myGate);
 
-		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
-		HibernateGeneric.saveOrUpdateObject(route);
+		Route arrivalRoute = new Route();
+		arrivalRoute.setArrivalGate(myGate);
+		arrivalRoute.setDepartureGate(gate);
+		HibernateGeneric.saveOrUpdateObject(arrivalRoute);
 
+		Route departureRoute = new Route();
+		departureRoute.setArrivalGate(gate);
+		departureRoute.setDepartureGate(myGate);
+		HibernateGeneric.saveOrUpdateObject(departureRoute);
+		
 		Lane lane = new Lane();
-		lane.setAirport(airport);
+		lane.setAirport(myAirport);
 		lane.setPrincipal(true);
 		lane.setName(LANE_NAME);
 		lane.setSemaphore(new Semaphore(1, true));
@@ -78,7 +102,7 @@ public class MainThread {
 
 		HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneModel());
 
-		return airport;
+		return myAirport;
 
 	}
 
