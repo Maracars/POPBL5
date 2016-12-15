@@ -17,7 +17,7 @@ public class DeparturingPlane extends PlaneThread {
 
 	@Override
 	public void run() {
-		System.out.println("DEPARTURE plane ask PERMISSION");
+		System.out.println("Plane " + plane.getSerial() + " ASKED PERMISSION TO DEPARTURE");
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
 			// run?
@@ -28,12 +28,10 @@ public class DeparturingPlane extends PlaneThread {
 				e.printStackTrace();
 			}
 		}
-		//goToDestine();
-		System.out.println("Departure plane ready TO GO");
-		
-		System.out.println("Departure plane went OUT");
+		// goToDestine();
+		System.out.println("Plane " + plane.getSerial() + " TOOK OFF");
 		goOutFromMap();
-		//set plane status arriving??
+		// set plane status arriving??
 
 	}
 
@@ -46,7 +44,7 @@ public class DeparturingPlane extends PlaneThread {
 			e.printStackTrace();
 		}
 		DAOLane.updateLane(lane);
-		controller.mutex.release();
+		controller.getMutex().release();
 		activePlanes.decrementAndGet();
 
 	}

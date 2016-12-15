@@ -19,7 +19,7 @@ public class AutomaticMaintenance implements Runnable {
 			Plane planeToRevise = DAOPlane.selectPlaneNeedToRevise();
 			if (planeToRevise != null) {
 				DAOPlane.revisePlane(planeToRevise);
-				System.out.println("Plane revised");
+				System.out.println("Plane " + planeToRevise.getSerial() + " REVISED");
 			}
 			// sleep??
 		}

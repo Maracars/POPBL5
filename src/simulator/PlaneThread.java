@@ -17,6 +17,7 @@ public abstract class PlaneThread implements Runnable {
 	protected Lane lane;
 	protected AtomicInteger activePlanes;
 
+
 	@Override
 	abstract public void run();
 
@@ -64,5 +65,9 @@ public abstract class PlaneThread implements Runnable {
 
 	public void setLane(Lane lane) {
 		this.lane = lane;
+	}
+
+	public Plane getPlane() {
+		return plane;
 	}
 }
