@@ -36,7 +36,6 @@
 			<result name="success" type="redirectAction">
 				<param name="namespace">/</param>
 				<param name="actionName">log</param>
-				<param name=""></param>
 			</result>
 		</action>
 
@@ -54,7 +53,8 @@
 			<interceptor-ref name="store">
 				<param name="operationMode">RETRIEVE</param>
 			</interceptor-ref>
-
+			<interceptor-ref name="defaultStack" />
+			
 			<result type="tiles">log</result>
 		</action>
 
@@ -130,7 +130,16 @@
 		</action>
 
 		<action name="ControllerSubmit" class="action.user.RegisterControllerAction">
-			<result name="login" type="tiles">registerController</result>
+			<result name="login" type="redirectAction">
+				<param name="actionName">Airline</param>
+				<param name="namespace">/register</param>
+				<param name="user">%{user}</param>
+				<param name="birthdate">%{birthdate}</param>
+				<param name="address">%{address}</param>
+				<param name="secondName">%{secondName}</param>
+				<param name="name">%{name}</param>
+				<param name="repeatPassword">%{repeatPassword}</param>
+			</result>
 			<result name="error" type="tiles">registerController</result>
 			<result name="input" type="tiles">registerController</result>
 			<result name="success" type="redirect">%{url}</result>
