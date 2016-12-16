@@ -37,7 +37,7 @@ public class PGSocketIONotify implements Runnable {
 	public static void sendNotification(String receivingGroup, String message) {
 		
 		System.out.println(message);
-		server.getBroadcastOperations().sendEvent("53e79c4e736a52d01e21c6d663473fc8", message);
+		server.getBroadcastOperations().sendEvent(receivingGroup, message);
 
 	}
 

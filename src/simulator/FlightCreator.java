@@ -14,12 +14,14 @@ import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.PlaneStatus;
 import domain.model.Route;
+import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 import notification.PGSocketIONotify;
 
 public class FlightCreator implements Runnable {
 
+	private static final String ADMIN = new Admin().getClass().getSimpleName();
 	private static final int SLEEP_5_MINUTES_IN_MILIS = 5 * 60 * 1000;
 	private static final String POSITION_STATUS_WAITING_TO_ARRIVE = "WAITING TO ARRIVE";
 	private static final int DAYS_IN_WEEK = 7;
@@ -48,7 +50,7 @@ public class FlightCreator implements Runnable {
 		while (true) {
 			programFlights();
 			createThreadsOfFlights();
-			PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
+			PGSocketIONotify.sendNotification(MD5.encrypt(ADMIN),
 					"Schedule full, checking if any flight is arriving/departuring soon");
 			System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
 			try {
@@ -71,7 +73,7 @@ public class FlightCreator implements Runnable {
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
 
 			if (flight != null) {
-				PGSocketIONotify.sendNotification(MD5.encrypt("controller"), "ARRIVING flight created. " + "Plane: "
+				PGSocketIONotify.sendNotification(MD5.encrypt(ADMIN), "ARRIVING flight created. " + "Plane: "
 						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
 			}
 

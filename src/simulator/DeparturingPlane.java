@@ -5,10 +5,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.dao.DAOLane;
 import domain.model.Plane;
+import domain.model.users.Admin;
 import helpers.MD5;
 import notification.PGSocketIONotify;
 
 public class DeparturingPlane extends PlaneThread {
+
+	private static final String ADMIN = new Admin().getClass().getSimpleName();
 
 	public DeparturingPlane(Plane plane, AirportController controller, AtomicInteger activePlanesNum) {
 		this.plane = plane;
@@ -19,7 +22,7 @@ public class DeparturingPlane extends PlaneThread {
 
 	@Override
 	public void run() {
-		PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
+		PGSocketIONotify.sendNotification(MD5.encrypt(ADMIN),
 				"Plane " + plane.getSerial() + " ASKED PERMISSION TO DEPARTURE");
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
