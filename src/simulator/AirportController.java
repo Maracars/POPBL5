@@ -45,11 +45,10 @@ public class AirportController implements Runnable {
 				plane.setLane(lane);
 				DAOLane.updateLane(lane);
 				activePlaneList.remove(plane);
-				plane.givePermission();
-
-
 				Notification.sendNotification(MD5.encrypt(ADMIN),
 						"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
+				plane.givePermission();
+				
 			}
 			mutex.release();
 			try {
