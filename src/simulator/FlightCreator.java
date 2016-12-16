@@ -14,6 +14,9 @@ import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.PlaneStatus;
 import domain.model.Route;
+import helpers.MD5;
+import notification.Notification;
+import notification.PGSocketIONotify;
 
 public class FlightCreator implements Runnable {
 
@@ -45,6 +48,8 @@ public class FlightCreator implements Runnable {
 		while (true) {
 			programFlights();
 			createThreadsOfFlights();
+			PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
+					"Schedule full, checking if any flight is arriving/departuring soon");
 			System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
 			try {
 				Thread.sleep(SLEEP_5_MINUTES_IN_MILIS);
@@ -65,19 +70,17 @@ public class FlightCreator implements Runnable {
 			}
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
 
-			if (flight != null)
-				System.out.println("ARRIVING flight created. " + "Plane: " + plane.getSerial() + " ArrivalDate:"
-						+ flight.getExpectedArrivalDate());
+			if (flight != null) {
+				PGSocketIONotify.sendNotification(MD5.encrypt("controller"), "ARRIVING flight created. " + "Plane: "
+						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
+			}
 
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
 
-			if (flight != null)
-				System.out.println("DEPARTURE flight created. " + "Plane: " + plane.getSerial() + " DepartureDate:"
-						+ flight.getExpectedDepartureDate());
-
 			plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_ARRIVING);
 			HibernateGeneric.updateObject(plane.getPlaneStatus());
+
 		}
 	}
 

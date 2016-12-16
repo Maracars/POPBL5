@@ -13,7 +13,7 @@ public class TestMD5 {
 
 	private static final String NOT_EXISTING_ALGORYTHM = "MDMA";
 	private static final String RESULT_JOANES = "29035a75131c99ec0e55977625c2f544";
-	private static final String USERNAME = "Joanes";
+	private static final String USERNAME = "admin";
 	private static final String ENCRYPT_USERNAME_TEST = "The MD5 helper did not encrypt well";
 
 	@Test

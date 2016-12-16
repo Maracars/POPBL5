@@ -5,6 +5,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.dao.DAOLane;
 import domain.model.Plane;
+import helpers.MD5;
+import notification.PGSocketIONotify;
 
 public class DeparturingPlane extends PlaneThread {
 
@@ -17,7 +19,8 @@ public class DeparturingPlane extends PlaneThread {
 
 	@Override
 	public void run() {
-		System.out.println("Plane " + plane.getSerial() + " ASKED PERMISSION TO DEPARTURE");
+		PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
+				"Plane " + plane.getSerial() + " ASKED PERMISSION TO DEPARTURE");
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
 			// run?

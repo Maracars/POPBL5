@@ -32,8 +32,8 @@ public class MainThread {
 		airController.start();
 		Thread flightCreator = new Thread(fc);
 		flightCreator.start();
-		//Thread automaticMaintainance = new Thread(am);
-		//automaticMaintainance.start();
+		// Thread automaticMaintainance = new Thread(am);
+		// automaticMaintainance.start();
 
 	}
 
@@ -84,7 +84,7 @@ public class MainThread {
 		arrivalRoute.setArrivalGate(myGate);
 		arrivalRoute.setDepartureGate(gate);
 		HibernateGeneric.saveOrUpdateObject(arrivalRoute);
-		
+
 		Route departureRoute = new Route();
 		departureRoute.setArrivalGate(gate);
 		departureRoute.setDepartureGate(myGate);
@@ -99,7 +99,7 @@ public class MainThread {
 		lane.setEndNode(node);
 		lane.setStatus(true);
 		HibernateGeneric.saveOrUpdateObject(lane);
-		
+
 		HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneModel());
 
 		return myAirport;
