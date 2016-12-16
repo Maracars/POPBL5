@@ -7,10 +7,12 @@ import java.util.concurrent.Semaphore;
 import domain.dao.DAOLane;
 import domain.model.Airport;
 import domain.model.Lane;
+import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 
 public class AirportController implements Runnable {
+	private static final String ADMIN = new Admin().getClass().getSimpleName();
 	private static final int SLEEP_TIME_5_SEGS_IN_MILIS = 5000;
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
 	private List<Lane> freeLaneList;
@@ -44,7 +46,9 @@ public class AirportController implements Runnable {
 				DAOLane.updateLane(lane);
 				activePlaneList.remove(plane);
 				plane.givePermission();
-				Notification.sendNotification(MD5.encrypt("controller"),
+
+
+				Notification.sendNotification(MD5.encrypt(ADMIN),
 						"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
 			}
 			mutex.release();
@@ -73,13 +77,15 @@ public class AirportController implements Runnable {
 			plane.setLane(lane);
 			DAOLane.updateLane(lane);
 			ret = true;
-			Notification.sendNotification(MD5.encrypt("controller"),
+
+			Notification.sendNotification(MD5.encrypt(ADMIN),
 					"Controller GIVES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
 
 		} else {
 			activePlaneList.add(plane);
 			ret = false;
-			Notification.sendNotification(MD5.encrypt("controller"),
+
+			Notification.sendNotification(MD5.encrypt(ADMIN),
 					"Controller DENIES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
 		}
 		mutex.release();

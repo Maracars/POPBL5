@@ -14,11 +14,13 @@ import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.PlaneStatus;
 import domain.model.Route;
+import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 
 public class FlightCreator implements Runnable {
 
+	private static final String ADMIN = new Admin().getClass().getSimpleName();
 	private static final int SLEEP_5_MINUTES_IN_MILIS = 5 * 60 * 1000;
 	private static final String POSITION_STATUS_WAITING_TO_ARRIVE = "WAITING TO ARRIVE";
 	private static final int DAYS_IN_WEEK = 7;
@@ -47,7 +49,7 @@ public class FlightCreator implements Runnable {
 		while (true) {
 			programFlights();
 			createThreadsOfFlights();
-			Notification.sendNotification(MD5.encrypt("controller"),
+			Notification.sendNotification(MD5.encrypt(ADMIN),
 					"Schedule full, checking if any flight is arriving/departuring soon");
 			System.out.println("Schedule full, checking if any flight is arriving/departuring soon");
 			try {
@@ -70,15 +72,15 @@ public class FlightCreator implements Runnable {
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
 
 			if (flight != null) {
-				Notification.sendNotification(MD5.encrypt("controller"), "ARRIVING flight created. " + "Plane: "
-						+ plane.getSerial() + " Arrival Date:" + flight.getExpectedArrivalDate());
+				Notification.sendNotification(MD5.encrypt(ADMIN), "ARRIVING flight created. " + "Plane: "
+						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
 			}
 			
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
 			
 			if ( flight != null ) {
-				Notification.sendNotification(MD5.encrypt("controller"), "DEPARTURING flight created. " + "Plane: "
+				Notification.sendNotification(MD5.encrypt(ADMIN), "DEPARTURING flight created. " + "Plane: "
 						+ plane.getSerial() + " Departure Date:" + flight.getExpectedDepartureDate());
 			}
 			

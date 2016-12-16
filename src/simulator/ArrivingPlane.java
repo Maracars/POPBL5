@@ -5,10 +5,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.dao.DAOLane;
 import domain.model.Plane;
+import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 
 public class ArrivingPlane extends PlaneThread {
+
+	private static final String ADMIN = new Admin().getClass().getSimpleName();
 
 	public ArrivingPlane(Plane plane, AirportController controller, AtomicInteger activePlanesNum) {
 		this.plane = plane;
@@ -19,9 +22,9 @@ public class ArrivingPlane extends PlaneThread {
 
 	@Override
 	public void run() {
-		Notification.sendNotification(MD5.encrypt("controller"), "Plane " + plane.getSerial() + " ARRIVING");
+		Notification.sendNotification(MD5.encrypt(ADMIN), "Plane " + plane.getSerial() + " ARRIVING");
 		moveToAirport();
-		Notification.sendNotification(MD5.encrypt("controller"),
+		Notification.sendNotification(MD5.encrypt(ADMIN),
 				"Plane " + plane.getSerial() + " ASK PERMISSION TO ARRIVE");
 
 		if (!controller.askPermission(this)) {
@@ -35,7 +38,7 @@ public class ArrivingPlane extends PlaneThread {
 			}
 		}
 
-		Notification.sendNotification(MD5.encrypt("controller"), "Plane " + plane.getSerial() + " LANDED");
+		Notification.sendNotification(MD5.encrypt(ADMIN), "Plane " + plane.getSerial() + " LANDED");
 
 		// goToDestine();
 		landPlane();
