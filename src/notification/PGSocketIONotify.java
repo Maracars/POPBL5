@@ -34,13 +34,6 @@ public class PGSocketIONotify implements Runnable {
 
 	}
 
-	public static void sendNotification(String receivingGroup, String message) {
-		
-		System.out.println(message);
-		server.getBroadcastOperations().sendEvent("53e79c4e736a52d01e21c6d663473fc8", message);
-
-	}
-
 	public PGSocketIONotify(Connection conn) throws SQLException, InterruptedException {
 
 		// 9092 portuan egongo da socket.io-ko komunikazinua

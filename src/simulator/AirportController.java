@@ -8,7 +8,7 @@ import domain.dao.DAOLane;
 import domain.model.Airport;
 import domain.model.Lane;
 import helpers.MD5;
-import notification.PGSocketIONotify;
+import notification.Notification;
 
 public class AirportController implements Runnable {
 	private static final int SLEEP_TIME_5_SEGS_IN_MILIS = 5000;
@@ -44,7 +44,7 @@ public class AirportController implements Runnable {
 				DAOLane.updateLane(lane);
 				activePlaneList.remove(plane);
 				plane.givePermission();
-				PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
+				Notification.sendNotification(MD5.encrypt("controller"),
 						"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
 			}
 			mutex.release();
@@ -73,13 +73,13 @@ public class AirportController implements Runnable {
 			plane.setLane(lane);
 			DAOLane.updateLane(lane);
 			ret = true;
-			PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
+			Notification.sendNotification(MD5.encrypt("controller"),
 					"Controller GIVES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
 
 		} else {
 			activePlaneList.add(plane);
 			ret = false;
-			PGSocketIONotify.sendNotification(MD5.encrypt("controller"),
+			Notification.sendNotification(MD5.encrypt("controller"),
 					"Controller DENIES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
 		}
 		mutex.release();

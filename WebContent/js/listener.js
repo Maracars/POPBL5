@@ -28,15 +28,12 @@ function onLoadFunction() {
 }
 
 function render(data) {
-	var element = $("<li><a href = '#'><strong>" + data + "</strong></li>");
+	var element = $("<li id = 'console"+ counter+"'><a href = '#'><strong>" + data + "</strong></li>");
 	$(".console").append(element);
+    $('.console').animate({scrollTop: $('.console').prop("scrollHeight")}, 1);
 	
-	$('.console').scrollTop($('.console li:last-child').position().top);
-
 	
-	/*
-	 * var notify = $.notify(`<strong>${data.id}</strong> ${data.izena}`, {
-	 * type: 'success', offset: { x: 50, y: 50 }, animate: { enter: 'animated
-	 * bounceInDown', exit: 'animated lightSpeedOut' } });
-	 */
+	/* var notify = $.notify(`<strong>${data}</strong>`, {
+	 type: 'success', offset: { x: 50, y: 50 }, animate: { enter: 'animated	 bounceInDown', exit: 'animated lightSpeedOut' } });*/
+	
 }
