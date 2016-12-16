@@ -18,7 +18,7 @@ maxFlightsPerHour integer;
 
 begin
 
-my_current_time := current_date + INTERVAL '1' DAY;
+my_current_time := current_date;
 --MAXFLGHTS OF AIRPORT
 select maxFlights into maxFlightsPerHour from airport where id = airportId;
 
@@ -53,7 +53,7 @@ select count(*) into weekCount from flight as f
   
   
 
-if (weekCount < (24 * 7 * maxFlightsPerHour) and (expectedDate < my_current_time + INTERVAL '7' DAY)) then  
+if (weekCount < (24 * 7 * maxFlightsPerHour) ) then  
 	loopDate := my_current_time; /* HEMEN BE BOROBILDUTE HOBETO */
 	for i in 0..6 LOOP
    	/*HEMEN loop bat jarrikou, eta maximo 7 buelta emongo dau, aurretiik batenbaten maximua baino gutxiau badago
@@ -63,7 +63,7 @@ if (weekCount < (24 * 7 * maxFlightsPerHour) and (expectedDate < my_current_time
 
 		RAISE NOTICE 'Day Count(%)', dayCount;
 		
-		if (dayCount < (24 * maxFlightsPerHour)  and (expectedDate < loopDate + INTERVAL '1' DAY)) then
+		if (dayCount < (24 * maxFlightsPerHour)  ) then
 			hourLoopDate := loopDate;
       for j in 0..23 LOOP
 		/*HEMEN loop bat jarrikou, eta maximo 24 buelta emongo dau, libre badago ordu horretakua data + minutuak
@@ -71,7 +71,7 @@ if (weekCount < (24 * 7 * maxFlightsPerHour) and (expectedDate < my_current_time
 			select count(*) into hourCount from flight as f
 			where (f.expectedDepartureDate between hourLoopDate and hourLoopDate + INTERVAL '1' HOUR) or (f.expectedArrivalDate between hourLoopDate and hourLoopDate + INTERVAL '1' HOUR);
     		
-      if(hourCount < maxFlightsPerHour  and (expectedDate < hourLoopDate + INTERVAL '1' HOUR)) then
+      if(hourCount < maxFlightsPerHour  ) then
       	expectedDate := hourLoopDate + (INTERVAL '1' HOUR) / maxFlightsPerHour * hourCount;
         return expectedDate;
       end if;
