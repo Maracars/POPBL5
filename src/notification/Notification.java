@@ -18,9 +18,14 @@ public class Notification {
 		server.start();
 
 	}
+	@Override
+	protected void finalize() throws Throwable {
+		server.stop();
+		super.finalize();
+	}
 
 	public static void sendNotification(String receivingGroup, String message) {
-		server.getBroadcastOperations().sendEvent("53e79c4e736a52d01e21c6d663473fc8", message);
+		server.getBroadcastOperations().sendEvent(receivingGroup, message);
 	}
 
 }
