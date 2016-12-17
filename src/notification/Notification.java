@@ -7,21 +7,19 @@ public class Notification {
 	private static final String LOCALHOST = "localhost";
 	private static final int PORT_NMBER = 9092;
 
-	private static final Configuration conf;
-	private static final SocketIOServer server;
+	private static Configuration conf = null;
+	private static SocketIOServer server = null;
 
-	static {
+	public static void start() throws Throwable {
 		conf = new Configuration();
 		conf.setHostname(LOCALHOST);
 		conf.setPort(PORT_NMBER);
 		server = new SocketIOServer(conf);
 		server.start();
-
 	}
-	@Override
-	protected void finalize() throws Throwable {
+
+	public static void stop() throws Throwable {
 		server.stop();
-		super.finalize();
 	}
 
 	public static void sendNotification(String receivingGroup, String message) {

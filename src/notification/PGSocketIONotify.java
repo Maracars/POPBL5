@@ -22,10 +22,10 @@ public class PGSocketIONotify implements Runnable {
 	private static final int LOOP_TIME = 500;
 	private static final int PORT_NMBER = 9092;
 	private PGConnection pgConn;
-	private static final Configuration conf;
-	private static final SocketIOServer server;
+	private static  Configuration conf;
+	private static  SocketIOServer server;
 
-	static {
+	public static void  start() {
 		conf = new Configuration();
 		conf.setHostname(LOCALHOST);
 		conf.setPort(PORT_NMBER);
@@ -33,6 +33,11 @@ public class PGSocketIONotify implements Runnable {
 		server.start();
 
 	}
+	
+	public static void  stop() {
+		server.stop();
+	}
+	
 
 	public PGSocketIONotify(Connection conn) throws SQLException, InterruptedException {
 

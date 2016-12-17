@@ -7,7 +7,7 @@
 
 		<div class="jumbotron center-block">
 			<s:form action="loginSubmit" namespace="/" key="Login Form">
-				<s:textfield key="user.username" name="username" />
+				<s:textfield key="user.username" name="username" id="focused"/>
 				<s:password key="user.password"
 					name="password" />
 				<div class="errors">

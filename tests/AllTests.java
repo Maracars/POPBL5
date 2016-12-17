@@ -1,5 +1,7 @@
-package domain.dao;
 
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -16,6 +18,25 @@ import action.user.TestRegisterMantainanceAction;
 import action.user.TestRegisterMantainanceActionStaticMock;
 import action.user.TestRegisterPassengerAction;
 import action.user.TestRegisterPassengerActionStaticMock;
+import domain.dao.TestDaoAddress;
+import domain.dao.TestDaoAirline;
+import domain.dao.TestDaoAirport;
+import domain.dao.TestDaoDelay;
+import domain.dao.TestDaoFlight;
+import domain.dao.TestDaoGate;
+import domain.dao.TestDaoLane;
+import domain.dao.TestDaoNode;
+import domain.dao.TestDaoPassenger;
+import domain.dao.TestDaoPlane;
+import domain.dao.TestDaoPlaneMaker;
+import domain.dao.TestDaoPlaneModel;
+import domain.dao.TestDaoPlaneMovements;
+import domain.dao.TestDaoRoute;
+import domain.dao.TestDaoSimulator;
+import domain.dao.TestDaoTerminal;
+import domain.dao.TestHibernateGeneric;
+import initialization.HibernateInit;
+import initialization.SocketIOInit;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
@@ -52,5 +73,25 @@ import action.user.TestRegisterPassengerActionStaticMock;
 		})
 
 public class AllTests {
-
+	
+	static HibernateInit  init;
+	static SocketIOInit initio;
+	
+	@BeforeClass
+	public static void init(){
+		init = new HibernateInit();
+		init.contextInitialized(null);
+		
+		initio = new SocketIOInit();
+		initio.contextInitialized(null);
+		
+		
+	}
+	
+	@AfterClass
+	public static void destroy(){
+		init.contextDestroyed(null);
+		initio.contextDestroyed(null);
+	}
+	
 }

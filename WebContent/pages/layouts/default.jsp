@@ -60,6 +60,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#page-wrapper').fadeIn(500);
+			$('#focused').focus();
 		})
 	</script>
 

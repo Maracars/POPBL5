@@ -85,7 +85,7 @@ public abstract class RegisterAction extends ActionSupport {
 
 		if (allowedUsers.size() > 0) {
 			ret = ERROR;
-			if (user != null) {
+			if (sessionUser != null) {
 				for (Class<?> c : allowedUsers) {
 					if (c == sessionUser.getClass())
 						ret = SUCCESS;
