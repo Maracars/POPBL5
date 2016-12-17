@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="base" namespace="/" extends="default">
+
+		<action name="index">
+			<interceptor-ref name="store">
+				<param name="operationMode">RETRIEVE</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result name="*" type="tiles">index</result>
+		</action>
+
+		<action name="locale" class="action.locale.Locale">
+			<result name="success" type="redirect">%{url}</result>
+		</action>
+
+		<action name="launchSimulator" class="action.StartSimulatorAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN,CONTROLLER</param>
+			</interceptor-ref>
+
+			<result name="success" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">log</param>
+			</result>
+		</action>
+
+
+		<action name="stats">
+			<result type="tiles">stats</result>
+		</action>
+
+		<action name="flights">
+			<result type="tiles">flights</result>
+		</action>
+
+		<action name="log">
+			
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN,CONTROLLER</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">index</result>
+			<result name="*" type="tiles">log</result>
+		</action>
+
+		<action name="500">
+			<result type="tiles">500</result>
+		</action>
+
+		<action name="404">
+			<result type="tiles">404</result>
+		</action>
+
+		<action name="">
+			<result type="tiles">index</result>
+		</action>
+
+	</package>
+</struts>

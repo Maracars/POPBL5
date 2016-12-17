@@ -8,17 +8,20 @@
 		<s:form action="AdminSubmit" namespace="/register"
 			key="global.registerAdmin" enctype="multipart/form-data"
 			cssClass="form-horizontal">
+			<div class="errors">
+				<s:actionerror />
+			</div>
 			<div class="well">
 				<h4>
 					<s:text name="user.accountInfo" />
 				</h4>
-				<s:textfield labelSeparator=":" key="user.username"
+				<s:textfield id="focused" labelSeparator=":" key="user.username"
 					name="user.username" />
 				<s:password labelSeparator=":" key="user.password"
 					name="user.password" />
 				<s:password labelSeparator=":" key="user.repeatPassword"
 					name="repeatPassword" />
-				<s:textfield labelSeparator=":" key="user.email" name="user.email" />
+				<s:textfield labelSeparator=":" key="user.email" type="email" name="user.email" />
 			</div>
 			<div class="well">
 				<h4>
@@ -30,9 +33,9 @@
 				<s:text var="dateFormat" name="global.dateFormat" />
 				<s:text var="displayDateFormat" name="global.displayDateFormat"></s:text>
 				<sj:datepicker labelSeparator=":" name="birthdate"
-					displayFormat="%{displayDateFormat}" changeYear="true" changeMonth="true"
-					showAnim="slideDown" cssClass="bootstrap" key="user.birthdate"
-					tooltip="(%{dateFormat})" yearRange="-80:+0" />
+					displayFormat="%{displayDateFormat}" changeYear="true"
+					changeMonth="true" showAnim="slideDown" cssClass="bootstrap"
+					key="user.birthdate" tooltip="(%{dateFormat})" yearRange="-80:+0" />
 			</div>
 			<div class="well">
 				<h4>
@@ -53,9 +56,6 @@
 			</div>
 
 		</s:form>
-		<div class="errors">
-			<s:actionerror />
-		</div>
 
 	</div>
 </s:i18n>

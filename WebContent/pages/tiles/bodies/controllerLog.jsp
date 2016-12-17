@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
 	<h1>
-		
+
 		<s:i18n name="resources.log">
 			<s:text name="log.consoleLog" />
 		</s:i18n>
@@ -15,6 +15,7 @@
 		</s:a>
 	</div>
 	<s:actionmessage />
+	<s:actionerror />
 	<ol class="console">
 
 	</ol>

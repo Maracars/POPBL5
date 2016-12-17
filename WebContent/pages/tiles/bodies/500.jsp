@@ -4,6 +4,8 @@
 <div class="container-fluid">
 	<div class="jumbotron">
 		<div style="position: absolute;">
+			<s:actionerror/>
+			<s:actionmessage/>
 			<h1>500</h1>
 			<h2>T.T <s:text name="global.internalError"/> T.T</h2>
 			<p><s:text name="global.webpageCrahsed"/></p>

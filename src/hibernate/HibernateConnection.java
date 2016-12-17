@@ -7,22 +7,23 @@ public class HibernateConnection {
 
 	private static SessionFactory sessionFactory;
 	private final static String HBN_LOCATION = "/resources/hibernate.cfg.xml";
-	
-	static {
+
+	public static void start() {
+		try {
+			sessionFactory = new Configuration().configure(HBN_LOCATION).buildSessionFactory();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void stop() {
 		try{
-		sessionFactory = new Configuration().configure(HBN_LOCATION).buildSessionFactory();
+			sessionFactory.close();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-	}
-
-
-	
-	@Override
-	protected void finalize() throws Throwable {
-		sessionFactory.close();
-		super.finalize();
 	}
 
 	public static SessionFactory getSessionFactory() {

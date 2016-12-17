@@ -16,9 +16,21 @@
    	
    	<listener>  
 	    <listener-class>
+	       initialization.HibernateInit
+	    </listener-class>
+	</listener>
+   	
+   	<listener>  
+	    <listener-class>
 	       initialization.AdminInitialization
 	    </listener-class>
 	</listener>  
+	
+	<listener>  
+	    <listener-class>
+	       initialization.SocketIOInit
+	    </listener-class>
+	</listener>
    
 	<listener>
 	<listener-class>
