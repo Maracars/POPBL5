@@ -5,68 +5,44 @@
 
 <struts>
 
-	<package name="default" extends="struts-default">
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+	<constant name="struts.mapper.alwaysSelectFullNamespace"
+		value="false" />
+	<constant name="struts.patternMatcher" value="regex" />
+	<constant name="struts.custom.i18n.resources" value="global" />
 
+	<package name="default" namespace="/" extends="struts-default">
 		<result-types>
 			<result-type name="tiles"
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
+		<interceptors>
+			<interceptor name="validateUser"
+				class="interceptor.UserAccessValidatorInterceptor"></interceptor>
+
+			<interceptor-stack name="validateStack">
+				<interceptor-ref name="staticParams" />
+				<interceptor-ref name="actionMappingParams" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+				</interceptor-ref>
+				<interceptor-ref name="i18n" />
+				<interceptor-ref name="store">
+					<param name="operationMode">AUTOMATIC</param>
+				</interceptor-ref>
+				<interceptor-ref name="validateUser" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+
 
 	</package>
 
-	<package name="base" namespace="/" extends="default">
+	<include file="register.xml" />
+	<include file="base.xml" />
+	<include file="login.xml" />
 
-		<action name="index">
-			<result type="tiles">index</result>
-		</action>
 
-		<action name="stats">
-			<result type="tiles">stats</result>
-		</action>
-
-		<action name="flights">
-			<result type="tiles">flights</result>
-		</action>
-
-		<action name="500">
-			<result type="tiles">500</result>
-		</action>
-
-		<action name="404">
-			<result type="tiles">404</result>
-		</action>
-
-		<action name="">
-			<result type="tiles">index</result>
-		</action>
-
-	</package>
-
-	<package name="login" namespace="/" extends="default">
-
-		<action name="loginSubmit" class="action.user.LoginAction">
-			<result name="login" type="tiles">login</result>
-			<result name="input" type="tiles">login</result>
-			<result name="success" type="tiles">index</result>
-		</action>
-		
-		<action name="registerSubmit" class="action.user.RegisterAction">
-			<result name="login" type="tiles">register</result>
-			<result name="input" type="tiles">register</result>
-			<result name="success" type="tiles">index</result>
-		</action>
-
-		<action name="logout" class="action.user.LogoutAction">
-			<result type="tiles">index</result>
-		</action>
-		
-		<action name="register">
-			<result type="tiles">register</result>
-		</action>
-
-		<action name="login">
-			<result type="tiles">login</result>
-		</action>
-	</package>
 
 </struts>

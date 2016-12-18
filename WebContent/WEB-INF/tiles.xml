@@ -32,6 +32,11 @@
 	<definition name="flights" extends="index">
 		<put-attribute name="title" value="Flights" />
 		<put-attribute name="body" value="/pages/tiles/bodies/flights.jsp" />
+	</definition >
+		
+	<definition name="profile" extends="index">
+		<put-attribute name="title" value="global.userProfile" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/profile.jsp" />
 	</definition>
 	
 	<definition name="flights" extends="index">
