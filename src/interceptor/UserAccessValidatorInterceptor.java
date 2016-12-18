@@ -1,5 +1,6 @@
 package interceptor;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -34,7 +35,7 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		User sessionUser = (User) session.get("user");
 		boolean hasPermission = false;
-		if(sessionUser != null){
+		if (sessionUser != null) {
 			String[] allows = allowed.split(",");
 			for (String s : allows) {
 				switch (s) {
@@ -59,14 +60,23 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 						hasPermission = true;
 					break;
 				default:
-					
+
 					break;
 				}
 				if (sessionUser.getUsername().equals(s))
 					hasPermission = true;
 			}
+			try {
+				Method closeMethod = ai.getAction().getClass().getMethod("getUsername", null);
+				String us = null;
+				if (closeMethod != null)
+					us = (String) closeMethod.invoke(ai.getAction(), null);
+				if(sessionUser.getUsername().equals(us))
+					hasPermission = true;
+			} catch (Exception e) {
+			}
+
 		}
-		
 
 		if (hasPermission) {
 			result = ai.invoke();

@@ -35,7 +35,7 @@
 	</a>
 		<ul class="dropdown-menu dropdown-user">
 			<s:if test="%{#session.user != null}">
-				<li><a href="#"><i class="fa fa-user fa-fw"></i> <s:text name="global.userProfile"/></a></li>
+				<li><s:a action="%{'u/' + #session.user.username}" namespace="/"><i class="fa fa-user fa-fw"></i> <s:text name="global.userProfile"/></s:a></li>
 				<li><a href="#"><i class="fa fa-gear fa-fw"></i> <s:text name="global.settings"/></a></li>
 				<s:if test="%{#session.user instanceof domain.model.users.Admin}">
 					<li><s:a action="accountManager" namespace="/">
@@ -58,7 +58,7 @@
 			<li><s:a class="center-block"
 					href="https://travis-ci.org/Maracars/POPBL5">
 					<img class="center-block" alt="build stability"
-						src="https://travis-ci.org/Maracars/POPBL5.svg?branch=master" />
+						src="https://travis-ci.org/Maracars/POPBL5.svg?branch=Development" />
 				</s:a></li>
 			<li><a class="center-block"
 				href="https://www.codacy.com/app/Maracars/POPBL5?utm_source=www.github.com&amp;utm_medium=referral&amp;utm_content=Maracars/POPBL5&amp;utm_campaign=Badge_Grade"><img

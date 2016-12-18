@@ -3,6 +3,8 @@
    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
    "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
+
+
 	<package name="login" namespace="/" extends="default">
 
 		<action name="loginSubmit" class="action.user.LoginAction">
@@ -19,11 +21,12 @@
 			<result type="tiles">login</result>
 		</action>
 		
-		<action name="u//{username}" class="action.user.ProfileAction">
+		<action name="u/{username}" class="action.user.ProfileAction">
 			<interceptor-ref name="validateStack">
-				<param name="validateUser.allowed">ADMIN,{1}</param>
+				<param name="validateUser.allowed">ADMIN</param>
 			</interceptor-ref>
-			<result type="tiles">profile</result>
+			<result name="noPermission" type="redirectAction">index</result>
+			<result name="*" type="tiles">profile</result>
 		</action>	
 		
 

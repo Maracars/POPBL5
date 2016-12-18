@@ -5,7 +5,10 @@
 
 <struts>
 
-
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+	<constant name="struts.mapper.alwaysSelectFullNamespace"
+		value="false" />
+	<constant name="struts.patternMatcher" value="regex" />
 	<constant name="struts.custom.i18n.resources" value="global" />
 
 	<package name="default" namespace="/" extends="struts-default">
@@ -18,6 +21,11 @@
 				class="interceptor.UserAccessValidatorInterceptor"></interceptor>
 
 			<interceptor-stack name="validateStack">
+				<interceptor-ref name="staticParams" />
+				<interceptor-ref name="actionMappingParams" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+				</interceptor-ref>
 				<interceptor-ref name="i18n" />
 				<interceptor-ref name="store">
 					<param name="operationMode">AUTOMATIC</param>
