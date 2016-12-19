@@ -42,7 +42,8 @@ public class TestDaoGate {
 	public void testRemoveOneSpecificGate() {
 		Gate gate = new Gate();
 		gate.setId(1);
-		boolean result = DAOGate.deleteGate(gate);
+		DAOGate.insertGate(gate);
+		boolean result = DAOGate.deleteGate(DAOGate.loadAllGates().get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

@@ -60,17 +60,24 @@ public class TestDaoAirport {
 	@Test
 	public void testInsertAirportWithTerminalAndWithCityIntoDB() {
 		Airport airport = new Airport();
-		airport.setName(HEATHROW);
+		
 		Terminal terminal = new Terminal();
 		terminal.setName(T1);
-		Collection<Terminal> terminalList = new ArrayList<>();
-		terminalList.add(terminal);
-		airport.setTerminalList(terminalList);
-		City city = new City();
-		city.setName(BERGARA);
+		DAOTerminal.insertTerminal(terminal);
+				
 		State state = new State();
 		state.setName(EUSKAL_HERRIA);
+		DAOState.insertState(state);
+		
+		City city = new City();
+		city.setName(BERGARA);
 		city.setState(state);
+		DAOCity.insertCity(city);	
+		
+		Collection<Terminal> terminalList = new ArrayList<>();
+		terminalList.add(terminal);	
+		airport.setTerminalList(terminalList);
+		airport.setName(HEATHROW);
 		airport.setCity(city);
 		airport.setMaxFlights(MAX_FLIGHTS);
 		boolean result = DAOAirport.insertAirport(airport);
@@ -92,7 +99,9 @@ public class TestDaoAirport {
 	public void testRemoveOneSpecificAirport() {
 		Airport airport = new Airport();
 		airport.setId(1);
-		boolean result = DAOAirport.deleteAirport(airport); 
+		DAOAirport.insertAirport(airport);
+		boolean result = DAOAirport.deleteAirport(DAOAirport.loadAllAirports().get(0)); 
+		
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 

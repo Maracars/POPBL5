@@ -44,16 +44,16 @@ public class DAOUser {
 	public static boolean insertUser(User user) {
 		try {
 			user.setPassword(md5(user.getPassword()));
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.save(user);
 			session.getTransaction().commit();
-			HibernateConnection.after();
+			
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			return false;
 		}
 
@@ -64,7 +64,7 @@ public class DAOUser {
 	public static User getUser(String username) {
 		List<User> userList = null;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<User> query = session
@@ -73,7 +73,7 @@ public class DAOUser {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		HibernateConnection.after();
+		
 		
 		return userList.isEmpty() ? null : userList.get(0);
 
@@ -81,13 +81,15 @@ public class DAOUser {
 
 	public static boolean deleteUser(User user) {
 		try {
-			HibernateConnection.before();
 			session = HibernateConnection.getSession();
-			session.delete(user);
-			HibernateConnection.after();
+
+            session.beginTransaction();
+            session.delete(user);
+            session.getTransaction().commit();
+
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			return false;
 		}
 
@@ -97,7 +99,7 @@ public class DAOUser {
 	public static List<User> loadAllUsers() {
 		List<User> userList = null;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<User> query = session.createQuery(QUERY_USER);
@@ -105,21 +107,25 @@ public class DAOUser {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		HibernateConnection.after();
+		
 
 		return userList;
 	}
 
 	public static boolean deleteUserWithUsername(User user) {
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
+			session.getTransaction().begin();
+			
 			Query query = session.createQuery("delete User where username = '"+user.getUsername()+"'");
 			query.executeUpdate();
-			HibernateConnection.after();
+			session.getTransaction().commit();
+
+			
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			return false;
 		}
 

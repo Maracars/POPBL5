@@ -16,16 +16,16 @@ public class DAOAirline {
 	public static boolean insertAirline(Airline airline) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.persist(airline);
 			session.getTransaction().commit();
-			HibernateConnection.after();
+			
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			result = false;
 		}
 
@@ -36,14 +36,16 @@ public class DAOAirline {
 	public static boolean deleteAirline(Airline airline) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+
 			session = HibernateConnection.getSession();
+			session.getTransaction().begin();
 			session.delete(airline);
-			HibernateConnection.after();
+			session.getTransaction().commit();
+
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			result = false;
 		}
 		
@@ -53,7 +55,7 @@ public class DAOAirline {
 	public static List<Airline> loadAllAirlines() {
 		List<Airline> airlineList = null;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Airline> query = session.createQuery("from Airline");
@@ -61,7 +63,7 @@ public class DAOAirline {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		HibernateConnection.after();
+		
 
 		return airlineList;
 	}

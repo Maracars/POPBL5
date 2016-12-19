@@ -15,16 +15,15 @@ public class DAOAirport {
 	public static boolean insertAirport(Airport airport) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.save(airport);
 			session.getTransaction().commit();
-			HibernateConnection.after();
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+
 			result = false;
 		}
 
@@ -35,24 +34,24 @@ public class DAOAirport {
 	public static boolean deleteAirport(Airport airport) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
 			session = HibernateConnection.getSession();
+			session.getTransaction().begin();
 			session.delete(airport);
-			HibernateConnection.after();
+			session.getTransaction().commit();
 
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+
 			result = false;
 		}
-		
+
 		return result;
 	}
 
 	public static List<Airport> loadAllAirports() {
 		List<Airport> airportList = null;
 		try {
-			HibernateConnection.before();
+
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Airport> query = session.createQuery("from Airport");
@@ -60,7 +59,6 @@ public class DAOAirport {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		HibernateConnection.after();
 
 		return airportList;
 	}

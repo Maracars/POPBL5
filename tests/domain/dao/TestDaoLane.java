@@ -74,7 +74,8 @@ public class TestDaoLane {
 	public void testRemoveOneSpecificLane() {
 		Lane lane = new Lane();
 		lane.setId(1);
-		boolean result = DAOLane.deleteLane(lane);
+		DAOLane.insertLane(lane);
+		boolean result = DAOLane.deleteLane(DAOLane.loadAllLanes().get(0));
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 

@@ -65,7 +65,8 @@ public class TestDaoUser {
 	public void testRemoveOneSpecificTerminal() {
 		User user = new User();
 		user.setId(1);
-		boolean result = DAOUser.deleteUser(user);
+		DAOUser.insertUser(user);
+		boolean result = DAOUser.deleteUser(DAOUser.loadAllUsers().get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

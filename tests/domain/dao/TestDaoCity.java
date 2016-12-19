@@ -10,6 +10,7 @@ import domain.model.State;
 
 public class TestDaoCity {
 
+	private static final String EUSKAL_HERRIA = "Euskal herria";
 	private static final String ERROR_LOAD = "Error load all cities from database";
 	private static final String BERGARA = "Bergara";
 	private static final String INSERT_ERROR = "Error insert city into database";
@@ -26,13 +27,13 @@ public class TestDaoCity {
 	@Test
 	public void testInsertCityWithStateIntoDB() {
 		State state = new State();
-		state.setName("Euskal herria");
+		state.setName(EUSKAL_HERRIA);
 		DAOState.insertState(state);
 		
 		City city = new City();
 		city.setName(BERGARA);
-		
 		city.setState(state);
+		
 		boolean result = DAOCity.insertCity(city);
 		assertEquals(INSERT_ERROR, true, result);
 	}
@@ -52,9 +53,9 @@ public class TestDaoCity {
 	public void testRemoveOneSpecificCity() {
 		City city = new City();
 		city.setId(1);
-		boolean result = DAOCity.deleteCity(city); 
-		// aukeran Terminal bidaldu
-		// edo terminalId
+		DAOCity.insertCity(city);
+		boolean result = DAOCity.deleteCity(DAOCity.loadAllCities().get(0)); 
+		
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 

@@ -34,10 +34,11 @@ public class TestDaoPlaneMaker {
 	}
 
 	@Test
-	public void testRemoveOneSpecificTerminal() {
+	public void testRemoveOneSpecificPlaneMaker() {
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setId(1);
-		boolean result = DAOPlaneMaker.deletePlaneMaker(planeMaker);
+		DAOPlaneMaker.insertPlaneMaker(planeMaker);
+		boolean result = DAOPlaneMaker.deletePlaneMaker(DAOPlaneMaker.loadAllPlaneMakers().get(0));
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 

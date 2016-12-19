@@ -14,15 +14,15 @@ public class DAOPlaneMaker {
 	public static boolean insertPlaneMaker(PlaneMaker planeMaker) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.save(planeMaker);
 			session.getTransaction().commit();
-			HibernateConnection.after();
+			
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			result = false;
 		}
 
@@ -33,13 +33,15 @@ public class DAOPlaneMaker {
 	public static boolean deletePlaneMaker(PlaneMaker planeMaker) {
 		boolean result = true;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
+			session.getTransaction().begin();
 			session.delete(planeMaker);
-			HibernateConnection.after();
+			session.getTransaction().commit();
+			
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			HibernateConnection.after();
+			
 			result = false;
 		}
 
@@ -49,7 +51,7 @@ public class DAOPlaneMaker {
 	public static List<PlaneMaker> loadAllPlaneMakers() {
 		List<PlaneMaker> planeMakerList = null;
 		try {
-			HibernateConnection.before();
+			
 			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<PlaneMaker> query = session.createQuery("from PlaneMaker");
@@ -57,7 +59,7 @@ public class DAOPlaneMaker {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		HibernateConnection.after();
+		
 
 		return planeMakerList;
 	}
