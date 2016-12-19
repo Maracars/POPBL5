@@ -10,7 +10,6 @@
 		value="false" />
 	<constant name="struts.patternMatcher" value="regex" />
 	<constant name="struts.custom.i18n.resources" value="global" />
-	<constant name="struts.action.extension" value="" />
 
 	<package name="default" namespace="/" extends="struts-default">
 		<result-types>

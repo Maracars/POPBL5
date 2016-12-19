@@ -62,4 +62,24 @@ public class DAOUser {
 
 	}
 
+	public static boolean checkUsernameExists(String username) {
+		long result;
+		try {
+
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery("select count(*) " + USERNAME_QUERY);
+			query.setParameter(PARAMETER_USERNAME, username);
+			result = (long) query.getSingleResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 0;
+		} finally {
+			session.close();
+		}
+
+		return result > 0 ? true : false;
+
+	}
+
 }
