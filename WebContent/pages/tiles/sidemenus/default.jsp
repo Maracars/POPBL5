@@ -26,10 +26,10 @@
 					<i class="fa fa-plane fa-fw"></i>
 					<s:text name="global.flights" />
 				</s:a></li>
-			<li><s:a action="stats" namespace="/">
+			<!--  <li><s:a action="stats" namespace="/">
 					<i class="fa fa-bar-chart-o fa-fw"></i>
 					<s:text name="global.stats" />
-				</s:a></li>
+				</s:a></li> -->
 			<li><s:a action="log" namespace="/">
 					<i class="fa fa-bug fa-fw"></i>
 					<s:text name="global.log" />
