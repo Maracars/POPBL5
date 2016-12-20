@@ -71,9 +71,10 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 				String us = null;
 				if (closeMethod != null)
 					us = (String) closeMethod.invoke(ai.getAction(), null);
-				if(sessionUser.getUsername().equals(us))
+				if (sessionUser.getUsername().equals(us))
 					hasPermission = true;
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
 		}

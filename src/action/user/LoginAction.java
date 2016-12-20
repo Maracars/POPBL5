@@ -11,6 +11,8 @@ import helpers.MD5;
 
 public class LoginAction extends ActionSupport {
 
+	private static final String STRING_LAST_PAGE = "lastPage";
+
 	private static final long serialVersionUID = 1L;
 
 	private String username;
@@ -50,8 +52,8 @@ public class LoginAction extends ActionSupport {
 		password = "";
 
 		if (ret.equals(SUCCESS)) {
-			url = (String) ActionContext.getContext().getSession().get("lastPage");
-			ActionContext.getContext().getSession().remove("lastPage");
+			url = (String) ActionContext.getContext().getSession().get(STRING_LAST_PAGE);
+			ActionContext.getContext().getSession().remove(STRING_LAST_PAGE);
 		}
 		return ret;
 	}

@@ -11,10 +11,11 @@ import hibernate.HibernateConnection;
 
 public class DAORoute {
 	
+	private static final String QUERY_ROUTE = "from Route as r ";
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
-	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = "from Route as r "
+	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
 			+ "where r.arrivalGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
-	private static final String QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID = "from Route as r "
+	private static final String QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
 			+ "where r.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
 
 	private static Session session;

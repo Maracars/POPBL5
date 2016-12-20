@@ -78,7 +78,7 @@ public class AllTests {
 	static SocketIOInit initio;
 	
 	@BeforeClass
-	public static void init(){
+	public static void init() {
 		init = new HibernateInit();
 		init.contextInitialized(null);
 		
@@ -89,7 +89,7 @@ public class AllTests {
 	}
 	
 	@AfterClass
-	public static void destroy(){
+	public static void destroy() {
 		init.contextDestroyed(null);
 		initio.contextDestroyed(null);
 	}

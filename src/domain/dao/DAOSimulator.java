@@ -16,7 +16,7 @@ public class DAOSimulator {
 	private static final int MILIS_TO_SECOND = 1000;
 	private static final int MIN_TO_HOURS = 60;
 	private static final int HOURS_TO_DAY = 24;
-	private static final int WEEK_MARGIN = 7+1;
+	private static final int WEEK_MARGIN = 7 + 1;
 	private static final int MILIS_TO_DAYS = MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS * HOURS_TO_DAY;
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 	private static final String PARAMETER_MARGIN_WEEK = "marginWeek";
@@ -36,7 +36,8 @@ public class DAOSimulator {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_COUNT_FLIGHTS_IN_WEEK);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
-			query.setParameter(PARAMETER_MARGIN_WEEK, new Date(soon.getTime() + (MILIS_TO_DAYS * WEEK_MARGIN)));
+			query.setParameter(PARAMETER_MARGIN_WEEK, 
+					new Date(soon.getTime() + (MILIS_TO_DAYS * WEEK_MARGIN)));
 			numFlights = (Long) query.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,28 +49,27 @@ public class DAOSimulator {
 	}
 
 	public static Date getCorrectDateFromSchedule(int planeId, int airportId) {
-		
+
 		Date date = null;
-		
+
 		try {
 
-		session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSessionFactory().openSession();
 
-		StoredProcedureQuery query = session.createStoredProcedureQuery("selectDate")
-				.registerStoredProcedureParameter("planeId", Integer.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("airportId", Integer.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("correctDate", Timestamp.class, ParameterMode.OUT)
-				.setParameter("planeId", planeId).setParameter("airportId", airportId);
+			StoredProcedureQuery query = session.createStoredProcedureQuery("selectDate")
+					.registerStoredProcedureParameter("planeId", Integer.class, ParameterMode.IN)
+					.registerStoredProcedureParameter("airportId", Integer.class, ParameterMode.IN)
+					.registerStoredProcedureParameter("correctDate", Timestamp.class, ParameterMode.OUT)
+					.setParameter("planeId", planeId).setParameter("airportId", airportId);
 
-		query.execute();
-		date =  (Timestamp) query.getOutputParameterValue("correctDate");
-		
+			query.execute();
+			date = (Timestamp) query.getOutputParameterValue("correctDate");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
-		
 
 		return date;
 	}

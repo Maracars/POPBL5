@@ -72,8 +72,8 @@ public class RegisterPassengerAction extends RegisterAction {
 			SimpleDateFormat df = new SimpleDateFormat(getText("global.dateFormat"));
 			try {
 				((Passenger) user).setBirthDate(df.parse(birthdate));
-				LocalDate birthdate = ((Passenger) user).getBirthDate().toInstant().atZone(ZoneId.systemDefault())
-						.toLocalDate();
+				LocalDate birthdate = ((Passenger) user).getBirthDate().toInstant()
+						.atZone(ZoneId.systemDefault()).toLocalDate();
 				if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
 					addFieldError(BIRTH_DATE, getText(TOO_YOUNG) + " " + MIN_YEARS);
 			} catch (ParseException e) {

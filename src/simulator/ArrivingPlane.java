@@ -34,6 +34,8 @@ public class ArrivingPlane extends PlaneThread {
 				semControllerPermision.acquire();
 				waitingThread.interrupt();
 			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				System.out.println("Interrupted plane");
 				e.printStackTrace();
 			}
 		}
@@ -51,6 +53,8 @@ public class ArrivingPlane extends PlaneThread {
 			controller.mutex.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
+			Thread.currentThread().interrupt();
+			System.out.println("Interrupted plane");
 			e.printStackTrace();
 		}
 		DAOLane.updateLane(lane);

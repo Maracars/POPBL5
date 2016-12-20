@@ -11,7 +11,7 @@ import domain.model.Address;
 import domain.model.users.Admin;
 import domain.model.users.Mantainance;
 
-public class RegisterMantainanceAction extends RegisterAction{
+public class RegisterMantainanceAction extends RegisterAction {
 
 	private static final long serialVersionUID = 1L;
 	private static final String NAME_FIELD = "name";
@@ -26,22 +26,20 @@ public class RegisterMantainanceAction extends RegisterAction{
 	private static final String REGION = "address.region";
 	private static final String STREETANDNUMBER = "address.streetAndNumber";
 	private static final String POSTCODE = "address.postCode";
-	
+
 	String birthdate;
 	String name;
 	String secondName;
 	Address address = new Address();
-	
-	
-	
+
 	@Override
 	void userSpecificValidate() {
 		allowedUsers.add(Admin.class);
-		
+
 		user = new Mantainance(user);
 		((Mantainance) user).setAddress(address);
 		((Mantainance) user).setName(name);
-		((Mantainance) user).setSecondName(secondName);		
+		((Mantainance) user).setSecondName(secondName);
 
 		validateBirthdate();
 		validateAddress();
@@ -75,8 +73,8 @@ public class RegisterMantainanceAction extends RegisterAction{
 			SimpleDateFormat df = new SimpleDateFormat(getText("global.dateFormat"));
 			try {
 				((Mantainance) user).setBirthDate(df.parse(birthdate));
-				LocalDate birthdate = ((Mantainance) user).getBirthDate().toInstant().atZone(ZoneId.systemDefault())
-						.toLocalDate();
+				LocalDate birthdate = ((Mantainance) user).getBirthDate().toInstant()
+						.atZone(ZoneId.systemDefault()).toLocalDate();
 				if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
 					addFieldError(BIRTH_DATE, getText(TOO_YOUNG) + " " + MIN_YEARS);
 			} catch (ParseException e) {
@@ -84,11 +82,11 @@ public class RegisterMantainanceAction extends RegisterAction{
 			}
 		}
 	}
-	
+
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.saveOrUpdateObject(((Mantainance)user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveOrUpdateObject(((Mantainance) user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 
@@ -123,5 +121,5 @@ public class RegisterMantainanceAction extends RegisterAction{
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
+
 }

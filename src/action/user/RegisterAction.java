@@ -11,6 +11,7 @@ import domain.model.users.User;
 
 public abstract class RegisterAction extends ActionSupport {
 
+	private static final String STRING_LAST_PAGE = "lastPage";
 	private static final long serialVersionUID = 1L;
 	private static final String ERROR_SAVING = "user.errorSaving";
 	private static final String PASS_NOT_MATCH = "user.passwordNotMatch";
@@ -68,11 +69,11 @@ public abstract class RegisterAction extends ActionSupport {
 		if (!getFieldErrors().isEmpty()) {
 			repeatPassword = "";
 			user.setPassword("");
-		}else{
-			url = (String) ActionContext.getContext().getSession().get("lastPage");
-			ActionContext.getContext().getSession().remove("lastPage");
+		} else {
+			url = (String) ActionContext.getContext().getSession().get(STRING_LAST_PAGE);
+			ActionContext.getContext().getSession().remove(STRING_LAST_PAGE);
 		}
-		
+
 		return ret;
 	}
 
@@ -129,7 +130,5 @@ public abstract class RegisterAction extends ActionSupport {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-	
 
 }

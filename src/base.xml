@@ -17,7 +17,17 @@
 			<result name="success" type="redirect">%{url}</result>
 		</action>
 
-		<action name="launchSimulator" class="action.StartSimulatorAction">
+		<action name="launchSimulator" class="action.StartSimulatorAction" method = "startSimulator">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN,CONTROLLER</param>
+			</interceptor-ref>
+
+			<result name="success" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">log</param>
+			</result>
+		</action>
+		<action name="finishSimulator" class="action.StartSimulatorAction" method = "stopSimulator">
 			<interceptor-ref name="validateStack">
 				<param name="validateUser.allowed">ADMIN,CONTROLLER</param>
 			</interceptor-ref>

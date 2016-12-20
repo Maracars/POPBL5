@@ -28,6 +28,8 @@ public abstract class PlaneThread implements Runnable {
 			try {
 				momentLane.getSemaphore().acquire();
 			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				System.out.println("Interrupted plane");
 				e.printStackTrace();
 			}
 			momentLane.setStatus(FULL);

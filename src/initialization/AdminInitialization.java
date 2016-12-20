@@ -14,13 +14,13 @@ public class AdminInitialization implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		List<Object> users =  HibernateGeneric.loadAllObjects(new Admin());
-		if(users.isEmpty()){
+		List<Object> users = HibernateGeneric.loadAllObjects(new Admin());
+		if (users.isEmpty()) {
 			Admin admin = new Admin();
 			admin.setEmail("admin@naranair.com");
 			admin.setName("Admin");
@@ -28,7 +28,7 @@ public class AdminInitialization implements ServletContextListener {
 			admin.setSecondName("Default");
 			admin.setUsername("admin");
 			admin.setBirthDate(new Date());
-			
+
 			Address a = new Address();
 			a.setCity("Mondragon");
 			a.setCountry("Spain");
@@ -36,7 +36,7 @@ public class AdminInitialization implements ServletContextListener {
 			a.setRegion("Basque Country");
 			a.setStreetAndNumber("Goiru 2");
 			admin.setAddress(a);
-			
+
 			HibernateGeneric.saveOrUpdateObject(a);
 			HibernateGeneric.saveOrUpdateObject(admin);
 		}

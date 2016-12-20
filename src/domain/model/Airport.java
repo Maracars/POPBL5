@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Airport{
+public class Airport {
 	@Id
 	@GeneratedValue
 	Integer id;
@@ -15,7 +15,6 @@ public class Airport{
 
 	Integer maxFlights;
 
-	
 	@ManyToOne(optional = false)
 	Address address;
 
@@ -50,7 +49,5 @@ public class Airport{
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
-	
 
 }

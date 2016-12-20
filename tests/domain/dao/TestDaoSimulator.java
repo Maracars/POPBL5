@@ -17,6 +17,7 @@ import domain.model.Terminal;
 
 public class TestDaoSimulator {
 
+	private static final int INCREMENT_NUMBER = 5;
 	private static final int ADDED_TIME = 3600000;
 	private static final String ERROR_GET_FLIGHTS_NUMBER = "Error getting the number of flights in a week";
 
@@ -39,28 +40,28 @@ public class TestDaoSimulator {
 
 		Plane plane = Initializer.initCompletePlane();
 		HibernateGeneric.saveOrUpdateObject(plane);
-		
+
 		Airport airport = Initializer.initCompleteAirport();
 		HibernateGeneric.saveOrUpdateObject(airport);
-		
+
 		Terminal terminal = Initializer.initTerminal(airport);
 		HibernateGeneric.saveOrUpdateObject(terminal);
-		
+
 		Node node = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(node);
-		
+
 		Gate gate = Initializer.initGate(node, terminal);
 		HibernateGeneric.saveOrUpdateObject(gate);
-		
+
 		Route route = new Route();
 		route.setArrivalGate(gate);
 		route.setDepartureGate(gate);
 		HibernateGeneric.saveOrUpdateObject(route);
-		
+
 		Flight flight = new Flight();
 		flight.setPlane(plane);
 		flight.setRoute(route);
-		flight.setExpectedArrivalDate(new Date(date.getTime() + 5 * ADDED_TIME));
+		flight.setExpectedArrivalDate(new Date(date.getTime() + ADDED_TIME * INCREMENT_NUMBER));
 		flight.setExpectedDepartureDate(new Date(date.getTime() + ADDED_TIME));
 		HibernateGeneric.saveOrUpdateObject(flight);
 
