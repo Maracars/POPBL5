@@ -18,6 +18,8 @@
 	href="<s:url value="/css/metisMenu.min.css"/>" />
 <link rel="stylesheet" type="text/css"
 	href="<s:url value="/css/sb-admin-2.min.css"/>" />
+<link rel="stylesheet" type="text/css" 
+	href="/NaranAir/css/controller.css"/>
 
 <script type="text/javascript"
 	src="<s:url value="/js/metisMenu.min.js"/>"></script>

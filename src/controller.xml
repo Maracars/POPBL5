@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="controller" namespace="/controller" extends="default">
+
+		<action name="index">
+			<result type="tiles">controller</result>
+		</action>
+		
+		<action name="airport">
+			<result type="tiles">airportInfo</result>
+		</action>
+		
+		<action name="flights">
+			<result type="tiles">flightsInfo</result>
+		</action>
+		
+		<action name="laneAndGate">
+			<result type="tiles">termAndGateInfo</result>
+		</action>
+
+	</package>
+</struts>

@@ -1,0 +1,16 @@
+#flightsNavbar{
+	margin-bottom:20px;
+}
+
+#terminalDrop{
+	display:inline;
+}
+
+#gateDrop{
+	display:inline;
+}
+
+#airportInfoFilter{
+	margin-bottom:20px;
+	margin-left:15px;
+}

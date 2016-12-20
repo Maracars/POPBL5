@@ -19,6 +19,13 @@
 		<put-attribute name="body" value="/pages/tiles/bodies/home.jsp" />
 	</definition>
 	
+	<definition name="controller" extends="default">
+		<put-attribute name="title" type="string" value="global.home" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
+		<put-attribute name="sidemenu" value="/pages/tiles/sidemenus/controller.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controller/home.jsp" />
+	</definition>
+	
 	<definition name="registerPassenger" extends="index">
 		<put-attribute name="title" value="global.registerPassenger" />
 		<put-attribute name="body" value="/pages/tiles/bodies/user/registerPassenger.jsp" />
