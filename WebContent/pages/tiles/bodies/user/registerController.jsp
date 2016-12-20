@@ -1,7 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sb" uri="/struts-bootstrap-tags"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
-<script src="<s:url value="/js/usernameCheck.js"/>"></script>
 
 <s:i18n name="action.user.package">
 	<div class="container-fluid">
