@@ -113,6 +113,13 @@
 			</result>
 			<result name="*" type="tiles">registerMantainance</result>
 		</action>
+		
+		<action name="UserCheck"  class="action.user.UserCheckAction">
+          <result type = "json">
+          	<param name ="root">jsonString</param>
+          
+          </result>
+        </action>
 
 	</package>
 </struts>

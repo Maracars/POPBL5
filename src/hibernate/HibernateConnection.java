@@ -18,12 +18,12 @@ public class HibernateConnection {
 	}
 
 	public static void stop() {
-		try{
+		try {
 			sessionFactory.close();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public static SessionFactory getSessionFactory() {

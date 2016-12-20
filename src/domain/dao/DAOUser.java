@@ -32,7 +32,7 @@ public class DAOUser {
 	}
 
 	public static boolean deleteUserWithUsername(User user) {
-		int result;
+		int result = 0;
 		try {
 			if (user instanceof Airline) {
 				Airline airline = (Airline) user;
@@ -44,7 +44,8 @@ public class DAOUser {
 			session.getTransaction().begin();
 
 			Query query = session.createQuery(
-					"delete " + user.getClass().getSimpleName() + " where username = :" + PARAMETER_USERNAME);
+					"delete " + user.getClass().getSimpleName() 
+					+ " where username = :" + PARAMETER_USERNAME);
 			query.setParameter(PARAMETER_USERNAME, user.getUsername());
 			result = query.executeUpdate();
 			session.getTransaction().commit();
@@ -53,7 +54,25 @@ public class DAOUser {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 
-			result = 0;
+		} finally {
+			session.close();
+		}
+
+		return result > 0 ? true : false;
+
+	}
+
+	public static boolean checkUsernameExists(String username) {
+		long result = 0;
+		try {
+
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery("select count(*) " + USERNAME_QUERY);
+			query.setParameter(PARAMETER_USERNAME, username);
+			result = (long) query.getSingleResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}

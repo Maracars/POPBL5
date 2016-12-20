@@ -20,14 +20,16 @@ public class AutomaticMaintenance implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
+		while (!Thread.interrupted()) {
 			Plane planeToRevise = DAOPlane.selectPlaneNeedToRevise();
 			if (planeToRevise != null) {
 				DAOPlane.revisePlane(planeToRevise);
-				Notification.sendNotification(MD5.encrypt(ADMIN), "Plane " + planeToRevise.getSerial() + " REVISED");
+				Notification.sendNotification(MD5.encrypt(ADMIN),
+						"Plane " + planeToRevise.getSerial() + " REVISED");
 
 			} else {
-				Notification.sendNotification(MD5.encrypt(ADMIN), "There is no plane to revise REVISED");
+				Notification.sendNotification(MD5.encrypt(ADMIN),
+						"There is no plane to revise REVISED");
 			}
 
 			try {
@@ -35,6 +37,7 @@ public class AutomaticMaintenance implements Runnable {
 				Thread.sleep(SLEEP_TIME_5_MIN_IN_MILIS);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
+				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
 		}

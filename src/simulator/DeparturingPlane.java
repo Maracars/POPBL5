@@ -31,11 +31,12 @@ public class DeparturingPlane extends PlaneThread {
 				semControllerPermision.acquire();
 				waitingThread.interrupt();
 			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				System.out.println("Interrupted plane");
 				e.printStackTrace();
 			}
 		}
 		// goToDestine();
-		System.out.println("Plane " + plane.getSerial() + " TOOK OFF");
 		goOutFromMap();
 		// set plane status arriving??
 
@@ -47,6 +48,8 @@ public class DeparturingPlane extends PlaneThread {
 			controller.mutex.acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
+			Thread.currentThread().interrupt();
+			System.out.println("Interrupted plane");
 			e.printStackTrace();
 		}
 		DAOLane.updateLane(lane);

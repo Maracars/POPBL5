@@ -12,6 +12,15 @@ import domain.model.Address;
 @Entity
 public class Mantainance extends User {
 
+	String name;
+	String secondName;
+
+	@ManyToOne(optional = false)
+	Address address;
+
+	@Temporal(TemporalType.DATE)
+	Date birthDate;
+
 	public Mantainance(User user) {
 		this.setEmail(user.getEmail());
 		this.setId(user.getId());
@@ -22,15 +31,6 @@ public class Mantainance extends User {
 	public Mantainance() {
 		super();
 	}
-
-	String name;
-	String secondName;
-
-	@ManyToOne(optional = false)
-	Address address;
-
-	@Temporal(TemporalType.DATE)
-	Date birthDate;
 
 	public String getName() {
 		return name;

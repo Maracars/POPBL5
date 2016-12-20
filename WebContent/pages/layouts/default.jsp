@@ -33,6 +33,8 @@
 
 <script src="<s:url value="/js/listener.js"/>"></script>
 <script src="<s:url value="/js/bootstrap-notify.min.js"/>"></script>
+<script src="<s:url value="/js/usernameCheck.js"/>"></script>
+
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <tiles:importAttribute name="title"/>

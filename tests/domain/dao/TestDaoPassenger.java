@@ -63,4 +63,26 @@ public class TestDaoPassenger {
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
+	@Test
+	public void testCheckUserExistsThatExists() {
+
+		Passenger passenger = Initializer.initCompletePassenger();
+		DAOUser.deleteUserWithUsername(passenger);
+
+		HibernateGeneric.saveOrUpdateObject(passenger);
+
+		boolean result = DAOUser.checkUsernameExists(passenger.getUsername());
+		assertEquals(ERROR_REMOVING, true, result);
+	}
+
+	@Test
+	public void testCheckUserExistsThatDoesNotExist() {
+
+		Passenger passenger = Initializer.initCompletePassenger();
+		String username = passenger.getUsername();
+		DAOUser.deleteUserWithUsername(passenger);
+		boolean result = DAOUser.checkUsernameExists(username);
+		assertEquals(ERROR_REMOVING, false, result);
+	}
+
 }

@@ -11,7 +11,16 @@ import domain.model.Address;
 
 @Entity
 public class Admin extends User {
-	
+
+	String name;
+	String secondName;
+
+	@ManyToOne(optional = false)
+	Address address;
+
+	@Temporal(TemporalType.DATE)
+	Date birthDate;
+
 	public Admin(User user) {
 		this.setEmail(user.getEmail());
 		this.setId(user.getId());
@@ -22,15 +31,6 @@ public class Admin extends User {
 	public Admin() {
 		super();
 	}
-
-	String name;
-	String secondName;
-
-	@ManyToOne(optional = false) 
-	Address address;	
-	
-	@Temporal(TemporalType.DATE)
-	Date birthDate;
 
 	public String getName() {
 		return name;

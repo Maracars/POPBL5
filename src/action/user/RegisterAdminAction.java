@@ -10,7 +10,7 @@ import domain.dao.HibernateGeneric;
 import domain.model.Address;
 import domain.model.users.Admin;
 
-public class RegisterAdminAction extends RegisterAction{
+public class RegisterAdminAction extends RegisterAction {
 
 	private static final long serialVersionUID = 1L;
 	private static final String NAME_FIELD = "name";
@@ -25,22 +25,20 @@ public class RegisterAdminAction extends RegisterAction{
 	private static final String REGION = "address.region";
 	private static final String STREETANDNUMBER = "address.streetAndNumber";
 	private static final String POSTCODE = "address.postCode";
-	
+
 	String birthdate;
 	String name;
 	String secondName;
 	Address address = new Address();
-	
-	
-	
+
 	@Override
 	void userSpecificValidate() {
 		allowedUsers.add(Admin.class);
-		
+
 		user = new Admin(user);
 		((Admin) user).setAddress(address);
 		((Admin) user).setName(name);
-		((Admin) user).setSecondName(secondName);		
+		((Admin) user).setSecondName(secondName);
 
 		validateBirthdate();
 		validateAddress();
@@ -83,11 +81,11 @@ public class RegisterAdminAction extends RegisterAction{
 			}
 		}
 	}
-	
+
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.saveOrUpdateObject(((Admin)user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveOrUpdateObject(((Admin) user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 
@@ -122,7 +120,5 @@ public class RegisterAdminAction extends RegisterAction{
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-	
-	
+
 }

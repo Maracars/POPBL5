@@ -1,6 +1,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sb" uri="/struts-bootstrap-tags"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+
 <s:i18n name="action.user.package">
 	<div class="container-fluid">
 
@@ -15,7 +16,7 @@
 					<s:text name="user.accountInfo" />
 				</h4>
 				<s:textfield id="focused" labelSeparator=":" key="user.username"
-					name="user.username" />
+					name="user.username" class ="username"/>
 				<s:password labelSeparator=":" key="user.password"
 					name="user.password" />
 				<s:password labelSeparator=":" key="user.repeatPassword"

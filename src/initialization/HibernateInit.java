@@ -5,7 +5,7 @@ import javax.servlet.ServletContextListener;
 
 import hibernate.HibernateConnection;
 
-public class HibernateInit implements ServletContextListener{
+public class HibernateInit implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -14,7 +14,7 @@ public class HibernateInit implements ServletContextListener{
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		HibernateConnection.start();		
+		HibernateConnection.start();
 	}
 
 }

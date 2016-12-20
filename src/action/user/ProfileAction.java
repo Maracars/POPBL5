@@ -31,7 +31,7 @@ public class ProfileAction extends ActionSupport {
 				birthdate = getBirthdate(user);
 				type = user.getClass().getSimpleName().toLowerCase();
 				ret = SUCCESS;
-			}else{
+			} else {
 				addActionError(getText("user.userNotFound"));
 			}
 		}
@@ -51,8 +51,6 @@ public class ProfileAction extends ActionSupport {
 			birthdate = df.format(((Admin) user).getBirthDate());
 		return birthdate;
 	}
-	
-	
 
 	public String getType() {
 		return type;

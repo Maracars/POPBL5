@@ -22,10 +22,10 @@ public class PGSocketIONotify implements Runnable {
 	private static final int LOOP_TIME = 500;
 	private static final int PORT_NMBER = 9092;
 	private PGConnection pgConn;
-	private static  Configuration conf;
-	private static  SocketIOServer server;
+	private static Configuration conf;
+	private static SocketIOServer server;
 
-	public static void  start() {
+	public static void start() {
 		conf = new Configuration();
 		conf.setHostname(LOCALHOST);
 		conf.setPort(PORT_NMBER);
@@ -33,11 +33,10 @@ public class PGSocketIONotify implements Runnable {
 		server.start();
 
 	}
-	
-	public static void  stop() {
+
+	public static void stop() {
 		server.stop();
 	}
-	
 
 	public PGSocketIONotify(Connection conn) throws SQLException, InterruptedException {
 
@@ -63,8 +62,6 @@ public class PGSocketIONotify implements Runnable {
 						// PGk JSON bat bidaltzen dau, hori gero javascripten
 						// tratauko da
 						String[] tableInfo = pgNotification.getParameter().split(SPLITTER);
-						System.out.println(tableInfo[1]);
-
 						server.getBroadcastOperations().sendEvent("chatevent", tableInfo[1]);
 
 					}

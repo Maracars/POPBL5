@@ -13,6 +13,9 @@
 		<s:a action="launchSimulator" namespace="/" class="btn btn-primary">
 			<s:text name="global.startSimulator" />
 		</s:a>
+		<s:a action="finishSimulator" namespace="/" class="btn btn-primary">
+			<s:text name="global.finishSimulator" />
+		</s:a>
 	</div>
 	<s:actionmessage />
 	<s:actionerror />

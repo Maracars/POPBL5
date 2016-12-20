@@ -10,33 +10,28 @@ import javax.persistence.TemporalType;
 import domain.model.Address;
 
 @Entity
-public class Controller extends User{
-	
-	public Controller(User user) {
-		this.setEmail(user.getEmail());
-		this.setId(user.getId());
-		this.setPassword(user.getPassword());
-		this.setUsername(user.getUsername());
-	}
-	
-	
-
-	public Controller() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
+public class Controller extends User {
 
 	String name;
 	String secondName;
 
 	@ManyToOne(optional = false)
 	Address address;
-	
+
 	@Temporal(TemporalType.DATE)
 	Date birthDate;
-	
+
+	public Controller(User user) {
+		this.setEmail(user.getEmail());
+		this.setId(user.getId());
+		this.setPassword(user.getPassword());
+		this.setUsername(user.getUsername());
+	}
+
+	public Controller() {
+		super();
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -69,5 +64,4 @@ public class Controller extends User{
 		this.birthDate = birthDate;
 	}
 
-	
 }

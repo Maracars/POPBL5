@@ -31,14 +31,15 @@ public class AirportController implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
+		while (!Thread.interrupted()) {
 			try {
 				mutex.acquire();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
-			if (activePlaneList.size() > 0 && (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
+			freeLaneList = DAOLane.getFreeLanes(airport.getId());
+			if (activePlaneList.size() > 0 && freeLaneList != null) {
 				PlaneThread plane = activePlaneList.get(0);
 				Lane lane = freeLaneList.get(0);
 				lane.setStatus(false);
@@ -46,19 +47,19 @@ public class AirportController implements Runnable {
 				DAOLane.updateLane(lane);
 				activePlaneList.remove(plane);
 				Notification.sendNotification(MD5.encrypt(ADMIN),
-						"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
+						"Controller gives one PERMISSION to plane " 
+								+ plane.getPlane().getSerial());
 				plane.givePermission();
-				
+
 			}
 			mutex.release();
 			try {
 				Thread.sleep(SLEEP_TIME_5_SEGS_IN_MILIS);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
-
 	}
 
 	public boolean askPermission(PlaneThread plane) {
@@ -69,7 +70,8 @@ public class AirportController implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (activePlaneList.size() == 0 && (freeLaneList = DAOLane.getFreeLanes(airport.getId())) != null) {
+		freeLaneList = DAOLane.getFreeLanes(airport.getId());
+		if (activePlaneList.size() == 0 && freeLaneList != null) {
 
 			Lane lane = freeLaneList.get(0);
 			lane.setStatus(false);
@@ -78,14 +80,16 @@ public class AirportController implements Runnable {
 			ret = true;
 
 			Notification.sendNotification(MD5.encrypt(ADMIN),
-					"Controller GIVES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
+					"Controller GIVES SPECIFIC PERMISSION to plane " 
+							+ plane.getPlane().getSerial());
 
 		} else {
 			activePlaneList.add(plane);
 			ret = false;
 
 			Notification.sendNotification(MD5.encrypt(ADMIN),
-					"Controller DENIES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
+					"Controller DENIES SPECIFIC PERMISSION to plane " 
+							+ plane.getPlane().getSerial());
 		}
 		mutex.release();
 		return ret;
