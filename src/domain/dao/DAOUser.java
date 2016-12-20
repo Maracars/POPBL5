@@ -32,7 +32,7 @@ public class DAOUser {
 	}
 
 	public static boolean deleteUserWithUsername(User user) {
-		int result;
+		int result = 0;
 		try {
 			if (user instanceof Airline) {
 				Airline airline = (Airline) user;
@@ -54,7 +54,6 @@ public class DAOUser {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 
-			result = 0;
 		} finally {
 			session.close();
 		}
@@ -64,7 +63,7 @@ public class DAOUser {
 	}
 
 	public static boolean checkUsernameExists(String username) {
-		long result;
+		long result = 0;
 		try {
 
 			session = HibernateConnection.getSessionFactory().openSession();
@@ -74,7 +73,6 @@ public class DAOUser {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = 0;
 		} finally {
 			session.close();
 		}
