@@ -26,6 +26,22 @@
 		<put-attribute name="body" value="/pages/tiles/bodies/controller/home.jsp" />
 	</definition>
 	
+	
+	<definition name="airportInfo" extends="controller">
+		<put-attribute name="title" type="string" value="global.airportInfo" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controller/airportInfo.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="flightsInfo" extends="controller">
+		<put-attribute name="title" type="string" value="global.flightsInfo" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controller/flightsInfo.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="termAndGateInfo" extends="controller">
+		<put-attribute name="title" type="string" value="global.termAndGateInfo" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controller/gateAndTerminalInfo.jsp"></put-attribute>
+	</definition>
+	
 	<definition name="registerPassenger" extends="index">
 		<put-attribute name="title" value="global.registerPassenger" />
 		<put-attribute name="body" value="/pages/tiles/bodies/user/registerPassenger.jsp" />
