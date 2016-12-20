@@ -2,22 +2,28 @@ package helpers;
 
 import java.util.List;
 
+import domain.model.Node;
+import domain.model.Path;
+
 public class Graph {
 	
-    private final List<Vertex> vertexes;
-    private final List<Edge> edges;
+	//Node vertex
+	//Edge path
+	
+    private final List<Node> nodes;
+    private final List<Path> paths;
 
-    public Graph(List<Vertex> vertexes, List<Edge> edges) {
-            this.vertexes = vertexes;
-            this.edges = edges;
+    public Graph(List<Node> nodes, List<Path> paths) {
+            this.nodes = nodes;
+            this.paths = paths;
     }
 
-    public List<Vertex> getVertexes() {
-            return vertexes;
+    public List<Node> getNodes() {
+            return nodes;
     }
 
-    public List<Edge> getEdges() {
-            return edges;
+    public List<Path> getPath() {
+            return paths;
     }
 
 }
