@@ -12,6 +12,7 @@ import domain.model.Node;
 
 public class TestDaoLane {
 
+	private static final String PRINCIPAL = "PRINCIPAL";
 	private static final String ERROR_LOAD = "Error load all lanes from database";
 	private static final String INSERT_ERROR = "Error insert lane into database";
 	private static final String REMOVE_ERROR = "Error removing one lane from database";
@@ -37,7 +38,7 @@ public class TestDaoLane {
 		Airport airport = Initializer.initAirport();
 		HibernateGeneric.saveOrUpdateObject(airport);
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initLane(true, true, airport));
+		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initLane(true, PRINCIPAL, airport));
 
 		assertEquals(INSERT_ERROR, false, result);
 	}
@@ -72,7 +73,7 @@ public class TestDaoLane {
 		Airport airport = Initializer.initAirport();
 		HibernateGeneric.saveOrUpdateObject(airport);
 		
-		Lane lane = Initializer.initLane(startNode, endNode, true, airport);
+		Lane lane = Initializer.initLane(startNode, endNode, PRINCIPAL, airport);
 
 
 		boolean result = HibernateGeneric.saveOrUpdateObject(lane);
@@ -89,7 +90,7 @@ public class TestDaoLane {
 		Node endNode = Initializer.initNode();
 		HibernateGeneric.saveOrUpdateObject(endNode);
 		
-		Lane lane = Initializer.initLane(startNode, endNode, true, true);
+		Lane lane = Initializer.initLane(startNode, endNode, true, PRINCIPAL);
 
 
 		boolean result = HibernateGeneric.saveOrUpdateObject(lane);
@@ -130,7 +131,7 @@ public class TestDaoLane {
 		Airport airport = Initializer.initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
-		Lane lane = Initializer.initLane(startNode, endNode, true, true, airport);
+		Lane lane = Initializer.initLane(startNode, endNode, PRINCIPAL, true, airport);
 		HibernateGeneric.saveOrUpdateObject(lane);
 
 		assertNotNull(ERROR_GETFREELANES, DAOLane.getFreeLanes(airport.getId()));

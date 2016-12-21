@@ -25,7 +25,7 @@ public class Lane {
 	private Boolean status;
 
 	@Column(nullable = false)
-	private Boolean principal;
+	private String type;
 
 	@ManyToOne(optional = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -72,7 +72,7 @@ public class Lane {
 
 	@Override
 	public String toString() {
-		return "Start Node:" + startNode.toString() + " End Node:"+ endNode.toString();
+		return "Start Node:" + startNode.toString() + " End Node:" + endNode.toString();
 	}
 
 	public void setEndNode(Node endNode) {
@@ -83,20 +83,12 @@ public class Lane {
 		return status;
 	}
 
-	public Boolean isPrincipal() {
-		return principal;
-	}
-
 	public Airport getAirport() {
 		return airport;
 	}
 
 	public void setAirport(Airport airport) {
 		this.airport = airport;
-	}
-
-	public void setPrincipal(Boolean principal) {
-		this.principal = principal;
 	}
 
 	public void setStatus(Boolean status) {
@@ -109,6 +101,14 @@ public class Lane {
 
 	public void setSemaphore(Semaphore semaphore) {
 		this.semaphore = semaphore;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

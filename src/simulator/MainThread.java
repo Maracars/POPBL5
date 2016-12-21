@@ -31,7 +31,7 @@ public class MainThread {
 		Airport airport = initializeExampleOnDB();
 		AirportController ac = new AirportController(airport);
 		FlightCreator fc = new FlightCreator(airport, ac);
-		AutomaticMaintenance am = new AutomaticMaintenance(airport);
+		AutomaticMaintenance am = new AutomaticMaintenance();
 
 		threadPool.submit(ac);
 		threadPool.submit(fc);
@@ -98,7 +98,7 @@ public class MainThread {
 
 		Lane lane = new Lane();
 		lane.setAirport(myAirport);
-		lane.setPrincipal(true);
+		lane.setType("PRINCIPAL");
 		lane.setName(LANE_NAME);
 		lane.setSemaphore(new Semaphore(1, true));
 		lane.setStartNode(node);

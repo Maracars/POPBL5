@@ -23,6 +23,7 @@ import domain.model.users.Passenger;
 
 public class Initializer {
 
+	private static final String PRINCIPAL = "PRINCIPAL";
 	private static final String EMAIL = "jajaja@mondragon.edu";
 	private static final String STREET_AND_NUMBER = "Sofia erreginaren kalea jajajaja";
 	private static final String REGION = "DEBAGOIENA";
@@ -320,7 +321,7 @@ public class Initializer {
 		Airport airport = initAirport(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
-		return initLane(startNode, endNode, true, true, airport);
+		return initLane(startNode, endNode, PRINCIPAL, true, airport);
 	}
 
 	public static Lane initLane() {
@@ -330,23 +331,23 @@ public class Initializer {
 
 	}
 
-	public static Lane initLane(Node node1, Node node2, boolean principal, boolean status, Airport airport) {
+	public static Lane initLane(Node node1, Node node2, String type, boolean status, Airport airport) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
 		lane.setStartNode(node2);
-		lane.setPrincipal(principal);
+		lane.setType(type);
 		lane.setStatus(status);
 		lane.setAirport(airport);
 		return lane;
 
 	}
 
-	public static Lane initLane(Node node1, Node node2, boolean principal, Airport airport) {
+	public static Lane initLane(Node node1, Node node2, String type, Airport airport) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
 		lane.setStartNode(node2);
 		lane.setAirport(airport);
-		lane.setPrincipal(principal);
+		lane.setType(type);
 
 		return lane;
 
@@ -363,20 +364,20 @@ public class Initializer {
 
 	}
 
-	public static Lane initLane(Node node1, Node node2, boolean status, boolean principal) {
+	public static Lane initLane(Node node1, Node node2, boolean status, String type) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
 		lane.setStartNode(node2);
 		lane.setStatus(status);
-		lane.setPrincipal(principal);
+		lane.setType(type);
 
 		return lane;
 	}
 
-	public static Lane initLane(boolean status, boolean principal, Airport airport) {
+	public static Lane initLane(boolean status, String type, Airport airport) {
 		Lane lane = initLane();
 		lane.setStatus(status);
-		lane.setPrincipal(principal);
+		lane.setType(type);
 		lane.setAirport(airport);
 
 		return lane;

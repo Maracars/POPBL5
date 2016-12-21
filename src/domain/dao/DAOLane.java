@@ -11,9 +11,11 @@ import hibernate.HibernateConnection;
 
 public class DAOLane {
 
+	private static final String PRINCIPAL = "PRINCIPAL";
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
+	private static final String PARAMETER_TYPE = "type";
 	private static final String QUERY_FREE_LANES = "from Lane as l "
-			+ "where l.principal is true and l.status is true and l.airport.id = :" + PARAMETER_AIRPORT_ID;
+			+ "where l.type = :type and l.status is true and l.airport.id = :" + PARAMETER_AIRPORT_ID;
 	private static Session session;
 
 	@SuppressWarnings("unchecked")
@@ -23,6 +25,7 @@ public class DAOLane {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_FREE_LANES);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
+			query.setParameter(PARAMETER_TYPE, PRINCIPAL);
 			if (query.getResultList().size() > 0) {
 				laneList = query.getResultList();
 			}
