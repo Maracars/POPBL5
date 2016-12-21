@@ -14,8 +14,8 @@ import domain.model.Path;
 
 public class Dijkstra {
 
-	private static final boolean ARRIVAL_MODE = true;
-	private static final boolean DEPARTURE_MODE = false;
+	public static final boolean ARRIVAL_MODE = true;
+	public static final boolean DEPARTURE_MODE = false;
 	private final List<Path> paths;
 	private Set<Node> settledNodes;
 	private Set<Node> unSettledNodes;

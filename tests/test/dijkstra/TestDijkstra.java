@@ -18,21 +18,22 @@ import helpers.Dijkstra;
 
 public class TestDijkstra {
 
+	private static final String NOT_SAME_ARRAYS = "error, arrays are not the same";
 	private static List<Node> nodes;
 	private static List<Path> paths;
 	private static Dijkstra dijkstra;
-	
+
 	@BeforeClass
-	public static void beforeTests(){
+	public static void beforeTests() {
 		initializePaths();
-		
+
 		dijkstra = new Dijkstra(paths);
 	}
 
 	@Test
 	public void testExcuteArrival() {
-		
-		dijkstra.execute(nodes.get(0), true);
+
+		dijkstra.execute(nodes.get(0), Dijkstra.ARRIVAL_MODE);
 		LinkedList<Path> paths = dijkstra.getPath(nodes.get(11));
 
 		assertNotNull(paths);
@@ -43,11 +44,11 @@ public class TestDijkstra {
 		}
 
 	}
-	
+
 	@Test
 	public void testExcuteDeparture() {
 
-		dijkstra.execute(nodes.get(11), false);
+		dijkstra.execute(nodes.get(11), Dijkstra.DEPARTURE_MODE);
 		LinkedList<Path> paths = dijkstra.getPath(nodes.get(0));
 
 		assertNotNull(paths);
@@ -59,28 +60,26 @@ public class TestDijkstra {
 
 	}
 
-
-
 	@Test
 	public void testExecuteBothCheckAreEqual() {
 
-		dijkstra.execute(nodes.get(0), true);
+		dijkstra.execute(nodes.get(0), Dijkstra.ARRIVAL_MODE);
 		LinkedList<Path> pathsArrive = dijkstra.getPath(nodes.get(11));
 
 		assertNotNull(pathsArrive);
 		assertTrue(pathsArrive.size() > 0);
-		
-		dijkstra.execute(nodes.get(11), false);
+
+		dijkstra.execute(nodes.get(11), Dijkstra.DEPARTURE_MODE);
 		LinkedList<Path> pathsDeparture = dijkstra.getPath(nodes.get(0));
 
 		assertNotNull(pathsDeparture);
 		assertTrue(pathsDeparture.size() > 0);
-		
-		int j = pathsArrive.size()-1;
-		for (int i = 0; i < pathsArrive.size()-1; i++) {
-			assertEquals("error, arrays are not the same", pathsArrive.get(i).getId(),pathsDeparture.get(j).getId());
+
+		int j = pathsArrive.size() - 1;
+		for (int i = 0; i < pathsArrive.size() - 1; i++) {
+			assertEquals(NOT_SAME_ARRAYS, pathsArrive.get(i).getId(), pathsDeparture.get(j).getId());
 			j--;
-		} 
+		}
 	}
 
 	private static void addLane(String laneId, int sourceLocNo, int destLocNo) {
@@ -98,7 +97,7 @@ public class TestDijkstra {
 
 		Path path = new Path();
 		path.setLaneList(laneList);
-		path.setId(sourceLocNo*10+destLocNo);
+		path.setId(sourceLocNo * 10 + destLocNo);
 
 		paths.add(path);
 	}

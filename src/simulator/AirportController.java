@@ -1,13 +1,19 @@
 package simulator;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import domain.dao.DAOLane;
+import domain.dao.HibernateGeneric;
 import domain.model.Airport;
+import domain.model.Flight;
 import domain.model.Lane;
+import domain.model.Node;
+import domain.model.Path;
 import domain.model.users.Admin;
+import helpers.Dijkstra;
 import helpers.MD5;
 import notification.Notification;
 
@@ -47,8 +53,7 @@ public class AirportController implements Runnable {
 				DAOLane.updateLane(lane);
 				activePlaneList.remove(plane);
 				Notification.sendNotification(MD5.encrypt(ADMIN),
-						"Controller gives one PERMISSION to plane " 
-								+ plane.getPlane().getSerial());
+						"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
 				plane.givePermission();
 
 			}
@@ -67,7 +72,7 @@ public class AirportController implements Runnable {
 		try {
 			mutex.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			Thread.currentThread().interrupt();
 			e.printStackTrace();
 		}
 		freeLaneList = DAOLane.getFreeLanes(airport.getId());
@@ -80,19 +85,57 @@ public class AirportController implements Runnable {
 			ret = true;
 
 			Notification.sendNotification(MD5.encrypt(ADMIN),
-					"Controller GIVES SPECIFIC PERMISSION to plane " 
-							+ plane.getPlane().getSerial());
+					"Controller GIVES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
 
 		} else {
 			activePlaneList.add(plane);
 			ret = false;
 
 			Notification.sendNotification(MD5.encrypt(ADMIN),
-					"Controller DENIES SPECIFIC PERMISSION to plane " 
-							+ plane.getPlane().getSerial());
+					"Controller DENIES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
 		}
 		mutex.release();
 		return ret;
+	}
+
+	/*
+	 * mode thread berak jakingo zauen zein dan eta lane asignaute deko ya
+	 * (kontrollerrak permisoa emoterakoan
+	 */
+	private LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
+		/* mutexa badaezpada */
+		try {
+			mutex.acquire();
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			e.printStackTrace();
+		}
+		List<Object> objects = HibernateGeneric.loadAllObjects(new Path());
+		mutex.release();
+		List<Path> paths = new ArrayList<>();
+		Node source;
+		Node destination;
+		for (Object path : objects) {
+			paths.add((Path) path);
+		}
+		if (mode == Dijkstra.ARRIVAL_MODE) {
+
+			source = landLane.getEndNode();
+			destination = flight.getRoute().getArrivalGate().getPositionNode();
+
+		} else {
+
+			source = flight.getRoute().getArrivalGate().getPositionNode();
+			destination = landLane.getStartNode();
+
+		}
+
+		Dijkstra dijkstra = new Dijkstra(paths);
+		dijkstra.execute(source, mode);
+
+		LinkedList<Path> pathList = dijkstra.getPath(destination);
+
+		return pathList;
 	}
 
 }

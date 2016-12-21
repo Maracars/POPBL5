@@ -1,11 +1,15 @@
 package domain.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import helpers.DistanceCalculator;
 
 @Entity
 public class Path {
@@ -15,9 +19,10 @@ public class Path {
 	private Integer id;
 
 	@OneToMany
-	private ArrayList<Lane> laneList = new ArrayList<>();
+	private List<Lane> laneList = new ArrayList<Lane>();
 
-	private double distance = 0;
+	@Column(nullable = false)
+	private double distance;
 
 	public double getDistance() {
 		return distance;
@@ -35,27 +40,15 @@ public class Path {
 		this.id = id;
 	}
 
-	public ArrayList<Lane> getLaneList() {
+	public List<Lane> getLaneList() {
 		return laneList;
 	}
 
 	public void setLaneList(ArrayList<Lane> laneList) {
 		this.laneList = laneList;
 		for (Lane lane : laneList) {
-			this.distance += calculateDistance(lane.getStartNode(), lane.getEndNode());
+			this.distance += DistanceCalculator.calculateDistance(lane.getStartNode(), lane.getEndNode());
 		}
-	}
-
-	// Honek ez dakit hemen egon biharko liakien, igual helper estatiko baten
-
-	private double calculateDistance(Node src, Node dst) {
-
-		return pitagor(src.getPositionX() - dst.getPositionX(), src.getPositionY() - dst.getPositionY());
-
-	}
-
-	private double pitagor(double x, double y) {
-		return Math.sqrt((x * x) + (y * y));
 	}
 
 	@Override

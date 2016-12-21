@@ -11,6 +11,7 @@ import domain.model.Flight;
 import domain.model.Gate;
 import domain.model.Lane;
 import domain.model.Node;
+import domain.model.Path;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
@@ -23,6 +24,8 @@ import domain.model.users.Passenger;
 
 public class Initializer {
 
+	private static final boolean OCCUPIED = false;
+	private static final boolean FREE = true;
 	private static final String PRINCIPAL = "PRINCIPAL";
 	private static final String EMAIL = "jajaja@mondragon.edu";
 	private static final String STREET_AND_NUMBER = "Sofia erreginaren kalea jajajaja";
@@ -58,7 +61,55 @@ public class Initializer {
 
 	private static final String TERMINAL_NAME = "3";
 
+	public static Path initPathWithFreeLanes() {
+		Lane lane = initFreeLane();
+		HibernateGeneric.saveOrUpdateObject(lane);
+		ArrayList<Lane> laneList = new ArrayList<>();
+		laneList.add(lane);
+		Path path = new Path();
 
+		path.setLaneList(laneList);
+		return path;
+	}
+
+	public static Path initPathOccupiedLanes() {
+		Lane lane = initOccupiedLane();
+		HibernateGeneric.saveOrUpdateObject(lane);
+		ArrayList<Lane> laneList = new ArrayList<>();
+		laneList.add(lane);
+		Path path = new Path();
+
+		path.setLaneList(laneList);
+		return path;
+	}
+
+	public static Path initPathOccupiedAndFreeLanes() {
+		Lane lane = initOccupiedLane();
+		Lane lane2 = initFreeLane();
+		HibernateGeneric.saveOrUpdateObject(lane);
+		HibernateGeneric.saveOrUpdateObject(lane2);
+		ArrayList<Lane> laneList = new ArrayList<>();
+		laneList.add(lane);
+		laneList.add(lane2);
+		Path path = new Path();
+
+		path.setLaneList(laneList);
+		return path;
+	}
+
+	public static Lane initFreeLane() {
+		Lane lane = initCompleteLane();
+		lane.setStatus(FREE);
+		return lane;
+
+	}
+
+	public static Lane initOccupiedLane() {
+		Lane lane = initCompleteLane();
+		lane.setStatus(OCCUPIED);
+		return lane;
+
+	}
 
 	public static Terminal initTerminal() {
 		Terminal terminal = new Terminal();
@@ -242,7 +293,6 @@ public class Initializer {
 		plane.setAirline(airline);
 		plane.setModel(planeModel);
 		plane.setFabricationDate(date);
-		
 
 		return plane;
 	}
@@ -275,11 +325,12 @@ public class Initializer {
 		user.setPassword(password);
 		return user;
 	}
+
 	public static Passenger initCompletePassenger() {
-		
+
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
-		
+
 		Passenger passenger = new Passenger();
 		passenger.setUsername(USERNAME_2);
 		passenger.setPassword(PASSWORD_2);
@@ -411,11 +462,10 @@ public class Initializer {
 		return gate;
 	}
 
-
 	public static Airline initAirline() {
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
-		
+
 		Airline airline = new Airline();
 		airline.setName(NARANAIR);
 		airline.setUsername(USERNAME);

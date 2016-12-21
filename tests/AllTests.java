@@ -27,6 +27,7 @@ import domain.dao.TestDaoGate;
 import domain.dao.TestDaoLane;
 import domain.dao.TestDaoNode;
 import domain.dao.TestDaoPassenger;
+import domain.dao.TestDaoPath;
 import domain.dao.TestDaoPlane;
 import domain.dao.TestDaoPlaneMaker;
 import domain.dao.TestDaoPlaneModel;

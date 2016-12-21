@@ -1,11 +1,15 @@
 package simulator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import domain.dao.HibernateGeneric;
 import domain.model.Lane;
+import domain.model.Path;
 import domain.model.Plane;
+import helpers.Dijkstra;
 
 public abstract class PlaneThread implements Runnable {
 	private static final boolean FULL = false;
@@ -17,12 +21,12 @@ public abstract class PlaneThread implements Runnable {
 	protected Lane lane;
 	protected AtomicInteger activePlanes;
 
-
 	@Override
 	abstract public void run();
 
 	protected void goToDestine() {
 		while (isPlaneInPosition()) {
+			//Hemen suposatzen dot planea edukiko dauela
 			ArrayList<Lane> listaPistas = getBestRoute();
 			momentLane = listaPistas.get(0);
 			try {
@@ -56,10 +60,7 @@ public abstract class PlaneThread implements Runnable {
 		return false;
 	}
 
-	private ArrayList<Lane> getBestRoute() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	public void givePermission() {
 		semControllerPermision.release();
