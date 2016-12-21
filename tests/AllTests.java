@@ -37,6 +37,7 @@ import domain.dao.TestDaoTerminal;
 import domain.dao.TestHibernateGeneric;
 import initialization.HibernateInit;
 import initialization.SocketIOInit;
+import test.dijkstra.TestDijkstra;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
@@ -69,7 +70,8 @@ import initialization.SocketIOInit;
 		TestRegisterMantainanceAction.class, 
 		TestRegisterMantainanceActionStaticMock.class,
 		TestRegisterAirlineAction.class, 
-		TestRegisterAirlineActionStaticMock.class
+		TestRegisterAirlineActionStaticMock.class,
+		TestDijkstra.class
 		})
 
 public class AllTests {

@@ -13,7 +13,6 @@ import domain.model.Lane;
 import domain.model.Node;
 import domain.model.Path;
 import helpers.Dijkstra;
-import helpers.Graph;
 
 public class TestDijkstra {
 
@@ -28,7 +27,7 @@ public class TestDijkstra {
 			Node positionNode = new Node();
 			positionNode.setId(i);
 			positionNode.setName("Node_" + i);
-			positionNode.setPositionX(i*1.0);
+			positionNode.setPositionX(i * 1.0);
 			positionNode.setPositionY(0);
 			nodes.add(positionNode);
 		}
@@ -47,17 +46,15 @@ public class TestDijkstra {
 		addLane("Edge_11", 1, 10);
 		addLane("Edge_12", 7, 11);
 
-		// Lets check from location Loc_1 to Loc_10
-		Graph graph = new Graph(nodes, paths);
-		Dijkstra dijkstra = new Dijkstra(graph);
+		Dijkstra dijkstra = new Dijkstra(paths);
 		dijkstra.execute(nodes.get(0));
-		LinkedList<Node> path = dijkstra.getPath(nodes.get(11));
+		LinkedList<Path> paths = dijkstra.getPath(nodes.get(11));
 
-		assertNotNull(path);
-		assertTrue(path.size() > 0);
+		assertNotNull(paths);
+		assertTrue(paths.size() > 0);
 
-		for (Node vertex : path) {
-			System.out.println(vertex);
+		for (Path path1 : paths) {
+			System.out.println(path1);
 		}
 
 	}
@@ -65,30 +62,22 @@ public class TestDijkstra {
 	private void addLane(String laneId, int sourceLocNo, int destLocNo) {
 		Node src = nodes.get(sourceLocNo);
 		Node dst = nodes.get(destLocNo);
-		
-		//Honek berez lane asko euki biharko littuzke baina bueno tt, lane bakarrakin ingou probia
+
+		// Honek berez lane asko euki biharko littuzke baina bueno tt, lane
+		// bakarrakin ingou probia
 		Lane lane = new Lane();
 		lane.setStartNode(src);
 		lane.setEndNode(dst);
 		
+		
+
 		ArrayList<Lane> laneList = new ArrayList<>();
 		laneList.add(lane);
-		
+
 		Path path = new Path();
 		path.setLaneList(laneList);
-		path.setDistance(calculateDistance(src, dst));
-		
+
 		paths.add(path);
-	}
-
-	private double calculateDistance(Node src, Node dst) {
-
-		return pitagor(src.getPositionX() - dst.getPositionX(), src.getPositionY() - dst.getPositionY());
-
-	}
-
-	private double pitagor(double x, double y) {
-		return Math.sqrt((x*x)+(y*y));
 	}
 
 }

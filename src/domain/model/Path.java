@@ -9,14 +9,15 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Path {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private Integer id;
-	
+
 	@OneToMany
 	private ArrayList<Lane> laneList = new ArrayList<>();
-	
-	private double distance;
+
+	private double distance = 0;
 
 	public double getDistance() {
 		return distance;
@@ -40,6 +41,26 @@ public class Path {
 
 	public void setLaneList(ArrayList<Lane> laneList) {
 		this.laneList = laneList;
+		for (Lane lane : laneList) {
+			this.distance += calculateDistance(lane.getStartNode(), lane.getEndNode());
+		}
+	}
+
+	// Honek ez dakit hemen egon biharko liakien, igual helper estatiko baten
+
+	private double calculateDistance(Node src, Node dst) {
+
+		return pitagor(src.getPositionX() - dst.getPositionX(), src.getPositionY() - dst.getPositionY());
+
+	}
+
+	private double pitagor(double x, double y) {
+		return Math.sqrt((x * x) + (y * y));
+	}
+
+	@Override
+	public String toString() {
+		return laneList.toString() + distance;
 	}
 
 }

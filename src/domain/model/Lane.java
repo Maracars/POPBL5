@@ -70,6 +70,11 @@ public class Lane {
 		return endNode;
 	}
 
+	@Override
+	public String toString() {
+		return "Start Node:" + startNode.toString() + " End Node:"+ endNode.toString();
+	}
+
 	public void setEndNode(Node endNode) {
 		this.endNode = endNode;
 	}
