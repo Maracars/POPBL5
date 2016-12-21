@@ -14,21 +14,25 @@ import domain.model.Path;
 
 public class Dijkstra {
 
+	private static final boolean ARRIVAL_MODE = true;
+	private static final boolean DEPARTURE_MODE = false;
 	private final List<Path> paths;
 	private Set<Node> settledNodes;
 	private Set<Node> unSettledNodes;
 	private Map<Node, Node> predecessors;
 	private Map<Node, Double> distance;
+	private boolean executionMode;
 
 	public Dijkstra(List<Path> paths) {
 		this.paths = paths;
 	}
 
-	public void execute(Node source) {
+	public void execute(Node source, boolean mode) {
 		settledNodes = new HashSet<Node>();
 		unSettledNodes = new HashSet<Node>();
 		distance = new HashMap<Node, Double>();
 		predecessors = new HashMap<Node, Node>();
+		executionMode = mode;
 		distance.put(source, 0.0);
 		unSettledNodes.add(source);
 		while (unSettledNodes.size() > 0) {
@@ -54,10 +58,12 @@ public class Dijkstra {
 	private Path getPathFromTwoNodes(Node node, Node target) {
 
 		for (Path path : paths) {
-			if (path.getLaneList().get(0).getStartNode().getId() == node.getId()) {
-				if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getId() == target.getId()) {
+			if (executionMode == ARRIVAL_MODE) {
+				if (checkPathExist(node, target, path))
 					return path;
-				}
+			} else {
+				if (checkPathExist(target, node, path))
+					return path;
 			}
 		}
 		throw new RuntimeException("Should not happen");
@@ -65,23 +71,43 @@ public class Dijkstra {
 
 	private double getDistance(Node node, Node target) {
 		for (Path path : paths) {
-			if (path.getLaneList().get(0).getStartNode().getId() == node.getId()) {
-				if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getId() == target.getId()) {
+			if (executionMode == ARRIVAL_MODE) {
+				if (checkPathExist(node, target, path))
 					return path.getDistance();
-				}
-			}
 
+			} else {
+				if (checkPathExist(target, node, path))
+					return path.getDistance();
+			}
 		}
 		throw new RuntimeException("Should not happen");
+	}
+
+	private boolean checkPathExist(Node node, Node target, Path path) {
+		boolean checker = false;
+		if (path.getLaneList().get(0).getStartNode().getId() == node.getId()) {
+			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getId() == target.getId()) {
+				checker = true;
+			}
+		}
+		return checker;
 	}
 
 	private List<Node> getNeighbors(Node node) {
 		List<Node> neighbors = new ArrayList<Node>();
 		for (Path path : paths) {
-			if (path.getLaneList().get(0).getStartNode().getId() == node.getId()
-					&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode())) {
-				neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode());
+			if(executionMode == ARRIVAL_MODE){
+				if (path.getLaneList().get(0).getStartNode().getId() == node.getId()
+						&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode())) {
+					neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode());
+				}
+			}else{
+				if (path.getLaneList().get(0).getEndNode().getId() == node.getId()
+						&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getStartNode())) {
+					neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getStartNode());
+				}
 			}
+			
 		}
 		return neighbors;
 	}
@@ -131,7 +157,7 @@ public class Dijkstra {
 			stepBefore = step;
 			step = predecessors.get(step);
 			path.add(step);
-			pathList.add(getPathFromTwoNodes(step,stepBefore));
+			pathList.add(getPathFromTwoNodes(step, stepBefore));
 		}
 		// Put it into the correct order
 		Collections.reverse(path);

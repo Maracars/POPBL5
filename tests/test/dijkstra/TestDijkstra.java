@@ -2,11 +2,13 @@ package test.dijkstra;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import domain.model.Lane;
@@ -16,11 +18,92 @@ import helpers.Dijkstra;
 
 public class TestDijkstra {
 
-	private List<Node> nodes;
-	private List<Path> paths;
+	private static List<Node> nodes;
+	private static List<Path> paths;
+	private static Dijkstra dijkstra;
+	
+	@BeforeClass
+	public static void beforeTests(){
+		initializePaths();
+		
+		dijkstra = new Dijkstra(paths);
+	}
 
 	@Test
-	public void testExcute() {
+	public void testExcuteArrival() {
+		
+		dijkstra.execute(nodes.get(0), true);
+		LinkedList<Path> paths = dijkstra.getPath(nodes.get(11));
+
+		assertNotNull(paths);
+		assertTrue(paths.size() > 0);
+
+		for (Path path1 : paths) {
+			System.out.println(path1);
+		}
+
+	}
+	
+	@Test
+	public void testExcuteDeparture() {
+
+		dijkstra.execute(nodes.get(11), false);
+		LinkedList<Path> paths = dijkstra.getPath(nodes.get(0));
+
+		assertNotNull(paths);
+		assertTrue(paths.size() > 0);
+
+		for (Path path1 : paths) {
+			System.out.println(path1);
+		}
+
+	}
+
+
+
+	@Test
+	public void testExecuteBothCheckAreEqual() {
+
+		dijkstra.execute(nodes.get(0), true);
+		LinkedList<Path> pathsArrive = dijkstra.getPath(nodes.get(11));
+
+		assertNotNull(pathsArrive);
+		assertTrue(pathsArrive.size() > 0);
+		
+		dijkstra.execute(nodes.get(11), false);
+		LinkedList<Path> pathsDeparture = dijkstra.getPath(nodes.get(0));
+
+		assertNotNull(pathsDeparture);
+		assertTrue(pathsDeparture.size() > 0);
+		
+		int j = pathsArrive.size()-1;
+		for (int i = 0; i < pathsArrive.size()-1; i++) {
+			assertEquals("error, arrays are not the same", pathsArrive.get(i).getId(),pathsDeparture.get(j).getId());
+			j--;
+		} 
+	}
+
+	private static void addLane(String laneId, int sourceLocNo, int destLocNo) {
+		Node src = nodes.get(sourceLocNo);
+		Node dst = nodes.get(destLocNo);
+
+		// Honek berez lane asko euki biharko littuzke baina bueno tt, lane
+		// bakarrakin ingou probia
+		Lane lane = new Lane();
+		lane.setStartNode(src);
+		lane.setEndNode(dst);
+
+		ArrayList<Lane> laneList = new ArrayList<>();
+		laneList.add(lane);
+
+		Path path = new Path();
+		path.setLaneList(laneList);
+		path.setId(sourceLocNo*10+destLocNo);
+
+		paths.add(path);
+	}
+
+	private static void initializePaths() {
 		nodes = new ArrayList<Node>();
 		paths = new ArrayList<Path>();
 		for (int i = 0; i < 12; i++) {
@@ -45,39 +128,6 @@ public class TestDijkstra {
 		addLane("Edge_10", 9, 10);
 		addLane("Edge_11", 1, 10);
 		addLane("Edge_12", 7, 11);
-
-		Dijkstra dijkstra = new Dijkstra(paths);
-		dijkstra.execute(nodes.get(0));
-		LinkedList<Path> paths = dijkstra.getPath(nodes.get(11));
-
-		assertNotNull(paths);
-		assertTrue(paths.size() > 0);
-
-		for (Path path1 : paths) {
-			System.out.println(path1);
-		}
-
-	}
-
-	private void addLane(String laneId, int sourceLocNo, int destLocNo) {
-		Node src = nodes.get(sourceLocNo);
-		Node dst = nodes.get(destLocNo);
-
-		// Honek berez lane asko euki biharko littuzke baina bueno tt, lane
-		// bakarrakin ingou probia
-		Lane lane = new Lane();
-		lane.setStartNode(src);
-		lane.setEndNode(dst);
-		
-		
-
-		ArrayList<Lane> laneList = new ArrayList<>();
-		laneList.add(lane);
-
-		Path path = new Path();
-		path.setLaneList(laneList);
-
-		paths.add(path);
 	}
 
 }
