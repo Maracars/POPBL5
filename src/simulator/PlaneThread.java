@@ -1,15 +1,13 @@
 package simulator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import domain.dao.HibernateGeneric;
+import domain.model.Flight;
 import domain.model.Lane;
 import domain.model.Path;
 import domain.model.Plane;
-import helpers.Dijkstra;
 
 public abstract class PlaneThread implements Runnable {
 	private static final boolean FULL = false;
@@ -26,9 +24,10 @@ public abstract class PlaneThread implements Runnable {
 
 	protected void goToDestine() {
 		while (isPlaneInPosition()) {
-			//Hemen suposatzen dot planea edukiko dauela
-			ArrayList<Lane> listaPistas = getBestRoute();
-			momentLane = listaPistas.get(0);
+			// Hemen suposatzen dot planea edukiko dauela
+			LinkedList<Path> listaPistas = 
+					AirportController.getBestRoute(true, lane, new Flight());
+			momentLane = listaPistas.get(0).getLaneList().get(0);
 			try {
 				momentLane.getSemaphore().acquire();
 			} catch (InterruptedException e) {
@@ -59,8 +58,6 @@ public abstract class PlaneThread implements Runnable {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
 
 	public void givePermission() {
 		semControllerPermision.release();

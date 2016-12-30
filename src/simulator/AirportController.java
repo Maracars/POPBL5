@@ -23,7 +23,7 @@ public class AirportController implements Runnable {
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
 	private List<Lane> freeLaneList;
 	private Airport airport;
-	public Semaphore mutex;
+	public static Semaphore mutex;
 
 	public Semaphore getMutex() {
 		return mutex;
@@ -102,7 +102,7 @@ public class AirportController implements Runnable {
 	 * mode thread berak jakingo zauen zein dan eta lane asignaute deko ya
 	 * (kontrollerrak permisoa emoterakoan
 	 */
-	private LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
+	public static LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
 		/* mutexa badaezpada */
 		try {
 			mutex.acquire();
