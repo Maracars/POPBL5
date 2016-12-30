@@ -1,6 +1,7 @@
 package domain.dao;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.persistence.TypedQuery;
 
@@ -19,14 +20,20 @@ public class DAOPath {
 
 			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
-			TypedQuery<Path> query = session.createQuery("from Path p inner join p.laneList l where true = all elements(l.status)");
+			TypedQuery<Path> query = session.createQuery("from Path");
 			pathList = query.getResultList();
+
+			Predicate<Path> personPredicate = p -> p.getLaneList().contains(false);
+			pathList.removeIf(personPredicate); // Listan falsen bat baldin
+												// badago
+												// borrau eitten da listatik
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 
-		return pathList;
+		return pathList.size() > 0 ? pathList : null;
 	}
 }

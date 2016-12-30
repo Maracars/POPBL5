@@ -72,7 +72,8 @@ import test.dijkstra.TestDijkstra;
 		TestRegisterMantainanceActionStaticMock.class,
 		TestRegisterAirlineAction.class, 
 		TestRegisterAirlineActionStaticMock.class,
-		TestDijkstra.class
+		TestDijkstra.class,
+		TestDaoPath.class
 		})
 
 public class AllTests {
