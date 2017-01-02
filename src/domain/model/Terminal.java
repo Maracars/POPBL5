@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -18,7 +19,18 @@ public class Terminal {
 	@ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
 	Airport airport;
+	
+	@OneToOne
+	Node positionNode;
 
+
+	public Node getPositionNode() {
+		return positionNode;
+	}
+
+	public void setPositionNode(Node positionNode) {
+		this.positionNode = positionNode;
+	}
 
 	public Airport getAirport() {
 		return airport;

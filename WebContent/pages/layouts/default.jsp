@@ -25,6 +25,11 @@
 	src="<s:url value="/js/metisMenu.min.js"/>"></script>
 <script type="text/javascript"
 	src="<s:url value="/js/sb-admin-2.min.js"/>"></script>
+<script type="text/javascript"
+	src="https://openlayers.org/en/v3.20.0/build/ol.js" ></script>
+	
+<script type="text/javascript"
+	src="<s:url value="/js/controllerMap.js"/>"></script>
 
 <link href="<s:url value="/css/animate.css"/>" rel="stylesheet">
 <link href="<s:url value="/css/naranair.css"/>" rel="stylesheet">

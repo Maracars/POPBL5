@@ -31,6 +31,12 @@
 	       initialization.SocketIOInit
 	    </listener-class>
 	</listener>
+	
+	<listener>  
+	    <listener-class>
+	       initialization.TerminalInitialization
+	    </listener-class>
+	</listener>
    
 	<listener>
 	<listener-class>

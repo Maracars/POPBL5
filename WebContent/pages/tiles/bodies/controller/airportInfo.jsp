@@ -3,25 +3,24 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 
 <div id="airportInfoFilter">
-<div class="dropdown" id="terminalDrop">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+<div class="dropdown center-block" id="terminalDrop">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownTerminal" data-toggle="dropdown">
    	Terminal
     <span class="caret"></span>
   </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a href="#">Terminal 1</a></li>
-    <li><a href="#">Terminal 2</a></li>
-    <li><a href="#">Terminal 3</a></li>
-    <li><a href="#">Terminal 4</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuTerminal">
+  	<s:iterator value="terminalList">
+  	<li><a href="javascript:changeTerminalZoom('<s:property value="positionNode.positionX"/>', '<s:property value="positionNode.positionY"/>')"><s:property value="name"></s:property></a></li>
+    </s:iterator>
   </ul>
 </div>
 
-<div class="dropdown" id="gateDrop">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+<div class="dropdown center-block" id="gateDrop">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownGate" data-toggle="dropdown">
    	Gate
     <span class="caret"></span>
   </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuGate">
     <li><a href="#">Gate 1</a></li>
     <li><a href="#">Gate 2</a></li>
     <li><a href="#">Gate 3</a></li>
@@ -30,16 +29,4 @@
 </div>
 </div>
 
-<div class="container-fluid">
-	<s:actionerror />
-	<s:actionmessage />
-	<div class="jumbotron">
-		<h1>Controller</h1>
-		<h2>Airport flights management</h2>
-		<p>Here are visualized all the flights of the airport in a map more concretely
-		<hr>
-		<em> designed by MARACARS</em>
-		</p>
-
-	</div>
-</div>
+<div id="map" class="map"></div>

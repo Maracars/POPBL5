@@ -15,10 +15,10 @@ public class Node {
 	private Integer id;
 
 	@Column(nullable = false)
-	private double positionX;
+	private double positionX; //Longitude
 
 	@Column(nullable = false)
-	private double positionY;
+	private double positionY; //Latitude
 
 	private String name;
 

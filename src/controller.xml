@@ -9,8 +9,8 @@
 			<result type="tiles">controller</result>
 		</action>
 		
-		<action name="airport">
-			<result type="tiles">airportInfo</result>
+		<action name="airport" class="action.controller.AirportInfoAction">
+			<result name="success" type="tiles">airportInfo</result>
 		</action>
 		
 		<action name="flights">
