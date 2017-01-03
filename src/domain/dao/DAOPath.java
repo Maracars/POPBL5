@@ -10,10 +10,20 @@ import org.hibernate.Session;
 import domain.model.Path;
 import hibernate.HibernateConnection;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAOPath.
+ */
 public class DAOPath {
 
+	/** The session. */
 	private static Session session;
 
+	/**
+	 * Load all free paths.
+	 *
+	 * @return the list
+	 */
 	public static List<Path> loadAllFreePaths() {
 		List<Path> pathList = null;
 		try {

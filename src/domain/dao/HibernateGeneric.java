@@ -11,10 +11,21 @@ import domain.model.users.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HibernateGeneric.
+ */
 public class HibernateGeneric {
 
+	/** The session. */
 	private static Session session;
 
+	/**
+	 * Save or update object.
+	 *
+	 * @param object the object
+	 * @return true, if successful
+	 */
 	public static boolean saveOrUpdateObject(Object object) {
 		boolean result = true;
 		try {
@@ -37,6 +48,12 @@ public class HibernateGeneric {
 
 	}
 
+	/**
+	 * Delete object.
+	 *
+	 * @param object the object
+	 * @return true, if successful
+	 */
 	public static boolean deleteObject(Object object) {
 		boolean result = true;
 		try {
@@ -57,6 +74,12 @@ public class HibernateGeneric {
 		return result;
 	}
 
+	/**
+	 * Load all objects.
+	 *
+	 * @param o the o
+	 * @return the list
+	 */
 	public static List<Object> loadAllObjects(Object o) {
 		List<Object> objectList = null;
 		if (o != null) {
@@ -76,6 +99,12 @@ public class HibernateGeneric {
 		return objectList;
 	}
 
+	/**
+	 * Update object.
+	 *
+	 * @param object the object
+	 * @return true, if successful
+	 */
 	public static boolean updateObject(Object object) {
 		boolean result = true;
 		try {
@@ -96,6 +125,12 @@ public class HibernateGeneric {
 
 	}
 
+	/**
+	 * Delete all objects.
+	 *
+	 * @param object the object
+	 * @return true, if successful
+	 */
 	public static boolean deleteAllObjects(Object object) {
 		boolean result = true;
 		try {

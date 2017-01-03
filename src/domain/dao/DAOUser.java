@@ -8,11 +8,27 @@ import domain.model.users.Airline;
 import domain.model.users.User;
 import hibernate.HibernateConnection;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAOUser.
+ */
 public class DAOUser {
+	
+	/** The Constant PARAMETER_USERNAME. */
 	private static final String PARAMETER_USERNAME = "username";
+	
+	/** The Constant USERNAME_QUERY. */
 	private static final String USERNAME_QUERY = "from User U where U.username = :" + PARAMETER_USERNAME;
+	
+	/** The session. */
 	private static Session session;
 
+	/**
+	 * Gets the user.
+	 *
+	 * @param username the username
+	 * @return the user
+	 */
 	public static User getUser(String username) {
 		User user = null;
 		try {
@@ -31,6 +47,12 @@ public class DAOUser {
 
 	}
 
+	/**
+	 * Delete user with username.
+	 *
+	 * @param user the user
+	 * @return true, if successful
+	 */
 	public static boolean deleteUserWithUsername(User user) {
 		int result = 0;
 		try {
@@ -62,6 +84,12 @@ public class DAOUser {
 
 	}
 
+	/**
+	 * Check username exists.
+	 *
+	 * @param username the username
+	 * @return true, if successful
+	 */
 	public static boolean checkUsernameExists(String username) {
 		long result = 0;
 		try {

@@ -15,19 +15,39 @@ import domain.model.users.Mantainance;
 import domain.model.users.Passenger;
 import domain.model.users.User;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserAccessValidatorInterceptor.
+ */
 public class UserAccessValidatorInterceptor implements Interceptor {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant NO_PERMISSION. */
 	private static final String NO_PERMISSION = "global.noPermission";
 
+	/** The Constant PASSENGER. */
 	final static Class<?> PASSENGER = new Passenger().getClass();
+	
+	/** The Constant AIRLINE. */
 	final static Class<?> AIRLINE = new Airline().getClass();
+	
+	/** The Constant CONTROLLER. */
 	final static Class<?> CONTROLLER = new Controller().getClass();
+	
+	/** The Constant MANTAINANCE. */
 	final static Class<?> MANTAINANCE = new Mantainance().getClass();
+	
+	/** The Constant ADMIN. */
 	final static Class<?> ADMIN = new Admin().getClass();
 
+	/** The allowed. */
 	String allowed;
 
+	/* (non-Javadoc)
+	 * @see com.opensymphony.xwork2.interceptor.Interceptor#intercept(com.opensymphony.xwork2.ActionInvocation)
+	 */
 	@Override
 	public String intercept(ActionInvocation ai) throws Exception {
 		String result;
@@ -67,6 +87,14 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 
 		return result;
 	}
+	
+	/**
+	 * Checks for permission.
+	 *
+	 * @param sessionUser the session user
+	 * @param s the s
+	 * @return true, if successful
+	 */
 	public boolean hasPermission(User sessionUser, String s){
 		boolean hasPermission = false;
 		switch (s) {
@@ -99,22 +127,38 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 		return hasPermission;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.opensymphony.xwork2.interceptor.Interceptor#destroy()
+	 */
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.opensymphony.xwork2.interceptor.Interceptor#init()
+	 */
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Gets the allowed.
+	 *
+	 * @return the allowed
+	 */
 	public String getAllowed() {
 		return allowed;
 	}
 
+	/**
+	 * Sets the allowed.
+	 *
+	 * @param allowed the new allowed
+	 */
 	public void setAllowed(String allowed) {
 		this.allowed = allowed;
 	}

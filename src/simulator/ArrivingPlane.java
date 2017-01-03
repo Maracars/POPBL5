@@ -9,10 +9,22 @@ import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ArrivingPlane.
+ */
 public class ArrivingPlane extends PlaneThread {
 
+	/** The Constant ADMIN. */
 	private static final String ADMIN = new Admin().getClass().getSimpleName();
 
+	/**
+	 * Instantiates a new arriving plane.
+	 *
+	 * @param plane the plane
+	 * @param controller the controller
+	 * @param activePlanesNum the active planes num
+	 */
 	public ArrivingPlane(Plane plane, AirportController controller, AtomicInteger activePlanesNum) {
 		this.plane = plane;
 		semControllerPermision = new Semaphore(0, true);
@@ -21,6 +33,9 @@ public class ArrivingPlane extends PlaneThread {
 		this.mode = ARRIVING;
 	}
 
+	/* (non-Javadoc)
+	 * @see simulator.PlaneThread#run()
+	 */
 	@Override
 	public void run() {
 		Notification.sendNotification(MD5.encrypt(ADMIN), "Plane " + plane.getSerial() + " ARRIVING");
@@ -48,6 +63,9 @@ public class ArrivingPlane extends PlaneThread {
 		// set plane status OnAirport eta NeedRevision
 	}
 
+	/**
+	 * Land plane.
+	 */
 	private void landPlane() {
 		lane.setStatus(true);
 		try {
@@ -64,6 +82,9 @@ public class ArrivingPlane extends PlaneThread {
 
 	}
 
+	/**
+	 * Move to airport.
+	 */
 	private void moveToAirport() {
 		// TODO Auto-generated method stub
 

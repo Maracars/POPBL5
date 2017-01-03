@@ -12,21 +12,51 @@ import java.util.Set;
 import domain.model.Node;
 import domain.model.Path;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Dijkstra.
+ */
 public class Dijkstra {
 
+	/** The Constant ARRIVAL_MODE. */
 	public static final boolean ARRIVAL_MODE = true;
+	
+	/** The Constant DEPARTURE_MODE. */
 	public static final boolean DEPARTURE_MODE = false;
+	
+	/** The paths. */
 	private final List<Path> paths;
+	
+	/** The settled nodes. */
 	private Set<Node> settledNodes;
+	
+	/** The un settled nodes. */
 	private Set<Node> unSettledNodes;
+	
+	/** The predecessors. */
 	private Map<Node, Node> predecessors;
+	
+	/** The distance. */
 	private Map<Node, Double> distance;
+	
+	/** The execution mode. */
 	private boolean executionMode;
 
+	/**
+	 * Instantiates a new dijkstra.
+	 *
+	 * @param paths the paths
+	 */
 	public Dijkstra(List<Path> paths) {
 		this.paths = paths;
 	}
 
+	/**
+	 * Execute.
+	 *
+	 * @param source the source
+	 * @param mode the mode
+	 */
 	public void execute(Node source, boolean mode) {
 		settledNodes = new HashSet<Node>();
 		unSettledNodes = new HashSet<Node>();
@@ -43,6 +73,11 @@ public class Dijkstra {
 		}
 	}
 
+	/**
+	 * Find minimal distances.
+	 *
+	 * @param node the node
+	 */
 	private void findMinimalDistances(Node node) {
 		List<Node> adjacentNodes = getNeighbors(node);
 		for (Node target : adjacentNodes) {
@@ -55,6 +90,13 @@ public class Dijkstra {
 
 	}
 
+	/**
+	 * Gets the path from two nodes.
+	 *
+	 * @param node the node
+	 * @param target the target
+	 * @return the path from two nodes
+	 */
 	private Path getPathFromTwoNodes(Node node, Node target) {
 
 		for (Path path : paths) {
@@ -69,6 +111,13 @@ public class Dijkstra {
 		throw new RuntimeException("Should not happen");
 	}
 
+	/**
+	 * Gets the distance.
+	 *
+	 * @param node the node
+	 * @param target the target
+	 * @return the distance
+	 */
 	private double getDistance(Node node, Node target) {
 		for (Path path : paths) {
 			if (executionMode == ARRIVAL_MODE) {
@@ -83,6 +132,14 @@ public class Dijkstra {
 		throw new RuntimeException("Should not happen");
 	}
 
+	/**
+	 * Check path exist.
+	 *
+	 * @param node the node
+	 * @param target the target
+	 * @param path the path
+	 * @return true, if successful
+	 */
 	private boolean checkPathExist(Node node, Node target, Path path) {
 		boolean checker = false;
 		if (path.getLaneList().get(0).getStartNode().getId() == node.getId()) {
@@ -93,6 +150,12 @@ public class Dijkstra {
 		return checker;
 	}
 
+	/**
+	 * Gets the neighbors.
+	 *
+	 * @param node the node
+	 * @return the neighbors
+	 */
 	private List<Node> getNeighbors(Node node) {
 		List<Node> neighbors = new ArrayList<Node>();
 		for (Path path : paths) {
@@ -112,6 +175,12 @@ public class Dijkstra {
 		return neighbors;
 	}
 
+	/**
+	 * Gets the minimum.
+	 *
+	 * @param unSettledNodes2 the un settled nodes 2
+	 * @return the minimum
+	 */
 	private Node getMinimum(Set<Node> unSettledNodes2) {
 		Node minimum = null;
 		for (Node vertex : unSettledNodes2) {
@@ -126,10 +195,22 @@ public class Dijkstra {
 		return minimum;
 	}
 
+	/**
+	 * Checks if is settled.
+	 *
+	 * @param vertex the vertex
+	 * @return true, if is settled
+	 */
 	private boolean isSettled(Node vertex) {
 		return settledNodes.contains(vertex);
 	}
 
+	/**
+	 * Gets the shortest distance.
+	 *
+	 * @param vertex the vertex
+	 * @return the shortest distance
+	 */
 	private Double getShortestDistance(Node vertex) {
 		Double d = distance.get(vertex);
 		if (d == null) {
@@ -139,6 +220,12 @@ public class Dijkstra {
 		}
 	}
 
+	/**
+	 * Gets the path.
+	 *
+	 * @param target the target
+	 * @return the path
+	 */
 	/*
 	 * This method returns the path from the source to the selected target and
 	 * NULL if no path exists

@@ -4,10 +4,21 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import simulator.MainThread;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StartSimulatorAction.
+ */
 public class StartSimulatorAction extends ActionSupport {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Start simulator.
+	 *
+	 * @return the string
+	 * @throws Exception the exception
+	 */
 	//@Override
 	public String startSimulator() throws Exception {
 
@@ -16,6 +27,12 @@ public class StartSimulatorAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * Stop simulator.
+	 *
+	 * @return the string
+	 * @throws Exception the exception
+	 */
 	public String stopSimulator() throws Exception {
 		MainThread.finishThreads();
 		addActionMessage(getText("global.simulatorFinished"));

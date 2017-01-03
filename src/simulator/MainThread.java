@@ -6,11 +6,22 @@ import java.util.concurrent.Executors;
 import domain.dao.Initializer;
 import domain.model.Airport;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainThread.
+ */
 public class MainThread {
+	
+	/** The Constant THREAD_NUM. */
 	private static final int THREAD_NUM = 3;
 
+	/** The thread pool. */
 	private static ExecutorService threadPool;
 
+	/**
+	 * Creates the main thread.
+	 *
+	 */
 	public static void createMainThread(String[] args) {
 
 		threadPool = Executors.newFixedThreadPool(THREAD_NUM);
@@ -26,10 +37,18 @@ public class MainThread {
 
 	}
 
+	/**
+	 * Finish threads.
+	 */
 	public static void finishThreads() {
 		threadPool.shutdownNow();
 	}
 	
+	/**
+	 * Gets the thread pool.
+	 *
+	 * @return the thread pool
+	 */
 	public static ExecutorService getThreadPool() {
 		return threadPool;
 	}	

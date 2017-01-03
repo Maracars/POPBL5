@@ -23,49 +23,113 @@ import domain.model.Terminal;
 import domain.model.users.Airline;
 import domain.model.users.Passenger;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Initializer.
+ */
 public class Initializer {
 
+	/** The Constant OCCUPIED. */
 	private static final boolean OCCUPIED = false;
+	
+	/** The Constant FREE. */
 	private static final boolean FREE = true;
+	
+	/** The Constant PRINCIPAL. */
 	private static final String PRINCIPAL = "PRINCIPAL";
+	
+	/** The Constant EMAIL. */
 	private static final String EMAIL = "jajaja@mondragon.edu";
+	
+	/** The Constant STREET_AND_NUMBER. */
 	private static final String STREET_AND_NUMBER = "Sofia erreginaren kalea jajajaja";
+	
+	/** The Constant REGION. */
 	private static final String REGION = "DEBAGOIENA";
+	
+	/** The Constant POSTCODE. */
 	private static final String POSTCODE = "20570";
+	
+	/** The Constant USERNAME. */
 	private static final String USERNAME = "naranair";
+	
+	/** The Constant PASSWORD. */
 	private static final String PASSWORD = "Nestor123";
+	
+	/** The Constant NARANAIR. */
 	private static final String NARANAIR = "Naranair";
+	
+	/** The Constant MAX_FLIGHTS. */
 	private static final int MAX_FLIGHTS = 6;
+	
+	/** The Constant HEATHROW. */
 	private static final String HEATHROW = "Heathrow";
+	
+	/** The Constant BERGARA. */
 	private static final String BERGARA = "Bergara";
+	
+	/** The Constant PASSWORD_2. */
 	private static final String PASSWORD_2 = "Joxantonio";
+	
+	/** The Constant USERNAME_2. */
 	private static final String USERNAME_2 = "Nestor";
+	
+	/** The Constant GATE_NUM. */
 	private static final int GATE_NUM = 3;
+	
+	/** The Constant LANE_NAME. */
 	private static final String LANE_NAME = "Principal lane";
 
+	/** The Constant NODE_NAME. */
 	private static final String NODE_NAME = "Node A";
+	
+	/** The Constant POSITION_X. */
 	private static final double POSITION_X = 33.2;
+	
+	/** The Constant POSITION_Y. */
 	private static final double POSITION_Y = 13.2;
 
+	/** The Constant SERIAL. */
 	private static final String SERIAL = "SSSS";
 
+	/** The Constant BOEING. */
 	private static final String BOEING = "Boeing";
 
+	/** The Constant SPEED. */
 	private static final double SPEED = 0.0;
+	
+	/** The Constant POSITION. */
 	private static final double POSITION = 3.2;
+	
+	/** The Constant DIRECTION. */
 	private static final double DIRECTION = 3.2;
 
+	/** The Constant POSITION_STATUS. */
 	private static final String POSITION_STATUS = "ARRIVING";
+	
+	/** The Constant TECHNICAL_STATUS. */
 	private static final String TECHNICAL_STATUS = "NEEDS REVISION";
 
+	/** The Constant EUSKAL_HERRIA. */
 	private static final String EUSKAL_HERRIA = "Euskal Herria";
 
+	/** The Constant TERMINAL_NAME. */
 	private static final String TERMINAL_NAME = "3";
 	
+	/** The Constant GATE_NUMBER. */
 	private static final int GATE_NUMBER = 2;
+	
+	/** The Constant AIRPORT_NAME. */
 	private static final String AIRPORT_NAME = "Naranair";
+	
+	/** The Constant MAX_ACTIVE_PLANES. */
 	private static final int MAX_ACTIVE_PLANES = 6;
 
+	/**
+	 * Inits the path with free lanes.
+	 *
+	 * @return the path
+	 */
 	public static Path initPathWithFreeLanes() {
 		Lane lane = initFreeLane();
 		HibernateGeneric.saveOrUpdateObject(lane);
@@ -77,6 +141,11 @@ public class Initializer {
 		return path;
 	}
 
+	/**
+	 * Inits the path occupied lanes.
+	 *
+	 * @return the path
+	 */
 	public static Path initPathOccupiedLanes() {
 		Lane lane = initOccupiedLane();
 		HibernateGeneric.saveOrUpdateObject(lane);
@@ -88,6 +157,11 @@ public class Initializer {
 		return path;
 	}
 
+	/**
+	 * Inits the path occupied and free lanes.
+	 *
+	 * @return the path
+	 */
 	public static Path initPathOccupiedAndFreeLanes() {
 		Lane lane = initOccupiedLane();
 		Lane lane2 = initFreeLane();
@@ -102,6 +176,11 @@ public class Initializer {
 		return path;
 	}
 
+	/**
+	 * Inits the free lane.
+	 *
+	 * @return the lane
+	 */
 	public static Lane initFreeLane() {
 		Lane lane = initCompleteLane();
 		lane.setStatus(FREE);
@@ -109,6 +188,11 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the occupied lane.
+	 *
+	 * @return the lane
+	 */
 	public static Lane initOccupiedLane() {
 		Lane lane = initCompleteLane();
 		lane.setStatus(OCCUPIED);
@@ -116,6 +200,11 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the terminal.
+	 *
+	 * @return the terminal
+	 */
 	public static Terminal initTerminal() {
 		Terminal terminal = new Terminal();
 		terminal.setName(TERMINAL_NAME);
@@ -123,6 +212,12 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the terminal.
+	 *
+	 * @param airport the airport
+	 * @return the terminal
+	 */
 	public static Terminal initTerminal(Airport airport) {
 		Terminal terminal = initTerminal();
 		terminal.setAirport(airport);
@@ -130,6 +225,11 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the complete route.
+	 *
+	 * @return the route
+	 */
 	public static Route initCompleteRoute() {
 
 		Address address = initAddress();
@@ -147,6 +247,13 @@ public class Initializer {
 		return initRoute(gate, gate);
 	}
 
+	/**
+	 * Inits the route.
+	 *
+	 * @param arrivalGate the arrival gate
+	 * @param departureGate the departure gate
+	 * @return the route
+	 */
 	public static Route initRoute(Gate arrivalGate, Gate departureGate) {
 		Route route = new Route();
 		route.setArrivalGate(arrivalGate);
@@ -154,6 +261,11 @@ public class Initializer {
 		return route;
 	}
 
+	/**
+	 * Inits the plane status.
+	 *
+	 * @return the plane status
+	 */
 	public static PlaneStatus initPlaneStatus() {
 		PlaneStatus planeStatus = new PlaneStatus();
 		planeStatus.setTechnicalStatus(TECHNICAL_STATUS);
@@ -161,6 +273,11 @@ public class Initializer {
 		return planeStatus;
 	}
 
+	/**
+	 * Inits the complete plane movements.
+	 *
+	 * @return the plane movement
+	 */
 	public static PlaneMovement initCompletePlaneMovements() {
 
 		Airline airline = initAirline();
@@ -183,6 +300,11 @@ public class Initializer {
 		return planeMovement;
 	}
 
+	/**
+	 * Inits the plane movement.
+	 *
+	 * @return the plane movement
+	 */
 	public static PlaneMovement initPlaneMovement() {
 		PlaneMovement planeMovement = new PlaneMovement();
 		planeMovement.setDirectionX(DIRECTION);
@@ -194,6 +316,12 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the plane movement.
+	 *
+	 * @param plane the plane
+	 * @return the plane movement
+	 */
 	public static PlaneMovement initPlaneMovement(Plane plane) {
 		PlaneMovement planeMovement = initPlaneMovement();
 		planeMovement.setPlane(plane);
@@ -201,6 +329,11 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the complete plane model.
+	 *
+	 * @return the plane model
+	 */
 	public static PlaneModel initCompletePlaneModel() {
 
 		PlaneMaker planeMaker = initPlaneMaker();
@@ -210,24 +343,45 @@ public class Initializer {
 		return planeModel;
 	}
 
+	/**
+	 * Inits the plane model.
+	 *
+	 * @return the plane model
+	 */
 	public static PlaneModel initPlaneModel() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setName(SERIAL);
 		return planeModel;
 	}
 
+	/**
+	 * Inits the plane model.
+	 *
+	 * @param planeMaker the plane maker
+	 * @return the plane model
+	 */
 	public static PlaneModel initPlaneModel(PlaneMaker planeMaker) {
 		PlaneModel planeModel = initPlaneModel();
 		planeModel.setPlaneMaker(planeMaker);
 		return planeModel;
 	}
 
+	/**
+	 * Inits the plane maker.
+	 *
+	 * @return the plane maker
+	 */
 	public static PlaneMaker initPlaneMaker() {
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setName(BOEING);
 		return planeMaker;
 	}
 
+	/**
+	 * Inits the complete plane.
+	 *
+	 * @return the plane
+	 */
 	public static Plane initCompletePlane() {
 
 		Airline airline = initAirline();
@@ -246,6 +400,11 @@ public class Initializer {
 		return initPlane(airline, planeModel, new Date(), planeStatus);
 	}
 
+	/**
+	 * Inits the plane.
+	 *
+	 * @return the plane
+	 */
 	public static Plane initPlane() {
 		Plane plane = new Plane();
 		plane.setSerial(SERIAL);
@@ -253,6 +412,15 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the plane.
+	 *
+	 * @param airline the airline
+	 * @param planeModel the plane model
+	 * @param date the date
+	 * @param planeStatus the plane status
+	 * @return the plane
+	 */
 	public static Plane initPlane(Airline airline, PlaneModel planeModel, Date date, PlaneStatus planeStatus) {
 		Plane plane = initPlane();
 		plane.setAirline(airline);
@@ -264,6 +432,14 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the plane.
+	 *
+	 * @param airline the airline
+	 * @param date the date
+	 * @param planeStatus the plane status
+	 * @return the plane
+	 */
 	public static Plane initPlane(Airline airline, Date date, PlaneStatus planeStatus) {
 		Plane plane = initPlane();
 		plane.setAirline(airline);
@@ -274,6 +450,14 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the plane.
+	 *
+	 * @param planeModel the plane model
+	 * @param date the date
+	 * @param planeStatus the plane status
+	 * @return the plane
+	 */
 	public static Plane initPlane(PlaneModel planeModel, Date date, PlaneStatus planeStatus) {
 		Plane plane = initPlane();
 		plane.setModel(planeModel);
@@ -284,6 +468,14 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the plane.
+	 *
+	 * @param airline the airline
+	 * @param planeModel the plane model
+	 * @param planeStatus the plane status
+	 * @return the plane
+	 */
 	public static Plane initPlane(Airline airline, PlaneModel planeModel, PlaneStatus planeStatus) {
 		Plane plane = initPlane();
 		plane.setAirline(airline);
@@ -293,6 +485,14 @@ public class Initializer {
 		return plane;
 	}
 
+	/**
+	 * Inits the plane.
+	 *
+	 * @param planeModel the plane model
+	 * @param date the date
+	 * @param airline the airline
+	 * @return the plane
+	 */
 	public static Plane initPlane(PlaneModel planeModel, Date date, Airline airline) {
 		Plane plane = initPlane();
 		plane.setAirline(airline);
@@ -302,6 +502,14 @@ public class Initializer {
 		return plane;
 	}
 
+	/**
+	 * Inits the passenger.
+	 *
+	 * @param username the username
+	 * @param password the password
+	 * @param date the date
+	 * @return the passenger
+	 */
 	public static Passenger initPassenger(String username, String password, Date date) {
 		Passenger passenger = new Passenger();
 		passenger.setUsername(username);
@@ -310,6 +518,13 @@ public class Initializer {
 		return passenger;
 	}
 
+	/**
+	 * Inits the passenger.
+	 *
+	 * @param date the date
+	 * @param password the password
+	 * @return the passenger
+	 */
 	public static Passenger initPassenger(Date date, String password) {
 		Passenger passenger = new Passenger();
 		passenger.setPassword(password);
@@ -317,6 +532,13 @@ public class Initializer {
 		return passenger;
 	}
 
+	/**
+	 * Inits the passenger.
+	 *
+	 * @param username the username
+	 * @param date the date
+	 * @return the passenger
+	 */
 	public static Passenger initPassenger(String username, Date date) {
 		Passenger passenger = new Passenger();
 		passenger.setUsername(username);
@@ -324,6 +546,13 @@ public class Initializer {
 		return passenger;
 	}
 
+	/**
+	 * Inits the passenger.
+	 *
+	 * @param username the username
+	 * @param password the password
+	 * @return the passenger
+	 */
 	public static Passenger initPassenger(String username, String password) {
 		Passenger user = new Passenger();
 		user.setUsername(username);
@@ -331,6 +560,11 @@ public class Initializer {
 		return user;
 	}
 
+	/**
+	 * Inits the complete passenger.
+	 *
+	 * @return the passenger
+	 */
 	public static Passenger initCompletePassenger() {
 
 		Address address = initAddress();
@@ -345,6 +579,11 @@ public class Initializer {
 		return passenger;
 	}
 
+	/**
+	 * Inits the address.
+	 *
+	 * @return the address
+	 */
 	public static Address initAddress() {
 
 		Address address = new Address();
@@ -356,6 +595,11 @@ public class Initializer {
 		return address;
 	}
 
+	/**
+	 * Inits the node.
+	 *
+	 * @return the node
+	 */
 	public static Node initNode() {
 		Node node = new Node();
 		node.setName(NODE_NAME);
@@ -364,6 +608,11 @@ public class Initializer {
 		return node;
 	}
 
+	/**
+	 * Inits the complete lane.
+	 *
+	 * @return the lane
+	 */
 	public static Lane initCompleteLane() {
 		Node startNode = initNode();
 		HibernateGeneric.saveOrUpdateObject(startNode);
@@ -380,6 +629,11 @@ public class Initializer {
 		return initLane(startNode, endNode, PRINCIPAL, true, airport);
 	}
 
+	/**
+	 * Inits the lane.
+	 *
+	 * @return the lane
+	 */
 	public static Lane initLane() {
 		Lane lane = new Lane();
 		lane.setName(LANE_NAME);
@@ -387,6 +641,16 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the lane.
+	 *
+	 * @param node1 the node 1
+	 * @param node2 the node 2
+	 * @param type the type
+	 * @param status the status
+	 * @param airport the airport
+	 * @return the lane
+	 */
 	public static Lane initLane(Node node1, Node node2, String type, boolean status, Airport airport) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
@@ -398,6 +662,15 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the lane.
+	 *
+	 * @param node1 the node 1
+	 * @param node2 the node 2
+	 * @param type the type
+	 * @param airport the airport
+	 * @return the lane
+	 */
 	public static Lane initLane(Node node1, Node node2, String type, Airport airport) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
@@ -409,6 +682,15 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the lane.
+	 *
+	 * @param node1 the node 1
+	 * @param node2 the node 2
+	 * @param airport the airport
+	 * @param status the status
+	 * @return the lane
+	 */
 	public static Lane initLane(Node node1, Node node2, Airport airport, boolean status) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
@@ -420,6 +702,15 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the lane.
+	 *
+	 * @param node1 the node 1
+	 * @param node2 the node 2
+	 * @param status the status
+	 * @param type the type
+	 * @return the lane
+	 */
 	public static Lane initLane(Node node1, Node node2, boolean status, String type) {
 		Lane lane = initLane();
 		lane.setEndNode(node1);
@@ -430,6 +721,14 @@ public class Initializer {
 		return lane;
 	}
 
+	/**
+	 * Inits the lane.
+	 *
+	 * @param status the status
+	 * @param type the type
+	 * @param airport the airport
+	 * @return the lane
+	 */
 	public static Lane initLane(boolean status, String type, Airport airport) {
 		Lane lane = initLane();
 		lane.setStatus(status);
@@ -439,6 +738,12 @@ public class Initializer {
 		return lane;
 	}
 
+	/**
+	 * Inits the gate.
+	 *
+	 * @param node the node
+	 * @return the gate
+	 */
 	public static Gate initGate(Node node) {
 		Gate gate = initGate();
 		gate.setPositionNode(node);
@@ -446,6 +751,13 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the gate.
+	 *
+	 * @param node the node
+	 * @param terminal the terminal
+	 * @return the gate
+	 */
 	public static Gate initGate(Node node, Terminal terminal) {
 		Gate gate = initGate();
 		gate.setPositionNode(node);
@@ -454,6 +766,12 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the gate.
+	 *
+	 * @param terminal the terminal
+	 * @return the gate
+	 */
 	public static Gate initGate(Terminal terminal) {
 		Gate gate = initGate();
 		gate.setTerminal(terminal);
@@ -461,12 +779,22 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the gate.
+	 *
+	 * @return the gate
+	 */
 	public static Gate initGate() {
 		Gate gate = new Gate();
 		gate.setNumber(GATE_NUM);
 		return gate;
 	}
 
+	/**
+	 * Inits the airline.
+	 *
+	 * @return the airline
+	 */
 	public static Airline initAirline() {
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
@@ -480,6 +808,11 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the complete airport.
+	 *
+	 * @return the airport
+	 */
 	public static Airport initCompleteAirport() {
 
 		Address address = initAddress();
@@ -488,12 +821,23 @@ public class Initializer {
 		return initAirport(address);
 	}
 
+	/**
+	 * Inits the airport.
+	 *
+	 * @param address the address
+	 * @return the airport
+	 */
 	public static Airport initAirport(Address address) {
 		Airport airport = initAirport();
 		airport.setAddress(address);
 		return airport;
 	}
 
+	/**
+	 * Inits the airport.
+	 *
+	 * @return the airport
+	 */
 	public static Airport initAirport() {
 		Airport airport = new Airport();
 		airport.setName(HEATHROW);
@@ -501,6 +845,11 @@ public class Initializer {
 		return airport;
 	}
 
+	/**
+	 * Inits the complete delay.
+	 *
+	 * @return the delay
+	 */
 	public static Delay initCompleteDelay() {
 		PlaneMaker planeMaker = initPlaneMaker();
 		HibernateGeneric.saveOrUpdateObject(planeMaker);
@@ -549,6 +898,11 @@ public class Initializer {
 		return initDelay(flight);
 	}
 
+	/**
+	 * Inits the complete flight.
+	 *
+	 * @return the flight
+	 */
 	public static Flight initCompleteFlight() {
 		PlaneMaker planeMaker = initPlaneMaker();
 		HibernateGeneric.saveOrUpdateObject(planeMaker);
@@ -595,6 +949,13 @@ public class Initializer {
 		return initFlight(plane, route, passengerList);
 	}
 
+	/**
+	 * Inits the flight.
+	 *
+	 * @param plane the plane
+	 * @param route the route
+	 * @return the flight
+	 */
 	public static Flight initFlight(Plane plane, Route route) {
 		Flight flight = initFlight(plane);
 		flight.setRoute(route);
@@ -602,6 +963,14 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the flight.
+	 *
+	 * @param plane the plane
+	 * @param route the route
+	 * @param passengerList the passenger list
+	 * @return the flight
+	 */
 	public static Flight initFlight(Plane plane, Route route, List<Passenger> passengerList) {
 		Flight flight = initFlight(plane);
 		flight.setRoute(route);
@@ -610,6 +979,13 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the flight.
+	 *
+	 * @param plane the plane
+	 * @param passengerList the passenger list
+	 * @return the flight
+	 */
 	public static Flight initFlight(Plane plane, List<Passenger> passengerList) {
 		Flight flight = initFlight(plane);
 		flight.setPassengerList(passengerList);
@@ -617,6 +993,12 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the flight.
+	 *
+	 * @param plane the plane
+	 * @return the flight
+	 */
 	public static Flight initFlight(Plane plane) {
 		Flight flight = new Flight();
 		flight.setExpectedArrivalDate(new Date());
@@ -629,6 +1011,12 @@ public class Initializer {
 
 	}
 
+	/**
+	 * Inits the delay.
+	 *
+	 * @param flight the flight
+	 * @return the delay
+	 */
 	public static Delay initDelay(Flight flight) {
 		Delay delay = new Delay();
 		delay.setAffectedFlight(flight);
@@ -636,6 +1024,11 @@ public class Initializer {
 
 	}
 	
+	/**
+	 * Initialize example on DB.
+	 *
+	 * @return the airport
+	 */
 	public static Airport initializeExampleOnDB() {
 
 		Address address = Initializer.initAddress();

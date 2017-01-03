@@ -7,12 +7,23 @@ import org.hibernate.Session;
 import domain.model.PlaneModel;
 import hibernate.HibernateConnection;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAOPlaneModel.
+ */
 public class DAOPlaneModel {
 
+	/** The Constant QUERY_GET_PLANEMODEL. */
 	private static final String QUERY_GET_PLANEMODEL = "from PlaneModel order by rand()";
 
+	/** The session. */
 	private static Session session;
 
+	/**
+	 * Gets the random plane model.
+	 *
+	 * @return the random plane model
+	 */
 	public static PlaneModel getRandomPlaneModel() {
 		PlaneModel planeModel = null;
 		try {

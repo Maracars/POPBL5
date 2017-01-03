@@ -11,20 +11,48 @@ import org.postgresql.PGNotification;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PGSocketIONotify.
+ */
 public class PGSocketIONotify implements Runnable {
+	
+	/** The Constant LOCALHOST. */
 	private static final String LOCALHOST = "localhost";
+	
+	/** The Constant SPLITTER. */
 	private static final String SPLITTER = ">";
+	
+	/** The Constant PG_DRIVER. */
 	private static final String PG_DRIVER = "org.postgresql.Driver";
+	
+	/** The Constant DB_PASSWORD. */
 	private static final String DB_PASSWORD = "Nestor123";
+	
+	/** The Constant DB_USERNAME. */
 	private static final String DB_USERNAME = "naranairapp";
+	
+	/** The Constant URL. */
 	private static final String URL = "jdbc:postgresql://localhost:5432/naranair";
 
+	/** The Constant LOOP_TIME. */
 	private static final int LOOP_TIME = 500;
+	
+	/** The Constant PORT_NMBER. */
 	private static final int PORT_NMBER = 9092;
+	
+	/** The pg conn. */
 	private PGConnection pgConn;
+	
+	/** The conf. */
 	private static Configuration conf;
+	
+	/** The server. */
 	private static SocketIOServer server;
 
+	/**
+	 * Start.
+	 */
 	public static void start() {
 		conf = new Configuration();
 		conf.setHostname(LOCALHOST);
@@ -34,10 +62,20 @@ public class PGSocketIONotify implements Runnable {
 
 	}
 
+	/**
+	 * Stop.
+	 */
 	public static void stop() {
 		server.stop();
 	}
 
+	/**
+	 * Instantiates a new PG socket IO notify.
+	 *
+	 * @param conn the conn
+	 * @throws SQLException the SQL exception
+	 * @throws InterruptedException the interrupted exception
+	 */
 	public PGSocketIONotify(Connection conn) throws SQLException, InterruptedException {
 
 		// 9092 portuan egongo da socket.io-ko komunikazinua
@@ -48,6 +86,9 @@ public class PGSocketIONotify implements Runnable {
 		listenStatement.close();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 
@@ -77,6 +118,12 @@ public class PGSocketIONotify implements Runnable {
 		}
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws Exception the exception
+	 */
 	public static void main(String args[]) throws Exception {
 
 		Class.forName(PG_DRIVER);

@@ -17,24 +17,53 @@ import helpers.Dijkstra;
 import helpers.MD5;
 import notification.Notification;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AirportController.
+ */
 public class AirportController implements Runnable {
+	
+	/** The Constant ADMIN. */
 	private static final String ADMIN = new Admin().getClass().getSimpleName();
+	
+	/** The Constant SLEEP_TIME_5_SEGS_IN_MILIS. */
 	private static final int SLEEP_TIME_5_SEGS_IN_MILIS = 5000;
+	
+	/** The active plane list. */
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
+	
+	/** The free lane list. */
 	private List<Lane> freeLaneList;
+	
+	/** The airport. */
 	private Airport airport;
+	
+	/** The mutex. */
 	public static Semaphore mutex;
 
+	/**
+	 * Gets the mutex.
+	 *
+	 * @return the mutex
+	 */
 	public Semaphore getMutex() {
 		return mutex;
 	}
 
+	/**
+	 * Instantiates a new airport controller.
+	 *
+	 * @param airport the airport
+	 */
 	public AirportController(Airport airport) {
 
 		this.airport = airport;
 		mutex = new Semaphore(1, true);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		while (!Thread.interrupted()) {
@@ -65,6 +94,12 @@ public class AirportController implements Runnable {
 		}
 	}
 
+	/**
+	 * Ask permission.
+	 *
+	 * @param plane the plane
+	 * @return true, if successful
+	 */
 	public boolean askPermission(PlaneThread plane) {
 		boolean ret = false;
 		try {
@@ -92,6 +127,12 @@ public class AirportController implements Runnable {
 		return ret;
 	}
 
+	/**
+	 * Allocate lane if free.
+	 *
+	 * @param plane the plane
+	 * @return true, if successful
+	 */
 	private boolean allocateLaneIfFree(PlaneThread plane) {
 		boolean ret = false;
 		freeLaneList = DAOLane.getFreeLanes(airport.getId());
@@ -105,6 +146,14 @@ public class AirportController implements Runnable {
 		return ret;
 	}
 
+	/**
+	 * Gets the best route.
+	 *
+	 * @param mode the mode
+	 * @param landLane the land lane
+	 * @param flight the flight
+	 * @return the best route
+	 */
 	/*
 	 * mode thread berak jakingo zauen zein dan eta lane asignaute deko ya
 	 * (kontrollerrak permisoa emoterakoan
