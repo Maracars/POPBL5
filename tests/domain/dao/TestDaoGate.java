@@ -25,7 +25,10 @@ public class TestDaoGate {
 		Address address = Initializer.initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
 
-		Airport airport = Initializer.initAirport(address);
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
+
+		Airport airport = Initializer.initAirport(address, positionNode);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
@@ -51,7 +54,10 @@ public class TestDaoGate {
 		Address address = Initializer.initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
 
-		Airport airport = Initializer.initAirport(address);
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
+
+		Airport airport = Initializer.initAirport(address, positionNode);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);

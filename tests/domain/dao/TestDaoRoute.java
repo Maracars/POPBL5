@@ -8,6 +8,7 @@ import org.junit.Test;
 import domain.model.Address;
 import domain.model.Airport;
 import domain.model.Gate;
+import domain.model.Node;
 import domain.model.Route;
 import domain.model.Terminal;
 
@@ -42,7 +43,7 @@ public class TestDaoRoute {
 
 		HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteRoute());
 		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
-		
+
 		Route route = (Route) HibernateGeneric.loadAllObjects(new Route()).get(0);
 		boolean result = HibernateGeneric.deleteObject(route);
 		assertEquals(REMOVE_ERROR, true, result);
@@ -54,7 +55,10 @@ public class TestDaoRoute {
 		Address address = Initializer.initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
 
-		Airport airport = Initializer.initAirport(address);
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
+
+		Airport airport = Initializer.initAirport(address, positionNode);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
@@ -71,7 +75,5 @@ public class TestDaoRoute {
 		assertEquals(expectedRoute.getId(), actualRoute.getId());
 
 	}
-
-
 
 }

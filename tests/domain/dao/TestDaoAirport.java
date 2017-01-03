@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import domain.model.Address;
 import domain.model.Airport;
+import domain.model.Node;
 
 public class TestDaoAirport {
 
@@ -26,7 +27,10 @@ public class TestDaoAirport {
 		Address address = Initializer.initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
 
-		Airport airport = Initializer.initAirport(address);
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
+
+		Airport airport = Initializer.initAirport(address, positionNode);
 		boolean result = HibernateGeneric.saveOrUpdateObject(airport);
 		assertEquals(INSERT_ERROR, true, result);
 	}
@@ -44,5 +48,4 @@ public class TestDaoAirport {
 
 	}
 
-	
 }

@@ -75,8 +75,11 @@ public class Initializer {
 
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
+		
+		Node positionNode = initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
 
-		Airport airport = initAirport(address);
+		Airport airport = initAirport(address, positionNode);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);
@@ -292,8 +295,11 @@ public class Initializer {
 
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
+		
+		Node positionNode = initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
 
-		Airport airport = initAirport(address);
+		Airport airport = initAirport(address, positionNode);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		return initLane(startNode, endNode, true, true, airport);
@@ -403,13 +409,17 @@ public class Initializer {
 
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
+		
+		Node positionNode = initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
 
-		return initAirport(address);
+		return initAirport(address, positionNode);
 	}
 
-	public static Airport initAirport(Address address) {
+	public static Airport initAirport(Address address, Node positionNode) {
 		Airport airport = initAirport();
 		airport.setAddress(address);
+		airport.setPositionNode(positionNode);
 		return airport;
 	}
 
@@ -452,8 +462,11 @@ public class Initializer {
 
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
+		
+		Node positionNode = initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
 
-		Airport airport = initAirport(address);
+		Airport airport = initAirport(address, positionNode);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);
@@ -503,8 +516,11 @@ public class Initializer {
 
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
+		
+		Node positionNode = initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
 
-		Airport airport = initAirport(address);
+		Airport airport = initAirport(address, positionNode);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Terminal terminal = initTerminal(airport);

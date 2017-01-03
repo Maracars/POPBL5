@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Airport {
@@ -14,6 +15,9 @@ public class Airport {
 	String name;
 
 	Integer maxFlights;
+	
+	@OneToOne
+	Node positionNode;
 
 	@ManyToOne(optional = false)
 	Address address;
@@ -48,6 +52,14 @@ public class Airport {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Node getPositionNode() {
+		return positionNode;
+	}
+
+	public void setPositionNode(Node positionNode) {
+		this.positionNode = positionNode;
 	}
 
 }

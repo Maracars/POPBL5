@@ -127,7 +127,10 @@ public class TestDaoLane {
 		Address address = Initializer.initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
 
-		Airport airport = Initializer.initAirport(address);
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveOrUpdateObject(positionNode);
+
+		Airport airport = Initializer.initAirport(address, positionNode);
 		HibernateGeneric.saveOrUpdateObject(airport);
 
 		Lane lane = Initializer.initLane(startNode, endNode, true, true, airport);

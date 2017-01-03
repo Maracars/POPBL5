@@ -29,7 +29,7 @@
 	src="https://openlayers.org/en/v3.20.0/build/ol.js" ></script>
 	
 <script type="text/javascript"
-	src="<s:url value="/js/controllerMap.js"/>"></script>
+	src="<s:url value="/js/controllerMap.js?n=1"/>"></script>
 
 <link href="<s:url value="/css/animate.css"/>" rel="stylesheet">
 <link href="<s:url value="/css/naranair.css"/>" rel="stylesheet">
