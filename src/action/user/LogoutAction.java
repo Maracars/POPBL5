@@ -14,15 +14,20 @@ public class LogoutAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	
 	private String url;
+	private String gotoIndex = "false";
 
 	@Override
 	public String execute() throws Exception {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		session.remove("user");
 		session.remove("listenerUser");
-		session.remove("listenerRole");		
-		HttpServletRequest request = ServletActionContext.getRequest();
-		url = request.getHeader("referer"); 
+		session.remove("listenerRole");	
+		if(!gotoIndex.equals("true")){
+			HttpServletRequest request = ServletActionContext.getRequest();
+			url = request.getHeader("referer"); 
+		}
+		
+		
 		return SUCCESS;
 	}
 
@@ -33,7 +38,14 @@ public class LogoutAction extends ActionSupport {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+
+	public String getGotoIndex() {
+		return gotoIndex;
+	}
+
+	public void setGotoIndex(String gotoIndex) {
+		this.gotoIndex = gotoIndex;
+	}
 	
 
 }

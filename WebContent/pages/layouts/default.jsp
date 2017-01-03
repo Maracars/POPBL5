@@ -10,7 +10,8 @@
 <link rel='shortcut icon' type='image/png'
 	href="<s:url value="/rsc/img/favicon.png"/>" />
 
-<sj:head />
+<tiles:insertAttribute name="rsc" />
+
 <sb:head />
 <link rel="stylesheet" type="text/css"
 	href="<s:url value="/css/font-awesome.min.css"/>" />
@@ -18,32 +19,32 @@
 	href="<s:url value="/css/metisMenu.min.css"/>" />
 <link rel="stylesheet" type="text/css"
 	href="<s:url value="/css/sb-admin-2.min.css"/>" />
-
+<script src="<s:url value="/js/bootstrap-notify.min.js"/>"></script>
 <script type="text/javascript"
 	src="<s:url value="/js/metisMenu.min.js"/>"></script>
 <script type="text/javascript"
 	src="<s:url value="/js/sb-admin-2.min.js"/>"></script>
-
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <link href="<s:url value="/css/animate.css"/>" rel="stylesheet">
 <link href="<s:url value="/css/naranair.css"/>" rel="stylesheet">
-
-<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-
 <script src="<s:url value="/js/listener.js"/>"></script>
-<script src="<s:url value="/js/bootstrap-notify.min.js"/>"></script>
+
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<tiles:importAttribute name="title"/>
-<title>Naranair - <s:property value="%{getText(#attr.title)}"/> </title> 
+<tiles:importAttribute name="title" />
+<title>Naranair - <s:property value="%{getText(#attr.title)}" />
+</title>
 
 
 
 </head>
-<body onload = "onLoadFunction()">
+<body onload="onLoadFunction()">
 
-	<input type="hidden" id ="listenerRole" name="listenerRole" value="${sessionScope.listenerRole}">
-	<input type="hidden" id = "listenerUser" name="listenerUser" value="${sessionScope.listenerUser}">
-	
+	<input type="hidden" id="listenerRole" name="listenerRole"
+		value="${sessionScope.listenerRole}">
+	<input type="hidden" id="listenerUser" name="listenerUser"
+		value="${sessionScope.listenerUser}">
+
 	<div id="wrapper">
 		<nav style="margin: 0px; background-color: black;"
 			class="navbar navbar-default navbar-static-top" role="navigation"

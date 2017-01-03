@@ -10,12 +10,6 @@ import com.opensymphony.xwork2.ActionSupport;
 public class StepAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
-	public String repeatPassword;
-	public String name = this.getName();
-	
-	
-	
-	
 	@Override
 	public String execute() throws Exception {
 		
@@ -26,27 +20,4 @@ public class StepAction extends ActionSupport {
 		
 		return SUCCESS;
 	}
-	
-
-	public String getRepeatPassword() {
-		return repeatPassword;
-	}
-
-	public void setRepeatPassword(String repeatPassword) {
-		this.repeatPassword = repeatPassword;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	
-	
-	
 }
