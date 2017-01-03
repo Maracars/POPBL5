@@ -38,19 +38,28 @@ public class TestDaoPath {
 		assertEquals(DELETE_ERROR, true, result);
 	}
 
-	@Ignore
+	@Test
 	public void testGetFreePaths() {
+	public void testGetFreePathsWhereExistsJustFreePlanes() {
 		Path path = Initializer.initPathWithFreeLanes();
 		HibernateGeneric.saveOrUpdateObject(path);
 		List<Path> paths = DAOPath.loadAllFreePaths();
-		assertNull(FREE_LOAD_ERROR, paths);
+	assertNotNull(FREE_LOAD_ERROR, paths);
 	}
-	
 	@Test
 	public void testCantGetFreePaths() {
 		Path path = Initializer.initPathWithFullandFreeLanes();
 		HibernateGeneric.saveOrUpdateObject(path);
 		List<Path> paths = DAOPath.loadAllFreePaths();
+		assertNotNull(FREE_LOAD_ERROR, paths);
+	}
+
+	@Test
+	public void testGetFreePaths() {
+		Path path = Initializer.initPathOccupiedAndFreeLanes();
+		HibernateGeneric.saveOrUpdateObject(path);
+		List<Path> paths = DAOPath.loadAllFreePaths();
+
 		assertNotNull(FREE_LOAD_ERROR, paths);
 	}
 

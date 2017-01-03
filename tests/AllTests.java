@@ -79,7 +79,8 @@ import test.dijkstra.TestDijkstra;
 		TestDijkstra.class,
 		TestFlightCreator.class,
 		TestAirportController.class,
-		TestCompleteSimulator.class
+		TestCompleteSimulator.class,
+		TestDaoPath.class
 		})
 
 public class AllTests {
