@@ -67,9 +67,7 @@ public class RegisterAdminAction extends RegisterAction {
 	/** The address. */
 	Address address = new Address();
 
-	/* (non-Javadoc)
-	 * @see action.user.RegisterAction#userSpecificValidate()
-	 */
+
 	@Override
 	void userSpecificValidate() {
 		allowedUsers.add(Admin.class);
