@@ -2,6 +2,7 @@ package domain.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
@@ -94,5 +95,23 @@ public class HibernateGeneric {
 		return result;
 
 	}
-	
+
+	public static boolean deleteAllObjects(Object object) {
+		boolean result = true;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			session.getTransaction().begin();
+			Query query = session.createQuery("delete from " + object.getClass().getSimpleName());
+			query.executeUpdate();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			result = false;
+		} finally {
+			session.close();
+		}
+		return result;
+	}
+
 }

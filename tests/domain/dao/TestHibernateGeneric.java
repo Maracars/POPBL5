@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import domain.model.Airport;
+import domain.model.Flight;
 
 public class TestHibernateGeneric {
 
@@ -29,6 +30,11 @@ public class TestHibernateGeneric {
 	public void testInsertHibernateWithNull() {
 
 		assertEquals(INSERT_ERROR, false, HibernateGeneric.saveOrUpdateObject(null));
+	}
+	
+	@Test
+	public void testDeleteAllObjects() {
+		assertEquals(REMOVE_ERROR, true, HibernateGeneric.deleteAllObjects(new Flight()));
 	}
 
 }

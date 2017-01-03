@@ -80,7 +80,6 @@ import test.dijkstra.TestDijkstra;
 		TestFlightCreator.class,
 		TestAirportController.class,
 		TestCompleteSimulator.class,
-		TestDaoPath.class
 		})
 
 public class AllTests {

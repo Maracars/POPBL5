@@ -23,7 +23,7 @@ public class AirportController implements Runnable {
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
 	private List<Lane> freeLaneList;
 	private Airport airport;
-	public Semaphore mutex;
+	public static Semaphore mutex;
 
 	public Semaphore getMutex() {
 		return mutex;

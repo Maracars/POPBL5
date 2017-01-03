@@ -76,21 +76,6 @@ public class Initializer {
 		path.setLaneList(laneList);
 		return path;
 	}
-	
-	public static Path initPathWithFullandFreeLanes() {
-		Lane lane = initFreeLane();
-		HibernateGeneric.saveOrUpdateObject(lane);
-		ArrayList<Lane> laneList = new ArrayList<>();
-		laneList.add(lane);
-		lane = initCompleteLane();
-		lane.setStatus(OCCUPIED);
-		HibernateGeneric.saveOrUpdateObject(lane);
-		laneList.add(lane);
-		Path path = new Path();
-
-		path.setLaneList(laneList);
-		return path;
-	}
 
 	public static Path initPathOccupiedLanes() {
 		Lane lane = initOccupiedLane();

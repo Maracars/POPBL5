@@ -1,10 +1,10 @@
 package domain.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.model.Path;
@@ -39,16 +39,16 @@ public class TestDaoPath {
 	}
 
 	@Test
-	public void testGetFreePaths() {
 	public void testGetFreePathsWhereExistsJustFreePlanes() {
 		Path path = Initializer.initPathWithFreeLanes();
 		HibernateGeneric.saveOrUpdateObject(path);
 		List<Path> paths = DAOPath.loadAllFreePaths();
-	assertNotNull(FREE_LOAD_ERROR, paths);
+		assertNotNull(FREE_LOAD_ERROR, paths);
 	}
+
 	@Test
 	public void testCantGetFreePaths() {
-		Path path = Initializer.initPathWithFullandFreeLanes();
+		Path path = Initializer.initPathOccupiedAndFreeLanes();
 		HibernateGeneric.saveOrUpdateObject(path);
 		List<Path> paths = DAOPath.loadAllFreePaths();
 		assertNotNull(FREE_LOAD_ERROR, paths);
