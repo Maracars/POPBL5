@@ -13,12 +13,15 @@ import domain.model.Plane;
 public abstract class PlaneThread implements Runnable {
 	private static final boolean FULL = false;
 	private static final boolean FREE = true;
+	protected static final boolean ARRIVING = true;
+	protected static final boolean DEPARTURING = false;
 	protected Plane plane;
 	protected AirportController controller;
 	protected Semaphore semControllerPermision;
 	protected Lane momentLane;
 	protected Lane lane;
 	protected AtomicInteger activePlanes;
+	protected boolean mode;
 
 	@Override
 	abstract public void run();
@@ -27,7 +30,7 @@ public abstract class PlaneThread implements Runnable {
 		while (isPlaneInPosition()) {
 			// Hemen suposatzen dot planea edukiko dauela
 			LinkedList<Path> listaPistas = 
-					AirportController.getBestRoute(true, lane, new Flight());
+					AirportController.getBestRoute(mode, lane, new Flight());
 			momentLane = listaPistas.get(0).getLaneList().get(0);
 			try {
 				momentLane.getSemaphore().acquire();

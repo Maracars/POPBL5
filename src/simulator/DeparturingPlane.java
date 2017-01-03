@@ -18,6 +18,7 @@ public class DeparturingPlane extends PlaneThread {
 		semControllerPermision = new Semaphore(0, true);
 		this.controller = controller;
 		this.activePlanes = activePlanesNum;
+		this.mode = DEPARTURING;
 	}
 
 	@Override
