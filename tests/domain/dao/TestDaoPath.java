@@ -1,10 +1,10 @@
 package domain.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.model.Path;
@@ -38,9 +38,17 @@ public class TestDaoPath {
 		assertEquals(DELETE_ERROR, true, result);
 	}
 
-	@Test
+	@Ignore
 	public void testGetFreePaths() {
 		Path path = Initializer.initPathWithFreeLanes();
+		HibernateGeneric.saveOrUpdateObject(path);
+		List<Path> paths = DAOPath.loadAllFreePaths();
+		assertNull(FREE_LOAD_ERROR, paths);
+	}
+	
+	@Test
+	public void testCantGetFreePaths() {
+		Path path = Initializer.initPathWithFullandFreeLanes();
 		HibernateGeneric.saveOrUpdateObject(path);
 		List<Path> paths = DAOPath.loadAllFreePaths();
 		assertNotNull(FREE_LOAD_ERROR, paths);

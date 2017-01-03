@@ -44,17 +44,15 @@ public class AirportController implements Runnable {
 				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
-			freeLaneList = DAOLane.getFreeLanes(airport.getId());
-			if (activePlaneList.size() > 0 && freeLaneList != null) {
+
+			if (activePlaneList.size() > 0) {
 				PlaneThread plane = activePlaneList.get(0);
-				Lane lane = freeLaneList.get(0);
-				lane.setStatus(false);
-				plane.setLane(lane);
-				DAOLane.updateLane(lane);
-				activePlaneList.remove(plane);
-				Notification.sendNotification(MD5.encrypt(ADMIN),
-						"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
-				plane.givePermission();
+				if (allocateLaneIfFree(plane)) {
+					activePlaneList.remove(plane);
+					Notification.sendNotification(MD5.encrypt(ADMIN),
+							"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
+					plane.givePermission();
+				}
 
 			}
 			mutex.release();
@@ -68,25 +66,21 @@ public class AirportController implements Runnable {
 	}
 
 	public boolean askPermission(PlaneThread plane) {
-		boolean ret;
+		boolean ret = false;
 		try {
 			mutex.acquire();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			e.printStackTrace();
 		}
-		freeLaneList = DAOLane.getFreeLanes(airport.getId());
-		if (activePlaneList.size() == 0 && freeLaneList != null) {
 
-			Lane lane = freeLaneList.get(0);
-			lane.setStatus(false);
-			plane.setLane(lane);
-			DAOLane.updateLane(lane);
-			ret = true;
+		if (activePlaneList.size() == 0) {
+			ret = allocateLaneIfFree(plane);
+		}
 
+		if (ret) {
 			Notification.sendNotification(MD5.encrypt(ADMIN),
 					"Controller GIVES SPECIFIC PERMISSION to plane " + plane.getPlane().getSerial());
-
 		} else {
 			activePlaneList.add(plane);
 			ret = false;
@@ -98,44 +92,47 @@ public class AirportController implements Runnable {
 		return ret;
 	}
 
+	private boolean allocateLaneIfFree(PlaneThread plane) {
+		boolean ret = false;
+		freeLaneList = DAOLane.getFreeLanes(airport.getId());
+		if (freeLaneList != null) {
+			Lane lane = freeLaneList.get(0);
+			lane.setStatus(false);
+			plane.setLane(lane);
+			DAOLane.updateLane(lane);
+			ret = true;
+		}
+		return ret;
+	}
+
 	/*
 	 * mode thread berak jakingo zauen zein dan eta lane asignaute deko ya
 	 * (kontrollerrak permisoa emoterakoan
 	 */
-	private LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
-		/* mutexa badaezpada */
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
-		}
-		List<Object> objects = HibernateGeneric.loadAllObjects(new Path());
-		mutex.release();
-		List<Path> paths = new ArrayList<>();
-		Node source;
-		Node destination;
-		for (Object path : objects) {
-			paths.add((Path) path);
-		}
-		if (mode == Dijkstra.ARRIVAL_MODE) {
-
-			source = landLane.getEndNode();
-			destination = flight.getRoute().getArrivalGate().getPositionNode();
-
-		} else {
-
-			source = flight.getRoute().getArrivalGate().getPositionNode();
-			destination = landLane.getStartNode();
-
-		}
-
-		Dijkstra dijkstra = new Dijkstra(paths);
-		dijkstra.execute(source, mode);
-
-		LinkedList<Path> pathList = dijkstra.getPath(destination);
-
-		return pathList;
-	}
-
+	/*
+	 * private LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight
+	 * flight) { // mutexa badaezpada try { mutex.acquire(); } catch
+	 * (InterruptedException e) { Thread.currentThread().interrupt();
+	 * e.printStackTrace(); } List<Object> objects =
+	 * HibernateGeneric.loadAllObjects(new Path()); mutex.release(); List<Path>
+	 * paths = new ArrayList<>(); Node source; Node destination; for (Object
+	 * path : objects) { paths.add((Path) path); } if (mode ==
+	 * Dijkstra.ARRIVAL_MODE) {
+	 * 
+	 * source = landLane.getEndNode(); destination =
+	 * flight.getRoute().getArrivalGate().getPositionNode();
+	 * 
+	 * } else {
+	 * 
+	 * source = flight.getRoute().getArrivalGate().getPositionNode();
+	 * destination = landLane.getStartNode();
+	 * 
+	 * }
+	 * 
+	 * Dijkstra dijkstra = new Dijkstra(paths); dijkstra.execute(source, mode);
+	 * 
+	 * LinkedList<Path> pathList = dijkstra.getPath(destination);
+	 * 
+	 * return pathList; }
+	 */
 }

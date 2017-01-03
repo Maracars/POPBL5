@@ -38,6 +38,9 @@ import domain.dao.TestDaoTerminal;
 import domain.dao.TestHibernateGeneric;
 import initialization.HibernateInit;
 import initialization.SocketIOInit;
+import simulator.TestAirportController;
+import simulator.TestCompleteSimulator;
+import simulator.TestFlightCreator;
 import test.dijkstra.TestDijkstra;
 
 @RunWith(Suite.class)
@@ -58,7 +61,8 @@ import test.dijkstra.TestDijkstra;
 		TestDaoFlight.class,
 		TestDaoSimulator.class,
 		TestDaoPlaneMovements.class,
-		TestDaoPassenger.class, 
+		TestDaoPassenger.class,
+		TestDaoPath.class,
 		//TestMD5.class,
 		TestLoginAction.class,
 		TestLogoutAction.class, 
@@ -72,7 +76,10 @@ import test.dijkstra.TestDijkstra;
 		TestRegisterMantainanceActionStaticMock.class,
 		TestRegisterAirlineAction.class, 
 		TestRegisterAirlineActionStaticMock.class,
-		TestDijkstra.class
+		TestDijkstra.class,
+		TestFlightCreator.class,
+		TestAirportController.class,
+		TestCompleteSimulator.class
 		})
 
 public class AllTests {

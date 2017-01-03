@@ -45,6 +45,11 @@ public abstract class PlaneThread implements Runnable {
 
 	}
 
+	private ArrayList<Lane> getBestRoute() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private void movePlaneToEndOfLane() {
 		// TODO Auto-generated method stub
 

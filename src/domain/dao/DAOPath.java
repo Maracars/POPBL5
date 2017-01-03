@@ -19,7 +19,7 @@ public class DAOPath {
 
 			session = HibernateConnection.getSessionFactory().openSession();
 			@SuppressWarnings("unchecked")
-			TypedQuery<Path> query = session.createQuery("from Path p inner join p.laneList l where true = all elements(l.status)");
+			TypedQuery<Path> query = session.createQuery("select p from Path p inner join p.laneList l where l.status is not false");
 			pathList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();

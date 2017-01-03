@@ -3,6 +3,7 @@ package domain.dao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import domain.model.Address;
 import domain.model.Airport;
@@ -60,11 +61,30 @@ public class Initializer {
 	private static final String EUSKAL_HERRIA = "Euskal Herria";
 
 	private static final String TERMINAL_NAME = "3";
+	
+	private static final int GATE_NUMBER = 2;
+	private static final String AIRPORT_NAME = "Naranair";
+	private static final int MAX_ACTIVE_PLANES = 6;
 
 	public static Path initPathWithFreeLanes() {
 		Lane lane = initFreeLane();
 		HibernateGeneric.saveOrUpdateObject(lane);
 		ArrayList<Lane> laneList = new ArrayList<>();
+		laneList.add(lane);
+		Path path = new Path();
+
+		path.setLaneList(laneList);
+		return path;
+	}
+	
+	public static Path initPathWithFullandFreeLanes() {
+		Lane lane = initFreeLane();
+		HibernateGeneric.saveOrUpdateObject(lane);
+		ArrayList<Lane> laneList = new ArrayList<>();
+		laneList.add(lane);
+		lane = initCompleteLane();
+		lane.setStatus(OCCUPIED);
+		HibernateGeneric.saveOrUpdateObject(lane);
 		laneList.add(lane);
 		Path path = new Path();
 
@@ -628,6 +648,75 @@ public class Initializer {
 		Delay delay = new Delay();
 		delay.setAffectedFlight(flight);
 		return delay;
+
+	}
+	
+	public static Airport initializeExampleOnDB() {
+
+		Address address = Initializer.initAddress();
+		HibernateGeneric.saveOrUpdateObject(address);
+
+		Airport myAirport = new Airport();
+		myAirport.setMaxFlights(MAX_ACTIVE_PLANES);
+		myAirport.setName(AIRPORT_NAME);
+		myAirport.setAddress(address);
+		HibernateGeneric.saveOrUpdateObject(myAirport);
+
+		Airport airport = new Airport();
+		airport.setMaxFlights(MAX_ACTIVE_PLANES);
+		airport.setName(AIRPORT_NAME);
+		airport.setAddress(address);
+		HibernateGeneric.saveOrUpdateObject(airport);
+
+		Node node = Initializer.initNode();
+		HibernateGeneric.saveOrUpdateObject(node);
+		Node myNode = Initializer.initNode();
+		HibernateGeneric.saveOrUpdateObject(myNode);
+
+		Terminal myTerminal = new Terminal();
+		myTerminal.setAirport(myAirport);
+		myTerminal.setName(TERMINAL_NAME);
+		HibernateGeneric.saveOrUpdateObject(myTerminal);
+
+		Terminal terminal = new Terminal();
+		terminal.setAirport(airport);
+		terminal.setName(TERMINAL_NAME);
+		HibernateGeneric.saveOrUpdateObject(terminal);
+
+		Gate gate = new Gate();
+		gate.setNumber(GATE_NUMBER);
+		gate.setTerminal(terminal);
+		gate.setPositionNode(node);
+		HibernateGeneric.saveOrUpdateObject(gate);
+		Gate myGate = new Gate();
+		myGate.setNumber(GATE_NUMBER);
+		myGate.setTerminal(myTerminal);
+		myGate.setPositionNode(myNode);
+		HibernateGeneric.saveOrUpdateObject(myGate);
+
+		Route arrivalRoute = new Route();
+		arrivalRoute.setArrivalGate(myGate);
+		arrivalRoute.setDepartureGate(gate);
+		HibernateGeneric.saveOrUpdateObject(arrivalRoute);
+
+		Route departureRoute = new Route();
+		departureRoute.setArrivalGate(gate);
+		departureRoute.setDepartureGate(myGate);
+		HibernateGeneric.saveOrUpdateObject(departureRoute);
+
+		Lane lane = new Lane();
+		lane.setAirport(myAirport);
+		lane.setType("PRINCIPAL");
+		lane.setName(LANE_NAME);
+		lane.setSemaphore(new Semaphore(1, true));
+		lane.setStartNode(node);
+		lane.setEndNode(node);
+		lane.setStatus(true);
+		HibernateGeneric.saveOrUpdateObject(lane);
+
+		HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneModel());
+
+		return myAirport;
 
 	}
 
