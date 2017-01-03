@@ -79,6 +79,8 @@ public class TestDaoPassenger {
 	public void testCheckUserExistsThatDoesNotExist() {
 
 		Passenger passenger = Initializer.initCompletePassenger();
+		DAOUser.deleteUserWithUsername(passenger);
+		HibernateGeneric.saveOrUpdateObject(passenger);
 		String username = passenger.getUsername();
 		DAOUser.deleteUserWithUsername(passenger);
 		boolean result = DAOUser.checkUsernameExists(username);

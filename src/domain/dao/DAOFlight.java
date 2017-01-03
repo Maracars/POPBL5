@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
@@ -32,6 +33,45 @@ public class DAOFlight {
 
 					plane.setPassengerList(new ArrayList<Passenger>());
 					session.saveOrUpdate(plane);
+				}
+
+			}
+			session.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			result = false;
+
+		} finally {
+			session.close();
+		}
+
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static boolean setNullPassengerFlights(String passengerUsername) {
+		Boolean result = true;
+		List<Flight> flightList = new ArrayList<>();
+		try {
+
+			
+			session = HibernateConnection.getSessionFactory().openSession();
+			session.beginTransaction();
+			TypedQuery<Flight> query = session.createQuery("from Flight");
+			flightList = query.getResultList();
+			for (Flight flight : flightList) {
+
+				if (flight.getPassengerList() != null) {
+					for (Passenger passenger : flight.getPassengerList()) {
+						if (passenger.getUsername().equals(passengerUsername)) {
+							flight.getPassengerList().remove(passenger);
+						}
+						session.saveOrUpdate(flight);
+						break;
+					}
+
 				}
 
 			}

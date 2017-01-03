@@ -10,7 +10,8 @@
 		<action name="loginSubmit" class="action.user.LoginAction">
 			<result name="login" type="tiles">login</result>
 			<result name="input" type="tiles">login</result>
-			<result name="success" type="redirect">%{url}</result>
+			<!-- <result name="success" type="redirect">%{url}</result> -->
+			<result name="success" type="tiles">controller</result>
 		</action>
 
 		<action name="logout" class="action.user.LogoutAction">

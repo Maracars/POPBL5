@@ -9,10 +9,12 @@
 		<property name="hibernate.connection.username">naranairapp</property>
 		<property name="hibernate.connection.password">Nestor123</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/naranair</property>
+		<property name="hibernate.enable_lazy_load_no_trans">true</property>
+		
 
 		<property name="connection_pool_size">3</property>
 
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">create</property>
 
 		<!-- Hibernatek sortzen daben sql dana printeau -->
 		<property name="show_sql">false</property>
@@ -41,9 +43,7 @@
 		<mapping class="domain.model.PlaneStatus"/>
 		<mapping class="domain.model.Route" />
 		<mapping class="domain.model.Terminal" />
-		
-
-
+	
 
 		<mapping class="domain.dao.HibernateGeneric" />
 		<mapping class="domain.dao.DAOGate" />

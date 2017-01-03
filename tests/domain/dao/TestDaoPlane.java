@@ -12,6 +12,7 @@ import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
+import domain.model.PlaneMovement;
 import domain.model.PlaneStatus;
 import domain.model.users.Airline;
 
@@ -86,7 +87,10 @@ public class TestDaoPlane {
 		PlaneStatus planeStatus = Initializer.initPlaneStatus();
 		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
-		Plane plane = Initializer.initPlane(planeModel, new Date(), planeStatus);
+		PlaneMovement planeMovement = Initializer.initPlaneMovement();
+		HibernateGeneric.saveOrUpdateObject(planeMovement);
+
+		Plane plane = Initializer.initPlane(planeModel, new Date(), planeStatus, planeMovement);
 		boolean result = HibernateGeneric.saveOrUpdateObject(plane);
 		assertEquals(ERROR_INSERT, true, result);
 	}
@@ -111,9 +115,10 @@ public class TestDaoPlane {
 
 	@Test
 	public void getSoonArrivingPlanesFromDB() {
-		/*Plane plane = Initializer.initCompletePlane();
-		HibernateGeneric.saveOrUpdateObject(plane);
-*/
+		/*
+		 * Plane plane = Initializer.initCompletePlane();
+		 * HibernateGeneric.saveOrUpdateObject(plane);
+		 */
 		Flight flight = Initializer.initCompleteFlight();
 		Date date = new Date();
 		date.setTime(date.getTime() + ADDED_TIME);

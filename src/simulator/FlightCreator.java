@@ -14,6 +14,7 @@ import domain.dao.HibernateGeneric;
 import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Plane;
+import domain.model.PlaneMovement;
 import domain.model.PlaneStatus;
 import domain.model.Route;
 import domain.model.users.Admin;
@@ -78,18 +79,16 @@ public class FlightCreator implements Runnable {
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
 
 			if (flight != null) {
-				Notification.sendNotification(MD5.encrypt(ADMIN), "ARRIVING flight created. " 
-						+ "Plane: "	+ plane.getSerial() 
-						+ " ArrivalDate:" + flight.getExpectedArrivalDate());
+				Notification.sendNotification(MD5.encrypt(ADMIN), "ARRIVING flight created. " + "Plane: "
+						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
 			}
 
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
 
 			if (flight != null) {
-				Notification.sendNotification(MD5.encrypt(ADMIN), "DEPARTURING flight created. " 
-						+ "Plane: " + plane.getSerial() 
-						+ " Departure Date:" + flight.getExpectedDepartureDate());
+				Notification.sendNotification(MD5.encrypt(ADMIN), "DEPARTURING flight created. " + "Plane: "
+						+ plane.getSerial() + " Departure Date:" + flight.getExpectedDepartureDate());
 			}
 
 			plane.getPlaneStatus().setPositionStatus(POSITION_STATUS_ARRIVING);
@@ -162,21 +161,30 @@ public class FlightCreator implements Runnable {
 		planestatus.setPositionStatus(POSITION_STATUS_ARRIVING);
 		planestatus.setTechnicalStatus(TECHNICAL_STATUS);
 		HibernateGeneric.saveOrUpdateObject(planestatus);
+		
+		PlaneMovement planeMovement = new PlaneMovement();
+		planeMovement.setDirectionX(Math.random() * 40);
+		planeMovement.setDirectionY(Math.random() * 40);
+		planeMovement.setPositionX(Math.random() * 40);
+		planeMovement.setPositionY(Math.random() * 40);
+		planeMovement.setSpeed(Math.random() * 40);
+		HibernateGeneric.saveOrUpdateObject(planeMovement);
 
 		Plane plane = new Plane();
 		plane.setFabricationDate(new Date());
 		plane.setPlaneStatus(planestatus);
 		plane.setModel(DAOPlaneModel.getRandomPlaneModel());
 		plane.setSerial(createSerial());
+		plane.setPlaneMovement(planeMovement);
+
 		HibernateGeneric.saveOrUpdateObject(plane);
 
 		return plane;
 	}
 
 	private String createSerial() {
-		String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-				"K", "L", "M", "N", "O", "P", "Q", "R",	"S", "T", "U", "V", "W",
-				"X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+		String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+				"S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 		String serial = "";
 		for (int i = 0; i < SERIAL_LENGTH; i++) {
 			int numRandom = (int) Math.round(Math.random() * (letters.length - 1));

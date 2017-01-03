@@ -20,6 +20,8 @@
 		<action name="laneAndGate">
 			<result type="tiles">termAndGateInfo</result>
 		</action>
+		
+		
 
 	</package>
 </struts>

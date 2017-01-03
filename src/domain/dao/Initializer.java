@@ -57,8 +57,6 @@ public class Initializer {
 
 	private static final String TERMINAL_NAME = "3";
 
-
-
 	public static Terminal initTerminal() {
 		Terminal terminal = new Terminal();
 		terminal.setName(TERMINAL_NAME);
@@ -104,28 +102,6 @@ public class Initializer {
 		return planeStatus;
 	}
 
-	public static PlaneMovement initCompletePlaneMovements() {
-
-		Airline airline = initAirline();
-		DAOUser.deleteUserWithUsername(airline);
-		HibernateGeneric.saveOrUpdateObject(airline);
-
-		PlaneMaker planeMaker = initPlaneMaker();
-		HibernateGeneric.saveOrUpdateObject(planeMaker);
-
-		PlaneModel planeModel = initPlaneModel(planeMaker);
-		HibernateGeneric.saveOrUpdateObject(planeModel);
-
-		PlaneStatus planeStatus = initPlaneStatus();
-		HibernateGeneric.saveOrUpdateObject(planeStatus);
-
-		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus);
-		HibernateGeneric.saveOrUpdateObject(plane);
-
-		PlaneMovement planeMovement = initPlaneMovement(plane);
-		return planeMovement;
-	}
-
 	public static PlaneMovement initPlaneMovement() {
 		PlaneMovement planeMovement = new PlaneMovement();
 		planeMovement.setDirectionX(DIRECTION);
@@ -133,13 +109,6 @@ public class Initializer {
 		planeMovement.setPositionX(POSITION);
 		planeMovement.setPositionY(POSITION);
 		planeMovement.setSpeed(SPEED);
-		return planeMovement;
-
-	}
-
-	public static PlaneMovement initPlaneMovement(Plane plane) {
-		PlaneMovement planeMovement = initPlaneMovement();
-		planeMovement.setPlane(plane);
 		return planeMovement;
 
 	}
@@ -186,7 +155,10 @@ public class Initializer {
 		PlaneStatus planeStatus = initPlaneStatus();
 		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
-		return initPlane(airline, planeModel, new Date(), planeStatus);
+		PlaneMovement planeMovement = initPlaneMovement();
+		HibernateGeneric.saveOrUpdateObject(planeMovement);
+
+		return initPlane(airline, planeModel, new Date(), planeStatus, planeMovement);
 	}
 
 	public static Plane initPlane() {
@@ -196,12 +168,14 @@ public class Initializer {
 
 	}
 
-	public static Plane initPlane(Airline airline, PlaneModel planeModel, Date date, PlaneStatus planeStatus) {
+	public static Plane initPlane(Airline airline, PlaneModel planeModel, Date date, PlaneStatus planeStatus,
+			PlaneMovement planeMovement) {
 		Plane plane = initPlane();
 		plane.setAirline(airline);
 		plane.setModel(planeModel);
 		plane.setFabricationDate(date);
 		plane.setPlaneStatus(planeStatus);
+		plane.setPlaneMovement(planeMovement);
 
 		return plane;
 
@@ -217,11 +191,13 @@ public class Initializer {
 
 	}
 
-	public static Plane initPlane(PlaneModel planeModel, Date date, PlaneStatus planeStatus) {
+	public static Plane initPlane(PlaneModel planeModel, Date date, PlaneStatus planeStatus,
+			PlaneMovement planeMovement) {
 		Plane plane = initPlane();
 		plane.setModel(planeModel);
 		plane.setFabricationDate(date);
 		plane.setPlaneStatus(planeStatus);
+		plane.setPlaneMovement(planeMovement);
 
 		return plane;
 
@@ -241,7 +217,6 @@ public class Initializer {
 		plane.setAirline(airline);
 		plane.setModel(planeModel);
 		plane.setFabricationDate(date);
-		
 
 		return plane;
 	}
@@ -274,11 +249,12 @@ public class Initializer {
 		user.setPassword(password);
 		return user;
 	}
+
 	public static Passenger initCompletePassenger() {
-		
+
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
-		
+
 		Passenger passenger = new Passenger();
 		passenger.setUsername(USERNAME_2);
 		passenger.setPassword(PASSWORD_2);
@@ -410,11 +386,10 @@ public class Initializer {
 		return gate;
 	}
 
-
 	public static Airline initAirline() {
 		Address address = initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
-		
+
 		Airline airline = new Airline();
 		airline.setName(NARANAIR);
 		airline.setUsername(USERNAME);
@@ -459,7 +434,10 @@ public class Initializer {
 		PlaneStatus planeStatus = initPlaneStatus();
 		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
-		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus);
+		PlaneMovement planeMovement = initPlaneMovement();
+		HibernateGeneric.saveOrUpdateObject(planeMovement);
+
+		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus, planeMovement);
 		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Passenger passenger = initCompletePassenger();
@@ -507,7 +485,10 @@ public class Initializer {
 		PlaneStatus planeStatus = initPlaneStatus();
 		HibernateGeneric.saveOrUpdateObject(planeStatus);
 
-		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus);
+		PlaneMovement planeMovement = initPlaneMovement();
+		HibernateGeneric.saveOrUpdateObject(planeMovement);
+
+		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus, planeMovement);
 		HibernateGeneric.saveOrUpdateObject(plane);
 
 		Passenger passenger = initCompletePassenger();
