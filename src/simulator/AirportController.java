@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import domain.dao.DAOLane;
-import domain.dao.HibernateGeneric;
+import domain.dao.DAOPath;
 import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Lane;
@@ -117,14 +117,11 @@ public class AirportController implements Runnable {
 			Thread.currentThread().interrupt();
 			e.printStackTrace();
 		}
-		List<Object> objects = HibernateGeneric.loadAllObjects(new Path());
+		List<Path> paths = DAOPath.loadAllFreePaths();
 		mutex.release();
-		List<Path> paths = new ArrayList<>();
 		Node source;
 		Node destination;
-		for (Object path : objects) {
-			paths.add((Path) path);
-		}
+
 		if (mode == Dijkstra.ARRIVAL_MODE) {
 
 			source = landLane.getEndNode();
