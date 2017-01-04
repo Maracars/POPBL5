@@ -42,6 +42,8 @@ $(document).ready(
 				var lat = beforeCoord[1] + latStep * int
 				featureToUpdate.getGeometry().setCoordinates(
 						getPointFromLongLat(long, lat));
+				featureToUpdate.getStyle().getImage().setRotation(135 * Math.random());
+
 			}
 
 			function getPointFromLongLat(long, lat) {
@@ -56,6 +58,16 @@ $(document).ready(
 			$.get("getFlights", function(data, status) {
 				var obj = jQuery.parseJSON(data);
 				planes = obj.result[0];
+				var iconStyle = {
+					anchor : [ 0.5, 46 ],
+					anchorXUnits : 'fraction',
+					anchorYUnits : 'pixels',
+					opacity : 1,
+					rotateWithView : true,
+
+					src : '../rsc/img/plane-icon.png'
+
+				}
 
 				for (var i = 0; i < planes.length; i++) {
 
@@ -65,27 +77,18 @@ $(document).ready(
 								planes[i].planeMovement.positionY ],
 								'EPSG:4326', 'EPSG:3857'))
 					});
+					iconFeature.setStyle(new ol.style.Style({
+						image : new ol.style.Icon(iconStyle)
+					}));
 					iconFeature.setId(planes[i].id);
 					vectorSource.addFeature(iconFeature);
 
 				}
 
-				var iconStyle = new ol.style.Style({
-					image : new ol.style.Icon(/** @type {olx.style.IconOptions} */
-					({
-						anchor : [ 0.5, 46 ],
-						anchorXUnits : 'fraction',
-						anchorYUnits : 'pixels',
-						opacity : 0.75,
-						src : '../rsc/img/plane-icon.png'
-					}))
-				});
-
 				// add the feature vector to the layer vector, and apply a style
 				// to whole layer
 				vectorLayer = new ol.layer.Vector({
 					source : vectorSource,
-					style : iconStyle
 				});
 				initMap();
 

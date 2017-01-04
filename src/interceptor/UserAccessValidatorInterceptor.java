@@ -29,24 +29,27 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 
 	/** The Constant PASSENGER. */
 	final static Class<?> PASSENGER = new Passenger().getClass();
-	
+
 	/** The Constant AIRLINE. */
 	final static Class<?> AIRLINE = new Airline().getClass();
-	
+
 	/** The Constant CONTROLLER. */
 	final static Class<?> CONTROLLER = new Controller().getClass();
-	
+
 	/** The Constant MANTAINANCE. */
 	final static Class<?> MANTAINANCE = new Mantainance().getClass();
-	
+
 	/** The Constant ADMIN. */
 	final static Class<?> ADMIN = new Admin().getClass();
 
 	/** The allowed. */
 	String allowed;
 
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.interceptor.Interceptor#intercept(com.opensymphony.xwork2.ActionInvocation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.opensymphony.xwork2.interceptor.Interceptor#intercept(com.
+	 * opensymphony.xwork2.ActionInvocation)
 	 */
 	@Override
 	public String intercept(ActionInvocation ai) throws Exception {
@@ -112,7 +115,9 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.opensymphony.xwork2.interceptor.Interceptor#destroy()
 	 */
 	@Override
@@ -121,7 +126,9 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.opensymphony.xwork2.interceptor.Interceptor#init()
 	 */
 	@Override
@@ -142,7 +149,8 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 	/**
 	 * Sets the allowed.
 	 *
-	 * @param allowed the new allowed
+	 * @param allowed
+	 *            the new allowed
 	 */
 	public void setAllowed(String allowed) {
 		this.allowed = allowed;
