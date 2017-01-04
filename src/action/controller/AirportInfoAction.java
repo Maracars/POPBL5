@@ -21,12 +21,8 @@ public class AirportInfoAction extends ActionSupport{
 
 	@Override
 	public String execute() throws Exception {
-		Terminal terminal = new Terminal();
-		Gate gate = new Gate();
-		terminalList = HibernateGeneric.loadAllObjects(terminal);
-		System.out.println(terminalList.size());
-		gatesList = HibernateGeneric.loadAllObjects(gate);
-		System.out.println(gatesList.size());
+		terminalList = HibernateGeneric.loadAllObjects(new Terminal());
+		gatesList = HibernateGeneric.loadAllObjects(new Gate());
 		return SUCCESS;
 	}
 

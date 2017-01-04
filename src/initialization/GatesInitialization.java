@@ -22,10 +22,11 @@ import domain.model.Terminal;
 
 public class GatesInitialization implements ServletContextListener{
 
+	private static final int FIRST_AIRPORT = 0;
 	private static final double NODE_POSITION_Y = -0.461389;
 	private static final double NODE_POSITION_X = 51.4775;
 	private static final String NODE_NAME = "Heathrow";
-	private static final String TERMINALS_JSON_FILE = "Terminals.json";
+	private static final String TERMINALS_JSON_FILE = "terminals.json";
 	private static final String AGATES_JSON_FILE = "AGates.json";
 	private static final String BGATES_JSON_FILE = "BGates.json";
 	private static final String CGATES_JSON_FILE = "CGates.json";
@@ -42,17 +43,20 @@ public class GatesInitialization implements ServletContextListener{
 		List<Object> airportList = HibernateGeneric.loadAllObjects(new Airport());
 		if(airportList.isEmpty()){
 			airport = createAirport();
-			System.out.println("Creating airport..");
 		}
 		List<Terminal> terminalList = loadTerminalsJSON();
-		if(terminalList != null){
+		if(terminalList != null && HibernateGeneric.loadAllObjects(new Terminal()) != null){
 			for(Terminal terminal : terminalList){
-				terminal.setAirport(airport);
+				if(airport != null){
+					terminal.setAirport(airport);
+				}else{
+					terminal.setAirport((Airport) airportList.get(FIRST_AIRPORT));
+				}
 				HibernateGeneric.saveOrUpdateObject(terminal.getPositionNode());
 				HibernateGeneric.saveOrUpdateObject(terminal);
 			}
 			List<Gate> gatesList = loadGatesJSON();
-			if(gatesList != null){
+			if(gatesList != null && HibernateGeneric.loadAllObjects(new Gate()) != null){
 				for(Gate gate : gatesList){
 					Random random = new Random();
 					gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())));
@@ -107,6 +111,7 @@ public class GatesInitialization implements ServletContextListener{
 		node.setPositionX(NODE_POSITION_X);
 		node.setPositionY(NODE_POSITION_Y);
 		Airport airport = Initializer.initAirport(address, node);
+		HibernateGeneric.saveOrUpdateObject(node);
 		HibernateGeneric.saveOrUpdateObject(address);
 		HibernateGeneric.saveOrUpdateObject(airport);
 		return airport;
