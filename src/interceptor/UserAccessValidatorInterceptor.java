@@ -58,8 +58,33 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 		if (sessionUser != null) {
 			String[] allows = allowed.split(",");
 			for (String s : allows) {
-				hasPermission = hasPermission(sessionUser, s);
-				
+				switch (s) {
+				case "PASSENGER":
+					if (sessionUser instanceof Passenger)
+						hasPermission = true;
+					break;
+				case "MANTAINANCE":
+					if (sessionUser instanceof Mantainance)
+						hasPermission = true;
+					break;
+				case "AIRLINE":
+					if (sessionUser instanceof Airline)
+						hasPermission = true;
+					break;
+				case "CONTROLLER":
+					if (sessionUser instanceof Controller)
+						hasPermission = true;
+					break;
+				case "ADMIN":
+					if (sessionUser instanceof Admin)
+						hasPermission = true;
+					break;
+				default:
+
+					break;
+				}
+				if (sessionUser.getUsername().equals(s))
+					hasPermission = true;
 			}
 			try {
 				Method closeMethod = ai.getAction().getClass().getMethod("getUsername", null);
@@ -85,45 +110,6 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 		}
 
 		return result;
-	}
-	
-	/**
-	 * Checks for permission.
-	 *
-	 * @param sessionUser the session user
-	 * @param s the s
-	 * @return true, if successful
-	 */
-	public boolean hasPermission(User sessionUser, String s){
-		boolean hasPermission = false;
-		switch (s) {
-		case "PASSENGER":
-			if (sessionUser instanceof Passenger)
-				hasPermission = true;
-			break;
-		case "MANTAINANCE":
-			if (sessionUser instanceof Mantainance)
-				hasPermission = true;
-			break;
-		case "AIRLINE":
-			if (sessionUser instanceof Airline)
-				hasPermission = true;
-			break;
-		case "CONTROLLER":
-			if (sessionUser instanceof Controller)
-				hasPermission = true;
-			break;
-		case "ADMIN":
-			if (sessionUser instanceof Admin)
-				hasPermission = true;
-			break;
-		default:
-
-			break;
-		}
-		if (sessionUser.getUsername().equals(s))
-			hasPermission = true;
-		return hasPermission;
 	}
 
 	/* (non-Javadoc)
