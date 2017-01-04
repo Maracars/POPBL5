@@ -28,13 +28,13 @@
 	
 	<listener>  
 	    <listener-class>
-	       initialization.SocketIOInit
+	       initialization.GatesInitialization
 	    </listener-class>
-	</listener>
+	</listener>  
 	
 	<listener>  
 	    <listener-class>
-	       initialization.TerminalInitialization
+	       initialization.SocketIOInit
 	    </listener-class>
 	</listener>
    

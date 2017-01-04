@@ -8,6 +8,12 @@ var vectorSource = new ol.source.Vector({
 });
 
 var planes = [];
+var steps = 1000;
+var latStep;
+var longStep;
+var featureToUpdate;
+var iokstio;
+
 
 $(document).ready(
 		function() {
@@ -15,15 +21,43 @@ $(document).ready(
 			socket.on("chatevent", function(jsonData) {
 				var data = JSON.parse(jsonData);
 				console.log(data);
-				var featureToUpdate = vectorSource.getFeatureById(data.id);
-				 var coordinate = vectorSource.getFeatureById(data.id).getGeometry().getCoordinates();
+				featureToUpdate = vectorSource.getFeatureById(data.id);
+				if (featureToUpdate === undefined) {
+					return false;
+				} else {
+					var beforeCoord = vectorSource.getFeatureById(data.id)
+							.getGeometry().getCoordinates();
+					iokstio = getOriginLongLat(beforeCoord[0],
+							beforeCoord[1]);
 
-				 var coord = getPointFromLongLat(data.positionX, data.positionY );
-				// featureToUpdate.getGeometry().setCoordinates(coord);
+					var afterCoord = getPointFromLongLat(data.positionx,
+							data.positiony);
+					latStep = (data.positiony - iokstio[1]) / steps;
+					longStep = (data.positionx - iokstio[0]) / steps;
+
+					for (var int = 1; int <= steps; int++) {
+						setTimeout(f, 10*int, int);
+					}
+					
+				}
 
 			});
-			function getPointFromLongLat (long, lat) {
-			    return ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857')
+			
+			function f(int) {
+				var long = iokstio[0] + longStep * int;
+				var lat = iokstio[1] + latStep * int
+				featureToUpdate.getGeometry().setCoordinates(
+						getPointFromLongLat(long, lat));
+				console.log("jajajja");
+			}
+			
+			function getPointFromLongLat(long, lat) {
+				return ol.proj.transform([ long, lat ], 'EPSG:4326',
+						'EPSG:3857');
+			}
+			function getOriginLongLat(long, lat) {
+				return ol.proj.transform([ long, lat ], 'EPSG:3857',
+						'EPSG:4326');
 			}
 
 			$.get("getFlights", function(data, status) {
@@ -97,20 +131,21 @@ $(document).ready(
 
 		});
 
-function changeTerminalZoom(longitude, latitude) {
-	var bounce = ol.animation.bounce({
-		resolution : map.getView().getResolution()
-	});
+function changeTerminalZoom(longitude, latitude, type){
 
-	var pan = ol.animation.pan({
-		source : map.getView().getCenter()
-	});
-	map.beforeRender(bounce);
-	map.beforeRender(pan);
+	if(String(type) == "terminal"){
+		map.getView().animate({
+			center:ol.proj.fromLonLat([parseFloat(latitude),parseFloat(longitude)]),
+			duration:2000,
+			zoom:16
+		});
+	}else if(String(type) == "gate"){
+		map.getView().animate({
+			center:ol.proj.fromLonLat([parseFloat(latitude),parseFloat(longitude)]),
+			duration:2000,
+			zoom:19
+		});
+	}
 
-	map.getView()
-			.setCenter(
-					ol.proj.fromLonLat([ parseFloat(latitude),
-							parseFloat(longitude) ]));
-	map.getView().setZoom(16);
+
 }

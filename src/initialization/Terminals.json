@@ -1,0 +1,39 @@
+[
+	{
+		"name": "Terminal 4",
+		"positionNode":{
+							"positionX":51.4599986,
+							"positionY":-0.4473375000000033,
+							"name":"TERMINAL 4"
+
+						}
+	},
+	{
+		"name": "Terminal 5",
+		"positionNode":{
+							"positionX":51.4713012,
+							"positionY":-0.48776410000004944,
+							"name":"TERMINAL 5"
+
+						}
+	},
+	{
+		"name": "Terminal 2",
+		"positionNode":{
+							"positionX":51.47029,
+							"positionY":-0.45205,
+							"name":"TERMINAL 2"
+
+						}
+	},
+	{
+		"name": "Terminal 3",
+		"positionNode":{
+							"positionX":51.47033,
+							"positionY":-0.458561,
+							"name":"TERMINAL 3"
+
+						}
+	}
+
+]

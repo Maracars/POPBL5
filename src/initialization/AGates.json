@@ -1,0 +1,211 @@
+[
+	{
+		"number":1,
+		"positionNode":{
+							"positionX":51.4739689,
+							"positionY":-0.4893433,
+							"name":"GATE-A1"
+
+						}
+	},
+	{	
+		"number":2,
+		"positionNode":{
+							"positionX":51.4738285,
+							"positionY":-0.4887187,
+							"name":"GATE-A2"
+		}
+
+	},
+	{
+		"number":3,
+		"positionNode":{
+							"positionX":51.4738304,
+							"positionY":-0.4881029,
+							"name":"GATE-A3"
+		
+		}
+	
+	},
+	{
+		"number":5,
+		"positionNode":{
+							"positionX":51.4738041,
+							"positionY":-0.487292,
+							"name":"GATE-A5"
+		
+		}
+	
+	},
+	{
+		"number":6,
+		"positionNode":{
+							"positionX":51.4738702,
+							"positionY":-0.4863405,
+							"name":"GATE-A6"
+		
+		}
+	
+	},
+	{
+		"number":7,
+		"positionNode":{
+							"positionX":51.4734735,
+							"positionY":-0.4863379,
+							"name":"GATE-A7"
+		
+		}
+	
+	},
+	{
+		"number":8,
+		"positionNode":{
+							"positionX":51.4729834,
+							"positionY":-0.4863347,
+							"name":"GATE-A8"
+		
+		}
+	
+	},
+	{
+		"number":9,
+		"positionNode":{
+							"positionX":51.4725932,
+							"positionY":-0.4863321,
+							"name":"GATE-A9"
+		
+		}
+	
+	},
+	{
+		"number":11,
+		"positionNode":{
+							"positionX":51.4722038,
+							"positionY":-0.4863296,
+							"name":"GATE-A11"
+		
+		}
+	
+	},
+	{
+		"number":12,
+		"positionNode":{
+							"positionX":51.471699,
+							"positionY":-0.4863262,
+							"name":"GATE-A12"
+		
+		}
+	
+	},
+	{
+		"number":13,
+		"positionNode":{
+							"positionX":51.47103,
+							"positionY":-0.4863025,
+							"name":"GATE-A13"
+		
+		}
+	
+	},
+	{
+		"number":14,
+		"positionNode":{
+							"positionX":51.4710103,
+							"positionY":-0.4863411,
+							"name":"GATE-A14"
+		
+		}
+	
+	},
+	{
+		"number":15,
+		"positionNode":{
+							"positionX":51.470792,
+							"positionY":-0.4864118,
+							"name":"GATE-A15"
+		
+		}
+	
+	},
+	{
+		"number":16,
+		"positionNode":{
+							"positionX":51.47035,
+							"positionY":-0.486298,
+							"name":"GATE-A16"
+		
+		}
+	
+	},
+	{
+		"number":17,
+		"positionNode":{
+							"positionX":51.4703293,
+							"positionY":-0.4863366,
+							"name":"GATE-A17"
+		
+		}
+	
+	},
+	{
+		"number":18,
+		"positionNode":{
+							"positionX":51.4696777,
+							"positionY":-0.486313,
+							"name":"GATE-A18"
+		
+		}
+	
+	},
+	{
+		"number":19,
+		"positionNode":{
+							"positionX":51.4694398,
+							"positionY":-0.4860917,
+							"name":"GATE-A19"
+		
+		}
+	
+	},
+	{
+		"number":20,
+		"positionNode":{
+							"positionX":51.4694833,
+							"positionY":-0.4867742,
+							"name":"GATE-A20"
+		
+		}
+	
+	},
+	{
+		"number":21,
+		"positionNode":{
+							"positionX":51.4694815,
+							"positionY":-0.4874598,
+							"name":"GATE-A21"
+		
+		}
+	
+	},
+	{
+		"number":22,
+		"positionNode":{
+							"positionX":51.4694774,
+							"positionY":-0.4881808,
+							"name":"GATE-A22"
+		
+		}
+	
+	},
+	{
+		"number":23,
+		"positionNode":{
+							"positionX":51.4693967,
+							"positionY":-0.4889742,
+							"name":"GATE-A23"
+		
+		}
+	
+	}
+
+]
