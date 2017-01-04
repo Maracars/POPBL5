@@ -137,8 +137,8 @@ public class TestLoginAction {
 		
 		
 		
-		HibernateGeneric.saveOrUpdateObject(a);
-		HibernateGeneric.saveOrUpdateObject(user);
+		HibernateGeneric.saveObject(a);
+		HibernateGeneric.saveObject(user);
 
 		String result = null;
 		try {
@@ -170,8 +170,8 @@ public class TestLoginAction {
 		la.setUsername(TEST_USERNAME);
 		la.setPassword(OTHER_PASSWORD);
 		
-		HibernateGeneric.saveOrUpdateObject(a);
-		HibernateGeneric.saveOrUpdateObject(user);
+		HibernateGeneric.saveObject(a);
+		HibernateGeneric.saveObject(user);
 
 		try {
 			la.execute();
@@ -205,8 +205,8 @@ public class TestLoginAction {
 		la.setPassword(user.getPassword());
 		la.setUsername(user.getUsername());
 
-		HibernateGeneric.saveOrUpdateObject(a);
-		HibernateGeneric.saveOrUpdateObject(user);
+		HibernateGeneric.saveObject(a);
+		HibernateGeneric.saveObject(user);
 
 		try {
 			la.execute();
@@ -238,8 +238,8 @@ public class TestLoginAction {
 		la.setPassword(user.getPassword());
 		la.setUsername(user.getUsername());
 
-		HibernateGeneric.saveOrUpdateObject(a);
-		HibernateGeneric.saveOrUpdateObject(user);
+		HibernateGeneric.saveObject(a);
+		HibernateGeneric.saveObject(user);
 
 		String result = null;
 		try {

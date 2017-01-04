@@ -17,7 +17,7 @@ public class TestDaoAirport {
 	@Test
 	public void testInsertAirportWithoutCityAndTerminalIntoDB() {
 		Airport airport = Initializer.initAirport();
-		boolean result = HibernateGeneric.saveOrUpdateObject(airport);
+		boolean result = HibernateGeneric.saveObject(airport);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
@@ -25,20 +25,20 @@ public class TestDaoAirport {
 	public void testInsertAirportWithCityAndWithoutTerminalIntoDB() {
 
 		Address address = Initializer.initAddress();
-		HibernateGeneric.saveOrUpdateObject(address);
+		HibernateGeneric.saveObject(address);
 
 		Node positionNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(positionNode);
+		HibernateGeneric.saveObject(positionNode);
 
 		Airport airport = Initializer.initAirport(address, positionNode);
-		boolean result = HibernateGeneric.saveOrUpdateObject(airport);
+		boolean result = HibernateGeneric.saveObject(airport);
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
 	@Test
 	public void testInsertAirportWithTerminalAndWithCityIntoDB() {
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteAirport());
+		boolean result = HibernateGeneric.saveObject(Initializer.initCompleteAirport());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -52,7 +52,7 @@ public class TestDaoAirport {
 	public void testGetLocaleAirport() {
 		Airport localeAirport = Initializer.initCompleteAirport();
 		localeAirport.setLocale(true);
-		HibernateGeneric.saveOrUpdateObject(localeAirport);
+		HibernateGeneric.saveObject(localeAirport);
 		assertNotNull(ERROR_LOAD, DAOAirport.getLocaleAirport());
 	}
 

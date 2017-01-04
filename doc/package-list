@@ -1,0 +1,13 @@
+action
+action.controller
+action.locale
+action.user
+domain.dao
+domain.model
+domain.model.users
+helpers
+hibernate
+initialization
+interceptor
+notification
+simulator

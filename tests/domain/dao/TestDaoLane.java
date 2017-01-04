@@ -12,6 +12,7 @@ import domain.model.Node;
 
 public class TestDaoLane {
 
+	private static final String PRINCIPAL = "PRINCIPAL";
 	private static final String ERROR_LOAD = "Error load all lanes from database";
 	private static final String INSERT_ERROR = "Error insert lane into database";
 	private static final String REMOVE_ERROR = "Error removing one lane from database";
@@ -19,14 +20,14 @@ public class TestDaoLane {
 
 	@Test
 	public void testInsertLaneWithoutIntoDB() {
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initLane());
+		boolean result = HibernateGeneric.saveObject(Initializer.initLane());
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
 	@Test
 	public void testInsertLaneWithNodesIntoDB() {
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteLane());
+		boolean result = HibernateGeneric.saveObject(Initializer.initCompleteLane());
 
 		assertEquals(INSERT_ERROR, true, result);
 	}
@@ -35,9 +36,9 @@ public class TestDaoLane {
 	public void testInsertLaneWithoutNodesIntoDB() {
 
 		Airport airport = Initializer.initAirport();
-		HibernateGeneric.saveOrUpdateObject(airport);
+		HibernateGeneric.saveObject(airport);
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initLane(true, true, airport));
+		boolean result = HibernateGeneric.saveObject(Initializer.initLane(true, PRINCIPAL, airport));
 
 		assertEquals(INSERT_ERROR, false, result);
 	}
@@ -45,17 +46,17 @@ public class TestDaoLane {
 	@Test
 	public void testInsertLaneWithoutStatusIntoDB() {
 		Node startNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(startNode);
+		HibernateGeneric.saveObject(startNode);
 
 		Node endNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(endNode);
+		HibernateGeneric.saveObject(endNode);
 
 		Airport airport = Initializer.initAirport();
-		HibernateGeneric.saveOrUpdateObject(airport);
+		HibernateGeneric.saveObject(airport);
 		
 		Lane lane = Initializer.initLane(startNode, endNode, airport, true);
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(lane);
+		boolean result = HibernateGeneric.saveObject(lane);
 
 		assertEquals(INSERT_ERROR, false, result);
 
@@ -64,18 +65,18 @@ public class TestDaoLane {
 	@Test
 	public void testInsertLaneWithoutPrincipalIntoDB() {
 		Node startNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(startNode);
+		HibernateGeneric.saveObject(startNode);
 
 		Node endNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(endNode);
+		HibernateGeneric.saveObject(endNode);
 
 		Airport airport = Initializer.initAirport();
-		HibernateGeneric.saveOrUpdateObject(airport);
+		HibernateGeneric.saveObject(airport);
 		
-		Lane lane = Initializer.initLane(startNode, endNode, true, airport);
+		Lane lane = Initializer.initLane(startNode, endNode, PRINCIPAL, airport);
 
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(lane);
+		boolean result = HibernateGeneric.saveObject(lane);
 
 		assertEquals(INSERT_ERROR, false, result);
 
@@ -84,15 +85,15 @@ public class TestDaoLane {
 	@Test
 	public void testInsertLaneWithoutAirportIntoDB() {
 		Node startNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(startNode);
+		HibernateGeneric.saveObject(startNode);
 
 		Node endNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(endNode);
+		HibernateGeneric.saveObject(endNode);
 		
-		Lane lane = Initializer.initLane(startNode, endNode, true, true);
+		Lane lane = Initializer.initLane(startNode, endNode, true, PRINCIPAL);
 
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(lane);
+		boolean result = HibernateGeneric.saveObject(lane);
 
 		assertEquals(INSERT_ERROR, false, result);
 
@@ -101,7 +102,7 @@ public class TestDaoLane {
 	@Test
 	public void testLoadAllLanes() {
 
-		HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteLane());
+		HibernateGeneric.saveObject(Initializer.initCompleteLane());
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Lane()));
 
 	}
@@ -109,7 +110,7 @@ public class TestDaoLane {
 	@Test
 	public void testRemoveOneSpecificLane() {
 		Lane lane = Initializer.initCompleteLane();
-		HibernateGeneric.saveOrUpdateObject(lane);
+		HibernateGeneric.saveObject(lane);
 		boolean result = HibernateGeneric.deleteObject(lane);
 		assertEquals(REMOVE_ERROR, true, result);
 	}
@@ -119,22 +120,22 @@ public class TestDaoLane {
 
 
 		Node startNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(startNode);
+		HibernateGeneric.saveObject(startNode);
 
 		Node endNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(endNode);
+		HibernateGeneric.saveObject(endNode);
 
 		Address address = Initializer.initAddress();
-		HibernateGeneric.saveOrUpdateObject(address);
+		HibernateGeneric.saveObject(address);
 
 		Node positionNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(positionNode);
+		HibernateGeneric.saveObject(positionNode);
 
 		Airport airport = Initializer.initAirport(address, positionNode);
-		HibernateGeneric.saveOrUpdateObject(airport);
+		HibernateGeneric.saveObject(airport);
 
-		Lane lane = Initializer.initLane(startNode, endNode, true, true, airport);
-		HibernateGeneric.saveOrUpdateObject(lane);
+		Lane lane = Initializer.initLane(startNode, endNode, PRINCIPAL, true, airport);
+		HibernateGeneric.saveObject(lane);
 
 		assertNotNull(ERROR_GETFREELANES, DAOLane.getFreeLanes(airport.getId()));
 	}

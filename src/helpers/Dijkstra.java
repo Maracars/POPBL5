@@ -1,63 +1,256 @@
 package helpers;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import domain.model.Node;
+import domain.model.Path;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Dijkstra.
+ */
 public class Dijkstra {
 
-	public static void shortestPaths(List<Edge>[] graph, int s, int[] prio, int[] pred) {
-		int n = graph.length;
-		Arrays.fill(pred, -1);
-		Arrays.fill(prio, Integer.MAX_VALUE);
-		prio[s] = 0;
-		boolean[] visited = new boolean[n];
-		for (int i = 0; i < n; i++) {
-			int u = -1;
-			for (int j = 0; j < n; j++) {
-				if (!visited[j] && (u == -1 || prio[u] > prio[j]))
-					u = j;
-			}
-			if (prio[u] == Integer.MAX_VALUE)
-				break;
-			visited[u] = true;
+	/** The Constant ARRIVAL_MODE. */
+	public static final boolean ARRIVAL_MODE = true;
+	
+	/** The Constant DEPARTURE_MODE. */
+	public static final boolean DEPARTURE_MODE = false;
+	
+	/** The paths. */
+	private final List<Path> paths;
+	
+	/** The settled nodes. */
+	private Set<Node> settledNodes;
+	
+	/** The un settled nodes. */
+	private Set<Node> unSettledNodes;
+	
+	/** The predecessors. */
+	private Map<Node, Node> predecessors;
+	
+	/** The distance. */
+	private Map<Node, Double> distance;
+	
+	/** The execution mode. */
+	private boolean executionMode;
 
-			for (Edge e : graph[u]) {
-				int v = e.t;
-				int nprio = prio[u] + e.cost;
-				if (prio[v] > nprio) {
-					prio[v] = nprio;
-					pred[v] = u;
+	/**
+	 * Instantiates a new dijkstra.
+	 *
+	 * @param paths the paths
+	 */
+	public Dijkstra(List<Path> paths) {
+		this.paths = paths;
+	}
+
+	/**
+	 * Execute.
+	 *
+	 * @param source the source
+	 * @param mode the mode
+	 */
+	public void execute(Node source, boolean mode) {
+		settledNodes = new HashSet<Node>();
+		unSettledNodes = new HashSet<Node>();
+		distance = new HashMap<Node, Double>();
+		predecessors = new HashMap<Node, Node>();
+		executionMode = mode;
+		distance.put(source, 0.0);
+		unSettledNodes.add(source);
+		while (unSettledNodes.size() > 0) {
+			Node node = getMinimum(unSettledNodes);
+			settledNodes.add(node);
+			unSettledNodes.remove(node);
+			findMinimalDistances(node);
+		}
+	}
+
+	/**
+	 * Find minimal distances.
+	 *
+	 * @param node the node
+	 */
+	private void findMinimalDistances(Node node) {
+		List<Node> adjacentNodes = getNeighbors(node);
+		for (Node target : adjacentNodes) {
+			if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
+				distance.put(target, getShortestDistance(node) + getDistance(node, target));
+				predecessors.put(target, node);
+				unSettledNodes.add(target);
+			}
+		}
+
+	}
+
+	/**
+	 * Gets the path from two nodes.
+	 *
+	 * @param node the node
+	 * @param target the target
+	 * @return the path from two nodes
+	 */
+	private Path getPathFromTwoNodes(Node node, Node target) {
+
+		for (Path path : paths) {
+			if (executionMode == ARRIVAL_MODE) {
+				if (checkPathExist(node, target, path))
+					return path;
+			} else {
+				if (checkPathExist(target, node, path))
+					return path;
+			}
+		}
+		throw new RuntimeException("Should not happen");
+	}
+
+	/**
+	 * Gets the distance.
+	 *
+	 * @param node the node
+	 * @param target the target
+	 * @return the distance
+	 */
+	private double getDistance(Node node, Node target) {
+		for (Path path : paths) {
+			if (executionMode == ARRIVAL_MODE) {
+				if (checkPathExist(node, target, path))
+					return path.getDistance();
+
+			} else {
+				if (checkPathExist(target, node, path))
+					return path.getDistance();
+			}
+		}
+		throw new RuntimeException("Should not happen");
+	}
+
+	/**
+	 * Check path exist.
+	 *
+	 * @param node the node
+	 * @param target the target
+	 * @param path the path
+	 * @return true, if successful
+	 */
+	private boolean checkPathExist(Node node, Node target, Path path) {
+		boolean checker = false;
+		if (path.getLaneList().get(0).getStartNode().getId() == node.getId()) {
+			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getId() == target.getId()) {
+				checker = true;
+			}
+		}
+		return checker;
+	}
+
+	/**
+	 * Gets the neighbors.
+	 *
+	 * @param node the node
+	 * @return the neighbors
+	 */
+	private List<Node> getNeighbors(Node node) {
+		List<Node> neighbors = new ArrayList<Node>();
+		for (Path path : paths) {
+			if(executionMode == ARRIVAL_MODE){
+				if (path.getLaneList().get(0).getStartNode().getId() == node.getId()
+						&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode())) {
+					neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode());
+				}
+			}else{
+				if (path.getLaneList().get(0).getEndNode().getId() == node.getId()
+						&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getStartNode())) {
+					neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getStartNode());
+				}
+			}
+			
+		}
+		return neighbors;
+	}
+
+	/**
+	 * Gets the minimum.
+	 *
+	 * @param unSettledNodes2 the un settled nodes 2
+	 * @return the minimum
+	 */
+	private Node getMinimum(Set<Node> unSettledNodes2) {
+		Node minimum = null;
+		for (Node vertex : unSettledNodes2) {
+			if (minimum == null) {
+				minimum = vertex;
+			} else {
+				if (getShortestDistance(vertex) < getShortestDistance(minimum)) {
+					minimum = vertex;
 				}
 			}
 		}
+		return minimum;
 	}
 
-	static class Edge {
-		int t;
-		int cost;
+	/**
+	 * Checks if is settled.
+	 *
+	 * @param vertex the vertex
+	 * @return true, if is settled
+	 */
+	private boolean isSettled(Node vertex) {
+		return settledNodes.contains(vertex);
+	}
 
-		public Edge(int t, int cost) {
-			this.t = t;
-			this.cost = cost;
+	/**
+	 * Gets the shortest distance.
+	 *
+	 * @param vertex the vertex
+	 * @return the shortest distance
+	 */
+	private Double getShortestDistance(Node vertex) {
+		Double d = distance.get(vertex);
+		if (d == null) {
+			return Double.MAX_VALUE;
+		} else {
+			return d;
 		}
 	}
 
-	// Usage example
-	public static void main(String[] args) {
-		int[][] cost = { { 0, 3, 2 }, { 0, 0, -2 }, { 0, 0, 0 } };
-		int n = cost.length;
-		@SuppressWarnings("unchecked")
-		List<Edge>[] graph = Stream.generate(ArrayList::new).limit(n).toArray(List[]::new);
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				if (cost[i][j] != 0) {
-					graph[i].add(new Edge(j, cost[i][j]));
-				}
-			}
+	/**
+	 * Gets the path.
+	 *
+	 * @param target the target
+	 * @return the path
+	 */
+	/*
+	 * This method returns the path from the source to the selected target and
+	 * NULL if no path exists
+	 */
+	public LinkedList<Path> getPath(Node target) {
+		LinkedList<Node> path = new LinkedList<Node>();
+		LinkedList<Path> pathList = new LinkedList<Path>();
+		Node step = target;
+		Node stepBefore;
+		// check if a path exists
+		if (predecessors.get(step) == null) {
+			return null;
 		}
-		int[] dist = new int[n];
-		int[] pred = new int[n];
-		shortestPaths(graph, 0, dist, pred);
+		path.add(step);
+		while (predecessors.get(step) != null) {
+			stepBefore = step;
+			step = predecessors.get(step);
+			path.add(step);
+			pathList.add(getPathFromTwoNodes(step, stepBefore));
+		}
+		// Put it into the correct order
+		Collections.reverse(path);
+		Collections.reverse(pathList);
 
+		return pathList;
 	}
+
 }

@@ -21,14 +21,14 @@ public class TestDaoRoute {
 	@Test
 	public void testInsertRouteWithoutGateIntoDB() {
 		Route route = new Route();
-		boolean result = HibernateGeneric.saveOrUpdateObject(route);
+		boolean result = HibernateGeneric.saveObject(route);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
 	@Test
 	public void testInsertRouteWithGatesIntoDB() {
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteRoute());
+		boolean result = HibernateGeneric.saveObject(Initializer.initCompleteRoute());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -41,7 +41,7 @@ public class TestDaoRoute {
 	@Test
 	public void testRemoveOneSpecificRoute() {
 
-		HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteRoute());
+		HibernateGeneric.saveObject(Initializer.initCompleteRoute());
 		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
 
 		Route route = (Route) HibernateGeneric.loadAllObjects(new Route()).get(0);
@@ -53,22 +53,22 @@ public class TestDaoRoute {
 	public void testGetListOfArrivalRoutesOfAirportByAirportId() {
 
 		Address address = Initializer.initAddress();
-		HibernateGeneric.saveOrUpdateObject(address);
+		HibernateGeneric.saveObject(address);
 
 		Node positionNode = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(positionNode);
+		HibernateGeneric.saveObject(positionNode);
 
 		Airport airport = Initializer.initAirport(address, positionNode);
-		HibernateGeneric.saveOrUpdateObject(airport);
+		HibernateGeneric.saveObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
-		HibernateGeneric.saveOrUpdateObject(terminal);
+		HibernateGeneric.saveObject(terminal);
 
 		Gate gate = Initializer.initGate(terminal);
-		HibernateGeneric.saveOrUpdateObject(gate);
+		HibernateGeneric.saveObject(gate);
 
 		Route expectedRoute = Initializer.initRoute(gate, gate);
-		HibernateGeneric.saveOrUpdateObject(expectedRoute);
+		HibernateGeneric.saveObject(expectedRoute);
 
 		Route actualRoute = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
 

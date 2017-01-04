@@ -14,7 +14,7 @@ public class TestDaoPlaneMovements {
 	@Test
 	public void testInsertPlaneMovementsWithNothingIntoDB() {
 		PlaneMovement planeMovement = new PlaneMovement();
-		boolean result = HibernateGeneric.saveOrUpdateObject(planeMovement);
+		boolean result = HibernateGeneric.saveObject(planeMovement);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
@@ -22,7 +22,7 @@ public class TestDaoPlaneMovements {
 	public void testInsertPlaneMovementlWithEverythingIntoDB() {
 		PlaneMovement planeMovement = Initializer.initPlaneMovement();
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(planeMovement);
+		boolean result = HibernateGeneric.saveObject(planeMovement);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 

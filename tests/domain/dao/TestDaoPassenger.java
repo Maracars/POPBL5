@@ -19,7 +19,7 @@ public class TestDaoPassenger {
 	public void testInsertUserWithoutBirthDateAndWithUsernameAndWithPasswordIntoDB() {
 		Passenger user = Initializer.initPassenger(USERNAME, PASSWORD);
 		DAOUser.deleteUserWithUsername(user);
-		boolean result = HibernateGeneric.saveOrUpdateObject(user);
+		boolean result = HibernateGeneric.saveObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
@@ -27,7 +27,7 @@ public class TestDaoPassenger {
 	public void testInsertUserWithoutPasswordWithBirthDateAndAndWithUsernameIntoDB() {
 
 		Passenger user = Initializer.initPassenger(USERNAME, new Date());
-		boolean result = HibernateGeneric.saveOrUpdateObject(user);
+		boolean result = HibernateGeneric.saveObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
 	}
@@ -36,7 +36,7 @@ public class TestDaoPassenger {
 	public void testInsertUserWithoutUsernameWithBirthDateAndAndWithPasswordIntoDB() {
 
 		Passenger user = Initializer.initPassenger(new Date(), PASSWORD);
-		boolean result = HibernateGeneric.saveOrUpdateObject(user);
+		boolean result = HibernateGeneric.saveObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
 	}
@@ -46,7 +46,7 @@ public class TestDaoPassenger {
 
 		Passenger user = Initializer.initPassenger(USERNAME, PASSWORD, new Date());
 		DAOUser.deleteUserWithUsername(user);
-		boolean result = HibernateGeneric.saveOrUpdateObject(user);
+		boolean result = HibernateGeneric.saveObject(user);
 		assertEquals(ERROR_INSERT, false, result);
 
 	}
@@ -57,7 +57,7 @@ public class TestDaoPassenger {
 		Passenger passenger = Initializer.initCompletePassenger();
 		DAOUser.deleteUserWithUsername(passenger);
 
-		HibernateGeneric.saveOrUpdateObject(passenger);
+		HibernateGeneric.saveObject(passenger);
 
 		boolean result = DAOUser.deleteUserWithUsername(passenger);
 		assertEquals(ERROR_REMOVING, true, result);
@@ -69,7 +69,7 @@ public class TestDaoPassenger {
 		Passenger passenger = Initializer.initCompletePassenger();
 		DAOUser.deleteUserWithUsername(passenger);
 
-		HibernateGeneric.saveOrUpdateObject(passenger);
+		HibernateGeneric.saveObject(passenger);
 
 		boolean result = DAOUser.checkUsernameExists(passenger.getUsername());
 		assertEquals(ERROR_REMOVING, true, result);
@@ -80,7 +80,7 @@ public class TestDaoPassenger {
 
 		Passenger passenger = Initializer.initCompletePassenger();
 		DAOUser.deleteUserWithUsername(passenger);
-		HibernateGeneric.saveOrUpdateObject(passenger);
+		HibernateGeneric.saveObject(passenger);
 		String username = passenger.getUsername();
 		DAOUser.deleteUserWithUsername(passenger);
 		boolean result = DAOUser.checkUsernameExists(username);

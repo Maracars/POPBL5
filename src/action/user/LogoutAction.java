@@ -9,12 +9,21 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LogoutAction.
+ */
 public class LogoutAction extends ActionSupport {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The url. */
 	private String url;
 
+	/* (non-Javadoc)
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
 	@Override
 	public String execute() throws Exception {
 		Map<String, Object> session = ActionContext.getContext().getSession();
@@ -26,10 +35,20 @@ public class LogoutAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * Gets the url.
+	 *
+	 * @return the url
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/**
+	 * Sets the url.
+	 *
+	 * @param url the new url
+	 */
 	public void setUrl(String url) {
 		this.url = url;
 	}
