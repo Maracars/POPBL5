@@ -76,6 +76,9 @@ public class PGSocketIONotify implements Runnable {
 			}
 		}
 	}
+	public static void sendNotification(String receivingGroup, String message) {
+		server.getBroadcastOperations().sendEvent(receivingGroup, message);
+	}
 
 
 
