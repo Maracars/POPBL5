@@ -18,12 +18,12 @@ $(document).ready(
 				var featureToUpdate = vectorSource.getFeatureById(data.id);
 				 var coordinate = vectorSource.getFeatureById(data.id).getGeometry().getCoordinates();
 
-				 var coord = getPointFromLongLat(data.positionx, data.positiony );
-				 featureToUpdate.getGeometry().setCoordinates(coord);
+				 var coord = getPointFromLongLat(data.positionX, data.positionY );
+				// featureToUpdate.getGeometry().setCoordinates(coord);
 
 			});
 			function getPointFromLongLat (long, lat) {
-			    return ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857');
+			    return ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857')
 			}
 
 			$.get("getFlights", function(data, status) {
