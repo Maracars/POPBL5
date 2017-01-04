@@ -26,10 +26,10 @@ public class GatesInitialization implements ServletContextListener{
 	private static final double NODE_POSITION_Y = -0.461389;
 	private static final double NODE_POSITION_X = 51.4775;
 	private static final String NODE_NAME = "Heathrow";
-	private static final String TERMINALS_JSON_FILE = "terminals.json";
 	private static final String AGATES_JSON_FILE = "AGates.json";
 	private static final String BGATES_JSON_FILE = "BGates.json";
 	private static final String CGATES_JSON_FILE = "CGates.json";
+	private static final String TERMINALS_JSON_FILE = "Terminal.json";
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -40,6 +40,7 @@ public class GatesInitialization implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		Airport airport = null;
+		
 		List<Object> airportList = HibernateGeneric.loadAllObjects(new Airport());
 		if(airportList.isEmpty()){
 			airport = createAirport();
@@ -65,8 +66,6 @@ public class GatesInitialization implements ServletContextListener{
 				}
 			}
 		}
-
-
 	}
 	
 	public List<Gate> loadGatesJSON(){
@@ -76,10 +75,13 @@ public class GatesInitialization implements ServletContextListener{
 			ObjectMapper mapper = new ObjectMapper();
 			try {
 				URL url = getClass().getResource(AGATES_JSON_FILE);
+				System.out.println(url);
 				gateList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>(){});
 				url = getClass().getResource(BGATES_JSON_FILE);
+				System.out.println(url);
 				gateList.addAll(mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>(){}));
 				url = getClass().getResource(CGATES_JSON_FILE);
+				System.out.println(url);
 				gateList.addAll(mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>(){}));
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -95,6 +97,7 @@ public class GatesInitialization implements ServletContextListener{
 			ObjectMapper mapper = new ObjectMapper();
 			try {
 				URL url = getClass().getResource(TERMINALS_JSON_FILE);
+				System.out.println(url);
 				terminalList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Terminal>>(){});
 			} catch (IOException e) {
 				e.printStackTrace();
