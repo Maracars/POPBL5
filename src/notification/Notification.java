@@ -1,21 +1,34 @@
 package notification;
 
-import com.corundumstudio.socketio.Configuration;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 import com.corundumstudio.socketio.SocketIOServer;
 
 public class Notification {
-	private static final String LOCALHOST = "localhost";
-	private static final int PORT_NMBER = 9092;
+	
+	private static final String PG_DRIVER = "org.postgresql.Driver";
+	private static final String DB_PASSWORD = "Nestor123";
+	private static final String DB_USERNAME = "naranairapp";
+	private static final String URL = "jdbc:postgresql://localhost:5432/naranair";
 
-	private static Configuration conf = null;
 	private static SocketIOServer server = null;
 
 	public static void start() throws Throwable {
-		conf = new Configuration();
-		conf.setHostname(LOCALHOST);
-		conf.setPort(PORT_NMBER);
-		server = new SocketIOServer(conf);
-		server.start();
+		Connection lConn;
+		String listenTo[] = { "mezua" };
+		try {
+			Class.forName(PG_DRIVER);
+			lConn = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
+			PGSocketIONotify cl = new PGSocketIONotify(lConn, listenTo);
+			(new Thread(cl)).start();
+
+			PGSocketIONotify.start();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public static void stop() throws Throwable {

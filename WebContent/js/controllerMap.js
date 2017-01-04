@@ -1,17 +1,34 @@
+var socket = io.connect("http://localhost:9092");
+
 var map = null;
 var centerPos = [ -0.461389, 51.4775 ];
 var vectorLayer;
+var vectorSource = new ol.source.Vector({
+// create empty vector
+});
 
 var planes = [];
 
 $(document).ready(
 		function() {
+
+			socket.on("chatevent", function(jsonData) {
+				var data = JSON.parse(jsonData);
+				console.log(data);
+				var featureToUpdate = vectorSource.getFeatureById(data.id);
+				 var coordinate = vectorSource.getFeatureById(data.id).getGeometry().getCoordinates();
+
+				 var coord = getPointFromLongLat(data.positionx, data.positiony );
+				 featureToUpdate.getGeometry().setCoordinates(coord);
+
+			});
+			function getPointFromLongLat (long, lat) {
+			    return ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857');
+			}
+
 			$.get("getFlights", function(data, status) {
 				var obj = jQuery.parseJSON(data);
 				planes = obj.result[0];
-				var vectorSource = new ol.source.Vector({
-				// create empty vector
-				});
 
 				for (var i = 0; i < planes.length; i++) {
 
@@ -19,11 +36,9 @@ $(document).ready(
 						geometry : new ol.geom.Point(ol.proj.transform([
 								planes[i].planeMovement.positionX,
 								planes[i].planeMovement.positionY ],
-								'EPSG:4326', 'EPSG:3857')),
-						name : 'Null Island',
-						population : 4000,
-						rainfall : 500
+								'EPSG:4326', 'EPSG:3857'))
 					});
+					iconFeature.setId(planes[i].id);
 					vectorSource.addFeature(iconFeature);
 
 				}

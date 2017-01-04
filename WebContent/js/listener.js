@@ -15,7 +15,7 @@ function onLoadFunction() {
 
 	socket.on(listenTo, function(data) {
 		// var data2 = JSON.parse(data);
-
+		
 		render(data);
 	});
 

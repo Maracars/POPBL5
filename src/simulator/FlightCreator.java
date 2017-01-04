@@ -168,7 +168,6 @@ public class FlightCreator implements Runnable {
 		planeMovement.setPositionX(Math.random() * 40);
 		planeMovement.setPositionY(Math.random() * 40);
 		planeMovement.setSpeed(Math.random() * 40);
-		HibernateGeneric.saveOrUpdateObject(planeMovement);
 
 		Plane plane = new Plane();
 		plane.setFabricationDate(new Date());

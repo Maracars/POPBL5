@@ -1,7 +1,6 @@
 package notification;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -14,10 +13,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 public class PGSocketIONotify implements Runnable {
 	private static final String LOCALHOST = "localhost";
 	private static final String SPLITTER = ">";
-	private static final String PG_DRIVER = "org.postgresql.Driver";
-	private static final String DB_PASSWORD = "Nestor123";
-	private static final String DB_USERNAME = "naranairapp";
-	private static final String URL = "jdbc:postgresql://localhost:5432/naranair";
+
 
 	private static final int LOOP_TIME = 500;
 	private static final int PORT_NMBER = 9092;
@@ -38,13 +34,16 @@ public class PGSocketIONotify implements Runnable {
 		server.stop();
 	}
 
-	public PGSocketIONotify(Connection conn) throws SQLException, InterruptedException {
+	public PGSocketIONotify(Connection conn, String[] listenToArray) throws SQLException, InterruptedException {
 
 		// 9092 portuan egongo da socket.io-ko komunikazinua
 		this.pgConn = (PGConnection) conn;
 		Statement listenStatement = conn.createStatement();
 		// Ze mezu entzun bihar daben esan, nahi beste mezu entzun leike.
-		listenStatement.execute("LISTEN mezua");
+		for (String listenTo : listenToArray) {
+			listenStatement.execute("LISTEN " + listenTo);
+
+		}
 		listenStatement.close();
 	}
 
@@ -62,6 +61,7 @@ public class PGSocketIONotify implements Runnable {
 						// PGk JSON bat bidaltzen dau, hori gero javascripten
 						// tratauko da
 						String[] tableInfo = pgNotification.getParameter().split(SPLITTER);
+						System.out.println(tableInfo[1]);
 						server.getBroadcastOperations().sendEvent("chatevent", tableInfo[1]);
 
 					}
@@ -77,25 +77,6 @@ public class PGSocketIONotify implements Runnable {
 		}
 	}
 
-	public static void main(String args[]) throws Exception {
 
-		Class.forName(PG_DRIVER);
-
-		// Konexino url-a sortu
-		// pasahitza eta erabiltzailiakin konexinua sortu
-		Connection lConn = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
-
-		// Thread-a sortu
-		PGSocketIONotify cl = new PGSocketIONotify(lConn);
-		// Threada korridu
-		(new Thread(cl)).start();
-
-		server.start();
-
-		Thread.sleep(Integer.MAX_VALUE);
-
-		server.stop();
-
-	}
 
 }
