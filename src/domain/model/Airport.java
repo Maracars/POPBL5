@@ -16,8 +16,14 @@ public class Airport {
 
 	Integer maxFlights;
 	
+	boolean locale;
+	
 	@OneToOne
 	Node positionNode;
+
+	public void setLocale(boolean locale) {
+		this.locale = locale;
+	}
 
 	@ManyToOne(optional = false)
 	Address address;

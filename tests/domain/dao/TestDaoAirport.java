@@ -47,5 +47,13 @@ public class TestDaoAirport {
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Airport()));
 
 	}
+	
+	@Test
+	public void testGetLocaleAirport() {
+		Airport localeAirport = Initializer.initCompleteAirport();
+		localeAirport.setLocale(true);
+		HibernateGeneric.saveOrUpdateObject(localeAirport);
+		assertNotNull(ERROR_LOAD, DAOAirport.getLocaleAirport());
+	}
 
 }

@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
+import domain.dao.DAOAirport;
 import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
 import domain.model.Address;
@@ -28,7 +29,8 @@ public class MainThread {
 
 		threadPool = Executors.newFixedThreadPool(THREAD_NUM);
 
-		Airport airport = initializeExampleOnDB();
+		
+		Airport airport = initialize();
 		AirportController ac = new AirportController(airport);
 		FlightCreator fc = new FlightCreator(airport, ac);
 		AutomaticMaintenance am = new AutomaticMaintenance(airport);
@@ -43,8 +45,21 @@ public class MainThread {
 		threadPool.shutdownNow();
 	}
 
+	
+	private static Airport initialize() {
+		Airport myAirport = null;
+		myAirport = DAOAirport.getLocaleAirport();
+		
+		if(myAirport == null) {
+			myAirport = initializeExampleOnDB();
+		}
+		
+		return myAirport;
+	}
+	
 	private static Airport initializeExampleOnDB() {
 
+		
 		Address address = Initializer.initAddress();
 		HibernateGeneric.saveOrUpdateObject(address);
 
@@ -52,6 +67,7 @@ public class MainThread {
 		myAirport.setMaxFlights(MAX_ACTIVE_PLANES);
 		myAirport.setName(AIRPORT_NAME);
 		myAirport.setAddress(address);
+		myAirport.setLocale(true);
 		HibernateGeneric.saveOrUpdateObject(myAirport);
 
 		Airport airport = new Airport();
