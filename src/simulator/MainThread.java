@@ -3,6 +3,7 @@ package simulator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import domain.dao.DAOAirport;
 import domain.dao.Initializer;
 import domain.model.Airport;
 
@@ -26,7 +27,8 @@ public class MainThread {
 
 		threadPool = Executors.newFixedThreadPool(THREAD_NUM);
 
-		Airport airport = Initializer.initializeExampleOnDB();
+		
+		Airport airport = initialize();
 		AirportController ac = new AirportController(airport);
 		FlightCreator fc = new FlightCreator(airport, ac);
 		AutomaticMaintenance am = new AutomaticMaintenance();
@@ -52,5 +54,18 @@ public class MainThread {
 	public static ExecutorService getThreadPool() {
 		return threadPool;
 	}	
+
+	
+	
+	private static Airport initialize() {
+		Airport myAirport = null;
+		myAirport = DAOAirport.getLocaleAirport();
+		
+		if(myAirport == null) {
+			myAirport = Initializer.initializeExampleOnDB();
+		}
+		
+		return myAirport;
+	}
 
 }

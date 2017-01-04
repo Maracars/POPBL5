@@ -69,7 +69,6 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 				if (sessionUser.getUsername().equals(us))
 					hasPermission = true;
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
 		}

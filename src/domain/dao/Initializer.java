@@ -1038,6 +1038,7 @@ public class Initializer {
 		myAirport.setMaxFlights(MAX_ACTIVE_PLANES);
 		myAirport.setName(AIRPORT_NAME);
 		myAirport.setAddress(address);
+		myAirport.setLocale(true);
 		HibernateGeneric.saveOrUpdateObject(myAirport);
 
 		Airport airport = new Airport();

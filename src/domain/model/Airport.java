@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -22,8 +23,17 @@ public class Airport {
 
 	/** The max flights. */
 	Integer maxFlights;
+	
+	/** Variable to know if the airport local. */
+	boolean locale;
+	
+	/** The position node. */
+	@OneToOne
+	Node positionNode;
 
-	/** The address. */
+
+
+/** The address. */
 	@ManyToOne(optional = false)
 	Address address;
 
@@ -99,4 +109,13 @@ public class Airport {
 		this.address = address;
 	}
 
+
+	/**
+	 * Sets the locale.
+	 *
+	 * @param locale the new locale
+	 */
+	public void setLocale(boolean locale) {
+		this.locale = locale;
+	}
 }
