@@ -97,20 +97,21 @@ $(document).ready(
 
 		});
 
-function changeTerminalZoom(longitude, latitude) {
-	var bounce = ol.animation.bounce({
-		resolution : map.getView().getResolution()
-	});
+function changeTerminalZoom(longitude, latitude, type){
+
+	if(String(type) == "terminal"){
+		map.getView().setZoom(16);
+	}else if(String(type) == "gate"){
+		map.getView().setZoom(19);
+	}
 
 	var pan = ol.animation.pan({
-		source : map.getView().getCenter()
+		source: map.getView().getCenter()
 	});
-	map.beforeRender(bounce);
+
 	map.beforeRender(pan);
 
-	map.getView()
-			.setCenter(
-					ol.proj.fromLonLat([ parseFloat(latitude),
-							parseFloat(longitude) ]));
-	map.getView().setZoom(16);
+	map.getView().setCenter(ol.proj.fromLonLat([parseFloat(latitude),parseFloat(longitude)]));
+
+
 }

@@ -38,4 +38,8 @@ public class AirportInfoAction extends ActionSupport{
 		return gatesList;
 	}
 
+	public void setGatesList(List<Object> gatesList) {
+		this.gatesList = gatesList;
+	}
+
 }
