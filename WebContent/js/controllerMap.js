@@ -13,6 +13,16 @@ var latStep;
 var longStep;
 var featureToUpdate;
 var beforeCoord;
+var iconStyle = {
+		anchor : [ 0.5, 46 ],
+		anchorXUnits : 'fraction',
+		anchorYUnits : 'pixels',
+		opacity : 1,
+		rotateWithView : true,
+
+		src : '../rsc/img/plane-icon.png'
+
+	}
 
 $(document).ready(
 		function() {
@@ -20,7 +30,20 @@ $(document).ready(
 			socket.on("chatevent", function(jsonData) {
 				var data = JSON.parse(jsonData);
 				featureToUpdate = vectorSource.getFeatureById(data.id);
-
+				
+				if (featureToUpdate === null) {
+					featureToUpdate = new ol.Feature({
+						geometry : new ol.geom.Point(ol.proj.transform([
+								data.positionx,
+								data.positiony ],
+								'EPSG:4326', 'EPSG:3857'))
+					});
+					featureToUpdate.setStyle(new ol.style.Style({
+						image : new ol.style.Icon(iconStyle)
+					}));
+					featureToUpdate.setId(data.id);
+					vectorSource.addFeature(featureToUpdate);
+				}
 				var beforeCoordWithoutChange = vectorSource.getFeatureById(
 						data.id).getGeometry().getCoordinates();
 				beforeCoord = getOriginLongLat(beforeCoordWithoutChange[0],
@@ -42,7 +65,9 @@ $(document).ready(
 				var lat = beforeCoord[1] + latStep * int
 				featureToUpdate.getGeometry().setCoordinates(
 						getPointFromLongLat(long, lat));
-				featureToUpdate.getStyle().getImage().setRotation(135 * Math.random());
+				
+				featureToUpdate.getStyle().getImage().setRotation(
+						135);
 
 			}
 
@@ -58,30 +83,23 @@ $(document).ready(
 			$.get("getFlights", function(data, status) {
 				var obj = jQuery.parseJSON(data);
 				planes = obj.result[0];
-				var iconStyle = {
-					anchor : [ 0.5, 46 ],
-					anchorXUnits : 'fraction',
-					anchorYUnits : 'pixels',
-					opacity : 1,
-					rotateWithView : true,
-
-					src : '../rsc/img/plane-icon.png'
-
-				}
+				
 
 				for (var i = 0; i < planes.length; i++) {
-
-					var iconFeature = new ol.Feature({
-						geometry : new ol.geom.Point(ol.proj.transform([
-								planes[i].planeMovement.positionX,
-								planes[i].planeMovement.positionY ],
-								'EPSG:4326', 'EPSG:3857'))
-					});
-					iconFeature.setStyle(new ol.style.Style({
-						image : new ol.style.Icon(iconStyle)
-					}));
-					iconFeature.setId(planes[i].id);
-					vectorSource.addFeature(iconFeature);
+					if(planes[i].planeStatus.positionStatus !== "ARRIVING"){
+						var iconFeature = new ol.Feature({
+							geometry : new ol.geom.Point(ol.proj.transform([
+									planes[i].planeMovement.positionX,
+									planes[i].planeMovement.positionY ],
+									'EPSG:4326', 'EPSG:3857'))
+						});
+						iconFeature.setStyle(new ol.style.Style({
+							image : new ol.style.Icon(iconStyle)
+						}));
+						iconFeature.setId(planes[i].id);
+						vectorSource.addFeature(iconFeature);
+					}
+					
 
 				}
 
