@@ -126,7 +126,7 @@ public class TestDaoPlane {
 		HibernateGeneric.saveObject(flight);
 		int id = flight.getRoute().getArrivalGate().getTerminal().getAirport().getId();
 
-		assertNotNull(ERROR_LOAD, DAOPlane.getArrivingPlanesSoon(id));
+		assertNotNull(ERROR_LOAD, DAOPlane.getArrivingFlightsSoon(id));
 
 	}
 
@@ -146,7 +146,7 @@ public class TestDaoPlane {
 		Airport airport = Initializer.initCompleteAirport();
 		HibernateGeneric.saveObject(airport);
 
-		assertNotNull(ERROR_LOAD, DAOPlane.getDeparturingPlanesSoon(airport.getId()));
+		assertNotNull(ERROR_LOAD, DAOPlane.getDeparturingFlightsSoon(airport.getId()));
 
 	}
 

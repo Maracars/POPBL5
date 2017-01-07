@@ -4,6 +4,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.dao.DAOLane;
+import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.users.Admin;
 import helpers.MD5;
@@ -21,19 +22,26 @@ public class DeparturingPlane extends PlaneThread {
 	/**
 	 * Instantiates a new departuring plane.
 	 *
-	 * @param plane the plane
-	 * @param controller the controller
-	 * @param activePlanesNum the active planes number
+	 * @param plane
+	 *            the plane
+	 * @param controller
+	 *            the controller
+	 * @param activePlanesNum
+	 *            the active planes number
+	 * @param flight
 	 */
-	public DeparturingPlane(Plane plane, AirportController controller, AtomicInteger activePlanesNum) {
+	public DeparturingPlane(Plane plane, AirportController controller, AtomicInteger activePlanesNum, Flight flight) {
 		this.plane = plane;
 		semControllerPermision = new Semaphore(0, true);
 		this.controller = controller;
 		this.activePlanes = activePlanesNum;
 		this.mode = DEPARTURING;
+		this.flight = flight;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see simulator.PlaneThread#run()
 	 */
 	@Override
