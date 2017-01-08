@@ -53,6 +53,25 @@ public class GatesInitialization implements ServletContextListener {
 	/** The Constant TERMINALS_JSON_FILE. */
 	private static final String HEATHROW_NODES_JSON_FILE = "HeathrowNodes.json";
 
+	private static final String[][] HEATHROW_GATES_NODES = { { "B", "A" }, { "A", "C" }, { "C", "P" }, { "C", "D" },
+			{ "P", "Q" }, { "D", "Q" }, { "Q", "R" }, { "R", "S" }, { "D", "E" }, { "E", "R" }, { "E", "F" },
+			{ "F", "S" }, { "F", "G" }, { "G", "T" }, { "S", "T" }, { "G", "H" }, { "T", "U" }, { "H", "U" },
+			{ "H", "I" }, { "U", "V" }, { "I", "V" }, { "I", "J" }, { "V", "EZDAKIT" }, { "EZDAKIT", "W" },
+			{ "J", "W" }, { "J", "K" }, { "W", "X" }, { "K", "X" }, { "K", "L" }, { "X", "Y" }, { "L", "Y" },
+			{ "L", "M" }, { "Y", "Z" }, { "M", "Z" }, { "M", "N" }, { "Z", "ZEIZEN" }, { "N", "ZEIZEN" }, { "N", "69" },
+			{ "ZEIZEN", "JARRI" }, { "69", "JARRI" }, { "69", "O" }, { "JARRI", "JAJAXD" }, { "JAJAXD", "666" },
+			{ "O", "666" }, { "Q", "1" }, { "R", "4" }, { "1", "4" }, { "1", "2" }, { "4", "5" }, { "2", "5" },
+			{ "2", "3" }, { "5", "6" }, { "3", "6" }, { "3", "20" }, { "6", "21" }, { "S", "22" }, { "T", "23" },
+			{ "V", "7" }, { "EZDAKIT", "10" }, { "7", "10" }, { "7", "8" }, { "10", "11" }, { "8", "11" }, { "8", "9" },
+			{ "9", "12" }, { "11", "12" }, { "9", "24" }, { "12", "25" }, { "JAJAXD", "13" }, { "666", "16" },
+			{ "13", "16" }, { "13", "14" }, { "16", "17" }, { "14", "17" }, { "14", "15" }, { "17", "18" },
+			{ "15", "18" }, { "15", "28" }, { "18", "36" }, { "19", "20" }, { "20", "21" }, { "21", "22" },
+			{ "22", "23" }, { "23", "24" }, { "24", "25" }, { "25", "??" }, { "??", "26" }, { "26", "27" },
+			{ "27", "28" }, { "28", "36" }, { "19", "37" }, { "20", "38" }, { "21", "39" }, { "22", "40" },
+			{ "24", "41" }, { "25", "42" }, { "26", "43" }, { "27", "44" }, { "??", "45" }, { "37", "38" },
+			{ "38", "39" }, { "39", "40" }, { "40", "41" }, { "41", "42" }, { "42", "43" }, { "43", "44" },
+			{ "44", "45" } };
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -80,6 +99,7 @@ public class GatesInitialization implements ServletContextListener {
 		if (airport == null) {
 			airport = createAirport();
 		}
+		loadNodesJSON();
 		List<Terminal> terminalList = loadTerminalsJSON();
 		if (terminalList != null && HibernateGeneric.loadAllObjects(new Terminal()) != null) {
 			for (Terminal terminal : terminalList) {
@@ -172,21 +192,31 @@ public class GatesInitialization implements ServletContextListener {
 		return airport;
 
 	}
-	
-	public List<Node> loadNodesJSON(){
+
+	public List<Node> loadNodesJSON() {
 		List<Object> node = HibernateGeneric.loadAllObjects(new Node());
 		List<Node> nodeList = null;
-		if(node.isEmpty()){
+		if (!node.isEmpty()) {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
 				URL url = getClass().getResource(HEATHROW_NODES_JSON_FILE);
 				System.out.println(url);
-				nodeList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Node>>(){});
+				nodeList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Node>>() {
+				});
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return nodeList;
+	}
+
+	private Node getNodeByName(List<Node> nodeList, String name) {
+		for (Node node : nodeList) {
+			if (name.equals(node.getName())) {
+				return node;
+			}
+		}
+		return null;
 	}
 }
