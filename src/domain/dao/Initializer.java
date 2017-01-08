@@ -244,10 +244,7 @@ public class Initializer {
 		Terminal terminal = initTerminal(airport);
 		HibernateGeneric.saveObject(terminal);
 
-		Gate gate = initGate(terminal);
-		HibernateGeneric.saveObject(gate);
-
-		return initRoute(gate, gate);
+		return initRoute(terminal, terminal);
 	}
 
 	/**
@@ -257,10 +254,10 @@ public class Initializer {
 	 * @param departureGate the departure gate
 	 * @return the route
 	 */
-	public static Route initRoute(Gate arrivalGate, Gate departureGate) {
+	public static Route initRoute(Terminal arrivalTerminal, Terminal departureTerminal) {
 		Route route = new Route();
-		route.setArrivalGate(arrivalGate);
-		route.setDepartureGate(departureGate);
+		route.setArrivalTerminal(arrivalTerminal);
+		route.setDepartureTerminal(departureTerminal);
 		return route;
 	}
 
@@ -876,7 +873,7 @@ public class Initializer {
 		Gate gate = initGate(node, terminal);
 		HibernateGeneric.saveObject(gate);
 
-		Route route = initRoute(gate, gate);
+		Route route = initRoute(terminal, terminal);
 		HibernateGeneric.saveObject(route);
 
 		Flight flight = initFlight(plane, route, passengerList);
@@ -935,7 +932,7 @@ public class Initializer {
 		Gate gate = initGate(node, terminal);
 		HibernateGeneric.saveObject(gate);
 
-		Route route = initRoute(gate, gate);
+		Route route = initRoute(terminal, terminal);
 
 		HibernateGeneric.saveObject(route);
 
@@ -1067,13 +1064,13 @@ public class Initializer {
 		HibernateGeneric.saveObject(myGate);
 
 		Route arrivalRoute = new Route();
-		arrivalRoute.setArrivalGate(myGate);
-		arrivalRoute.setDepartureGate(gate);
+		arrivalRoute.setArrivalTerminal(myTerminal);
+		arrivalRoute.setDepartureTerminal(terminal);
 		HibernateGeneric.saveObject(arrivalRoute);
 
 		Route departureRoute = new Route();
-		departureRoute.setArrivalGate(gate);
-		departureRoute.setDepartureGate(myGate);
+		departureRoute.setArrivalTerminal(terminal);
+		departureRoute.setDepartureTerminal(myTerminal);
 		HibernateGeneric.saveObject(departureRoute);
 
 		Lane lane = new Lane();

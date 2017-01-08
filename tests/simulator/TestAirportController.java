@@ -10,8 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import domain.dao.DAOLane;
+import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
 import domain.model.Airport;
+import domain.model.Flight;
 import domain.model.Lane;
 
 public class TestAirportController {
@@ -27,19 +29,19 @@ public class TestAirportController {
 	}
 
 	@Test
-	public void testGetPermissionCorrectly() {
-		ArrivingPlane plane = new ArrivingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger());
+	public void testGetPermissionCorrectlyForDeparture() {
+		DeparturingPlane plane = new DeparturingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), new Flight());
 		boolean result = ac.askPermission(plane);
 		assertTrue(ERROR_INSERT, result);
 	}
 
 	@Test
 	public void testFailGetPermissionCorrectly() {
-		ArrivingPlane plane = new ArrivingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger());
+		ArrivingPlane plane = new ArrivingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), new Flight());
 		List<Lane> freeLaneList = DAOLane.getFreeLanes(airport.getId());
 		for (Lane lane : freeLaneList) {
 			lane.setStatus(false);
-			DAOLane.updateLane(lane);
+			HibernateGeneric.updateObject(lane);
 		}
 		boolean result = ac.askPermission(plane);
 		assertFalse(ERROR_INSERT, result);

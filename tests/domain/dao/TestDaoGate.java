@@ -1,13 +1,12 @@
 package domain.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import domain.dao.DAOGate;
 import domain.model.Address;
 import domain.model.Airport;
 import domain.model.Gate;
@@ -38,11 +37,21 @@ public class TestDaoGate {
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
-	@Ignore
-	public void testLoadAllGatesFromOneSpecificTerminal() {
-		int terminalId = 1;
-		ArrayList<Gate> gateList;
-		gateList = DAOGate.loadAllGatesFromTerminal(terminalId);
+	@Test
+	public void testLoadFreeGatesFromOneSpecificTerminal() {
+		Address address = Initializer.initAddress();
+		HibernateGeneric.saveObject(address);
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveObject(positionNode);
+		Airport airport = Initializer.initAirport(address, positionNode);
+		HibernateGeneric.saveObject(airport);
+		Terminal terminal = Initializer.initTerminal(airport);
+		HibernateGeneric.saveObject(terminal);
+		Gate gate = Initializer.initGate(terminal);
+		gate.setFree(true);
+		HibernateGeneric.saveObject(gate);
+		List<Gate> gateList;
+		gateList = DAOGate.loadFreeGatesFromTerminal(terminal.getId());
 		assertNotNull(ERROR_GETTING, gateList);
 	}
 
