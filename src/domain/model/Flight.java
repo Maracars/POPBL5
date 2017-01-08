@@ -70,6 +70,12 @@ public class Flight {
 	/** The price. */
 	Float price;
 	
+	@ManyToOne(optional = true)
+	Gate startGate;
+	
+	@ManyToOne(optional = true)
+	Gate endGate;
+	
 	
 
 	/**
@@ -232,6 +238,22 @@ public class Flight {
 	 */
 	public void setPassengerList(Collection<Passenger> passengerList) {
 		this.passengerList = passengerList;
+	}
+	
+	public Gate getStartGate() {
+		return startGate;
+	}
+
+	public void setStartGate(Gate startGate) {
+		this.startGate = startGate;
+	}
+
+	public Gate getEndGate() {
+		return endGate;
+	}
+
+	public void setEndGate(Gate endGate) {
+		this.endGate = endGate;
 	}
 
 }

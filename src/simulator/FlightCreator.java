@@ -201,6 +201,9 @@ public class FlightCreator implements Runnable {
 		Flight flight = null;
 		Date date = selectDate(plane);
 		if (date != null) {
+			if(mode == DEPARTURE){
+				// TODO date.
+			}
 			flight = createFlight(route, plane, date, mode);
 			HibernateGeneric.saveObject(flight);
 		}

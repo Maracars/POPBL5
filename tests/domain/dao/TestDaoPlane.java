@@ -124,7 +124,7 @@ public class TestDaoPlane {
 		date.setTime(date.getTime() + ADDED_TIME);
 		flight.setExpectedArrivalDate(date);
 		HibernateGeneric.saveObject(flight);
-		int id = flight.getRoute().getArrivalGate().getTerminal().getAirport().getId();
+		int id = flight.getRoute().getArrivalTerminal().getAirport().getId();
 
 		assertNotNull(ERROR_LOAD, DAOPlane.getArrivingFlightsSoon(id));
 

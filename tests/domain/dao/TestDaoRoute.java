@@ -41,10 +41,8 @@ public class TestDaoRoute {
 	@Test
 	public void testRemoveOneSpecificRoute() {
 
-		HibernateGeneric.saveObject(Initializer.initCompleteRoute());
-		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
-
-		Route route = (Route) HibernateGeneric.loadAllObjects(new Route()).get(0);
+		Route route = Initializer.initCompleteRoute();
+		HibernateGeneric.saveObject(route);
 		boolean result = HibernateGeneric.deleteObject(route);
 		assertEquals(REMOVE_ERROR, true, result);
 	}
@@ -67,7 +65,7 @@ public class TestDaoRoute {
 		Gate gate = Initializer.initGate(terminal);
 		HibernateGeneric.saveObject(gate);
 
-		Route expectedRoute = Initializer.initRoute(gate, gate);
+		Route expectedRoute = Initializer.initRoute(terminal, terminal);
 		HibernateGeneric.saveObject(expectedRoute);
 
 		Route actualRoute = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);

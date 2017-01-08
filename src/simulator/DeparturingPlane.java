@@ -4,6 +4,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import domain.dao.DAOLane;
+import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 import domain.model.Plane;
 import domain.model.users.Admin;
@@ -79,7 +80,7 @@ public class DeparturingPlane extends PlaneThread {
 			System.out.println("Interrupted plane");
 			e.printStackTrace();
 		}
-		DAOLane.updateLane(lane);
+		HibernateGeneric.updateObject(lane);
 		controller.getMutex().release();
 		activePlanes.decrementAndGet();
 

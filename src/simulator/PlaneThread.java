@@ -50,7 +50,7 @@ public abstract class PlaneThread implements Runnable {
 
 	/** The mode. */
 	protected boolean mode;
-	
+
 	protected Flight flight;
 
 	/*
@@ -65,23 +65,31 @@ public abstract class PlaneThread implements Runnable {
 	 * Go to destine.
 	 */
 	protected void goToDestine() {
-		
+
 		momentLane = lane;
 		plane.getPlaneMovement().setPositionX(momentLane.getStartNode().getPositionX());
 		plane.getPlaneMovement().setPositionY(momentLane.getStartNode().getPositionY());
 		moveInLane(momentLane);
 
-		LinkedList<Path> listaPistas = 
-				AirportController.getBestRoute(mode, momentLane, flight);
+		LinkedList<Path> listaPistas = AirportController.getBestRoute(mode, momentLane, flight);
 
 		for (int countList = 0; countList < listaPistas.size(); countList++) {
-			for (int countLaneList = 0; countLaneList < listaPistas.get(countList).getLaneList().size(); countLaneList++) {
+			for (int countLaneList = 0; countLaneList < listaPistas.get(countList).getLaneList()
+					.size(); countLaneList++) {
 				// Hemen suposatzen dot planea edukiko dauela
 				momentLane = listaPistas.get(countList).getLaneList().get(countLaneList);
 				moveInLane(momentLane);
 			}
 		}
 
+	}
+
+	public boolean isMode() {
+		return mode;
+	}
+
+	public Flight getFlight() {
+		return flight;
 	}
 
 	private void moveInLane(Lane laneWhereMove) {
@@ -109,7 +117,7 @@ public abstract class PlaneThread implements Runnable {
 			System.out.println("Interrupted plane");
 			e.printStackTrace();
 		}
-		DAOLane.updateLane(laneToChange);
+		HibernateGeneric.updateObject(laneToChange);
 		controller.getMutex().release();
 	}
 

@@ -28,7 +28,7 @@ public class TestDaoSimulator {
 		flight1.setExpectedDepartureDate(new Date(date.getTime() + ADDED_TIME));
 		HibernateGeneric.saveObject(flight1);
 
-		Airport airport = flight1.getRoute().getDepartureGate().getTerminal().getAirport();
+		Airport airport = flight1.getRoute().getDepartureTerminal().getAirport();
 
 		long result = DAOSimulator.getNumberOfFlightsInAWeekFromAirport(airport.getId());
 		assertEquals(ERROR_GET_FLIGHTS_NUMBER, 1, result);
@@ -54,8 +54,8 @@ public class TestDaoSimulator {
 		HibernateGeneric.saveObject(gate);
 
 		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
+		route.setArrivalTerminal(terminal);
+		route.setDepartureTerminal(terminal);
 		HibernateGeneric.saveObject(route);
 
 		Flight flight = new Flight();
