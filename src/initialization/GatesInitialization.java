@@ -50,6 +50,8 @@ public class GatesInitialization implements ServletContextListener {
 
 	/** The Constant TERMINALS_JSON_FILE. */
 	private static final String TERMINALS_JSON_FILE = "Terminal.json";
+	/** The Constant TERMINALS_JSON_FILE. */
+	private static final String HEATHROW_NODES_JSON_FILE = "HeathrowNodes.json";
 
 	/*
 	 * (non-Javadoc)
@@ -120,6 +122,7 @@ public class GatesInitialization implements ServletContextListener {
 				System.out.println(url);
 				gateList.addAll(mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>() {
 				}));
+				url = getClass().getResource(CGATES_JSON_FILE);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -168,5 +171,22 @@ public class GatesInitialization implements ServletContextListener {
 		HibernateGeneric.saveObject(airport);
 		return airport;
 
+	}
+	
+	public List<Node> loadNodesJSON(){
+		List<Object> node = HibernateGeneric.loadAllObjects(new Node());
+		List<Node> nodeList = null;
+		if(node.isEmpty()){
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				URL url = getClass().getResource(HEATHROW_NODES_JSON_FILE);
+				System.out.println(url);
+				nodeList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Node>>(){});
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return nodeList;
 	}
 }
