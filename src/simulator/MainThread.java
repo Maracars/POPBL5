@@ -18,10 +18,6 @@ public class MainThread {
 
 	/** The thread pool. */
 	private static ExecutorService threadPool;
-	
-	private static AirportController ac;
-	private static FlightCreator fc;
-	private static AutomaticMaintenance am;
 
 	/**
 	 * Creates the main thread.
@@ -34,13 +30,14 @@ public class MainThread {
 
 		
 		Airport airport = initialize();
-		ac = new AirportController(airport);
-		fc = new FlightCreator(airport, ac);
-		am = new AutomaticMaintenance();
+		AirportController ac = new AirportController(airport);
+		FlightCreator fc = new FlightCreator(airport, ac);
+		AutomaticMaintenance am = new AutomaticMaintenance();
 
-		ac.run();
-		fc.run();
-		am.run();
+
+		threadPool.submit(ac);
+		threadPool.submit(fc);
+		threadPool.submit(am);
 
 	}
 
@@ -48,9 +45,7 @@ public class MainThread {
 	 * Finish threads.
 	 */
 	public static void finishThreads() {
-		ac.interrupt();
-		fc.interrupt();
-		am.interrupt();
+		threadPool.shutdownNow();
 	}
 	
 	/**
