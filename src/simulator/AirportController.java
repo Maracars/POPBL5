@@ -215,4 +215,8 @@ public class AirportController implements Runnable {
 		return pathList;
 	}
 
+	public void interrupt() {
+		Thread.currentThread().interrupt();	
+	}
+
 }

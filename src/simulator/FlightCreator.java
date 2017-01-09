@@ -319,4 +319,8 @@ public class FlightCreator implements Runnable {
 		activePlanesNum.decrementAndGet();
 	}
 
+	public void interrupt() {
+		Thread.currentThread().interrupt();			
+	}
+
 }
