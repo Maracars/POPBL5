@@ -31,6 +31,7 @@
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 
+
 <script src="<s:url value="/js/listener.js"/>"></script>
 <script src="<s:url value="/js/bootstrap-notify.min.js"/>"></script>
 <script src="<s:url value="/js/usernameCheck.js"/>"></script>

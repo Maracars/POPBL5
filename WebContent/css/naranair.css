@@ -22,3 +22,9 @@
 	background-color: black;
 	border:grey solid 5px;
 }
+
+#usertable td 
+{
+    
+    vertical-align:middle;
+}

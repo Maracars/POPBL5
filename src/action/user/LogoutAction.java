@@ -20,6 +20,7 @@ public class LogoutAction extends ActionSupport {
 	
 	/** The url. */
 	private String url;
+	private String gotoIndex = "false";
 
 	/* (non-Javadoc)
 	 * @see com.opensymphony.xwork2.ActionSupport#execute()
@@ -29,9 +30,13 @@ public class LogoutAction extends ActionSupport {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		session.remove("user");
 		session.remove("listenerUser");
-		session.remove("listenerRole");		
-		HttpServletRequest request = ServletActionContext.getRequest();
-		url = request.getHeader("referer"); 
+		session.remove("listenerRole");	
+		if(!gotoIndex.equals("true")){
+			HttpServletRequest request = ServletActionContext.getRequest();
+			url = request.getHeader("referer"); 
+		}
+		
+		
 		return SUCCESS;
 	}
 
@@ -52,7 +57,14 @@ public class LogoutAction extends ActionSupport {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+
+	public String getGotoIndex() {
+		return gotoIndex;
+	}
+
+	public void setGotoIndex(String gotoIndex) {
+		this.gotoIndex = gotoIndex;
+	}
 	
 
 }

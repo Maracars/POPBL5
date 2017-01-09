@@ -34,8 +34,9 @@
 				<s:text var="dateFormat" name="global.dateFormat" />
 				<s:text var="displayDateFormat" name="global.displayDateFormat"></s:text>
 				<sj:datepicker labelSeparator=":" name="birthdate"
-					displayFormat="%{displayDateFormat}" changeYear="true"
-					changeMonth="true" showAnim="slideDown" cssClass="bootstrap"
+					parentTheme="bootstrap" cssClass="form-control" showOn="focus"
+					inputAppendIcon="calendar" displayFormat="%{displayDateFormat}"
+					changeYear="true" changeMonth="true" showAnim="slideDown"
 					key="user.birthdate" tooltip="(%{dateFormat})" yearRange="-80:+0" />
 			</div>
 			<div class="well">
