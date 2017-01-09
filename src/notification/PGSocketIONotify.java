@@ -100,7 +100,6 @@ public class PGSocketIONotify implements Runnable {
 
 					}
 				}
-
 				// wait a while before checking again
 				Thread.sleep(LOOP_TIME);
 			} catch (SQLException sqlException) {

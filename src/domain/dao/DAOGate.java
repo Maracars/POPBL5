@@ -7,7 +7,6 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 
 import domain.model.Gate;
-import domain.model.Lane;
 import hibernate.HibernateConnection;
 
 // TODO: Auto-generated Javadoc
@@ -17,7 +16,6 @@ import hibernate.HibernateConnection;
 public class DAOGate {
 	
 	/** The session. */
-	@SuppressWarnings("unused")
 	private static Session session;
 	
 	private static final String PARAMETER_TERMINAL_ID = "terminalId";
@@ -28,6 +26,7 @@ public class DAOGate {
 	
 
 
+	@SuppressWarnings("unchecked")
 	public static List<Gate> loadFreeGatesFromTerminal(int terminalId) {
 		List<Gate> gateList = null;
 		try {
