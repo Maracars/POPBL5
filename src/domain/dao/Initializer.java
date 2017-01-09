@@ -1056,11 +1056,13 @@ public class Initializer {
 		gate.setNumber(GATE_NUMBER);
 		gate.setTerminal(terminal);
 		gate.setPositionNode(node);
+		gate.setFree(true);
 		HibernateGeneric.saveObject(gate);
 		Gate myGate = new Gate();
 		myGate.setNumber(GATE_NUMBER);
 		myGate.setTerminal(myTerminal);
 		myGate.setPositionNode(myNode);
+		myGate.setFree(true);
 		HibernateGeneric.saveObject(myGate);
 
 		Route arrivalRoute = new Route();
