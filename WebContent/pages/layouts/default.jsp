@@ -41,7 +41,7 @@
 <script src="<s:url value="/js/usernameCheck.js"/>"></script>
 
 
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <tiles:importAttribute name="title"/>
 <title>Naranair - <s:property value="%{getText(#attr.title)}"/> </title> 
 
@@ -54,9 +54,8 @@
 	<input type="hidden" id = "listenerUser" name="listenerUser" value="${sessionScope.listenerUser}">
 	
 	<div id="wrapper">
-		<nav style="margin: 0px; background-color: black;"
-			class="navbar navbar-default navbar-static-top" role="navigation"
-			style="margin-bottom: 0">
+		<nav style="margin: 0px; background-color: black; margin-bottom: 0;"
+			class="navbar navbar-default navbar-static-top">
 			<tiles:insertAttribute name="header" />
 			<tiles:insertAttribute name="sidemenu" />
 		</nav>

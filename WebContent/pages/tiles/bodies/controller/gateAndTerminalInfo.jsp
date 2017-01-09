@@ -7,12 +7,11 @@
 	<s:actionerror />
 	<s:actionmessage />
 	<div class="jumbotron">
-		<h1>Controller</h1>
-		<h2>Airport flights management</h2>
+		<h2>Controller</h2>
+		<h3>Airport flights management</h3>
 		<p>Here are visualized all the flights of the airport in a map
 		<hr>
 		<em> designed by MARACARS</em>
-		</p>
 
 	</div>
 </div>

@@ -5,12 +5,11 @@
 	<s:actionerror />
 	<s:actionmessage />
 	<div class="jumbotron">
-		<h1>Naranair</h1>
-		<h2>Airport manager</h2>
+		<h2>Naranair</h2>
+		<h3>Airport manager</h3>
 		<p>Naranair is a revolutionary automatic airport manager
 		<hr>
 		<em> designed by MARACARS</em>
-		</p>
 
 	</div>
 </div>

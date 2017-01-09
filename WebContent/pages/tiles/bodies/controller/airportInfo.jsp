@@ -8,7 +8,7 @@
 			id="dropdownTerminal" data-toggle="dropdown">
 			Terminal <span class="caret"></span>
 		</button>
-		<ul class="dropdown-menu" aria-labelledby="dropdownMenuTerminal">
+		<ul class="dropdown-menu">
 			<s:iterator value="terminalList">
 				<li><a
 					href="javascript:changeTerminalZoom('<s:property value="positionNode.positionX"/>', '<s:property value="positionNode.positionY"/>', 'terminal')"><s:property
@@ -22,8 +22,7 @@
 			id="dropdownGate" data-toggle="dropdown">
 			Gate <span class="caret"></span>
 		</button>
-		<ul class="dropdown-menu multi-level" role="menu"
-			aria-labelledby="dropdownMenuGate">
+		<ul class="dropdown-menu multi-level" role="menu">
 			<li class="dropdown-submenu"><a tabindex="-1" href="#">A
 					Gates</a>
 				<ul class="dropdown-menu">

@@ -3,9 +3,9 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <s:i18n name="action.user.package">
 	<div class="container-fluid">
-		<h1>
+		<h2>
 			<s:text name="global.userProfile"></s:text>
-		</h1>
+		</h2>
 		<div class="jumbotron">
 			<h3>
 				<strong><s:text name="global.userType" />: </strong>

@@ -3,11 +3,10 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <div class="container">
 	<div class="jumbotron">
-		<h1>Flights</h1>
-		<h2>Not implemented jaja</h2>
+		<h2>Flights</h2>
+		<h3>Not implemented jaja</h3>
 		<p>
 			Here you can see the flights<hr><em> designed by MARACARS</em>
-		</p>
 
 	</div>
 </div>
