@@ -3,6 +3,7 @@ package domain.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cascade;
 
 import helpers.DistanceCalculator;
 
@@ -26,8 +29,8 @@ public class Path {
 	private Integer id;
 
 	/** The lane list. */
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "laneId")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "pathId")
 	private List<Lane> laneList = new ArrayList<Lane>();
 
 	/** The distance. */

@@ -3,6 +3,8 @@ package initialization;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +20,9 @@ import domain.dao.Initializer;
 import domain.model.Address;
 import domain.model.Airport;
 import domain.model.Gate;
+import domain.model.Lane;
 import domain.model.Node;
+import domain.model.Path;
 import domain.model.Terminal;
 
 // TODO: Auto-generated Javadoc
@@ -53,24 +57,36 @@ public class GatesInitialization implements ServletContextListener {
 	/** The Constant TERMINALS_JSON_FILE. */
 	private static final String HEATHROW_NODES_JSON_FILE = "HeathrowNodes.json";
 
-	private static final String[][] HEATHROW_GATES_NODES = { { "B", "A" }, { "A", "C" }, { "C", "P" }, { "C", "D" },
-			{ "P", "Q" }, { "D", "Q" }, { "Q", "R" }, { "R", "S" }, { "D", "E" }, { "E", "R" }, { "E", "F" },
-			{ "F", "S" }, { "F", "G" }, { "G", "T" }, { "S", "T" }, { "G", "H" }, { "T", "U" }, { "H", "U" },
-			{ "H", "I" }, { "U", "V" }, { "I", "V" }, { "I", "J" }, { "V", "EZDAKIT" }, { "EZDAKIT", "W" },
-			{ "J", "W" }, { "J", "K" }, { "W", "X" }, { "K", "X" }, { "K", "L" }, { "X", "Y" }, { "L", "Y" },
-			{ "L", "M" }, { "Y", "Z" }, { "M", "Z" }, { "M", "N" }, { "Z", "ZEIZEN" }, { "N", "ZEIZEN" }, { "N", "69" },
-			{ "ZEIZEN", "JARRI" }, { "69", "JARRI" }, { "69", "O" }, { "JARRI", "JAJAXD" }, { "JAJAXD", "666" },
-			{ "O", "666" }, { "Q", "1" }, { "R", "4" }, { "1", "4" }, { "1", "2" }, { "4", "5" }, { "2", "5" },
-			{ "2", "3" }, { "5", "6" }, { "3", "6" }, { "3", "20" }, { "6", "21" }, { "S", "22" }, { "T", "23" },
-			{ "V", "7" }, { "EZDAKIT", "10" }, { "7", "10" }, { "7", "8" }, { "10", "11" }, { "8", "11" }, { "8", "9" },
-			{ "9", "12" }, { "11", "12" }, { "9", "24" }, { "12", "25" }, { "JAJAXD", "13" }, { "666", "16" },
-			{ "13", "16" }, { "13", "14" }, { "16", "17" }, { "14", "17" }, { "14", "15" }, { "17", "18" },
-			{ "15", "18" }, { "15", "28" }, { "18", "36" }, { "19", "20" }, { "20", "21" }, { "21", "22" },
-			{ "22", "23" }, { "23", "24" }, { "24", "25" }, { "25", "??" }, { "??", "26" }, { "26", "27" },
-			{ "27", "28" }, { "28", "36" }, { "19", "37" }, { "20", "38" }, { "21", "39" }, { "22", "40" },
-			{ "24", "41" }, { "25", "42" }, { "26", "43" }, { "27", "44" }, { "??", "45" }, { "37", "38" },
-			{ "38", "39" }, { "39", "40" }, { "40", "41" }, { "41", "42" }, { "42", "43" }, { "43", "44" },
-			{ "44", "45" } };
+	private static final String[][] HEATHROW_LANES_NODES = { { "B", "A", "1" }, { "A", "C", "1" }, { "C", "P", "2" },
+			{ "C", "D", "3" }, { "P", "Q", "2" }, { "D", "Q", "30" }, { "Q", "R", "29" }, { "R", "S", "28" },
+			{ "D", "E", "4" }, { "E", "R", "31" }, { "E", "F", "5" }, { "F", "S", "32" }, { "F", "G", "6" },
+			{ "G", "T", "33" }, { "S", "T", "27" }, { "G", "H", "7" }, { "T", "U", "26" }, { "H", "U", "34" },
+			{ "H", "I", "8" }, { "U", "V", "25" }, { "I", "V", "35" }, { "I", "J", "9" }, { "V", "EZDAKIT", "24" },
+			{ "EZDAKIT", "W", "23" }, { "J", "W", "36" }, { "J", "K", "10" }, { "W", "X", "22" }, { "K", "X", "37" },
+			{ "K", "L", "11" }, { "X", "Y", "21" }, { "L", "Y", "38" }, { "L", "M", "12" }, { "Y", "Z", "20" },
+			{ "M", "Z", "40" }, { "M", "N", "13" }, { "Z", "ZEIZEN", "19" }, { "N", "ZEIZEN", "41" },
+			{ "N", "69", "14" }, { "ZEIZEN", "JARRI", "18" }, { "69", "JARRI", "42" }, { "69", "O", "15" },
+			{ "JARRI", "JAJAXD", "17" }, { "JAJAXD", "666", "16" }, { "O", "666", "15" }, { "Q", "1", "43" },
+			{ "R", "4", "44" }, { "1", "4", "61" }, { "1", "2", "51" }, { "4", "5", "52" }, { "2", "5", "62" },
+			{ "2", "3", "57" }, { "5", "6", "58" }, { "3", "6", "63" }, { "3", "20", "59" }, { "6", "21", "60" },
+			{ "S", "22", "45" }, { "T", "23", "46" }, { "V", "7", "47" }, { "EZDAKIT", "10", "48" },
+			{ "7", "10", "68" }, { "7", "8", "53" }, { "10", "11", "54" }, { "10", "NARANA", "71" },
+			{ "NARANA", "NIDEA", "71" }, { "8", "11", "69" }, { "8", "9", "64" }, { "9", "12", "70" },
+			{ "11", "12", "65" }, { "9", "24", "66" }, { "12", "25", "67" }, { "JAJAXD", "13", "49" },
+			{ "666", "16", "50" }, { "13", "16", "76" }, { "13", "14", "55" }, { "16", "17", "56" },
+			{ "14", "17", "68" }, { "14", "15", "72" }, { "17", "18", "73" }, { "15", "18", "78" },
+			{ "15", "27", "74" }, { "18", "28", "75" }, { "20", "19", "80" }, { "20", "21", "81" },
+			{ "21", "22", "82" }, { "22", "23", "83" }, { "23", "24", "84" }, { "24", "25", "85" },
+			{ "25", "NIDEA", "86" }, { "NIDEA", "26", "87" }, { "26", "27", "88" }, { "27", "28", "89" },
+			{ "36", "28", "90" }, { "19", "37", "80" }, { "20", "38", "91" }, { "21", "39", "92" },
+			{ "22", "40", "93" }, { "23", "41", "94" }, { "24", "42", "95" }, { "25", "43", "96" },
+			{ "26", "44", "97" }, { "27", "45", "98" }, { "28", "46", "99" }, { "37", "38", "80" },
+			{ "38", "39", "100" }, { "39", "40", "101" }, { "40", "41", "102" }, { "41", "42", "103" },
+			{ "42", "43", "104" }, { "43", "44", "105" }, { "44", "45", "106" }, { "46", "45", "99" },
+			{ "54", "55", "90" }, { "55", "36", "90" } };
+	private List<Node> nodeList;
+	private List<Lane> laneList = new ArrayList<>();
+	private Airport localeAirport = null;
 
 	/*
 	 * (non-Javadoc)
@@ -93,30 +109,29 @@ public class GatesInitialization implements ServletContextListener {
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		Airport airport = null;
 
-		airport = DAOAirport.getLocaleAirport();
-		if (airport == null) {
-			airport = createAirport();
-		}
-		loadNodesJSON();
-		List<Terminal> terminalList = loadTerminalsJSON();
-		if (terminalList != null && HibernateGeneric.loadAllObjects(new Terminal()) != null) {
+		localeAirport = DAOAirport.getLocaleAirport();
+		if (localeAirport == null) {
+			localeAirport = createAirport();
+			nodeList = loadNodesJSON();
+			createLanes();
+			createPaths();
+			List<Terminal> terminalList = loadTerminalsJSON();
 			for (Terminal terminal : terminalList) {
-				terminal.setAirport(airport);
+				terminal.setAirport(localeAirport);
 				HibernateGeneric.saveObject(terminal.getPositionNode());
 				HibernateGeneric.saveObject(terminal);
 			}
 			List<Gate> gatesList = loadGatesJSON();
-			if (gatesList != null && HibernateGeneric.loadAllObjects(new Gate()) != null) {
-				for (Gate gate : gatesList) {
-					Random random = new Random();
-					gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())));
-					HibernateGeneric.saveObject(gate.getPositionNode());
-					HibernateGeneric.saveObject(gate);
-				}
+			for (Gate gate : gatesList) {
+				Random random = new Random();
+				gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())));
+				HibernateGeneric.saveObject(gate.getPositionNode());
+				HibernateGeneric.saveObject(gate);
 			}
+
 		}
+
 	}
 
 	/**
@@ -194,15 +209,16 @@ public class GatesInitialization implements ServletContextListener {
 	}
 
 	public List<Node> loadNodesJSON() {
-		List<Object> node = HibernateGeneric.loadAllObjects(new Node());
-		List<Node> nodeList = null;
-		if (!node.isEmpty()) {
+		List<Object> nodes = HibernateGeneric.loadAllObjects(new Node());
+		if (!nodes.isEmpty()) {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
 				URL url = getClass().getResource(HEATHROW_NODES_JSON_FILE);
-				System.out.println(url);
 				nodeList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Node>>() {
 				});
+				for (Node node : nodeList) {
+					HibernateGeneric.saveObject(node);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -211,12 +227,75 @@ public class GatesInitialization implements ServletContextListener {
 		return nodeList;
 	}
 
-	private Node getNodeByName(List<Node> nodeList, String name) {
+	private Node getNodeByName(String name) {
 		for (Node node : nodeList) {
 			if (name.equals(node.getName())) {
 				return node;
 			}
 		}
 		return null;
+	}
+
+	private Lane getLaneByName(String name) {
+		for (Lane lane : laneList) {
+			if (name.equals(lane.getName())) {
+				return lane;
+			}
+		}
+		return null;
+	}
+
+	private void createLanes() {
+		String[] principalNodes = { "B", "54" };
+		for (String[] laneNodes : HEATHROW_LANES_NODES) {
+			Lane lane = new Lane();
+
+			lane.setStartNode(getNodeByName(laneNodes[0]));
+			lane.setEndNode(getNodeByName(laneNodes[1]));
+			lane.setName(laneNodes[0] + "-" + laneNodes[1]);
+			if (Arrays.asList(principalNodes).contains(laneNodes[0])) {
+				lane.setType(Lane.PRINCIPAL);
+
+			} else {
+				lane.setType(Lane.SECONDARY);
+			}
+			lane.setStatus(true);
+			lane.setAirport(localeAirport);
+			laneList.add(lane);
+			HibernateGeneric.saveObject(lane);
+
+		}
+	}
+
+	private Path getPath(String number) {
+		ArrayList<Lane> laneList2 = new ArrayList<>();
+		Path path = new Path();
+		Lane lane = null;
+
+		for (String[] heathrowNodes : HEATHROW_LANES_NODES) {
+
+			if (number.equals(heathrowNodes[2])) {
+				String laneName = heathrowNodes[0] + "-" + heathrowNodes[1];
+				lane = getLaneByName(laneName);
+				if (lane != null) {
+					laneList2.add(lane);
+
+				}
+			}
+		}
+		path.setLaneList(laneList2);
+		return path;
+
+	}
+
+	private void createPaths() {
+		List<Path> pathList = new ArrayList<>();
+		Path path = null;
+		for (Integer i = 1; i <= 106; i++) {
+			path = getPath(i.toString());
+			pathList.add(path);
+			HibernateGeneric.saveObject(path);
+		}
+
 	}
 }

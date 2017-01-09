@@ -18,7 +18,10 @@ import org.hibernate.annotations.OnDeleteAction;
  */
 @Entity
 public class Lane {
-
+	
+	public static final String PRINCIPAL = "PRINCIPAL";
+	public static final String SECONDARY = "SECONDARY";
+	
 	/** The id. */
 	@Id
 	@GeneratedValue
