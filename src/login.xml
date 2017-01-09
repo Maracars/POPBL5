@@ -39,14 +39,14 @@
 			<result name="*" type="tiles">editUser</result>
 		</action>
 
-		<!-- <action name="submitedit" class="action.UserEditAction">
+		<action name="editSubmit" class="action.user.EditSubmit">
 			<interceptor-ref name="validateStack">
 				<param name="validateUser.allowed">ADMIN</param>
 			</interceptor-ref>
 			<result name="noPermission" type="redirectAction">index</result>
-			<result name="selfDelete" type="redirectAction">logout</result>
-			<result name="*" type="redirect">%{url}</result>
-		</action> -->
+			<result name="success" type="redirect">%{url}</result>
+			<result name="*" type="tiles">editUser</result>
+		</action>
 
 		<action name="u/{username}" class="action.user.ProfileAction">
 			<interceptor-ref name="validateStack">

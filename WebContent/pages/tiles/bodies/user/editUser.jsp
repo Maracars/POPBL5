@@ -3,12 +3,20 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <s:i18n name="action.user.package">
 	<div class="container-fluid">
-		
-		<s:form action="ControllerSubmit" namespace="/register" key="type"
+
+		<s:form action="editSubmit" namespace="/" key="global.editUser"
 			enctype="multipart/form-data" cssClass="form-horizontal">
+			<s:hidden key="type"/>
+			<s:hidden key="username"/>
 			<div class="errors">
 				<s:actionerror />
 			</div>
+			<h3>
+				<strong><s:text name="global.userType" />: </strong>
+				<s:if test="%{user != null}">
+					<s:property value="%{getText('global.' + type)}" />
+				</s:if>
+			</h3>
 			<div class="well">
 				<h4>
 					<s:text name="user.accountInfo" />
@@ -19,19 +27,30 @@
 					name="user.email" />
 			</div>
 			<div class="well">
-				<h4>
-					<s:text name="user.personalInfo" />
-				</h4>
-				<s:textfield labelSeparator=":" key="user.firstName" name="name" />
-				<s:textfield labelSeparator=":" key="user.secondName"
-					name="secondName" />
-				<s:text var="dateFormat" name="global.dateFormat" />
-				<s:text var="displayDateFormat" name="global.displayDateFormat"></s:text>
-				<sj:datepicker labelSeparator=":" name="birthdate"
-					parentTheme="bootstrap" cssClass="form-control" showOn="focus"
-					inputAppendIcon="calendar" displayFormat="%{displayDateFormat}"
-					changeYear="true" changeMonth="true" showAnim="slideDown"
-					key="user.birthdate" tooltip="(%{dateFormat})" yearRange="-80:+0" />
+				<s:if
+					test='%{!type.equals("airline")}'>
+					<h4>
+						<s:text name="user.personalInfo" />
+					</h4>
+					<s:textfield labelSeparator=":" key="user.firstName"
+						name="user.name" />
+					<s:textfield labelSeparator=":" key="user.secondName"
+						name="user.secondName" />
+					<s:text var="dateFormat" name="global.dateFormat" />
+					<s:text var="displayDateFormat" name="global.displayDateFormat"></s:text>
+					<sj:datepicker labelSeparator=":" name="birthdate"
+						parentTheme="bootstrap" cssClass="form-control" showOn="focus"
+						inputAppendIcon="calendar" displayFormat="%{displayDateFormat}"
+						changeYear="true" changeMonth="true" showAnim="slideDown"
+						key="user.birthdate" tooltip="(%{dateFormat})" yearRange="-80:+0" />
+				</s:if>
+				<s:else>
+					<h4>
+						<s:text name="user.companyInfo" />
+					</h4>
+					<s:textfield labelSeparator=":" key="user.companyName"
+						name="user.name" />
+				</s:else>
 			</div>
 			<div class="well">
 				<h4>
@@ -51,8 +70,6 @@
 					cssClass="btn btn-primary  col-sm-offset-3" />
 
 			</div>
-
-
 		</s:form>
 
 	</div>

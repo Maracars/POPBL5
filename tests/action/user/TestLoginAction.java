@@ -37,10 +37,10 @@ public class TestLoginAction {
 
 	ActionContext ac;
 	LoginAction la;
+	
 
 	@Before
 	public void prepareTests() {
-
 		ac = Mockito.mock(ActionContext.class);
 		Mockito.when(ac.getSession()).thenReturn(new HashMap<>());
 		

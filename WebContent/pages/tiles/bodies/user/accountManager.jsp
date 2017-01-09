@@ -62,17 +62,21 @@
 												"columnDefs" : [ {
 													"targets" : 0,
 													"orderable" : false
-												},
-												 { "width": "120px", "targets": 0 }],
+												}, {
+													"width" : "120px",
+													"targets" : 0
+												} ],
 												"columns" : [
 														{
 															"data" : "username",
 															"render" : function(
 																	data, type,
 																	full, meta) {
-																return 	'<div><a class="btn btn-primary" href="u/'+data+'"><i class="fa fa-user"></i></a>' +
-																		'<a class="btn btn-warning" href="u/edit/'+data+'"><i class="fa fa-pencil-square-o"></i></a>' + 
-																		'<a class="btn btn-danger" href="deleteUser?username='+data+'"><i class="fa fa-times"></i></a></div';
+																return '<div><a class="btn btn-primary" href="u/'+data+'"><i class="fa fa-user"></i></a>'
+																		+ '<a class="btn btn-warning" href="u/edit/'+data+'"><i class="fa fa-pencil-square-o"></i></a>'
+																		+ '<a class="btn btn-danger" href="deleteUser?username='
+																		+ data
+																		+ '"><i class="fa fa-times"></i></a></div';
 															}
 														}, {
 															"data" : "type"
@@ -82,7 +86,15 @@
 															"data" : "name"
 														} ]
 											});
+							
+							$.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
+								$.notify(`No permission to load data`, {
+									 type: 'danger', offset: { x: 50, y: 50 }, animate: { enter: 'animated	 bounceInDown', exit: 'animated lightSpeedOut' } });
+							};
+							
 						});
+
+		
 	</script>
 
 </s:i18n>
