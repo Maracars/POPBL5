@@ -168,8 +168,9 @@ public class AirportController implements Runnable {
 				freeGate.setFree(false);
 				HibernateGeneric.updateObject(freeGate);
 				HibernateGeneric.updateObject(plane.getFlight());
+			} else {
+				ret = false;
 			}
-			ret = false;
 		}
 		return ret;
 	}
@@ -190,15 +191,7 @@ public class AirportController implements Runnable {
 	 * (kontrollerrak permisoa emoterakoan
 	 */
 	public static LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
-		/* mutexa badaezpada */
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
-		}
 		List<Path> paths = DAOPath.loadAllFreePaths();
-		mutex.release();
 		Node source;
 		Node destination;
 
@@ -220,6 +213,10 @@ public class AirportController implements Runnable {
 		LinkedList<Path> pathList = dijkstra.getPath(destination);
 
 		return pathList;
+	}
+
+	public void interrupt() {
+		Thread.currentThread().interrupt();	
 	}
 
 }

@@ -10,11 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import domain.dao.DAOLane;
+import domain.dao.DAORoute;
 import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
 import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Lane;
+import domain.model.Route;
 
 public class TestAirportController {
 
@@ -30,7 +32,19 @@ public class TestAirportController {
 
 	@Test
 	public void testGetPermissionCorrectlyForDeparture() {
-		DeparturingPlane plane = new DeparturingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), new Flight());
+		DeparturingPlane plane = new DeparturingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(),
+				new Flight());
+		boolean result = ac.askPermission(plane);
+		assertTrue(ERROR_INSERT, result);
+	}
+
+	@Test
+	public void testGetPermissionCorrectlyForArrival() {
+		Flight flight = new Flight();
+		Route route = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
+		flight.setRoute(route);
+		System.out.println();
+		ArrivingPlane plane = new ArrivingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), flight);
 		boolean result = ac.askPermission(plane);
 		assertTrue(ERROR_INSERT, result);
 	}

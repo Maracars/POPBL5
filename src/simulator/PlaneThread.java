@@ -109,16 +109,7 @@ public abstract class PlaneThread implements Runnable {
 
 	protected void changeLaneStatus(Lane laneToChange, boolean status) {
 		laneToChange.setStatus(status);
-		try {
-			controller.mutex.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			Thread.currentThread().interrupt();
-			System.out.println("Interrupted plane");
-			e.printStackTrace();
-		}
 		HibernateGeneric.updateObject(laneToChange);
-		controller.getMutex().release();
 	}
 
 	/**
