@@ -76,16 +76,18 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 
 		flightList = DAOFlight.loadFlightsForTable(colName, orderDir, start, length);
 
-		for(Flight f : flightList){
-			String airplane = f.getPlane().getSerial();
-			String origin = f.getRoute().getDepartureTerminal().getAirport().getName();
-			String destination = f.getRoute().getArrivalTerminal().getAirport().getName();
-			String terminal = f.getExpectedArrivalDate().toString();
-			String gate = f.getExpectedDepartureDate().toString();
+		if(flightList != null){
 
-			flightViews.add(new FlightView(airplane, origin, destination, terminal, gate));
+			for(Flight f : flightList){
+				String airplane = f.getPlane().getSerial();
+				String origin = f.getRoute().getDepartureTerminal().getAirport().getName();
+				String destination = f.getRoute().getArrivalTerminal().getAirport().getName();
+				String terminal = f.getExpectedArrivalDate().toString();
+				String gate = f.getExpectedDepartureDate().toString();
+
+				flightViews.add(new FlightView(airplane, origin, destination, terminal, gate));
+			}
 		}
-
 		return flightViews;
 	}
 
@@ -169,7 +171,7 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		public void setExpectedDepartureDate(String expectedDepartureDate) {
 			this.expectedDepartureDate = expectedDepartureDate;
 		}
-		
+
 	}
 
 	public Integer getDraw() {

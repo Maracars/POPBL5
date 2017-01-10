@@ -40,6 +40,10 @@ public class Gate {
 		this.free = free;
 	}
 
+	public boolean isFree() {
+		return free;
+	}
+
 	/**
 	 * Gets the terminal.
 	 *

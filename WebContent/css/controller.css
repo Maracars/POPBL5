@@ -22,6 +22,20 @@
 	margin-left:15px;
 }
 
+#laneTable{
+	width:50%;
+	float:left;
+}
+
+#terminalTable{
+	width:50%;
+	float:right;
+}
+
+.tableColum{
+	background-color:red;
+}
+
 .dropdown-submenu {
     position: relative;
 }

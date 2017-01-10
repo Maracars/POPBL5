@@ -49,6 +49,7 @@ public class TestDaoFlight {
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 	
+	@Ignore
 	@Test
 	public void testLoadFlightsForTable(){
 		

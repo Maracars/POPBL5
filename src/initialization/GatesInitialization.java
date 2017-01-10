@@ -112,13 +112,14 @@ public class GatesInitialization implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 
 		localeAirport = DAOAirport.getLocaleAirport();
-		insertRoutes(localeAirport);
 		if (localeAirport == null) {
 			localeAirport = createAirport();
+			insertRoutes(localeAirport);
 			nodeList = loadNodesJSON();
 			createLanes();
 			createPaths();
 			List<Terminal> terminalList = loadTerminalsJSON();
+
 			for (Terminal terminal : terminalList) {
 				terminal.setAirport(localeAirport);
 				HibernateGeneric.saveObject(terminal.getPositionNode());
@@ -132,6 +133,8 @@ public class GatesInitialization implements ServletContextListener {
 				HibernateGeneric.saveObject(gate);
 			}
 
+		}else{
+			insertRoutes(localeAirport);
 		}
 
 	}
@@ -173,18 +176,15 @@ public class GatesInitialization implements ServletContextListener {
 	 * @return the list
 	 */
 	public List<Terminal> loadTerminalsJSON() {
-		List<Object> terminal = HibernateGeneric.loadAllObjects(new Terminal());
 		List<Terminal> terminalList = null;
-		if (terminal.isEmpty()) {
-			ObjectMapper mapper = new ObjectMapper();
-			try {
-				URL url = getClass().getResource(TERMINALS_JSON_FILE);
-				System.out.println(url);
-				terminalList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Terminal>>() {
-				});
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			URL url = getClass().getResource(TERMINALS_JSON_FILE);
+			System.out.println(url);
+			terminalList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Terminal>>() {
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		return terminalList;
@@ -209,12 +209,12 @@ public class GatesInitialization implements ServletContextListener {
 		return airport;
 
 	}
-	
+
 	public void insertRoutes(Airport departureAirport){
 		Terminal departureTerminal = Initializer.initTerminal(departureAirport);
-		
+
 		HibernateGeneric.saveObject(departureTerminal);
-		
+
 		Address address = Initializer.initAddress();
 		Node node = new Node();
 		node.setName(NODE_NAME);
@@ -223,18 +223,18 @@ public class GatesInitialization implements ServletContextListener {
 		Airport arrivalAirport = Initializer.initAirport(address, node);
 		arrivalAirport.setLocale(false);
 		Terminal arrivalTerminal = Initializer.initTerminal(arrivalAirport);
-		
+
 		HibernateGeneric.saveObject(address);
 		HibernateGeneric.saveObject(node);
 		HibernateGeneric.saveObject(arrivalAirport);
 		HibernateGeneric.saveObject(arrivalTerminal);
-		
+
 		Route route = Initializer.initRoute(arrivalTerminal, departureTerminal);
 		Route route2 = Initializer.initRoute(departureTerminal, arrivalTerminal);
-		
+
 		HibernateGeneric.saveObject(route);
 		HibernateGeneric.saveObject(route2);
-		
+
 	}
 
 	public List<Node> loadNodesJSON() {

@@ -27,34 +27,36 @@
 					Gates</a>
 				<ul class="dropdown-menu">
 					<s:iterator value="gatesList">
-					<s:if test="%{number <= 23 && number >=1}">
-						<li><a tabindex="-1"
-							href="javascript:changeTerminalZoom('<s:property value="positionNode.positionX"/>', '<s:property value="positionNode.positionY"/>', 'gate')"><s:property value="positionNode.name"></s:property></a></li>
-					</s:if>
+						<s:if test="%{number <= 23 && number >=1}">
+							<li><a tabindex="-1"
+								href="javascript:changeTerminalZoom('<s:property value="positionNode.positionX"/>', '<s:property value="positionNode.positionY"/>', 'gate')"><s:property
+										value="positionNode.name"></s:property></a></li>
+						</s:if>
 					</s:iterator>
 				</ul></li>
-						<li class="dropdown-submenu"><a tabindex="-1" href="#">B
+			<li class="dropdown-submenu"><a tabindex="-1" href="#">B
 					Gates</a>
 				<ul class="dropdown-menu">
 					<s:iterator value="gatesList">
-					<s:if test="%{number <= 48 && number >=32}">
-						<li><a tabindex="-1"
-							href="javascript:changeTerminalZoom('<s:property value="positionNode.positionX"/>', '<s:property value="positionNode.positionY"/>', 'gate')"><s:property value="positionNode.name"></s:property></a></li>
-					</s:if>
+						<s:if test="%{number <= 48 && number >=32}">
+							<li><a tabindex="-1"
+								href="javascript:changeTerminalZoom('<s:property value="positionNode.positionX"/>', '<s:property value="positionNode.positionY"/>', 'gate')"><s:property
+										value="positionNode.name"></s:property></a></li>
+						</s:if>
 					</s:iterator>
 				</ul></li>
-						<li class="dropdown-submenu"><a tabindex="-1" href="#">C
+			<li class="dropdown-submenu"><a tabindex="-1" href="#">C
 					Gates</a>
 				<ul class="dropdown-menu">
 					<s:iterator value="gatesList">
-					<s:if test="%{number <= 66 && number >=52}">
-						<li><a tabindex="-1"
-							href="javascript:changeTerminalZoom('<s:property value="positionNode.positionX"/>', '<s:property value="positionNode.positionY"/>', 'gate')"><s:property value="positionNode.name"></s:property></a></li>
-					</s:if>
+						<s:if test="%{number <= 66 && number >=52}">
+							<li><a tabindex="-1"
+								href="javascript:changeTerminalZoom('<s:property value="positionNode.positionX"/>', '<s:property value="positionNode.positionY"/>', 'gate')"><s:property
+										value="positionNode.name"></s:property></a></li>
+						</s:if>
 					</s:iterator>
 				</ul></li>
 		</ul>
 	</div>
 </div>
-
 <div id="map" class="map"></div>
