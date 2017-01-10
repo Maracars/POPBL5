@@ -9,8 +9,9 @@
 <head>
 <link rel='shortcut icon' type='image/png'
 	href="<s:url value="/rsc/img/favicon.png"/>" />
+	
+	<tiles:insertAttribute name="rsc" />
 
-<sj:head />
 <sb:head />
 <link rel="stylesheet" type="text/css"
 	href="<s:url value="/css/font-awesome.min.css"/>" />

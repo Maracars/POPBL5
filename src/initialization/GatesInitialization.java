@@ -23,6 +23,7 @@ import domain.model.Gate;
 import domain.model.Lane;
 import domain.model.Node;
 import domain.model.Path;
+import domain.model.Route;
 import domain.model.Terminal;
 
 // TODO: Auto-generated Javadoc
@@ -111,6 +112,7 @@ public class GatesInitialization implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 
 		localeAirport = DAOAirport.getLocaleAirport();
+		insertRoutes(localeAirport);
 		if (localeAirport == null) {
 			localeAirport = createAirport();
 			nodeList = loadNodesJSON();
@@ -206,6 +208,33 @@ public class GatesInitialization implements ServletContextListener {
 		HibernateGeneric.saveObject(airport);
 		return airport;
 
+	}
+	
+	public void insertRoutes(Airport departureAirport){
+		Terminal departureTerminal = Initializer.initTerminal(departureAirport);
+		
+		HibernateGeneric.saveObject(departureTerminal);
+		
+		Address address = Initializer.initAddress();
+		Node node = new Node();
+		node.setName(NODE_NAME);
+		node.setPositionX(NODE_POSITION_X);
+		node.setPositionY(NODE_POSITION_Y);
+		Airport arrivalAirport = Initializer.initAirport(address, node);
+		arrivalAirport.setLocale(false);
+		Terminal arrivalTerminal = Initializer.initTerminal(arrivalAirport);
+		
+		HibernateGeneric.saveObject(address);
+		HibernateGeneric.saveObject(node);
+		HibernateGeneric.saveObject(arrivalAirport);
+		HibernateGeneric.saveObject(arrivalTerminal);
+		
+		Route route = Initializer.initRoute(arrivalTerminal, departureTerminal);
+		Route route2 = Initializer.initRoute(departureTerminal, arrivalTerminal);
+		
+		HibernateGeneric.saveObject(route);
+		HibernateGeneric.saveObject(route2);
+		
 	}
 
 	public List<Node> loadNodesJSON() {

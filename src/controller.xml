@@ -27,6 +27,10 @@
           
           </result>
         </action>
+        
+        <action name="flightListJSON" class="action.controller.FlightListJSONAction">
+			<result name="*" type="json"></result>
+		</action>
 		
 
 	</package>
