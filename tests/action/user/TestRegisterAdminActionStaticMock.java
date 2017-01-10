@@ -41,7 +41,7 @@ public class TestRegisterAdminActionStaticMock {
 		la.user.setPassword(SOMETHING_ELSE);
 
 		PowerMockito.mockStatic(HibernateGeneric.class);
-		PowerMockito.when(HibernateGeneric.saveOrUpdateObject(Mockito.any())).thenReturn(false);
+		PowerMockito.when(HibernateGeneric.saveObject(Mockito.any())).thenReturn(false);
 
 		String result = null;
 		try {

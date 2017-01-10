@@ -28,6 +28,12 @@
 	
 	<listener>  
 	    <listener-class>
+	       initialization.GatesInitialization
+	    </listener-class>
+	</listener>  
+	
+	<listener>  
+	    <listener-class>
 	       initialization.SocketIOInit
 	    </listener-class>
 	</listener>

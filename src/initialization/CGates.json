@@ -1,0 +1,110 @@
+[
+	{
+		"number":52,
+		"positionNode":{
+							"positionX":51.4694219,
+							"positionY":-0.4768746,
+							"name":"GATE-C52"
+
+						}
+	},
+	{
+		"number":53,
+		"positionNode":{
+							"positionX":51.4700844,
+							"positionY":-0.4768798,
+							"name":"GATE-C53"
+
+						}
+	},
+	{
+		"number":54,
+		"positionNode":{
+							"positionX":51.4707503,
+							"positionY":-0.476885,
+							"name":"GATE-C54"
+
+						}
+	},
+	{
+		"number":55,
+		"positionNode":{
+							"positionX":51.4715584,
+							"positionY":-0.4768281,
+							"name":"GATE-C55"
+
+						}
+	},
+	{
+		"number":56,
+		"positionNode":{
+							"positionX":51.4725356,
+							"positionY":-0.4768359,
+							"name":"GATE-C56"
+
+						}
+	},
+	{
+		"number":57,
+		"positionNode":{
+							"positionX":51.4734826,
+							"positionY":-0.4768433,
+							"name":"GATE-C57"
+
+						}
+	},
+	{
+		"number":61,
+		"positionNode":{
+							"positionX":51.4736452,
+							"positionY":-0.4754148,
+							"name":"GATE-C61"
+
+						}
+	},	
+	{
+		"number":62,
+		"positionNode":{
+							"positionX":51.4728498,
+							"positionY":-0.4754086,
+							"name":"GATE-C62"
+
+						}
+	},
+	{
+		"number":63,
+		"positionNode":{
+							"positionX":51.47192,
+							"positionY":-0.4754013,
+							"name":"GATE-C63"
+
+						}
+	},
+	{
+		"number":64,
+		"positionNode":{
+							"positionX":51.4711108,
+							"positionY":-0.4753949,
+							"name":"GATE-C64"
+
+						}
+	},
+	{
+		"number":65,
+		"positionNode":{
+							"positionX":51.4702183,
+							"positionY":-0.4753879,
+							"name":"GATE-C65"
+
+						}
+	},
+	{
+		"number":66,
+		"positionNode":{
+							"positionX":51.469565,
+							"positionY":-0.4753143,
+							"name":"GATE-C66"
+
+						}
+	}
+]

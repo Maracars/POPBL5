@@ -26,9 +26,9 @@ public class TestDaoSimulator {
 		Date date = new Date();
 		Flight flight1 = Initializer.initCompleteFlight();
 		flight1.setExpectedDepartureDate(new Date(date.getTime() + ADDED_TIME));
-		HibernateGeneric.saveOrUpdateObject(flight1);
+		HibernateGeneric.saveObject(flight1);
 
-		Airport airport = flight1.getRoute().getDepartureGate().getTerminal().getAirport();
+		Airport airport = flight1.getRoute().getDepartureTerminal().getAirport();
 
 		long result = DAOSimulator.getNumberOfFlightsInAWeekFromAirport(airport.getId());
 		assertEquals(ERROR_GET_FLIGHTS_NUMBER, 1, result);
@@ -39,31 +39,31 @@ public class TestDaoSimulator {
 		Date date = new Date();
 
 		Plane plane = Initializer.initCompletePlane();
-		HibernateGeneric.saveOrUpdateObject(plane);
+		HibernateGeneric.saveObject(plane);
 
 		Airport airport = Initializer.initCompleteAirport();
-		HibernateGeneric.saveOrUpdateObject(airport);
+		HibernateGeneric.saveObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
-		HibernateGeneric.saveOrUpdateObject(terminal);
+		HibernateGeneric.saveObject(terminal);
 
 		Node node = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(node);
+		HibernateGeneric.saveObject(node);
 
 		Gate gate = Initializer.initGate(node, terminal);
-		HibernateGeneric.saveOrUpdateObject(gate);
+		HibernateGeneric.saveObject(gate);
 
 		Route route = new Route();
-		route.setArrivalGate(gate);
-		route.setDepartureGate(gate);
-		HibernateGeneric.saveOrUpdateObject(route);
+		route.setArrivalTerminal(terminal);
+		route.setDepartureTerminal(terminal);
+		HibernateGeneric.saveObject(route);
 
 		Flight flight = new Flight();
 		flight.setPlane(plane);
 		flight.setRoute(route);
 		flight.setExpectedArrivalDate(new Date(date.getTime() + ADDED_TIME * INCREMENT_NUMBER));
 		flight.setExpectedDepartureDate(new Date(date.getTime() + ADDED_TIME));
-		HibernateGeneric.saveOrUpdateObject(flight);
+		HibernateGeneric.saveObject(flight);
 
 		Date correctDate = DAOSimulator.getCorrectDateFromSchedule(plane.getId(), airport.getId());
 

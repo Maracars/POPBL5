@@ -3,13 +3,11 @@ package simulator;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.dao.DAORoute;
@@ -24,9 +22,8 @@ import domain.model.PlaneStatus;
 public class TestFlightCreator {
 
 	private static final int ADDED_TIME = 111111;
-	private static final String ERROR_REMOVING = "Error removing one node from database";
-	private static final String ERROR_LOAD = "Error load all nodes from database";
-	private static final String ERROR_INSERT = "Error insert node into database";
+	private static final String ERROR_PROGRAM_FLIGHT = "Error creating flights";
+	private static final String ERROR_ACTIVATING_PLANES = "Error activating planes";
 
 	Airport airport;
 	AirportController ac;
@@ -66,10 +63,9 @@ public class TestFlightCreator {
 
 		Long result = null;
 		result = DAOSimulator.getNumberOfFlightsInAWeekFromAirport(airport.getId());
-		assertNotNull(ERROR_INSERT, result);
+		assertNotNull(ERROR_PROGRAM_FLIGHT, result);
 	}
 
-	/* Eztakit zerba baia eztau detektetan getArrivalPlaneSoon */
 	@Test
 	public void testActivatePlanes() {
 		try {
@@ -77,9 +73,9 @@ public class TestFlightCreator {
 			plane.getPlaneStatus().setTechnicalStatus("OK");
 			plane.getPlaneStatus().setPositionStatus("ON AIRPORT");
 			PlaneStatus status = plane.getPlaneStatus();
-			HibernateGeneric.saveOrUpdateObject(status);
+			HibernateGeneric.saveObject(status);
 			plane.setPlaneStatus(status);
-			HibernateGeneric.saveOrUpdateObject(plane);
+			HibernateGeneric.saveObject(plane);
 
 			Flight flight = Initializer.initFlight(plane);
 			Date date = new Date();
@@ -87,7 +83,7 @@ public class TestFlightCreator {
 			
 			flight.setExpectedDepartureDate(date);
 			flight.setRoute(DAORoute.selectDepartureRouteFromAirport(airport.getId()));
-			HibernateGeneric.saveOrUpdateObject(flight);
+			HibernateGeneric.saveObject(flight);
 
 			Method method = fg.getClass().getDeclaredMethod("createThreadsOfFlights");
 			method.setAccessible(true);
@@ -111,7 +107,7 @@ public class TestFlightCreator {
 
 		int result = 0;
 		result = fg.activePlanesNum.get();
-		assertNotEquals(ERROR_INSERT, result, 0);
+		assertNotEquals(ERROR_ACTIVATING_PLANES, result, 0);
 	}
 
 }

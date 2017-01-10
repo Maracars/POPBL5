@@ -20,6 +20,8 @@ public class LogoutAction extends ActionSupport {
 	
 	/** The url. */
 	private String url;
+	
+	/** The goto index. */
 	private String gotoIndex = "false";
 
 	/* (non-Javadoc)
@@ -58,10 +60,20 @@ public class LogoutAction extends ActionSupport {
 		this.url = url;
 	}
 
+	/**
+	 * Gets the goto index.
+	 *
+	 * @return the goto index
+	 */
 	public String getGotoIndex() {
 		return gotoIndex;
 	}
 
+	/**
+	 * Sets the goto index.
+	 *
+	 * @param gotoIndex the new goto index
+	 */
 	public void setGotoIndex(String gotoIndex) {
 		this.gotoIndex = gotoIndex;
 	}

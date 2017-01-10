@@ -26,7 +26,7 @@ public class HibernateGeneric {
 	 * @param object the object
 	 * @return true, if successful
 	 */
-	public static boolean saveOrUpdateObject(Object object) {
+	public static boolean saveObject(Object object) {
 		boolean result = true;
 		try {
 			if (object instanceof User)

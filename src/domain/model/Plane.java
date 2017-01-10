@@ -2,6 +2,7 @@ package domain.model;
 
 import java.util.Date;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -53,6 +54,10 @@ public class Plane {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 
 	PlaneStatus status;
+	
+	/** The plane movement. */
+	@Embedded
+	PlaneMovement planeMovement;
 
 	/**
 	 * Gets the plane status.
@@ -160,6 +165,24 @@ public class Plane {
 	 */
 	public void setFabricationDate(Date fabricationDate) {
 		this.fabricationDate = fabricationDate;
+	}
+
+	/**
+	 * Gets the plane movement.
+	 *
+	 * @return the plane movement
+	 */
+	public PlaneMovement getPlaneMovement() {
+		return planeMovement;
+	}
+
+	/**
+	 * Sets the plane movement.
+	 *
+	 * @param planeMovement the new plane movement
+	 */
+	public void setPlaneMovement(PlaneMovement planeMovement) {
+		this.planeMovement = planeMovement;
 	}
 
 }

@@ -55,30 +55,4 @@ public class DAOLane {
 		}
 		return laneList;
 	}
-
-	/**
-	 * Update lane.
-	 *
-	 * @param lane the lane
-	 * @return true, if successful
-	 */
-	public static boolean updateLane(Lane lane) {
-		boolean result = true;
-		try {
-			session = HibernateConnection.getSessionFactory().openSession();
-			session.getTransaction().begin();
-			session.update(lane);
-			session.getTransaction().commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-			result = false;
-		} finally {
-			session.close();
-		}
-
-		return result;
-
-	}
 }

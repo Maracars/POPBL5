@@ -18,13 +18,29 @@ import domain.model.users.Mantainance;
 import domain.model.users.Passenger;
 import domain.model.users.User;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserListJSONAction.
+ *
+ * @param <sincronized> the generic type
+ */
 public class UserListJSONAction<sincronized> extends ActionSupport {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The start. */
 	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0, length = 0, start = 0;
+	
+	/** The data. */
 	private List<UserView> data = new ArrayList<UserView>();
+	
+	/** The error. */
 	String error = null;
 
+	/* (non-Javadoc)
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
 	@Override
 	public synchronized String execute() throws Exception {
 
@@ -51,6 +67,13 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * Filter.
+	 *
+	 * @param data the data
+	 * @param search the search
+	 * @return the list
+	 */
 	private List<UserView> filter(List<UserView> data, String search) {
 		search = search.toLowerCase();
 		for (Iterator<UserView> uIt = data.iterator(); uIt.hasNext();) {
@@ -66,6 +89,14 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 		return data;
 	}
 
+	/**
+	 * Sort.
+	 *
+	 * @param data the data
+	 * @param orderCol the order col
+	 * @param orderDir the order dir
+	 * @return the list
+	 */
 	private List<UserView> sort(List<UserView> data, int orderCol, String orderDir) {
 		switch (orderCol) {
 		case 1:
@@ -93,6 +124,11 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 		return data;
 	}
 
+	/**
+	 * Generate data.
+	 *
+	 * @return the list
+	 */
 	public List<UserView> generateData() {
 		ArrayList<Object> users = (ArrayList<Object>) HibernateGeneric.loadAllObjects(new User());
 		ArrayList<UserView> usrs = new ArrayList<>();
@@ -122,87 +158,193 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 		return usrs;
 	}
 
+	/**
+	 * Gets the data.
+	 *
+	 * @return the data
+	 */
 	public List<UserView> getData() {
 		return data;
 	}
 
+	/**
+	 * Sets the data.
+	 *
+	 * @param data the new data
+	 */
 	public void setData(List<UserView> data) {
 		this.data = data;
 	}
 
+	/**
+	 * The Class UserView.
+	 */
 	public class UserView {
+		
+		/** The type. */
 		String type;
+		
+		/** The username. */
 		String username;
+		
+		/** The name. */
 		String name;
 
+		/**
+		 * Instantiates a new user view.
+		 *
+		 * @param username the username
+		 * @param name the name
+		 * @param type the type
+		 */
 		public UserView(String username, String name, String type) {
 			this.username = username;
 			this.name = name;
 			this.type = type;
 		}
 
+		/**
+		 * Gets the type.
+		 *
+		 * @return the type
+		 */
 		public String getType() {
 			return type;
 		}
 
+		/**
+		 * Sets the type.
+		 *
+		 * @param type the new type
+		 */
 		public void setType(String type) {
 			this.type = type;
 		}
 
+		/**
+		 * Gets the username.
+		 *
+		 * @return the username
+		 */
 		public String getUsername() {
 			return username;
 		}
 
+		/**
+		 * Sets the username.
+		 *
+		 * @param username the new username
+		 */
 		public void setUsername(String username) {
 			this.username = username;
 		}
 
+		/**
+		 * Gets the name.
+		 *
+		 * @return the name
+		 */
 		public String getName() {
 			return name;
 		}
 
+		/**
+		 * Sets the name.
+		 *
+		 * @param name the new name
+		 */
 		public void setName(String name) {
 			this.name = name;
 		}
 
 	}
 
+	/**
+	 * Gets the draw.
+	 *
+	 * @return the draw
+	 */
 	public Integer getDraw() {
 		return draw;
 	}
 
+	/**
+	 * Sets the draw.
+	 *
+	 * @param draw the new draw
+	 */
 	public void setDraw(Integer draw) {
 		this.draw = draw;
 	}
 
+	/**
+	 * Gets the records total.
+	 *
+	 * @return the records total
+	 */
 	public Integer getRecordsTotal() {
 		return recordsTotal;
 	}
 
+	/**
+	 * Sets the records total.
+	 *
+	 * @param recordsTotal the new records total
+	 */
 	public void setRecordsTotal(Integer recordsTotal) {
 		this.recordsTotal = recordsTotal;
 	}
 
+	/**
+	 * Gets the records filtered.
+	 *
+	 * @return the records filtered
+	 */
 	public Integer getRecordsFiltered() {
 		return recordsFiltered;
 	}
 
+	/**
+	 * Sets the records filtered.
+	 *
+	 * @param recordsFiltered the new records filtered
+	 */
 	public void setRecordsFiltered(Integer recordsFiltered) {
 		this.recordsFiltered = recordsFiltered;
 	}
 
+	/**
+	 * Gets the length.
+	 *
+	 * @return the length
+	 */
 	public Integer getLength() {
 		return length;
 	}
 
+	/**
+	 * Sets the length.
+	 *
+	 * @param length the new length
+	 */
 	public void setLength(Integer length) {
 		this.length = length;
 	}
 
+	/**
+	 * Gets the start.
+	 *
+	 * @return the start
+	 */
 	public Integer getStart() {
 		return start;
 	}
 
+	/**
+	 * Sets the start.
+	 *
+	 * @param start the new start
+	 */
 	public void setStart(Integer start) {
 		this.start = start;
 	}

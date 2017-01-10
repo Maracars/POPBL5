@@ -20,10 +20,10 @@ public class TestDaoTerminal {
 	@Test
 	public void testInsertTerminalWithoutGatesIntoDB() {
 		Airport airport = Initializer.initCompleteAirport();
-		HibernateGeneric.saveOrUpdateObject(airport);
+		HibernateGeneric.saveObject(airport);
 		
 		Terminal terminal = Initializer.initTerminal(airport);
-		boolean result = HibernateGeneric.saveOrUpdateObject(terminal);
+		boolean result = HibernateGeneric.saveObject(terminal);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -40,10 +40,10 @@ public class TestDaoTerminal {
 		
 		
 		Airport airport = Initializer.initCompleteAirport();
-		HibernateGeneric.saveOrUpdateObject(airport);
+		HibernateGeneric.saveObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
-		HibernateGeneric.saveOrUpdateObject(terminal);
+		HibernateGeneric.saveObject(terminal);
 
 		boolean result = HibernateGeneric.deleteObject(terminal);
 		// aukeran Terminal bidaldu edo terminalId

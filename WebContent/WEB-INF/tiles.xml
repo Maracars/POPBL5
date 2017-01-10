@@ -14,102 +14,102 @@
 	</definition>
 
 	<definition name="index" extends="default">
-		<put-attribute name="title" type="string" value="global.home" />
+		<put-attribute name="title"  type="string" value="global.home" />
 		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
 		<put-attribute name="sidemenu" value="/pages/tiles/sidemenus/default.jsp" />
 		<put-attribute name="body" value="/pages/tiles/bodies/home.jsp" />
 		<put-attribute name="rsc" value="/pages/tiles/rsc/default.jsp" />
 	</definition>
-
+	
+	<definition name="controller" extends="default">
+		<put-attribute name="title" type="string" value="global.home" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
+		<put-attribute name="sidemenu" value="/pages/tiles/sidemenus/controller.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controller/home.jsp" />
+	</definition>
+	
+	
+	<definition name="airportInfo" extends="controller">
+		<put-attribute name="title" type="string" value="global.airportInfo" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controller/airportInfo.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="flightsInfo" extends="controller">
+		<put-attribute name="title" type="string" value="global.flightsInfo" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controller/flightsInfo.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="termAndGateInfo" extends="controller">
+		<put-attribute name="title" type="string" value="global.termAndGateInfo" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controller/gateAndTerminalInfo.jsp"></put-attribute>
+	</definition>
+	
 	<definition name="registerPassenger" extends="index">
 		<put-attribute name="title" value="global.registerPassenger" />
-
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/user/registerPassenger.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/registerPassenger.jsp" />
 	</definition>
-
+	
 	<definition name="registerAirline" extends="index">
 		<put-attribute name="title" value="global.registerAirline" />
-
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/user/registerAirline.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/registerAirline.jsp" />
 	</definition>
-
+	
 	<definition name="registerController" extends="index">
 		<put-attribute name="title" value="global.registerController" />
-
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/user/registerController.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/registerController.jsp" />
 	</definition>
-
+	
 	<definition name="registerAdmin" extends="index">
 		<put-attribute name="title" value="global.registerAdmin" />
-
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/user/registerAdmin.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/registerAdmin.jsp" />
 	</definition>
-
+	
 	<definition name="registerMantainance" extends="index">
 		<put-attribute name="title" value="global.registerMantainance" />
-
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/user/registerMantainance.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/registerMantainance.jsp" />
 	</definition>
-
+	
 	<definition name="accountManager" extends="index">
 		<put-attribute name="title" value="global.accountManager" />
-
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/user/accountManager.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/accountManager.jsp" />
 		<put-attribute name="rsc" value="/pages/tiles/rsc/datatables.jsp" />
 	</definition>
-
+	
 	<definition name="login" extends="index">
 		<put-attribute name="title" value="global.login" />
 		<put-attribute name="body" value="/pages/tiles/bodies/user/login.jsp" />
 	</definition>
-
+	
 	<definition name="flights" extends="index">
 		<put-attribute name="title" value="global.flights" />
 		<put-attribute name="body" value="/pages/tiles/bodies/flights.jsp" />
-
-	</definition>
-
+	</definition >
+		
 	<definition name="profile" extends="index">
 		<put-attribute name="title" value="global.userProfile" />
-
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/user/profile.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/user/profile.jsp" />
 	</definition>
-
-	<definition name="editUser" extends="index">
-		<put-attribute name="title" value="global.editUser" />
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/user/editUser.jsp" />
-	</definition>
-
+	
 	<definition name="log" extends="index">
 		<put-attribute name="title" value="global.log" />
-
-		<put-attribute name="body"
-			value="/pages/tiles/bodies/controllerLog.jsp" />
+		<put-attribute name="body" value="/pages/tiles/bodies/controllerLog.jsp" />
 	</definition>
-
+	
 	<definition name="stats" extends="index">
 		<put-attribute name="title" value="global.stats" />
 		<put-attribute name="body" value="/pages/tiles/bodies/stats.jsp" />
 	</definition>
-
+	
 	<definition name="404" extends="index">
 		<put-attribute name="title" value="Error 404" />
 		<put-attribute name="body" value="/pages/tiles/bodies/404.jsp" />
 		<put-attribute name="sidemenu" value="" />
 	</definition>
-
+	
 	<definition name="500" extends="404">
 		<put-attribute name="title" value="Error 500" />
 		<put-attribute name="body" value="/pages/tiles/bodies/500.jsp" />
 	</definition>
-
-
+	
+	
 </tiles-definitions>

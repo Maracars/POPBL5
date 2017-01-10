@@ -136,7 +136,7 @@ public class RegisterPassengerAction extends RegisterAction {
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.saveOrUpdateObject(((Passenger)user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveObject(((Passenger)user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 

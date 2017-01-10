@@ -8,6 +8,7 @@ import org.junit.Test;
 import domain.model.Address;
 import domain.model.Airport;
 import domain.model.Gate;
+import domain.model.Node;
 import domain.model.Route;
 import domain.model.Terminal;
 
@@ -20,14 +21,14 @@ public class TestDaoRoute {
 	@Test
 	public void testInsertRouteWithoutGateIntoDB() {
 		Route route = new Route();
-		boolean result = HibernateGeneric.saveOrUpdateObject(route);
+		boolean result = HibernateGeneric.saveObject(route);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
 	@Test
 	public void testInsertRouteWithGatesIntoDB() {
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteRoute());
+		boolean result = HibernateGeneric.saveObject(Initializer.initCompleteRoute());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -40,10 +41,8 @@ public class TestDaoRoute {
 	@Test
 	public void testRemoveOneSpecificRoute() {
 
-		HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteRoute());
-		// TODO Hemen gero loadAll biharrian load bakarra einbiko litzake
-		
-		Route route = (Route) HibernateGeneric.loadAllObjects(new Route()).get(0);
+		Route route = Initializer.initCompleteRoute();
+		HibernateGeneric.saveObject(route);
 		boolean result = HibernateGeneric.deleteObject(route);
 		assertEquals(REMOVE_ERROR, true, result);
 	}
@@ -52,26 +51,27 @@ public class TestDaoRoute {
 	public void testGetListOfArrivalRoutesOfAirportByAirportId() {
 
 		Address address = Initializer.initAddress();
-		HibernateGeneric.saveOrUpdateObject(address);
+		HibernateGeneric.saveObject(address);
 
-		Airport airport = Initializer.initAirport(address);
-		HibernateGeneric.saveOrUpdateObject(airport);
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveObject(positionNode);
+
+		Airport airport = Initializer.initAirport(address, positionNode);
+		HibernateGeneric.saveObject(airport);
 
 		Terminal terminal = Initializer.initTerminal(airport);
-		HibernateGeneric.saveOrUpdateObject(terminal);
+		HibernateGeneric.saveObject(terminal);
 
 		Gate gate = Initializer.initGate(terminal);
-		HibernateGeneric.saveOrUpdateObject(gate);
+		HibernateGeneric.saveObject(gate);
 
-		Route expectedRoute = Initializer.initRoute(gate, gate);
-		HibernateGeneric.saveOrUpdateObject(expectedRoute);
+		Route expectedRoute = Initializer.initRoute(terminal, terminal);
+		HibernateGeneric.saveObject(expectedRoute);
 
 		Route actualRoute = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
 
 		assertEquals(expectedRoute.getId(), actualRoute.getId());
 
 	}
-
-
 
 }

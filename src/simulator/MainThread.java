@@ -22,6 +22,7 @@ public class MainThread {
 	/**
 	 * Creates the main thread.
 	 *
+	 * @param args the args
 	 */
 	public static void createMainThread(String[] args) {
 
@@ -32,6 +33,7 @@ public class MainThread {
 		AirportController ac = new AirportController(airport);
 		FlightCreator fc = new FlightCreator(airport, ac);
 		AutomaticMaintenance am = new AutomaticMaintenance();
+
 
 		threadPool.submit(ac);
 		threadPool.submit(fc);
@@ -57,6 +59,11 @@ public class MainThread {
 
 	
 	
+	/**
+	 * Initialize.
+	 *
+	 * @return the airport
+	 */
 	private static Airport initialize() {
 		Airport myAirport = null;
 		myAirport = DAOAirport.getLocaleAirport();

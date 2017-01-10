@@ -17,14 +17,14 @@ public class TestDaoPlaneModel {
 	@Test
 	public void testInsertPlaneModelWithoutPlaneMakerIntoDB() {
 		PlaneModel planeModel = Initializer.initPlaneModel();
-		boolean result = HibernateGeneric.saveOrUpdateObject(planeModel);
+		boolean result = HibernateGeneric.saveObject(planeModel);
 		assertEquals(ERROR_INSERT, false, result);
 	}
 
 	@Test
 	public void testInsertPlaneModelWithPlaneMakerIntoDB() {
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneModel());
+		boolean result = HibernateGeneric.saveObject(Initializer.initCompletePlaneModel());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -44,7 +44,7 @@ public class TestDaoPlaneModel {
 	@Test
 	public void testGetOnePlaneModel() {
 
-		HibernateGeneric.saveOrUpdateObject(Initializer.initCompletePlaneModel());
+		HibernateGeneric.saveObject(Initializer.initCompletePlaneModel());
 		PlaneModel planeModel = DAOPlaneModel.getRandomPlaneModel();
 		assertNotNull(GETTER_ERROR, planeModel);
 	}

@@ -3,12 +3,12 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 
 <div class="container-fluid">
-	<h1>
+	<h2>
 
 		<s:i18n name="resources.log">
 			<s:text name="log.consoleLog" />
 		</s:i18n>
-	</h1>
+	</h2>
 	<div class="well">
 		<s:a action="launchSimulator" namespace="/" class="btn btn-primary">
 			<s:text name="global.startSimulator" />
