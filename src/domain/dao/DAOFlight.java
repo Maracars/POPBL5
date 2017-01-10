@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 
 import domain.model.Flight;
+import domain.model.Gate;
 import domain.model.users.Passenger;
 import hibernate.HibernateConnection;
 
@@ -24,6 +25,9 @@ public class DAOFlight {
 	/** The Constant LOAD_AIRLINE_FLIGHTS. */
 	private static final String LOAD_AIRLINE_FLIGHTS = "from Flight as f where f.plane.airline.username = :"
 			+ PARAMETER_AIRLINE_USERNAME;
+
+	private static final String LOAD_TABLE_FLIGHTS = "from Flight as f order by f.";
+	
 	
 	/** The session. */
 	private static Session session;
@@ -64,6 +68,27 @@ public class DAOFlight {
 		}
 
 		return result;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public static List<Flight> loadFlightsForTable(String orderCol, String orderDir, int start, int length){
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_TABLE_FLIGHTS + orderCol + " " + orderDir);
+			if (query.getResultList().size() > 0) {
+				query.setFirstResult(start);
+				query.setMaxResults(length);
+				flightList = query.getResultList();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return flightList;
 	}
 
 	/**

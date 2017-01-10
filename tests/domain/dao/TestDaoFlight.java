@@ -3,15 +3,21 @@ package domain.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.model.Flight;
+import initialization.HibernateInit;
+import initialization.SocketIOInit;
 
 public class TestDaoFlight {
 
 	private static final String ERROR_LOAD = "Error load all cities from database";
 	private static final String INSERT_ERROR = "Error insert city into database";
 	private static final String REMOVE_ERROR = "Error removing one city from database";
+	private static final String ERROR_LOAD_FLIGHTS_TABLE = "Error loading flights for table";
 
 	@Test
 	public void testInsertFlightWithNothingIntoDB() {
@@ -41,6 +47,15 @@ public class TestDaoFlight {
 		boolean result = HibernateGeneric.deleteObject(flight);
 
 		assertEquals(REMOVE_ERROR, true, result);
+	}
+	
+	@Test
+	public void testLoadFlightsForTable(){
+		
+		List<Flight> flightList = DAOFlight.loadFlightsForTable("plane", "asc", 0, 10);
+		
+		assertEquals(ERROR_LOAD_FLIGHTS_TABLE, 10, flightList.size());
+		
 	}
 
 }

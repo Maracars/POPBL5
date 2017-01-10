@@ -13,15 +13,15 @@
 					<th><s:text name="controller.airplane" /></th>
 					<th><s:text name="controller.origin" /></th>
 					<th><s:text name="controller.destination" /></th>
-					<th><s:text name="controller.terminal" /></th>
-					<th><s:text name="controller.gate" /></th>
+					<th><s:text name="controller.expectedArrivalDate" /></th>
+					<th><s:text name="controller.expectedDepartureDate" /></th>
 				</tr>
 			</thead>
 		</table>
  	</div>
 <script>
 		$(document).ready(function() {
-			$('#flightstable').dataTable({
+			var table = $('#flightstable').dataTable({
 				"processing" : true,
 				"serverSide" : true,
 				"ajax" : {
@@ -42,11 +42,12 @@
 				}, {
 					"data" : "destination"
 				}, {
-					"data" : "terminal"
+					"data" : "expectedArrivalDate"
 				}, {
-					"data" : "gate"
+					"data" : "expectedDepartureDate"
 				} ]
 			});
+			
 		});
 	</script>
 </s:i18n>
