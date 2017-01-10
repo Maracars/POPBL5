@@ -19,7 +19,7 @@ public class TestDaoPath {
 	@Test
 	public void testInsertPathWithEverythingIntoDB() {
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initPathWithFreeLanes());
+		boolean result = HibernateGeneric.saveObject(Initializer.initPathWithFreeLanes());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -32,7 +32,7 @@ public class TestDaoPath {
 	@Test
 	public void testGetFreePlaneWithoutFlight() {
 		Path path = Initializer.initPathWithFreeLanes();
-		HibernateGeneric.saveOrUpdateObject(path);
+		HibernateGeneric.saveObject(path);
 
 		boolean result = HibernateGeneric.deleteObject(path);
 		assertEquals(DELETE_ERROR, true, result);
@@ -41,7 +41,7 @@ public class TestDaoPath {
 	@Test
 	public void testGetFreePathsWhereExistsJustFreePlanes() {
 		Path path = Initializer.initPathWithFreeLanes();
-		HibernateGeneric.saveOrUpdateObject(path);
+		HibernateGeneric.saveObject(path);
 		List<Path> paths = DAOPath.loadAllFreePaths();
 		assertNotNull(FREE_LOAD_ERROR, paths);
 	}
@@ -49,7 +49,7 @@ public class TestDaoPath {
 	@Test
 	public void testCantGetFreePaths() {
 		Path path = Initializer.initPathOccupiedAndFreeLanes();
-		HibernateGeneric.saveOrUpdateObject(path);
+		HibernateGeneric.saveObject(path);
 		List<Path> paths = DAOPath.loadAllFreePaths();
 		assertNotNull(FREE_LOAD_ERROR, paths);
 	}
@@ -57,7 +57,7 @@ public class TestDaoPath {
 	@Test
 	public void testGetFreePaths() {
 		Path path = Initializer.initPathOccupiedAndFreeLanes();
-		HibernateGeneric.saveOrUpdateObject(path);
+		HibernateGeneric.saveObject(path);
 		List<Path> paths = DAOPath.loadAllFreePaths();
 
 		assertNotNull(FREE_LOAD_ERROR, paths);

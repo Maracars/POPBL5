@@ -1,7 +1,6 @@
 package notification;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -22,18 +21,7 @@ public class PGSocketIONotify implements Runnable {
 	
 	/** The Constant SPLITTER. */
 	private static final String SPLITTER = ">";
-	
-	/** The Constant PG_DRIVER. */
-	private static final String PG_DRIVER = "org.postgresql.Driver";
-	
-	/** The Constant DB_PASSWORD. */
-	private static final String DB_PASSWORD = "Nestor123";
-	
-	/** The Constant DB_USERNAME. */
-	private static final String DB_USERNAME = "naranairapp";
-	
-	/** The Constant URL. */
-	private static final String URL = "jdbc:postgresql://localhost:5432/naranair";
+
 
 	/** The Constant LOOP_TIME. */
 	private static final int LOOP_TIME = 500;
@@ -73,16 +61,20 @@ public class PGSocketIONotify implements Runnable {
 	 * Instantiates a new PG socket IO notify.
 	 *
 	 * @param conn the conn
+	 * @param listenToArray the listen to array
 	 * @throws SQLException the SQL exception
 	 * @throws InterruptedException the interrupted exception
 	 */
-	public PGSocketIONotify(Connection conn) throws SQLException, InterruptedException {
+	public PGSocketIONotify(Connection conn, String[] listenToArray) throws SQLException, InterruptedException {
 
 		// 9092 portuan egongo da socket.io-ko komunikazinua
 		this.pgConn = (PGConnection) conn;
 		Statement listenStatement = conn.createStatement();
 		// Ze mezu entzun bihar daben esan, nahi beste mezu entzun leike.
-		listenStatement.execute("LISTEN mezua");
+		for (String listenTo : listenToArray) {
+			listenStatement.execute("LISTEN " + listenTo);
+
+		}
 		listenStatement.close();
 	}
 
@@ -103,11 +95,11 @@ public class PGSocketIONotify implements Runnable {
 						// PGk JSON bat bidaltzen dau, hori gero javascripten
 						// tratauko da
 						String[] tableInfo = pgNotification.getParameter().split(SPLITTER);
+						System.out.println(tableInfo[1]);
 						server.getBroadcastOperations().sendEvent("chatevent", tableInfo[1]);
 
 					}
 				}
-
 				// wait a while before checking again
 				Thread.sleep(LOOP_TIME);
 			} catch (SQLException sqlException) {
@@ -117,32 +109,17 @@ public class PGSocketIONotify implements Runnable {
 			}
 		}
 	}
-
+	
 	/**
-	 * The main method.
+	 * Send notification.
 	 *
-	 * @param args the arguments
-	 * @throws Exception the exception
+	 * @param receivingGroup the receiving group
+	 * @param message the message
 	 */
-	public static void main(String args[]) throws Exception {
-
-		Class.forName(PG_DRIVER);
-
-		// Konexino url-a sortu
-		// pasahitza eta erabiltzailiakin konexinua sortu
-		Connection lConn = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
-
-		// Thread-a sortu
-		PGSocketIONotify cl = new PGSocketIONotify(lConn);
-		// Threada korridu
-		(new Thread(cl)).start();
-
-		server.start();
-
-		Thread.sleep(Integer.MAX_VALUE);
-
-		server.stop();
-
+	public static void sendNotification(String receivingGroup, String message) {
+		server.getBroadcastOperations().sendEvent(receivingGroup, message);
 	}
+
+
 
 }

@@ -28,6 +28,12 @@
 	
 	<listener>  
 	    <listener-class>
+	       initialization.GatesInitialization
+	    </listener-class>
+	</listener>  
+	
+	<listener>  
+	    <listener-class>
 	       initialization.SocketIOInit
 	    </listener-class>
 	</listener>
@@ -50,7 +56,7 @@
 	
 	<error-page>
     	<error-code>404</error-code>
-    	<location>/pages/errors/404.jsp</location>
+    	<location>/pages/errors/404.jsp</location>    	
  	</error-page>
  	
  	<error-page>

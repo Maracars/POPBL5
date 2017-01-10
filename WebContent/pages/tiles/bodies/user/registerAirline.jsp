@@ -6,7 +6,7 @@
 <s:i18n name="action.user.package">
 	<div class="container-fluid">
 
-		<s:form action="AirlineSubmit" namespace="/register"
+		<s:form action="register/AirlineSubmit"
 			key="global.registerAirline" enctype="multipart/form-data"
 			cssClass="form-horizontal">
 			<div class="errors">

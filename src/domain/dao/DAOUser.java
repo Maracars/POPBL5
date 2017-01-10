@@ -5,6 +5,7 @@ import javax.persistence.Query;
 import org.hibernate.Session;
 
 import domain.model.users.Airline;
+import domain.model.users.Passenger;
 import domain.model.users.User;
 import hibernate.HibernateConnection;
 
@@ -57,8 +58,12 @@ public class DAOUser {
 		int result = 0;
 		try {
 			if (user instanceof Airline) {
-				Airline airline = (Airline) user;
-				DAOFlight.setNullAirlineFlights(airline.getUsername());
+				DAOFlight.setNullAirlineFlights(((Airline) user).getUsername());
+
+			}
+			if (user instanceof Passenger) {
+				DAOFlight.setNullPassengerFlights(((Passenger) user).getUsername());
+
 
 			}
 
@@ -66,8 +71,7 @@ public class DAOUser {
 			session.getTransaction().begin();
 
 			Query query = session.createQuery(
-					"delete " + user.getClass().getSimpleName() 
-					+ " where username = :" + PARAMETER_USERNAME);
+					"delete " + user.getClass().getSimpleName() + " where username = :" + PARAMETER_USERNAME);
 			query.setParameter(PARAMETER_USERNAME, user.getUsername());
 			result = query.executeUpdate();
 			session.getTransaction().commit();

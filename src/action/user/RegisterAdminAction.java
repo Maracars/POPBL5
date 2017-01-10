@@ -68,6 +68,9 @@ public class RegisterAdminAction extends RegisterAction {
 	Address address = new Address();
 
 
+	/* (non-Javadoc)
+	 * @see action.user.RegisterAction#userSpecificValidate()
+	 */
 	@Override
 	void userSpecificValidate() {
 		allowedUsers.add(Admin.class);
@@ -134,7 +137,7 @@ public class RegisterAdminAction extends RegisterAction {
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.saveOrUpdateObject(((Admin) user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveObject(((Admin) user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 

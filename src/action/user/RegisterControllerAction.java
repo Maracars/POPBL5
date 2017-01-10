@@ -137,7 +137,7 @@ public class RegisterControllerAction extends RegisterAction {
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
-		ret = HibernateGeneric.saveOrUpdateObject(((Controller) user).getAddress()) ? SUCCESS : ERROR;
+		ret = HibernateGeneric.saveObject(((Controller) user).getAddress()) ? SUCCESS : ERROR;
 		return ret;
 	}
 

@@ -16,7 +16,7 @@ public class TestDaoAddress {
 	@Test
 	public void testInsertAddressIntoDB() {
 		Address address = Initializer.initAddress();
-		boolean result = HibernateGeneric.saveOrUpdateObject(address);
+		boolean result = HibernateGeneric.saveObject(address);
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -29,7 +29,7 @@ public class TestDaoAddress {
 	@Test
 	public void testRemoveOneSpecificState() {
 		Address address = Initializer.initAddress();
-		HibernateGeneric.saveOrUpdateObject(address);
+		HibernateGeneric.saveObject(address);
 		boolean result = HibernateGeneric.deleteObject(address);
 		assertEquals(ERROR_REMOVING, true, result);
 	}

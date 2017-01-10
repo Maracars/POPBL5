@@ -13,6 +13,10 @@ import domain.model.Plane;
 
 public class TestCompleteSimulator {
 	
+	private static final int TIME_TO_FINISH_THREADS = 20000;
+	private static final int TIME_TO_EXECUTE_ALL = 60000;
+	private static final String ERROR_FINISH_THREADS = "Error finishing all threads";
+
 	@Before
 	public void initialize() {
 		HibernateGeneric.deleteAllObjects(new Flight());
@@ -25,13 +29,13 @@ public class TestCompleteSimulator {
 		MainThread main = new MainThread();
 		try {
 			main.createMainThread(null);
-			Thread.sleep(60000);
+			Thread.sleep(TIME_TO_EXECUTE_ALL);
 			main.finishThreads();
-			Thread.sleep(20000);
+			Thread.sleep(TIME_TO_FINISH_THREADS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		ExecutorService threadPool = main.getThreadPool();
-		assertTrue("aa",threadPool.isTerminated());
+		assertTrue(ERROR_FINISH_THREADS,threadPool.isTerminated());
 	}
 }

@@ -32,8 +32,19 @@ public class Gate {
 	/** The terminal. */
 	@ManyToOne(optional = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-
 	Terminal terminal;
+	
+	/** The free. */
+	boolean free;
+
+	/**
+	 * Sets the free.
+	 *
+	 * @param free the new free
+	 */
+	public void setFree(boolean free) {
+		this.free = free;
+	}
 
 	/**
 	 * Gets the terminal.

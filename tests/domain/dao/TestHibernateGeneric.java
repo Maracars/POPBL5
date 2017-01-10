@@ -29,7 +29,7 @@ public class TestHibernateGeneric {
 	@Test
 	public void testInsertHibernateWithNull() {
 
-		assertEquals(INSERT_ERROR, false, HibernateGeneric.saveOrUpdateObject(null));
+		assertEquals(INSERT_ERROR, false, HibernateGeneric.saveObject(null));
 	}
 	
 	@Test

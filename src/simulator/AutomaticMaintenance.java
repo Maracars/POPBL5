@@ -80,4 +80,12 @@ public class AutomaticMaintenance implements Runnable {
 		HibernateGeneric.updateObject(planeToRevise);		
 	}
 
+
+	/**
+	 * Interrupt.
+	 */
+	public void interrupt() {
+		Thread.currentThread().interrupt();		
+	}
+
 }

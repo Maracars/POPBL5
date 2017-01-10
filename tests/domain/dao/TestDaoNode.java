@@ -17,7 +17,7 @@ public class TestDaoNode {
 	@Test
 	public void testInsertNodeIntoDB() {
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initNode());
+		boolean result = HibernateGeneric.saveObject(Initializer.initNode());
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
@@ -30,7 +30,7 @@ public class TestDaoNode {
 	@Test
 	public void testRemoveOneSpecificnode() {
 		Node node = Initializer.initNode();
-		HibernateGeneric.saveOrUpdateObject(node);
+		HibernateGeneric.saveObject(node);
 		boolean result = HibernateGeneric.deleteObject(node);
 		assertEquals(ERROR_REMOVING, true, result);
 	}

@@ -10,7 +10,11 @@
 		<action name="loginSubmit" class="action.user.LoginAction">
 			<result name="login" type="tiles">login</result>
 			<result name="input" type="tiles">login</result>
-			<result name="success" type="redirect">%{url}</result>
+			<!-- <result name="success" type="redirect">%{url}</result> -->
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/controller</param>
+			</result>
 		</action>
 
 		<action name="logout" class="action.user.LogoutAction">
@@ -30,7 +34,7 @@
 			<result name="*" type="redirect">%{url}</result>
 		</action>
 
-		<action name="/u/edit/{username}" class="action.user.EditUserStepAction">
+		<action name="u/edit/{username}" class="action.user.EditUserStepAction">
 			<interceptor-ref name="validateStack">
 				<param name="validateUser.allowed">ADMIN</param>
 			</interceptor-ref>

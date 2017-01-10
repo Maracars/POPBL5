@@ -10,19 +10,19 @@
 			<span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu">
-			<li><s:a namespace="/register" action="Passenger">
+			<li><s:a action="register/Passenger">
 					<s:text name="global.passenger" />
 				</s:a></li>
-			<li><s:a namespace="/register" action="Controller">
+			<li><s:a action="register/Controller">
 					<s:text name="global.controller" />
 				</s:a></li>
-			<li><s:a namespace="/register" action="Mantainance">
+			<li><s:a action="register/Mantainance">
 					<s:text name="global.mantainance" />
 				</s:a></li>
-			<li><s:a namespace="/register" action="Admin">
+			<li><s:a action="register/Admin">
 					<s:text name="global.admin" />
 				</s:a></li>
-			<li><s:a namespace="/register" action="Airline">
+			<li><s:a action="register/Airline">
 					<s:text name="global.airline" />
 				</s:a></li>
 		</ul>

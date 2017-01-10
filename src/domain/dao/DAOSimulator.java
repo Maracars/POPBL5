@@ -44,9 +44,9 @@ public class DAOSimulator {
 	/** The Constant QUERY_COUNT_FLIGHTS_IN_WEEK. */
 	private static final String QUERY_COUNT_FLIGHTS_IN_WEEK = "select COUNT(f) from Flight as f "
 			+ "where (f.expectedDepartureDate BETWEEN current_date and :" + PARAMETER_MARGIN_WEEK
-			+ " and f.route.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID + " ) "
+			+ " and f.route.departureTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + " ) "
 			+ "or (f.expectedArrivalDate BETWEEN current_date and :" + PARAMETER_MARGIN_WEEK
-			+ " and f.route.arrivalGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID + " )";
+			+ " and f.route.arrivalTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + " )";
 	
 	/** The session. */
 	private static Session session;

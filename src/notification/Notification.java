@@ -1,25 +1,25 @@
 package notification;
 
-import com.corundumstudio.socketio.Configuration;
-import com.corundumstudio.socketio.SocketIOServer;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Notification.
  */
 public class Notification {
-	
-	/** The Constant LOCALHOST. */
-	private static final String LOCALHOST = "localhost";
-	
-	/** The Constant PORT_NMBER. */
-	private static final int PORT_NMBER = 9092;
 
-	/** The conf. */
-	private static Configuration conf = null;
+	/** The Constant PG_DRIVER. */
+	private static final String PG_DRIVER = "org.postgresql.Driver";
 	
-	/** The server. */
-	private static SocketIOServer server = null;
+	/** The Constant DB_PASSWORD. */
+	private static final String DB_PASSWORD = "Nestor123";
+	
+	/** The Constant DB_USERNAME. */
+	private static final String DB_USERNAME = "naranairapp";
+	
+	/** The Constant URL. */
+	private static final String URL = "jdbc:postgresql://localhost:5432/naranair";
 
 	/**
 	 * Start.
@@ -27,11 +27,20 @@ public class Notification {
 	 * @throws Throwable the throwable
 	 */
 	public static void start() throws Throwable {
-		conf = new Configuration();
-		conf.setHostname(LOCALHOST);
-		conf.setPort(PORT_NMBER);
-		server = new SocketIOServer(conf);
-		server.start();
+		Connection lConn;
+		String listenTo[] = { "mezua" };
+		try {
+			Class.forName(PG_DRIVER);
+			lConn = DriverManager.getConnection(URL, DB_USERNAME, DB_PASSWORD);
+			PGSocketIONotify cl = new PGSocketIONotify(lConn, listenTo);
+			(new Thread(cl)).start();
+
+			PGSocketIONotify.start();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -40,7 +49,7 @@ public class Notification {
 	 * @throws Throwable the throwable
 	 */
 	public static void stop() throws Throwable {
-		server.stop();
+		PGSocketIONotify.stop();
 	}
 
 	/**
@@ -50,7 +59,7 @@ public class Notification {
 	 * @param message the message
 	 */
 	public static void sendNotification(String receivingGroup, String message) {
-		server.getBroadcastOperations().sendEvent(receivingGroup, message);
+		PGSocketIONotify.sendNotification(receivingGroup, message);
 	}
 
 }

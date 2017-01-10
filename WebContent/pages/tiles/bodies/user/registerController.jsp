@@ -5,7 +5,7 @@
 <s:i18n name="action.user.package">
 	<div class="container-fluid">
 
-		<s:form action="ControllerSubmit" namespace="/register"
+		<s:form action="register/ControllerSubmit"
 			key="global.registerController" enctype="multipart/form-data"
 			cssClass="form-horizontal">
 			<div class="errors">

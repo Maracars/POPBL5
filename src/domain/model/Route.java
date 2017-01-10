@@ -23,13 +23,30 @@ public class Route {
 	/** The arrival gate. */
 	@ManyToOne(optional = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	Gate arrivalGate;
+	Terminal arrivalTerminal;
+
+	/**
+	 * Sets the arrival terminal.
+	 *
+	 * @param arrivalTerminal the new arrival terminal
+	 */
+	public void setArrivalTerminal(Terminal arrivalTerminal) {
+		this.arrivalTerminal = arrivalTerminal;
+	}
+
+	/**
+	 * Sets the departure terminal.
+	 *
+	 * @param departureTerminal the new departure terminal
+	 */
+	public void setDepartureTerminal(Terminal departureTerminal) {
+		this.departureTerminal = departureTerminal;
+	}
 
 	/** The departure gate. */
 	@ManyToOne(optional = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-
-	Gate departureGate;
+	Terminal departureTerminal;
 
 	/**
 	 * Gets the id.
@@ -50,39 +67,21 @@ public class Route {
 	}
 
 	/**
-	 * Gets the arrival gate.
+	 * Gets the arrival terminal.
 	 *
-	 * @return the arrival gate
+	 * @return the arrival terminal
 	 */
-	public Gate getArrivalGate() {
-		return arrivalGate;
+	public Terminal getArrivalTerminal() {
+		return arrivalTerminal;
 	}
 
 	/**
-	 * Sets the arrival gate.
+	 * Gets the departure terminal.
 	 *
-	 * @param arrivalGate the new arrival gate
+	 * @return the departure terminal
 	 */
-	public void setArrivalGate(Gate arrivalGate) {
-		this.arrivalGate = arrivalGate;
-	}
-
-	/**
-	 * Gets the departure gate.
-	 *
-	 * @return the departure gate
-	 */
-	public Gate getDepartureGate() {
-		return departureGate;
-	}
-
-	/**
-	 * Sets the departure gate.
-	 *
-	 * @param departureGate the new departure gate
-	 */
-	public void setDepartureGate(Gate departureGate) {
-		this.departureGate = departureGate;
+	public Terminal getDepartureTerminal() {
+		return departureTerminal;
 	}
 
 }

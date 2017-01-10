@@ -20,32 +20,33 @@ public class Dijkstra {
 
 	/** The Constant ARRIVAL_MODE. */
 	public static final boolean ARRIVAL_MODE = true;
-	
+
 	/** The Constant DEPARTURE_MODE. */
 	public static final boolean DEPARTURE_MODE = false;
-	
+
 	/** The paths. */
 	private final List<Path> paths;
-	
+
 	/** The settled nodes. */
 	private Set<Node> settledNodes;
-	
+
 	/** The un settled nodes. */
 	private Set<Node> unSettledNodes;
-	
+
 	/** The predecessors. */
 	private Map<Node, Node> predecessors;
-	
+
 	/** The distance. */
 	private Map<Node, Double> distance;
-	
+
 	/** The execution mode. */
 	private boolean executionMode;
 
 	/**
 	 * Instantiates a new dijkstra.
 	 *
-	 * @param paths the paths
+	 * @param paths
+	 *            the paths
 	 */
 	public Dijkstra(List<Path> paths) {
 		this.paths = paths;
@@ -54,8 +55,10 @@ public class Dijkstra {
 	/**
 	 * Execute.
 	 *
-	 * @param source the source
-	 * @param mode the mode
+	 * @param source
+	 *            the source
+	 * @param mode
+	 *            the mode
 	 */
 	public void execute(Node source, boolean mode) {
 		settledNodes = new HashSet<Node>();
@@ -76,7 +79,8 @@ public class Dijkstra {
 	/**
 	 * Find minimal distances.
 	 *
-	 * @param node the node
+	 * @param node
+	 *            the node
 	 */
 	private void findMinimalDistances(Node node) {
 		List<Node> adjacentNodes = getNeighbors(node);
@@ -93,8 +97,10 @@ public class Dijkstra {
 	/**
 	 * Gets the path from two nodes.
 	 *
-	 * @param node the node
-	 * @param target the target
+	 * @param node
+	 *            the node
+	 * @param target
+	 *            the target
 	 * @return the path from two nodes
 	 */
 	private Path getPathFromTwoNodes(Node node, Node target) {
@@ -114,20 +120,16 @@ public class Dijkstra {
 	/**
 	 * Gets the distance.
 	 *
-	 * @param node the node
-	 * @param target the target
+	 * @param node
+	 *            the node
+	 * @param target
+	 *            the target
 	 * @return the distance
 	 */
 	private double getDistance(Node node, Node target) {
 		for (Path path : paths) {
-			if (executionMode == ARRIVAL_MODE) {
-				if (checkPathExist(node, target, path))
-					return path.getDistance();
-
-			} else {
-				if (checkPathExist(target, node, path))
-					return path.getDistance();
-			}
+			if (checkPathExist(node, target, path))
+				return path.getDistance();
 		}
 		throw new RuntimeException("Should not happen");
 	}
@@ -135,9 +137,12 @@ public class Dijkstra {
 	/**
 	 * Check path exist.
 	 *
-	 * @param node the node
-	 * @param target the target
-	 * @param path the path
+	 * @param node
+	 *            the node
+	 * @param target
+	 *            the target
+	 * @param path
+	 *            the path
 	 * @return true, if successful
 	 */
 	private boolean checkPathExist(Node node, Node target, Path path) {
@@ -147,30 +152,36 @@ public class Dijkstra {
 				checker = true;
 			}
 		}
+		if (path.getLaneList().get(0).getStartNode().getId() == target.getId()) {
+			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getId() == node.getId()) {
+				checker = true;
+			}
+		}
 		return checker;
 	}
 
 	/**
 	 * Gets the neighbors.
 	 *
-	 * @param node the node
+	 * @param node
+	 *            the node
 	 * @return the neighbors
 	 */
 	private List<Node> getNeighbors(Node node) {
 		List<Node> neighbors = new ArrayList<Node>();
 		for (Path path : paths) {
-			if(executionMode == ARRIVAL_MODE){
+			if (executionMode == ARRIVAL_MODE) {
 				if (path.getLaneList().get(0).getStartNode().getId() == node.getId()
 						&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode())) {
 					neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode());
 				}
-			}else{
+			} else {
 				if (path.getLaneList().get(0).getEndNode().getId() == node.getId()
 						&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getStartNode())) {
 					neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getStartNode());
 				}
 			}
-			
+
 		}
 		return neighbors;
 	}
@@ -178,7 +189,8 @@ public class Dijkstra {
 	/**
 	 * Gets the minimum.
 	 *
-	 * @param unSettledNodes2 the un settled nodes 2
+	 * @param unSettledNodes2
+	 *            the un settled nodes 2
 	 * @return the minimum
 	 */
 	private Node getMinimum(Set<Node> unSettledNodes2) {
@@ -198,7 +210,8 @@ public class Dijkstra {
 	/**
 	 * Checks if is settled.
 	 *
-	 * @param vertex the vertex
+	 * @param vertex
+	 *            the vertex
 	 * @return true, if is settled
 	 */
 	private boolean isSettled(Node vertex) {
@@ -208,7 +221,8 @@ public class Dijkstra {
 	/**
 	 * Gets the shortest distance.
 	 *
-	 * @param vertex the vertex
+	 * @param vertex
+	 *            the vertex
 	 * @return the shortest distance
 	 */
 	private Double getShortestDistance(Node vertex) {
@@ -223,7 +237,8 @@ public class Dijkstra {
 	/**
 	 * Gets the path.
 	 *
-	 * @param target the target
+	 * @param target
+	 *            the target
 	 * @return the path
 	 */
 	/*

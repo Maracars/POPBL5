@@ -16,14 +16,14 @@ public class TestDaoFlight {
 	@Test
 	public void testInsertFlightWithNothingIntoDB() {
 		Flight flight = new Flight();
-		boolean result = HibernateGeneric.saveOrUpdateObject(flight);
+		boolean result = HibernateGeneric.saveObject(flight);
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
 	@Test
 	public void testInsertFlightDB() {
 
-		boolean result = HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteFlight());
+		boolean result = HibernateGeneric.saveObject(Initializer.initCompleteFlight());
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
@@ -36,9 +36,9 @@ public class TestDaoFlight {
 	@Test
 	public void testRemoveOneSpecificFlight() {
 
-		HibernateGeneric.saveOrUpdateObject(Initializer.initCompleteFlight());
-		boolean result = HibernateGeneric.deleteObject(
-				(Flight) HibernateGeneric.loadAllObjects(new Flight()).get(0));
+		Flight flight = Initializer.initCompleteFlight();
+		HibernateGeneric.saveObject(flight);
+		boolean result = HibernateGeneric.deleteObject(flight);
 
 		assertEquals(REMOVE_ERROR, true, result);
 	}

@@ -24,16 +24,23 @@ public class Airport {
 	/** The max flights. */
 	Integer maxFlights;
 	
-	/** Variable to know if the airport local. */
+	/** The locale. */
 	boolean locale;
 	
 	/** The position node. */
 	@OneToOne
 	Node positionNode;
 
+	/**
+	 * Sets the locale.
+	 *
+	 * @param locale the new locale
+	 */
+	public void setLocale(boolean locale) {
+		this.locale = locale;
+	}
 
-
-/** The address. */
+	/** The address. */
 	@ManyToOne(optional = false)
 	Address address;
 
@@ -109,13 +116,22 @@ public class Airport {
 		this.address = address;
 	}
 
+	/**
+	 * Gets the position node.
+	 *
+	 * @return the position node
+	 */
+	public Node getPositionNode() {
+		return positionNode;
+	}
 
 	/**
-	 * Sets the locale.
+	 * Sets the position node.
 	 *
-	 * @param locale the new locale
+	 * @param positionNode the new position node
 	 */
-	public void setLocale(boolean locale) {
-		this.locale = locale;
+	public void setPositionNode(Node positionNode) {
+		this.positionNode = positionNode;
 	}
+
 }

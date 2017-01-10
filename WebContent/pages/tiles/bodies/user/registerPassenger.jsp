@@ -7,7 +7,7 @@
 <s:i18n name="action.user.package">
 	<div class="container-fluid">
 
-		<s:form action="PassengerSubmit" namespace="/register"
+		<s:form action="register/PassengerSubmit"
 			key="global.registerPassenger" enctype="multipart/form-data"
 			cssClass="form-horizontal">
 			<div class="errors">
@@ -18,12 +18,13 @@
 					<s:text name="user.accountInfo" />
 				</h4>
 				<s:textfield labelSeparator=":" key="user.username"
-					name="user.username" class ="username"/>
+					name="user.username" class="username" />
 				<s:password labelSeparator=":" key="user.password"
 					name="user.password" />
 				<s:password labelSeparator=":" key="user.repeatPassword"
 					name="repeatPassword" />
-				<s:textfield labelSeparator=":" key="user.email" type="email" name="user.email" />
+				<s:textfield labelSeparator=":" key="user.email" type="email"
+					name="user.email" />
 			</div>
 			<div class="well">
 				<h4>

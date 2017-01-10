@@ -1,0 +1,137 @@
+[
+	{
+		"number":32,
+		"positionNode":{
+							"positionX":51.4734157,
+							"positionY":-0.4819943,
+							"name":"GATE-B32"
+
+						}
+	},
+	{
+		"number":33,
+		"positionNode":{
+							"positionX":51.472741,
+							"positionY":-0.4819888,
+							"name":"GATE-B33"
+
+						}
+	},
+	{
+		"number":34,
+		"positionNode":{
+							"positionX":51.4720735,
+							"positionY":-0.4819835,
+							"name":"GATE-B34"
+
+						}
+	},
+	{
+		"number":35,
+		"positionNode":{
+							"positionX":51.4714182,
+							"positionY":-0.4819782,
+							"name":"GATE-B35"
+
+						}
+	},
+	{
+		"number":36,
+		"positionNode":{
+							"positionX":51.4707363,
+							"positionY":-0.4819727,
+							"name":"GATE-B36"
+
+						}
+	},
+	{
+		"number":37,
+		"positionNode":{
+							"positionX":51.4700816,
+							"positionY":-0.4819675,
+							"name":"GATE-B37"
+
+						}
+	},
+	{
+		"number":38,
+		"positionNode":{
+							"positionX":51.4694201,
+							"positionY":-0.4819621,
+							"name":"GATE-B38"
+
+						}
+	},	
+	{
+		"number":39,
+		"positionNode":{
+							"positionX":51.4687511,
+							"positionY":-0.4818847,
+							"name":"GATE-B39"
+
+						}
+	},
+	{
+		"number":42,
+		"positionNode":{
+							"positionX":51.468879,
+							"positionY":-0.4805642,
+							"name":"GATE-B42"
+
+						}
+	},
+	{
+		"number":43,
+		"positionNode":{
+							"positionX":51.4695513,
+							"positionY":-0.4805688,
+							"name":"GATE-B43"
+
+						}
+	},
+	{
+		"number":44,
+		"positionNode":{
+							"positionX":51.4702161,
+							"positionY":-0.480575,
+							"name":"GATE-B44"
+
+						}
+	},
+	{
+		"number":45,
+		"positionNode":{
+							"positionX":51.4710143,
+							"positionY":-0.4805824,
+							"name":"GATE-B45"
+
+						}
+	},
+	{
+		"number":46,
+		"positionNode":{
+							"positionX":51.4718198,
+							"positionY":-0.4805878,
+							"name":"GATE-B46"
+
+						}
+	},
+	{
+		"number":47,
+		"positionNode":{
+							"positionX":51.4727814,
+							"positionY":-0.4805956,
+							"name":"GATE-B47"
+
+						}
+	},
+	{
+		"number":48,
+		"positionNode":{
+							"positionX":51.4736681,
+							"positionY":-0.4805245,
+							"name":"GATE-B48"
+
+						}
+	}
+]

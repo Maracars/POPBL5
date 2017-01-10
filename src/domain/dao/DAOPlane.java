@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
+import domain.model.Flight;
 import domain.model.Plane;
 import hibernate.HibernateConnection;
 
@@ -40,29 +42,32 @@ public class DAOPlane {
 	private static final String PARAMETER_SOON_DATE = "soonDate";
 
 	/** The Constant SELECT_PLANE. */
-	private static final String SELECT_PLANE = "select f.plane from Flight as f right join f.plane as p ";
-	
+	private static final String SELECT_PLANE_JOIN_FLIGHT = "select f.plane from Flight as f right join f.plane as p ";
+
+	/** The Constant SELECT_FLIGHT_JOIN_PLANE. */
+	private static final String SELECT_FLIGHT_JOIN_PLANE = "select f from Flight as f right join f.plane as p ";
+
 	/** The Constant QUERY_ARRIVAL_PLANES_SOON. */
-	private static final String QUERY_ARRIVAL_PLANES_SOON = SELECT_PLANE
+	private static final String QUERY_ARRIVAL_FLIGHTS_SOON = SELECT_FLIGHT_JOIN_PLANE
 			+ "where f.expectedArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
-			+ " and p.status.positionStatus = 'ARRIVING'" + "and f.route.departureGate.terminal.airport.id = :"
+			+ " and p.status.positionStatus = 'ARRIVING'" + "and f.route.departureTerminal.airport.id = :"
 			+ PARAMETER_AIRPORT_ID;
 	
 	/** The Constant DEPARTURE_HOUR_MARGIN. */
 	private static final int DEPARTURE_HOUR_MARGIN = 3;
 	
 	/** The Constant QUERY_DEPARTURING_PLANES_SOON. */
-	private static final String QUERY_DEPARTURING_PLANES_SOON = SELECT_PLANE
+	private static final String QUERY_DEPARTURING_FLIGHTS_SOON = SELECT_FLIGHT_JOIN_PLANE
 			+ "where f.expectedDepartureDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
 			+ " and p.status.positionStatus = 'ON AIRPORT' and p.status.technicalStatus = 'OK' "
-			+ "and f.route.departureGate.terminal.airport.id = :" + PARAMETER_AIRPORT_ID;
+			+ "and f.route.departureTerminal.airport.id = :" + PARAMETER_AIRPORT_ID;
 
 	/** The Constant QUERY_PLANES_NEED_REVISE. */
 	private static final String QUERY_PLANES_NEED_REVISE = "from Plane as p "
 			+ "where p.status.technicalStatus = 'NEEDS REVISION'";
 
 	/** The Constant QUERY_FREE_PLANE. */
-	private static final String QUERY_FREE_PLANE = SELECT_PLANE
+	private static final String QUERY_FREE_PLANE = SELECT_PLANE_JOIN_FLIGHT
 			+ "where f.realArrivalDate < current_timestamp or f is null";
 	
 	/** The Constant MILIS_TO_HOURS. */
@@ -78,23 +83,23 @@ public class DAOPlane {
 	 * @return the arriving planes soon
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Plane> getArrivingPlanesSoon(int airportId) {
-		List<Plane> planeList = null;
+	public static List<Flight> getArrivingFlightsSoon(int airportId) {
+		List<Flight> flightList = null;
 		Date soon = new Date();
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
-			Query query = session.createQuery(QUERY_ARRIVAL_PLANES_SOON);
+			Query query = session.createQuery(QUERY_ARRIVAL_FLIGHTS_SOON);
 			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime() + (MILIS_TO_HOURS * ARRIVAL_HOUR_MARGIN)));
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 
-			planeList = query.getResultList();
+			flightList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 
-		return planeList;
+		return flightList;
 	}
 
 	/**
@@ -104,25 +109,25 @@ public class DAOPlane {
 	 * @return the departuring planes soon
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Plane> getDeparturingPlanesSoon(int airportId) {
-		List<Plane> planeList = null;
+	public static List<Flight> getDeparturingFlightsSoon(int airportId) {
+		List<Flight> flightList = null;
 		Date soon = new Date();
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
 			// TODO PLANESTATUS GEHITZEN DANIAN HAU INPLEMENTATZEKO GERATZEN DA
-			Query query = session.createQuery(QUERY_DEPARTURING_PLANES_SOON);
+			Query query = session.createQuery(QUERY_DEPARTURING_FLIGHTS_SOON);
 			query.setParameter(PARAMETER_SOON_DATE,
 					new Date(soon.getTime() + (MILIS_TO_HOURS * DEPARTURE_HOUR_MARGIN)));
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 
-			planeList = query.getResultList();
+			flightList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 
-		return planeList;
+		return flightList;
 	}
 
 	/**
@@ -169,4 +174,25 @@ public class DAOPlane {
 
 
 
+	/**
+	 * Gets the plane position.
+	 *
+	 * @return the plane position
+	 */
+	public static List<Object> getPlanePosition() {
+		List<Object> objectList = null;
+		try {
+
+			session = HibernateConnection.getSessionFactory().openSession();
+			@SuppressWarnings("unchecked")
+			TypedQuery<Object> query = session.createQuery("from Plane");
+			objectList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return objectList;
+	}
 }

@@ -21,11 +21,11 @@ public class Node {
 
 	/** The position X. */
 	@Column(nullable = false)
-	private double positionX;
+	private double positionX; //Longitude
 
 	/** The position Y. */
 	@Column(nullable = false)
-	private double positionY;
+	private double positionY; //Latitude
 
 	/** The name. */
 	private String name;

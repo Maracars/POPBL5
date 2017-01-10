@@ -1,26 +1,15 @@
 package domain.model;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import javax.persistence.Embeddable;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class PlaneMovement.
  */
-@Entity
+@Embeddable
 public class PlaneMovement {
 
-	/** The id. */
-	@Id
-	@GeneratedValue
-	Integer id;
-	
 	/** The direction X. */
 	@Column(nullable = false)
 	Double directionX;
@@ -40,48 +29,6 @@ public class PlaneMovement {
 	/** The speed. */
 	@Column(nullable = false)
 	Double speed;
-
-	/** The plane. */
-	@ManyToOne(optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-
-	Plane plane;
-
-	/**
-	 * Gets the plane.
-	 *
-	 * @return the plane
-	 */
-	public Plane getPlane() {
-		return plane;
-	}
-
-	/**
-	 * Sets the plane.
-	 *
-	 * @param plane the new plane
-	 */
-	public void setPlane(Plane plane) {
-		this.plane = plane;
-	}
-
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	/**
 	 * Gets the direction X.

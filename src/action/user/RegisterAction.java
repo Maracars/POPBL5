@@ -63,6 +63,9 @@ public abstract class RegisterAction extends ActionSupport {
 	/** The allowed users. */
 	ArrayList<Class<?>> allowedUsers = new ArrayList<>();
 
+	/* (non-Javadoc)
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	@Override
 	public void validate() {
 
@@ -91,6 +94,9 @@ public abstract class RegisterAction extends ActionSupport {
 	abstract void userSpecificValidate();
 
 
+	/* (non-Javadoc)
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
 	@Override
 	public String execute() throws Exception {
 		String ret = SUCCESS;
@@ -100,7 +106,7 @@ public abstract class RegisterAction extends ActionSupport {
 			ret = userSpecificInsert();
 		if (ret != ERROR) {
 
-			ret = HibernateGeneric.saveOrUpdateObject(user) ? SUCCESS : ERROR;
+			ret = HibernateGeneric.saveObject(user) ? SUCCESS : ERROR;
 			addActionError(getText(ERROR_SAVING));
 		}
 

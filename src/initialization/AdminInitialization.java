@@ -47,8 +47,8 @@ public class AdminInitialization implements ServletContextListener {
 			a.setStreetAndNumber("Goiru 2");
 			admin.setAddress(a);
 
-			HibernateGeneric.saveOrUpdateObject(a);
-			HibernateGeneric.saveOrUpdateObject(admin);
+			HibernateGeneric.saveObject(a);
+			HibernateGeneric.saveObject(admin);
 		}
 	}
 
