@@ -167,8 +167,8 @@ public class AirportController implements Runnable {
 		if (plane.isMode() == plane.ARRIVING) {
 			List<Gate> freeGateList = DAOGate
 					.loadFreeGatesFromTerminal(plane.getFlight().getRoute().getArrivalTerminal().getId());
-			freeGate = freeGateList.get(0);
-			if (freeGate != null) {
+			if (freeGateList != null) {
+				freeGate = freeGateList.get(0);
 				plane.getFlight().setEndGate(freeGate);
 				freeGate.setFree(false);
 				HibernateGeneric.updateObject(freeGate);

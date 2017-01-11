@@ -6,6 +6,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import domain.model.users.User;
 import helpers.MD5;
@@ -109,9 +110,9 @@ public class HibernateGeneric {
 		boolean result = true;
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
-			session.getTransaction().begin();
+			Transaction transaction = session.beginTransaction();
 			session.update(object);
-			session.getTransaction().commit();
+			transaction.commit();
 
 		} catch (Exception e) {
 			e.printStackTrace();

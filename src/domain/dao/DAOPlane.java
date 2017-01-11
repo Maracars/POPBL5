@@ -50,7 +50,7 @@ public class DAOPlane {
 	/** The Constant QUERY_ARRIVAL_PLANES_SOON. */
 	private static final String QUERY_ARRIVAL_FLIGHTS_SOON = SELECT_FLIGHT_JOIN_PLANE
 			+ "where f.expectedArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
-			+ " and p.status.positionStatus = 'ARRIVING'" + "and f.route.departureTerminal.airport.id = :"
+			+ " and p.status.positionStatus = 'ARRIVING'" + "and f.route.arrivalTerminal.airport.id = :"
 			+ PARAMETER_AIRPORT_ID;
 	
 	/** The Constant DEPARTURE_HOUR_MARGIN. */

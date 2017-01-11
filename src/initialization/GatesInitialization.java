@@ -123,7 +123,6 @@ public class GatesInitialization implements ServletContextListener {
 			nodeList = loadNodesJSON();
 			createLanes();
 			createPaths();
-			insertRoutes(localeAirport);
 			terminalList = loadTerminalsJSON();
 			for (Terminal terminal : terminalList) {
 				terminal.setAirport(localeAirport);
@@ -134,9 +133,11 @@ public class GatesInitialization implements ServletContextListener {
 			for (Gate gate : gatesList) {
 				Random random = new Random();
 				gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())));
+				gate.setFree(true);
 				HibernateGeneric.saveObject(gate.getPositionNode());
 				HibernateGeneric.saveObject(gate);
 			}
+			insertRoutes(localeAirport);
 
 		}
 

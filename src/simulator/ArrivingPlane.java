@@ -84,9 +84,17 @@ public class ArrivingPlane extends PlaneThread {
 	 * Move to airport.
 	 */
 	private void moveToAirport() {
+		try {
+			controller.getMutex().acquire();
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			e.printStackTrace();
+		}
 		plane.getPlaneMovement().setPositionX(INITIAL_POSX);
 		plane.getPlaneMovement().setPositionY(INITIAL_POSY);
 		HibernateGeneric.updateObject(plane);
+		controller.getMutex().release();
+
 	}
 
 }
