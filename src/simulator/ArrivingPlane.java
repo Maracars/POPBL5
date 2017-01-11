@@ -47,6 +47,12 @@ public class ArrivingPlane extends PlaneThread {
 	@Override
 	public void run() {
 		Notification.sendNotification(MD5.encrypt(ADMIN), "Plane " + plane.getSerial() + " ARRIVING");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			Thread.currentThread().interrupt();
+			e1.printStackTrace();
+		}
 		moveToAirport();
 		Notification.sendNotification(MD5.encrypt(ADMIN),
 				"Plane " + plane.getSerial() + " ASK PERMISSION TO ARRIVE");

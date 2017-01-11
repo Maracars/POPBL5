@@ -110,9 +110,9 @@ public class HibernateGeneric {
 		boolean result = true;
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
-			Transaction transaction = session.beginTransaction();
+			session.getTransaction().begin();
 			session.update(object);
-			transaction.commit();
+			session.getTransaction().commit();
 
 		} catch (Exception e) {
 			e.printStackTrace();
