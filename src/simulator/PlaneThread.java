@@ -128,17 +128,37 @@ public abstract class PlaneThread implements Runnable {
 	 * @param status the status
 	 */
 	protected void changeLaneStatus(Lane laneToChange, boolean status) {
+		try {
+			controller.getMutex().acquire();
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			e.printStackTrace();
+		}
 		laneToChange.setStatus(status);
 		HibernateGeneric.updateObject(laneToChange);
+		controller.getMutex().release();
 	}
 
 	/**
 	 * Move plane to end of lane.
 	 */
 	private void movePlaneToEndOfLane() {
+		try {
+			controller.getMutex().acquire();
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			e.printStackTrace();
+		}
 		plane.getPlaneMovement().setPositionX(momentLane.getEndNode().getPositionX());
 		plane.getPlaneMovement().setPositionY(momentLane.getEndNode().getPositionY());
 		HibernateGeneric.updateObject(plane);
+		controller.getMutex().release();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

@@ -26,7 +26,7 @@ public class DAOLane {
 	
 	/** The Constant QUERY_FREE_LANES. */
 	private static final String QUERY_FREE_LANES = "from Lane as l "
-			+ "where l.type = :type and l.status is true and l.airport.id = :" + PARAMETER_AIRPORT_ID;
+			+ "where l.status is true and l.airport.id = :" + PARAMETER_AIRPORT_ID;
 	
 	/** The session. */
 	private static Session session;
@@ -44,7 +44,6 @@ public class DAOLane {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_FREE_LANES);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
-			query.setParameter(PARAMETER_TYPE, PRINCIPAL);
 			if (query.getResultList().size() > 0) {
 				laneList = query.getResultList();
 			}
