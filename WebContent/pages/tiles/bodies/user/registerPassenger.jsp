@@ -13,7 +13,7 @@
 			<div class="errors">
 				<s:actionerror />
 			</div>
-			<div class="well">
+			<div class="well col-lg-4">
 				<h4>
 					<s:text name="user.accountInfo" />
 				</h4>
@@ -26,7 +26,7 @@
 				<s:textfield labelSeparator=":" key="user.email" type="email"
 					name="user.email" />
 			</div>
-			<div class="well">
+			<div class="well col-lg-4">
 				<h4>
 					<s:text name="user.personalInfo" />
 				</h4>
@@ -41,7 +41,7 @@
 					changeYear="true" changeMonth="true" showAnim="slideDown"
 					key="user.birthdate" tooltip="(%{dateFormat})" yearRange="-80:+0" />
 			</div>
-			<div class="well">
+			<div class="well col-lg-4">
 				<h4>
 					<s:text name="user.address" />
 				</h4>

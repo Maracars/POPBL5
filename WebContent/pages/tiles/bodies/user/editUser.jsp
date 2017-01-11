@@ -17,7 +17,7 @@
 					<s:property value="%{getText('global.' + type)}" />
 				</s:if>
 			</h3>
-			<div class="well">
+			<div class="well col-lg-4">
 				<h4>
 					<s:text name="user.accountInfo" />
 				</h4>
@@ -26,7 +26,7 @@
 				<s:textfield labelSeparator=":" key="user.email" type="email"
 					name="user.email" />
 			</div>
-			<div class="well">
+			<div class="well col-lg-4">
 				<s:if
 					test='%{!type.equals("airline")}'>
 					<h4>
@@ -52,7 +52,7 @@
 						name="user.name" />
 				</s:else>
 			</div>
-			<div class="well">
+			<div class="well col-lg-4">
 				<h4>
 					<s:text name="user.address" />
 				</h4>

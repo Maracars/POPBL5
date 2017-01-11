@@ -12,7 +12,7 @@
 			<div class="errors">
 				<s:actionerror />
 			</div>
-			<div class="well">
+			<div class="well col-lg-4">
 				<h4>
 					<s:text name="user.accountInfo" />
 				</h4>
@@ -24,13 +24,13 @@
 					name="repeatPassword" />
 				<s:textfield labelSeparator=":" key="user.email" type="email" name="user.email" />
 			</div>
-			<div class="well">
+			<div class="well col-lg-4">
 				<h4>
 					<s:text name="user.companyInfo" />
 				</h4>
 				<s:textfield labelSeparator=":" key="user.companyName" name="name" />
 			</div>
-			<div class="well">
+			<div class="well col-lg-4">
 				<h4>
 					<s:text name="user.address" />
 				</h4>
