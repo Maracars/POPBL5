@@ -13,6 +13,7 @@ import domain.model.users.Admin;
 // TODO: Auto-generated Javadoc
 /**
  * The Class RegisterAdminAction.
+ * @see action.user.RegisterAction
  */
 public class RegisterAdminAction extends RegisterAction {
 

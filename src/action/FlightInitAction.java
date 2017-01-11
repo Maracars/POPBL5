@@ -13,6 +13,7 @@ import domain.model.Plane;
 // TODO: Auto-generated Javadoc
 /**
  * The Class FlightInitAction.
+ * Returns a json object for the maps on the front end to be able to render the planes for the first time
  */
 public class FlightInitAction extends ActionSupport {
 	
@@ -29,16 +30,8 @@ public class FlightInitAction extends ActionSupport {
 	private String username;
 
 
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#validate()
-	 */
-	@Override
-	public void validate() {
-
-	}
-
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	/**
+	 * Loads the data (planes) from the database and sends returns the state of the action to Struts2
 	 */
 	@Override
 	public String execute() throws Exception {

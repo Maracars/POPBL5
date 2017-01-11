@@ -145,6 +145,7 @@ public class GatesInitialization implements ServletContextListener {
 
 	/**
 	 * Load gates JSON.
+	 * Class that contains dummy functions that initializes model objects with predefined data
 	 *
 	 * @return the list
 	 */

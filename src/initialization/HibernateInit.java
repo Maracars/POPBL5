@@ -8,6 +8,7 @@ import hibernate.HibernateConnection;
 // TODO: Auto-generated Javadoc
 /**
  * The Class HibernateInit.
+ * Class that initializes Hibernate on server start and disposes it on close
  */
 public class HibernateInit implements ServletContextListener {
 

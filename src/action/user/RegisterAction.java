@@ -12,6 +12,7 @@ import domain.model.users.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class RegisterAction.
+ * Abstract class for the registry form processing of the users
  */
 public abstract class RegisterAction extends ActionSupport {
 
@@ -63,7 +64,8 @@ public abstract class RegisterAction extends ActionSupport {
 	/** The allowed users. */
 	ArrayList<Class<?>> allowedUsers = new ArrayList<>();
 
-	/* (non-Javadoc)
+	/**
+	 * Checks the data input from the user
 	 * @see com.opensymphony.xwork2.ActionSupport#validate()
 	 */
 	@Override
@@ -90,11 +92,13 @@ public abstract class RegisterAction extends ActionSupport {
 
 	/**
 	 * User specific validate.
+	 * Class to be filled with the validation that certain types of users have
 	 */
 	abstract void userSpecificValidate();
 
 
-	/* (non-Javadoc)
+	/**
+	 * Function that inserts the validated data into te database
 	 * @see com.opensymphony.xwork2.ActionSupport#execute()
 	 */
 	@Override
@@ -130,6 +134,7 @@ public abstract class RegisterAction extends ActionSupport {
 
 	/**
 	 * Validate user access.
+	 *Function that checks if the user that is logged in has  permission to create this type of user.
 	 *
 	 * @return the string
 	 */

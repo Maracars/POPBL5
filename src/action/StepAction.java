@@ -10,6 +10,7 @@ import com.opensymphony.xwork2.ActionSupport;
 // TODO: Auto-generated Javadoc
 /**
  * The Class StepAction.
+ * Saves the caling page in the session scope so that it can be retrieved at the end of a wizard like procedure
  */
 public class StepAction extends ActionSupport {
 	

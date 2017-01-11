@@ -22,7 +22,7 @@ public class DAOAirport {
 	
 	/**
 	 * Gets the locale airport.
-	 *
+	 * <p>Gets the local airport</p>
 	 * @return the locale airport
 	 */
 	public static Airport getLocaleAirport() {

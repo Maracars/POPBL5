@@ -8,6 +8,7 @@ import notification.Notification;
 // TODO: Auto-generated Javadoc
 /**
  * The Class SocketIOInit.
+ * Initializer and disposer of the notificatoion service
  */
 public class SocketIOInit implements ServletContextListener {
 

@@ -13,6 +13,7 @@ import notification.Notification;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ArrivingPlane.
+ * Class that contains a therad that represents an arriving plane.
  */
 public class ArrivingPlane extends PlaneThread {
 

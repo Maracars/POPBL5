@@ -20,8 +20,8 @@ import domain.model.users.User;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class UserListJSONAction.
- *
+ * <h3>The Class UserListJSONAction.</h3>
+ * <p>Action that returns a user list as json according to request data from Datatables. For more information see datatables serverside processing.<p>
  * @param <sincronized> the generic type
  */
 public class UserListJSONAction<sincronized> extends ActionSupport {

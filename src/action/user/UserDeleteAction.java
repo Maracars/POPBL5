@@ -14,6 +14,7 @@ import domain.model.users.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class UserDeleteAction.
+ * Action that manages the deletion of a user from the system
  */
 public class UserDeleteAction extends ActionSupport {
 	

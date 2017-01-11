@@ -10,6 +10,7 @@ import domain.dao.DAOUser;
 // TODO: Auto-generated Javadoc
 /**
  * The Class UserCheckAction.
+ * Action to check if the username is in use returns result prepared for json format read on front-end
  */
 public class UserCheckAction extends ActionSupport {
 

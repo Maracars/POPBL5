@@ -12,7 +12,7 @@ import domain.model.users.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class HibernateGeneric.
  */
@@ -77,8 +77,8 @@ public class HibernateGeneric {
 
 	/**
 	 * Load all objects.
-	 *
-	 * @param o the o
+	 * Loads all objects of class of the object o
+	 * @param o the object that defines the requested type of the objects
 	 * @return the list
 	 */
 	public static List<Object> loadAllObjects(Object o) {
@@ -123,7 +123,6 @@ public class HibernateGeneric {
 		}
 
 		return result;
-
 	}
 
 	/**

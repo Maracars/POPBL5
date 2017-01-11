@@ -11,6 +11,7 @@ import domain.model.Terminal;
 // TODO: Auto-generated Javadoc
 /**
  * The Class AirportInfoAction.
+ * Loads terminals and gates info to be sent as json to the front-end
  */
 public class AirportInfoAction extends ActionSupport{
 

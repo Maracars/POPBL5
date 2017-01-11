@@ -20,6 +20,8 @@ import domain.model.users.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class EditUserStepAction.
+ * Action that saves calling page to the session to return after the editions wizard-like process.
+ * Also return to the view the target user after loading it from the database and adjuting it to the view
  */
 public class EditUserStepAction extends ActionSupport {
 	

@@ -15,6 +15,7 @@ import domain.model.Path;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Dijkstra.
+ * Class that contains the methots to find the best path throught the airports lanes
  */
 public class Dijkstra {
 

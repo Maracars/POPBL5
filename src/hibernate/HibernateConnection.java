@@ -17,6 +17,7 @@ public class HibernateConnection {
 
 	/**
 	 * Start.
+	 * Initializes the connection to the dvb
 	 */
 	public static void start() {
 		try {
@@ -29,6 +30,7 @@ public class HibernateConnection {
 
 	/**
 	 * Stop.
+	 * Stops the connection to the DB
 	 */
 	public static void stop() {
 		try {
@@ -41,7 +43,7 @@ public class HibernateConnection {
 
 	/**
 	 * Gets the session factory.
-	 *
+	 *	
 	 * @return the session factory
 	 */
 	public static SessionFactory getSessionFactory() {

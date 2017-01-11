@@ -12,6 +12,7 @@ import com.opensymphony.xwork2.ActionSupport;
 // TODO: Auto-generated Javadoc
 /**
  * The Class LogoutAction.
+ * Class that logs out the loged user gives the option to return to index after logout or to the calling page
  */
 public class LogoutAction extends ActionSupport {
 

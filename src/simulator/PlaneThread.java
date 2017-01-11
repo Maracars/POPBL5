@@ -61,7 +61,7 @@ public abstract class PlaneThread implements Runnable {
 	abstract public void run();
 
 	/**
-	 * Go to destine.
+	 * Go to destination.
 	 */
 	protected void goToDestine() {
 

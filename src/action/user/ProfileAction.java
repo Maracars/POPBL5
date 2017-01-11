@@ -14,6 +14,7 @@ import domain.model.users.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ProfileAction.
+ * Action that loads and prepares the data of the target user to be viewwe on the profile page
  */
 public class ProfileAction extends ActionSupport {
 

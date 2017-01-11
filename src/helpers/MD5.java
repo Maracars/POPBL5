@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 // TODO: Auto-generated Javadoc
 /**
  * The Class MD5.
+ * Provides MD5 encryption with custom salting
  */
 public class MD5 {
 

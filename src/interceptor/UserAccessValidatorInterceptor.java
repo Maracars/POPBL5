@@ -18,6 +18,7 @@ import domain.model.users.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class UserAccessValidatorInterceptor.
+ * Struts2 interceptor that manages whether a user has permission or not to access an action
  */
 public class UserAccessValidatorInterceptor implements Interceptor {
 

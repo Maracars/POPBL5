@@ -68,7 +68,7 @@ public class DAOFlight {
 
 	/**
 	 * Sets the null passenger flights.
-	 *
+	 * 
 	 * @param passengerUsername the passenger username
 	 * @return true, if successful
 	 */

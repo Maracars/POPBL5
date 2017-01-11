@@ -23,6 +23,7 @@ import notification.Notification;
 // TODO: Auto-generated Javadoc
 /**
  * The Class AirportController.
+ * <p>Represents the airport controller on the simulation.</p>
  */
 public class AirportController implements Runnable {
 
@@ -101,11 +102,11 @@ public class AirportController implements Runnable {
 	}
 
 	/**
-	 * Ask permission.
+	 * Ask permission to the controller and will return the decission
 	 *
 	 * @param plane
 	 *            the plane
-	 * @return true, if successful
+	 * @return true, if has permission
 	 */
 	public boolean askPermission(PlaneThread plane) {
 		boolean ret = false;
@@ -135,7 +136,7 @@ public class AirportController implements Runnable {
 	}
 
 	/**
-	 * Allocate lane if free.
+	 * Planifies the landing asignment of a plane
 	 *
 	 * @param plane
 	 *            the plane
@@ -156,7 +157,7 @@ public class AirportController implements Runnable {
 	}
 
 	/**
-	 * Assign free gate.
+	 * Assign free gate to a plane
 	 *
 	 * @param plane the plane
 	 * @return true, if successful
@@ -181,7 +182,7 @@ public class AirportController implements Runnable {
 	}
 
 	/**
-	 * Gets the best route.
+	 * Gets the best route from a point to another on the airpors internal road system
 	 *
 	 * @param mode
 	 *            the mode
@@ -221,7 +222,7 @@ public class AirportController implements Runnable {
 	}
 
 	/**
-	 * Interrupt.
+	 * Interrupts the controller thread
 	 */
 	public void interrupt() {
 		Thread.currentThread().interrupt();	

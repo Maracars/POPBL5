@@ -12,6 +12,7 @@ import helpers.MD5;
 // TODO: Auto-generated Javadoc
 /**
  * The Class LoginAction.
+ * Action that checks the login forms input and verifiries if the username + password combination is correct and returns a result to Struts2 acordingly
  */
 public class LoginAction extends ActionSupport {
 

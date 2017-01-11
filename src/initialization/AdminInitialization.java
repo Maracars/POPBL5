@@ -13,6 +13,7 @@ import domain.model.users.Admin;
 // TODO: Auto-generated Javadoc
 /**
  * The Class AdminInitialization.
+ * Class that contains dummy functions that initializes model objects with predefined data
  */
 public class AdminInitialization implements ServletContextListener {
 

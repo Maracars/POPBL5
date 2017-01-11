@@ -9,6 +9,7 @@ import com.opensymphony.xwork2.ActionSupport;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Locale.
+ * Dummy action so that the i18c interceptor can be called that also saves the calling page to redirect to it after being called
  */
 public class Locale extends ActionSupport {
 

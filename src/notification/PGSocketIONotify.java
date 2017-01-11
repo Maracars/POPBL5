@@ -13,6 +13,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 // TODO: Auto-generated Javadoc
 /**
  * The Class PGSocketIONotify.
+ * Class that encapsulates a socketIO server
  */
 public class PGSocketIONotify implements Runnable {
 	
