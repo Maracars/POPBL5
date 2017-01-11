@@ -80,7 +80,7 @@ $(document).ready(
 						'EPSG:4326');
 			}
 
-			$.get("getFlights", function(data, status) {
+			$.get("/Naranair/controller/getFlights", function(data, status) {
 				var obj = jQuery.parseJSON(data);
 				planes = obj.result[0];
 				
