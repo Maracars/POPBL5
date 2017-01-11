@@ -5,6 +5,13 @@
 
 <s:i18n name="action.controller.package">
 
+	<div class="container-fluid">
+		<ul class="nav nav-pills nav-justified" id="termGateNavbar">
+			<li class="active"><a href="javascript:loadLanesTable(0,1)">Lanes</a></li>
+			<li><a href="javascript:loadTerminalsTable(1,1)">Terminal
+					and Gates</a></li>
+		</ul>
+	</div>
 	<div class="container-fluid" id="laneTable">
 		<div class="jumbotron">
 			<table id="lanestable"
@@ -19,38 +26,6 @@
 			</table>
 		</div>
 	</div>
-	<script>
-		$(document).ready(function() {
-			var table = $('#lanestable').dataTable({
-				"processing" : true,
-				"serverSide" : true,
-				"ajax" : {
-					"url" : "laneListJSON",
-					"type" : "POST"
-				},
-				"columnDefs" : [ {
-					"targets" : 0,
-					"orderable" : false
-				}, {
-					"width" : "120px",
-					"targets" : 0
-				} ],
-				"columns" : [ {
-					"data" : "name"
-				}, {
-					"data" : "state",
-					"createdCell" : function(td, cellData, rowData, row, col) {
-						if (cellData == "Occupied") {
-							$(td).addClass("danger");
-						} else {
-							$(td).addClass("success");
-						}
-					}
-				} ]
-			});
-
-		});
-	</script>
 
 	<div class="container-fluid" id="terminalTable">
 		<div class="jumbotron">
@@ -67,42 +42,5 @@
 			</table>
 		</div>
 	</div>
-
-	<script>
-		$(document).ready(function() {
-			var table = $('#terminalstable').dataTable({
-				"processing" : true,
-				"serverSide" : true,
-				"ajax" : {
-					"url" : "terminalListJSON",
-					"type" : "POST"
-				},
-				"columnDefs" : [ {
-					"targets" : 0,
-					"orderable" : false,
-				}, {
-					"width" : "120px",
-					"targets" : 0
-				} ],
-				"columns" : [ {
-					"data" : "terminalName"
-				}, {
-					"data" : "gateName"
-				}, {
-					"data" : "gateState",
-					"createdCell" : function(td, cellData, rowData, row, col) {
-						if (cellData == "Occupied") {
-							$(td).addClass("danger");
-						} else {
-							$(td).addClass("success");
-						}
-					}
-				} ]
-			});
-
-		});
-	
-		
-	</script>
 
 </s:i18n>
