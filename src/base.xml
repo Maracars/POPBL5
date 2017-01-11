@@ -5,11 +5,12 @@
 <struts>
 	<package name="base" namespace="/" extends="default">
 
-		<action name="index">
+		<action name="index" class="action.IndexAction">
 			<interceptor-ref name="store">
 				<param name="operationMode">RETRIEVE</param>
 			</interceptor-ref>
 			<interceptor-ref name="defaultStack" />
+			<result name="controller" type="tiles">controller</result>
 			<result name="*" type="tiles">index</result>
 		</action>
 
@@ -66,7 +67,7 @@
 		</action>
 
 		<action name="">
-			<result type="tiles">index</result>
+			<result type="redirectAction">index</result>
 		</action>
 
 	</package>

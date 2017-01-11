@@ -5,10 +5,6 @@
 <struts>
 	<package name="controller" namespace="/controller" extends="default">
 
-		<action name="index">
-			<result type="tiles">controller</result>
-		</action>
-		
 		<action name="airport" class="action.controller.AirportInfoAction">
 			<result name="success" type="tiles">airportInfo</result>
 		</action>
