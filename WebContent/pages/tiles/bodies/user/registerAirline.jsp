@@ -8,7 +8,7 @@
 
 		<s:form action="register/AirlineSubmit"
 			key="global.registerAirline" enctype="multipart/form-data"
-			cssClass="form-horizontal">
+			cssClass="form-vertical">
 			<div class="errors">
 				<s:actionerror />
 			</div>

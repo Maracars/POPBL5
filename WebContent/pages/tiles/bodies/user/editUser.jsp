@@ -5,7 +5,7 @@
 	<div class="container-fluid">
 
 		<s:form action="editSubmit" namespace="/" key="global.editUser"
-			enctype="multipart/form-data" cssClass="form-horizontal">
+			enctype="multipart/form-data" cssClass="form-vertical">
 			<s:hidden key="type"/>
 			<s:hidden key="username"/>
 			<div class="errors">

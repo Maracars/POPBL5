@@ -23,6 +23,8 @@ import domain.model.Gate;
 import domain.model.Lane;
 import domain.model.Node;
 import domain.model.Path;
+import domain.model.PlaneMaker;
+import domain.model.PlaneModel;
 import domain.model.Route;
 import domain.model.Terminal;
 
@@ -123,6 +125,7 @@ public class GatesInitialization implements ServletContextListener {
 			nodeList = loadNodesJSON();
 			createLanes();
 			createPaths();
+			createPlaneModel();
 			terminalList = loadTerminalsJSON();
 			for (Terminal terminal : terminalList) {
 				terminal.setAirport(localeAirport);
@@ -141,6 +144,15 @@ public class GatesInitialization implements ServletContextListener {
 
 		}
 
+	}
+
+	private void createPlaneModel() {
+		PlaneMaker planeMaker = Initializer.initPlaneMaker();
+		HibernateGeneric.saveObject(planeMaker);
+		
+		PlaneModel planeModel = Initializer.initPlaneModel(planeMaker);
+		HibernateGeneric.saveObject(planeModel);
+		
 	}
 
 	/**

@@ -74,7 +74,7 @@
 				<param name="namespace">/</param>
 			</result>
 			<result name="success" type="redirect">%{url}</result>
-			<result name="*" type="tiles">registerAirline</result>
+			<result name="*" type="tiles">registerController</result>
 		</action>
 
 		<action name="register/Controller" class="action.StepAction">
