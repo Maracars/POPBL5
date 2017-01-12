@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import action.controller.TestFlightListJSONAction;
 import action.user.TestLoginAction;
 import action.user.TestLogoutAction;
 import action.user.TestRegisterAdminAction;
@@ -80,6 +81,7 @@ import test.dijkstra.TestDijkstra;
 		TestFlightCreator.class,
 		TestAirportController.class,
 		TestCompleteSimulator.class,
+		TestFlightListJSONAction.class
 		})
 
 public class AllTests {
