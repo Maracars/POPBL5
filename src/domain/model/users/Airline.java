@@ -75,5 +75,7 @@ public class Airline extends User {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+	
+	
 
 }

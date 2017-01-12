@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="airline" namespace="/airline" extends="default">
+
+		<action name="index">
+			<result type="tiles">airline</result>
+		</action>
+		
+		<action name="airplanes">
+			<result type="tiles">airplanesInfo</result>
+		</action>
+		
+		<action name="routes">
+			<result type="tiles">routesInfo</result>
+		</action>
+		
+		<action name="routeStats">
+			<result type="tiles">routeStats</result>
+		</action>
+		
+		<action name="airplaneMoreInfo/{serial}" class="action.airline.AirplaneMoreInfoAction">
+			<result name="success" type="tiles">airplaneMoreInfo</result>
+		</action>
+		
+		<action name="airplaneListJSON" class="action.airline.AirplaneListJSONAction">
+			<result name="*" type="json"></result>
+		</action>
+
+	</package>
+</struts>

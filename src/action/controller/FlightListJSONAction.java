@@ -18,7 +18,7 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0;
-	private List<FlightView> data = new ArrayList<FlightView>();
+	private List<AirplaneView> data = new ArrayList<AirplaneView>();
 	String error = null;
 
 	@Override
@@ -49,10 +49,10 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		return SUCCESS;
 	}
 
-	private List<FlightView> filter(List<FlightView> data, String search) {
+	private List<AirplaneView> filter(List<AirplaneView> data, String search) {
 		search = search.toLowerCase();
-		for (Iterator<FlightView> fIt = data.iterator(); fIt.hasNext();) {
-			FlightView fv = fIt.next();
+		for (Iterator<AirplaneView> fIt = data.iterator(); fIt.hasNext();) {
+			AirplaneView fv = fIt.next();
 			if (fv.getAirplane().toLowerCase().contains(search))
 				continue;
 			if (fv.getOrigin().toLowerCase().contains(search))
@@ -69,9 +69,9 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	}
 
 
-	public ArrayList<FlightView> generateData(String search, int orderCol, String orderDir, int start, int length) {
+	public ArrayList<AirplaneView> generateData(String search, int orderCol, String orderDir, int start, int length) {
 		List<Flight> flightList = null;
-		ArrayList<FlightView> flightViews = new ArrayList<FlightView>();
+		ArrayList<AirplaneView> flightViews = new ArrayList<AirplaneView>();
 		String colName = getOrderColumnName(orderCol);
 
 		flightList = DAOFlight.loadFlightsForTable(colName, orderDir, start, length);
@@ -85,7 +85,7 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 				String terminal = f.getExpectedArrivalDate().toString();
 				String gate = f.getExpectedDepartureDate().toString();
 
-				flightViews.add(new FlightView(airplane, origin, destination, terminal, gate));
+				flightViews.add(new AirplaneView(airplane, origin, destination, terminal, gate));
 			}
 		}
 		return flightViews;
@@ -117,14 +117,14 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		return colName;
 	}
 
-	public class FlightView {
+	public class AirplaneView {
 		String airplane;
 		String origin;
 		String destination;
 		String expectedArrivalDate;
 		String expectedDepartureDate;
 
-		public FlightView(String airplane, String origin, String destination, String expectedArrivalDate, String expectedDepartureDate) {
+		public AirplaneView(String airplane, String origin, String destination, String expectedArrivalDate, String expectedDepartureDate) {
 			this.airplane = airplane;
 			this.origin = origin;
 			this.destination = destination;
@@ -198,11 +198,11 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		this.recordsFiltered = recordsFiltered;
 	}
 
-	public List<FlightView> getData() {
+	public List<AirplaneView> getData() {
 		return data;
 	}
 
-	public void setData(List<FlightView> data) {
+	public void setData(List<AirplaneView> data) {
 		this.data = data;
 	}
 

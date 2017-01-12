@@ -48,6 +48,7 @@
 
 	<include file="register.xml" />
 	<include file="controller.xml"/>
+	<include file="airline.xml"/>
 	<include file="base.xml" />
 	<include file="login.xml" />
 

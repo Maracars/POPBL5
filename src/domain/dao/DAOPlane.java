@@ -1,5 +1,6 @@
 package domain.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,16 +18,16 @@ import hibernate.HibernateConnection;
  * The Class DAOPlane.
  */
 public class DAOPlane {
-	
+
 	/** The Constant MAX_RESULTS. */
 	private static final int MAX_RESULTS = 1;
-	
+
 	/** The Constant SECOND_TO_MIN. */
 	private static final int SECOND_TO_MIN = 60;
-	
+
 	/** The Constant MILIS_TO_SECOND. */
 	private static final int MILIS_TO_SECOND = 1000;
-	
+
 	/** The Constant MIN_TO_HOURS. */
 	private static final int MIN_TO_HOURS = 60;
 	// private static final int HOURS_TO_DAY = 24;
@@ -34,12 +35,14 @@ public class DAOPlane {
 	/** The Constant ARRIVAL_HOUR_MARGIN. */
 	// * MIN_TO_HOURS * HOURS_TO_DAY;
 	private static final int ARRIVAL_HOUR_MARGIN = 2;
-	
+
 	/** The Constant PARAMETER_AIRPORT_ID. */
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
-	
+
 	/** The Constant PARAMETER_SOON_DATE. */
 	private static final String PARAMETER_SOON_DATE = "soonDate";
+
+	private static final String PARAMETER_AIRLINE_ID = "airlineId";
 
 	/** The Constant SELECT_PLANE. */
 	private static final String SELECT_PLANE_JOIN_FLIGHT = "select f.plane from Flight as f right join f.plane as p ";
@@ -51,10 +54,10 @@ public class DAOPlane {
 			+ "where f.expectedArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
 			+ " and p.status.positionStatus = 'ARRIVING'" + "and f.route.departureTerminal.airport.id = :"
 			+ PARAMETER_AIRPORT_ID;
-	
+
 	/** The Constant DEPARTURE_HOUR_MARGIN. */
 	private static final int DEPARTURE_HOUR_MARGIN = 3;
-	
+
 	/** The Constant QUERY_DEPARTURING_PLANES_SOON. */
 	private static final String QUERY_DEPARTURING_FLIGHTS_SOON = SELECT_FLIGHT_JOIN_PLANE
 			+ "where f.expectedDepartureDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
@@ -68,9 +71,17 @@ public class DAOPlane {
 	/** The Constant QUERY_FREE_PLANE. */
 	private static final String QUERY_FREE_PLANE = SELECT_PLANE_JOIN_FLIGHT
 			+ "where f.realArrivalDate < current_timestamp or f is null";
+
+	private static final String PARAMETER_SERIAL_NUMBER = "serialNumber";
 	
+	private static final String QUERY_PLANE_WITH_SERIAL = "from Plane as p join p.airline as a where p.serial = :" + PARAMETER_SERIAL_NUMBER + " and a.id = :" + PARAMETER_AIRLINE_ID;
+
 	/** The Constant MILIS_TO_HOURS. */
 	private static final int MILIS_TO_HOURS = MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS;
+
+	private static final String LOAD_TABLE_PLANES = "from Plane as p join p.airline as a where a.id = :" + PARAMETER_AIRLINE_ID + " order by p.";
+
+	private static final String LOAD_ALL_PLANES_FROM_AIRLINE = "from Plane as p join p.airline as a where a.id = :" + PARAMETER_AIRLINE_ID;
 
 	/** The session. */
 	private static Session session;
@@ -193,5 +204,75 @@ public class DAOPlane {
 		}
 
 		return objectList;
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	public static List<Plane> loadAllAirplanesFromAirline(int airlineId){
+		List<Object[]> objectList = null;
+		List<Plane> planeList = new ArrayList<Plane>();
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_ALL_PLANES_FROM_AIRLINE);
+			query.setParameter(PARAMETER_AIRLINE_ID, airlineId);
+			if (query.getResultList().size() > 0) {
+				objectList = query.getResultList();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		for(Object[] planeObjectList : objectList){
+			Plane plane = (Plane) planeObjectList[0];
+			planeList.add(plane);
+		}
+
+		return planeList;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<Plane> loadAirplanesForTable(int airlineId, String orderCol, String orderDir, int start, int length){
+		List<Object[]> objectList = null;
+		List<Plane> planeList = new ArrayList<Plane>();
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_TABLE_PLANES + orderCol + " " + orderDir);
+			query.setParameter(PARAMETER_AIRLINE_ID, airlineId);
+			if (query.getResultList().size() > 0) {
+				query.setFirstResult(start);
+				query.setMaxResults(length);
+				objectList = query.getResultList();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		for(Object[] planeObjectList : objectList){
+			Plane plane = (Plane) planeObjectList[0];
+			planeList.add(plane);
+		}
+
+		return planeList;
+	}
+	
+	public static Plane loadAirplaneWithSerial(int airlineId, String serial){
+		Object[] plane = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(QUERY_PLANE_WITH_SERIAL);
+			query.setParameter(PARAMETER_SERIAL_NUMBER, serial);
+			query.setParameter(PARAMETER_AIRLINE_ID, airlineId);
+			plane = (Object[]) query.getSingleResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return (Plane)plane[0];
+		
 	}
 }
