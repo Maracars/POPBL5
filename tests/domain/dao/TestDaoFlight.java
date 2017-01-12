@@ -49,13 +49,13 @@ public class TestDaoFlight {
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 	
-	@Ignore
 	@Test
 	public void testLoadFlightsForTable(){
 		
-		List<Flight> flightList = DAOFlight.loadFlightsForTable("plane", "asc", 0, 10);
+		Flight flight = Initializer.initCompleteFlight();
+		HibernateGeneric.saveObject(flight);
 		
-		assertEquals(ERROR_LOAD_FLIGHTS_TABLE, 10, flightList.size());
+		assertNotNull(ERROR_LOAD_FLIGHTS_TABLE, DAOFlight.loadFlightsForTable("plane", "asc", 0, 10));
 		
 	}
 
