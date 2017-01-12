@@ -14,6 +14,10 @@ import initialization.SocketIOInit;
 
 public class TestDaoFlight {
 
+	private static final int LENGTH = 10;
+	private static final int START = 0;
+	private static final String ORDER_COL_DIR = "asc";
+	private static final String ORDER_COL_NAME = "plane";
 	private static final String ERROR_LOAD = "Error load all cities from database";
 	private static final String INSERT_ERROR = "Error insert city into database";
 	private static final String REMOVE_ERROR = "Error removing one city from database";
@@ -55,7 +59,7 @@ public class TestDaoFlight {
 		Flight flight = Initializer.initCompleteFlight();
 		HibernateGeneric.saveObject(flight);
 		
-		assertNotNull(ERROR_LOAD_FLIGHTS_TABLE, DAOFlight.loadFlightsForTable("plane", "asc", 0, 10));
+		assertNotNull(ERROR_LOAD_FLIGHTS_TABLE, DAOFlight.loadFlightsForTable(ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
 		
 	}
 

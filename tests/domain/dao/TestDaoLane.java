@@ -12,11 +12,16 @@ import domain.model.Node;
 
 public class TestDaoLane {
 
+	private static final int LENGTH = 10;
+	private static final int START = 0;
+	private static final String ORDER_COL_DIR = "asc";
+	private static final String ORDER_COL_NAME = "name";
 	private static final String PRINCIPAL = "PRINCIPAL";
 	private static final String ERROR_LOAD = "Error load all lanes from database";
 	private static final String INSERT_ERROR = "Error insert lane into database";
 	private static final String REMOVE_ERROR = "Error removing one lane from database";
 	private static final String ERROR_GETFREELANES = "Error loading free lanes from database";
+	private static final String ERROR_LOAD_TABLE_LANES = "Error loading lanes for the table";
 
 	@Test
 	public void testInsertLaneWithoutIntoDB() {
@@ -138,6 +143,14 @@ public class TestDaoLane {
 		HibernateGeneric.saveObject(lane);
 
 		assertNotNull(ERROR_GETFREELANES, DAOLane.getFreeLanes(airport.getId()));
+	}
+	
+	@Test
+	public void testLoadLanesForTable(){
+		Lane lane = Initializer.initCompleteLane();
+		HibernateGeneric.saveObject(lane);
+		
+		assertNotNull(ERROR_LOAD_TABLE_LANES, DAOLane.loadLanesForTable(ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
 	}
 
 }

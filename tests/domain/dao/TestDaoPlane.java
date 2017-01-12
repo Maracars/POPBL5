@@ -20,6 +20,10 @@ import domain.model.users.User;
 
 public class TestDaoPlane {
 
+	private static final int LENGTH = 10;
+	private static final int START = 0;
+	private static final String ORDER_COL_DIR = "asc";
+	private static final String ORDER_COL_NAME = "serial";
 	private static final int ADDED_TIME = 111111;
 	private static final String ERROR_LOADING_PLANE_WITHOUT_FLIGHT = "ERROR LOAD PLANE WITHOUT FLIGHT";
 	private static final String ERROR_LOADING_ALL_PLANES_AIRLINE = "ERROR LOAD ALL PLANES FROM AIRLINE";
@@ -200,7 +204,7 @@ public class TestDaoPlane {
 		
 		HibernateGeneric.saveObject(plane);
 		
-		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE_TABLE, DAOPlane.loadAirplanesForTable(plane.getAirline().getId(), "serial", "asc", 0, 10));
+		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE_TABLE, DAOPlane.loadAirplanesForTable(plane.getAirline().getId(), ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
 
 	}
 	

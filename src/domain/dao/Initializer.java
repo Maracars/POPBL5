@@ -759,6 +759,32 @@ public class Initializer {
 		gate.setNumber(GATE_NUM);
 		return gate;
 	}
+	
+	/**
+	 * Inits the gate.
+	 *
+	 * @return the gate
+	 */
+	
+	public static Gate initCompleteGate(){
+		Gate gate = new Gate();
+		
+		Terminal terminal = Initializer.initTerminal();
+		
+		Airport airport = Initializer.initCompleteAirport();
+		HibernateGeneric.saveObject(airport);
+		
+		terminal.setAirport(airport);
+		HibernateGeneric.saveObject(terminal);
+		
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveObject(positionNode);
+		gate.setPositionNode(positionNode);
+		
+		gate.setTerminal(terminal);
+		
+		return gate;
+	}
 
 	/**
 	 * Inits the airline.
