@@ -2,6 +2,7 @@ package domain.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Date;
 
@@ -15,11 +16,15 @@ import domain.model.PlaneModel;
 import domain.model.PlaneMovement;
 import domain.model.PlaneStatus;
 import domain.model.users.Airline;
+import domain.model.users.User;
 
 public class TestDaoPlane {
 
 	private static final int ADDED_TIME = 111111;
 	private static final String ERROR_LOADING_PLANE_WITHOUT_FLIGHT = "ERROR LOAD PLANE WITHOUT FLIGHT";
+	private static final String ERROR_LOADING_ALL_PLANES_AIRLINE = "ERROR LOAD ALL PLANES FROM AIRLINE";
+	private static final String ERROR_LOADING_ALL_PLANES_AIRLINE_SERIAL = "ERROR LOAD ALL PLANES FROM AIRLINE AND SERIAL";
+	private static final String ERROR_LOADING_ALL_PLANES_AIRLINE_TABLE = "ERROR LOAD ALL PLANES FROM AIRLINE FOR THE TABLE";
 	private static final String ERROR_LOAD_FREE_PLANE_WITH_PAST_FLIGHT = "ERROR LOAD FREE PLANE WITH PAST FLIGHT";
 	private static final String ERROR_LOAD = "Error load all planes from database";
 	private static final String ERROR_INSERT = "Error insert plane into database";
@@ -179,5 +184,37 @@ public class TestDaoPlane {
 		Plane resultPlane = DAOPlane.getFreePlane();
 		assertNotNull(ERROR_LOADING_PLANE_WITHOUT_FLIGHT, resultPlane);
 	}
+	
+	@Test
+	public void testLoadAllAirplanesFromAirline(){
+		Plane plane = Initializer.initCompletePlane();
+		
+		HibernateGeneric.saveObject(plane);
+		
+		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE, DAOPlane.loadAllAirplanesFromAirline(plane.getAirline().getId()));
+	}
+	
+	@Test
+	public void testLoadAirplanesForTable(){
+		Plane plane = Initializer.initCompletePlane();
+		
+		HibernateGeneric.saveObject(plane);
+		
+		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE_TABLE, DAOPlane.loadAirplanesForTable(plane.getAirline().getId(), "serial", "asc", 0, 10));
+
+	}
+	
+	@Test
+	public void testLoadAirplaneWithSerial(){
+		
+		Plane plane = Initializer.initCompletePlane();
+		plane.setSerial("AAAAA");
+		
+		HibernateGeneric.saveObject(plane);
+		
+		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE_SERIAL, DAOPlane.loadAirplaneWithSerial(plane.getAirline().getId(), plane.getSerial()));
+		
+	}
+	
 
 }
