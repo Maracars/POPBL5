@@ -21,6 +21,15 @@
 			<result type="tiles">routeStats</result>
 		</action>
 		
+		<action name="createPlane" class="action.airline.CreateAirplaneStepAction">
+			<result type="tiles">createPlane</result>
+		</action>
+		
+		<action name="createPlaneSubmit" class="action.airline.CreateAirplaneSubmitAction">
+			<result type="tiles">airplanesInfo</result>
+			<result name="*" type="tiles">createPlane</result>
+		</action>
+		
 		<action name="airplaneMoreInfo/{serial}" class="action.airline.AirplaneMoreInfoAction">
 			<result name="success" type="tiles">airplaneMoreInfo</result>
 		</action>
