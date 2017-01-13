@@ -17,6 +17,7 @@ import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Lane;
 import domain.model.Route;
+import initialization.GatesInitialization;
 
 public class TestAirportController {
 
@@ -29,7 +30,7 @@ public class TestAirportController {
 	@Before
 	public void initialize() {
 		airport = Initializer.initializeExampleOnDB();
-		ac = new AirportController(airport, null);
+		ac = new AirportController(airport, GatesInitialization.getPathsFromDatabase());
 	}
 
 	@Test
@@ -45,7 +46,6 @@ public class TestAirportController {
 		Flight flight = new Flight();
 		Route route = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
 		flight.setRoute(route);
-		System.out.println();
 		ArrivingPlane plane = new ArrivingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), flight);
 		boolean result = ac.askPermission(plane);
 		assertTrue(ERROR_GET_PERMISSION_ARRIVE, result);

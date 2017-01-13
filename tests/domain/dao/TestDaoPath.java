@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import domain.model.Path;
+import initialization.GatesInitialization;
 
 public class TestDaoPath {
 
@@ -27,13 +28,17 @@ public class TestDaoPath {
 	}
 
 	@Test
-	public void testGetFreePlaneWithoutFlight() {
+	public void testDeletePathWithFreeLanes() {
 		Path path = Initializer.initPathWithFreeLanes();
 		HibernateGeneric.saveObject(path);
 
 		boolean result = HibernateGeneric.deleteObject(path);
 		assertEquals(DELETE_ERROR, true, result);
 	}
-
+	
+	@Test
+	public void testGetPathsFromDatabase(){
+		assertNotNull("COULD NOT GET THE PATHS",  GatesInitialization.getPathsFromDatabase());
+	}
 
 }

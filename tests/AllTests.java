@@ -79,7 +79,7 @@ import test.dijkstra.TestDijkstra;
 		TestDijkstra.class,
 		TestFlightCreator.class,
 		TestAirportController.class,
-		TestCompleteSimulator.class,
+		//TestCompleteSimulator.class,
 		})
 
 public class AllTests {

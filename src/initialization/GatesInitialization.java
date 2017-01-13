@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
@@ -17,7 +16,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domain.dao.DAOAirport;
-import domain.dao.DAOPath;
 import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
 import domain.model.Address;
@@ -101,7 +99,7 @@ public class GatesInitialization implements ServletContextListener {
 
 	private List<Terminal> terminalList;
 
-	private List<Path> pathList;
+	private static List<Path> pathList = new ArrayList<Path>();
 
 	/*
 	 * (non-Javadoc)
@@ -145,24 +143,30 @@ public class GatesInitialization implements ServletContextListener {
 
 	}
 
-	private void getPathsFromDatabase() {
+	public static List<Path> getPathsFromDatabase() {
 		// TODO hemen path guztiek datubasetik kargau behar dire
-		List<Object> list = HibernateGeneric.loadAllObjects(new Path());
-		for (Object object : list) {
-			Path path = (Path) object;
-			// honek forak eztait funtzionauko dauen, ointxe bertan ipiniot, 
-			//baia berez path guztiek get inde gero, lanetako semaforoak inizializau in behar dire.
-			for(Lane lane : path.getLaneList()){
-				if(lane.isFree()){
-					lane.setSemaphore(new Semaphore(1,true));
-				}else{
-					lane.setSemaphore(new Semaphore(0,true));
+		try {
+			List<Object> list = HibernateGeneric.loadAllObjects(new Path());
+			for (Object object : list) {
+				Path path = (Path) object;
+				// honek forak eztait funtzionauko dauen, ointxe bertan ipiniot,
+				// baia berez path guztiek get inde gero, lanetako semaforoak
+				// inizializau in behar dire.
+				for (Lane lane : path.getLaneList()) {
+					if (lane.isFree()) {
+						lane.setSemaphore(new Semaphore(1, true));
+					} else {
+						lane.setSemaphore(new Semaphore(0, true));
+					}
 				}
+
+				pathList.add(path);
 			}
-			
-			pathList.add(path);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
+		return pathList;
+
 	}
 
 	private void createGates() {

@@ -27,7 +27,7 @@ public class Path {
 	private Integer id;
 
 	/** The lane list. */
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pathId")
 	private List<Lane> laneList = new ArrayList<Lane>();
 

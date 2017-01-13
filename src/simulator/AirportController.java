@@ -22,7 +22,9 @@ import notification.Notification;
 // TODO: Auto-generated Javadoc
 /**
  * The Class AirportController.
- * <p>Represents the airport controller on the simulation.</p>
+ * <p>
+ * Represents the airport controller on the simulation.
+ * </p>
  */
 public class AirportController implements Runnable {
 
@@ -34,7 +36,7 @@ public class AirportController implements Runnable {
 
 	/** The active plane list. */
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
-	
+
 	private static List<Path> pathList;
 
 	/** The airport. */
@@ -57,8 +59,8 @@ public class AirportController implements Runnable {
 	 *
 	 * @param airport
 	 *            the airport
-	 * @param laneList 
-	 * @param pathList 
+	 * @param laneList
+	 * @param pathList
 	 */
 	public AirportController(Airport airport, List<Path> pathList) {
 
@@ -147,7 +149,7 @@ public class AirportController implements Runnable {
 		boolean ret = false;
 
 		List<Lane> freeLaneList = LaneFilter.getFreeLanes(pathList, airport.getId());
-		if (freeLaneList != null && assignFreeGate(plane)) {
+		if (freeLaneList != null && freeLaneList.size() != 0 && assignFreeGate(plane)) {
 			Lane lane = freeLaneList.get(0);
 			lane.setStatus(false);
 			plane.setLane(lane);
@@ -160,7 +162,8 @@ public class AirportController implements Runnable {
 	/**
 	 * Assign free gate to a plane
 	 *
-	 * @param plane the plane
+	 * @param plane
+	 *            the plane
 	 * @return true, if successful
 	 */
 	private boolean assignFreeGate(PlaneThread plane) {
@@ -183,7 +186,8 @@ public class AirportController implements Runnable {
 	}
 
 	/**
-	 * Gets the best route from a point to another on the airpors internal road system
+	 * Gets the best route from a point to another on the airpors internal road
+	 * system
 	 *
 	 * @param mode
 	 *            the mode
@@ -208,7 +212,8 @@ public class AirportController implements Runnable {
 			destination = flight.getEndGate().getPositionNode();
 
 		} else {
-			System.out.println("Dijkstra FROM" + flight.getStartGate().getPositionNode() + " TO " + landLane.getStartNode());
+			System.out.println(
+					"Dijkstra FROM" + flight.getStartGate().getPositionNode() + " TO " + landLane.getStartNode());
 			source = flight.getStartGate().getPositionNode();
 			destination = landLane.getStartNode();
 
@@ -228,7 +233,7 @@ public class AirportController implements Runnable {
 	 * Interrupts the controller thread
 	 */
 	public void interrupt() {
-		Thread.currentThread().interrupt();	
+		Thread.currentThread().interrupt();
 	}
 
 }

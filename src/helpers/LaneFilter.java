@@ -12,7 +12,7 @@ public class LaneFilter {
 		List<Lane> freeLaneList = new ArrayList<Lane>();
 		for (Path path : pathList) {
 			for (Lane lane : path.getLaneList()) {
-				if (lane.isFree() && lane.getType().equals("PRINCIPAL")) {
+				if (lane.isFree() && lane.getType().equals("PRINCIPAL") && lane.getAirport().getId() == airportId) {
 					freeLaneList.add(lane);
 				}
 			}
