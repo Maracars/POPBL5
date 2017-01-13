@@ -8,35 +8,49 @@ var vectorSource = new ol.source.Vector({
 });
 
 var planes = [];
+var pendingMoves = [];
+var counter = 0;
 var steps = 1000;
-var latStep;
-var longStep;
-var featureToUpdate;
-var beforeCoord;
 var iconStyle = {
-		anchor : [ 0.5, 46 ],
-		anchorXUnits : 'fraction',
-		anchorYUnits : 'pixels',
-		opacity : 1,
-		rotateWithView : true,
+	anchor : [ 0.5, 46 ],
+	anchorXUnits : 'fraction',
+	anchorYUnits : 'pixels',
+	opacity : 1,
+	rotateWithView : true,
 
-		src : '../rsc/img/plane-icon.png'
+	src : 'rsc/img/plane-icon.png'
 
-	}
+}
 
 $(document).ready(
 		function() {
 
 			socket.on("chatevent", function(jsonData) {
 				var data = JSON.parse(jsonData);
+				var pending;
+				console.log(pendingMoves);
+				pending = checksNextPendingMoveOfPlane(data.id);
+				data.moveId = counter++;
+				pendingMoves.push(data);
+				if (pending === null) {
+					movePlane(data);
+
+				}
+
+			});
+			function movePlane(data) {
+				var beforeCoord;
+				var latStep;
+				var longStep;
+				var featureToUpdate = null;
+
 				featureToUpdate = vectorSource.getFeatureById(data.id);
-				
+
 				if (featureToUpdate === null) {
 					featureToUpdate = new ol.Feature({
 						geometry : new ol.geom.Point(ol.proj.transform([
-								data.positionx,
-								data.positiony ],
-								'EPSG:4326', 'EPSG:3857'))
+								data.positionx, data.positiony ], 'EPSG:4326',
+								'EPSG:3857'))
 					});
 					featureToUpdate.setStyle(new ol.style.Style({
 						image : new ol.style.Icon(iconStyle)
@@ -53,21 +67,50 @@ $(document).ready(
 						data.positiony);
 				latStep = (data.positiony - beforeCoord[1]) / steps;
 				longStep = (data.positionx - beforeCoord[0]) / steps;
+				simulateMovement(featureToUpdate, latStep, longStep,
+						beforeCoord, data);
 
-				for (var int = 1; int <= steps; int++) {
-					setTimeout(f, 10 * int, int);
+			}
+
+			function checksNextPendingMoveOfPlane(id) {
+				for (var int = 0; int < pendingMoves.length; int++) {
+					if (pendingMoves[int].id === id) {
+						pendingMoves[int].index = int;
+						return pendingMoves[int];
+					}
 				}
+				return null;
+			}
+			function simulateMovement(featureToUpdate, latStep, longStep,
+					beforeCoord, data) {
+				for (var int = 1; int <= steps; int++) {
+					setTimeout(f, 10 * int, int, featureToUpdate, latStep,
+							longStep, beforeCoord, data);
+				}
+			}
 
-			});
-
-			function f(int) {
+			function f(int, featureToUpdate, latStep, longStep, beforeCoord,
+					data) {
 				var long = beforeCoord[0] + longStep * int;
 				var lat = beforeCoord[1] + latStep * int
 				featureToUpdate.getGeometry().setCoordinates(
 						getPointFromLongLat(long, lat));
-				
+				console.log(beforeCoord);
+				console.log(data)
+				console.log(Math.atan((beforeCoord[1] - data.positiony)
+						/ (beforeCoord[0] - data.positionx)));
+
 				featureToUpdate.getStyle().getImage().setRotation(
-						135);
+						Math.atan((beforeCoord[1] - data.positionx)
+								/ (beforeCoord[0] - data.positiony)));
+				if (int === steps) {
+					var momentMove = checksNextPendingMoveOfPlane(data.id);
+					pendingMoves.splice(momentMove.index, 1);
+					var nextMove = checksNextPendingMoveOfPlane(data.id);
+					if (nextMove !== null) {
+						movePlane(nextMove);
+					}
+				}
 
 			}
 
@@ -83,10 +126,9 @@ $(document).ready(
 			$.get("/Naranair/controller/getFlights", function(data, status) {
 				var obj = jQuery.parseJSON(data);
 				planes = obj.result[0];
-				
 
 				for (var i = 0; i < planes.length; i++) {
-					if(planes[i].planeStatus.positionStatus !== "ARRIVING"){
+					if (planes[i].planeStatus.positionStatus !== "ARRIVING") {
 						var iconFeature = new ol.Feature({
 							geometry : new ol.geom.Point(ol.proj.transform([
 									planes[i].planeMovement.positionX,
@@ -99,11 +141,11 @@ $(document).ready(
 						iconFeature.setId(planes[i].id);
 						vectorSource.addFeature(iconFeature);
 					}
-					
 
 				}
 
-				// add the feature vector to the layer vector, and apply a style
+				// add the feature vector to the layer
+				// vector, and apply a style
 				// to whole layer
 				vectorLayer = new ol.layer.Vector({
 					source : vectorSource,
