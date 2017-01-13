@@ -11,6 +11,7 @@
 	<constant name="struts.patternMatcher" value="regex" />
 	<constant name="struts.custom.i18n.resources" value="global" />
 
+	<constant name="struts.allowed.action.names" value="[ a-zA-Z0-9._!/\-]*" />
 	<constant name="struts.action.extension" value="," />
 
 	<package name="default" namespace="/" extends="struts-default">
@@ -47,8 +48,8 @@
 	</package>
 
 	<include file="register.xml" />
-	<include file="controller.xml"/>
-	<include file="airline.xml"/>
+	<include file="controller.xml" />
+	<include file="airline.xml" />
 	<include file="base.xml" />
 	<include file="login.xml" />
 
