@@ -127,14 +127,18 @@ public class FlightCreator implements Runnable {
 			if ((plane = DAOPlane.getFreePlane()) == null) {
 				plane = createPlane();
 			}
+			System.out.println("aaa");
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
 
 			if (flight != null) {
+				System.out.println("bien");
 				Notification.sendNotification(MD5.encrypt(ADMIN), "ARRIVING flight created. " + "Plane: "
 						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
+				System.out.println("ups");
 			}
 
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
+			System.out.println("route:"+route);
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
 
 			if (flight != null) {

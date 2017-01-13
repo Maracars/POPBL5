@@ -64,13 +64,14 @@ public abstract class PlaneThread implements Runnable {
 	 * Go to destination.
 	 */
 	protected void goToDestine() {
-
+		System.out.println("Go to destine");
 		momentLane = lane;
 		plane.getPlaneMovement().setPositionX(momentLane.getStartNode().getPositionX());
 		plane.getPlaneMovement().setPositionY(momentLane.getStartNode().getPositionY());
 		moveInLane(momentLane);
-
+		System.out.println("Landed");
 		LinkedList<Path> listaPistas = AirportController.getBestRoute(mode, momentLane, flight);
+		System.out.println("Lista de pistas: " + listaPistas);
 
 		for (int countList = 0; countList < listaPistas.size(); countList++) {
 			for (int countLaneList = 0; countLaneList < listaPistas.get(countList).getLaneList()
@@ -114,11 +115,16 @@ public abstract class PlaneThread implements Runnable {
 			System.out.println("Interrupted plane");
 			e.printStackTrace();
 		}
+		System.out.println(plane.getSerial() + " Enter to lane " + lane.getName());
 		changeLaneStatus(laneWhereMove, FULL);
+		System.out.println("2");
 		rotatePlane();
 		movePlaneToEndOfLane();
+		System.out.println("3");
 		laneWhereMove.getSemaphore().release();
 		changeLaneStatus(laneWhereMove, FREE);
+		System.out.println(plane.getSerial() + " go out from lane " + lane.getName());
+		System.out.println("4");
 	}
 
 	/**
@@ -128,31 +134,38 @@ public abstract class PlaneThread implements Runnable {
 	 * @param status the status
 	 */
 	protected void changeLaneStatus(Lane laneToChange, boolean status) {
-		try {
+		/*try {
+			System.out.println("Tokens" + controller.getMutex().availablePermits());
 			controller.getMutex().acquire();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			e.printStackTrace();
-		}
+		}*/
+		System.out.println(plane.getSerial() + "moving from " + laneToChange.getStartNode() + " to " + laneToChange.getEndNode());
 		laneToChange.setStatus(status);
 		HibernateGeneric.updateObject(laneToChange);
-		controller.getMutex().release();
+		//controller.getMutex().release();
 	}
 
 	/**
 	 * Move plane to end of lane.
 	 */
 	private void movePlaneToEndOfLane() {
-		try {
+		/*try {
+			System.out.println("pa");
 			controller.getMutex().acquire();
+			System.out.println("ap");
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			e.printStackTrace();
-		}
+		}*/
+		System.out.println(plane.getSerial() + " POSITION_X " + momentLane.getEndNode().getPositionX());
+		System.out.println(plane.getSerial() + " POSITION_Y " + momentLane.getEndNode().getPositionY());
 		plane.getPlaneMovement().setPositionX(momentLane.getEndNode().getPositionX());
 		plane.getPlaneMovement().setPositionY(momentLane.getEndNode().getPositionY());
 		HibernateGeneric.updateObject(plane);
-		controller.getMutex().release();
+		//controller.getMutex().release();
+		
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {

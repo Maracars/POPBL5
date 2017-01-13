@@ -27,14 +27,14 @@ public class DAOPlaneModel {
 	public static PlaneModel getRandomPlaneModel() {
 		PlaneModel planeModel = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_GET_PLANEMODEL);
 
 			planeModel = (PlaneModel)query.setMaxResults(1).getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return planeModel;

@@ -1,5 +1,8 @@
 package hibernate;
 
+import java.util.concurrent.Semaphore;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -14,6 +17,8 @@ public class HibernateConnection {
 	
 	/** The Constant HBN_LOCATION. */
 	private final static String HBN_LOCATION = "/resources/hibernate.cfg.xml";
+	
+	private static Semaphore mutex;
 
 	/**
 	 * Start.
@@ -22,6 +27,7 @@ public class HibernateConnection {
 	public static void start() {
 		try {
 			sessionFactory = new Configuration().configure(HBN_LOCATION).buildSessionFactory();
+			mutex = new Semaphore(1, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,6 +44,26 @@ public class HibernateConnection {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	}
+	
+	public static Session getSession(){
+		Session session;
+		try {
+			mutex.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session = sessionFactory.openSession();
+		
+		return session;
+
+	}
+	
+	public static void closeSession(Session sessionToRelease){
+		sessionToRelease.close();
+		mutex.release();
 
 	}
 

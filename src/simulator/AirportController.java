@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import domain.dao.DAOGate;
-import domain.dao.DAOLane;
-import domain.dao.DAOPath;
 import domain.dao.HibernateGeneric;
 import domain.model.Airport;
 import domain.model.Flight;
@@ -17,6 +15,7 @@ import domain.model.Node;
 import domain.model.Path;
 import domain.model.users.Admin;
 import helpers.Dijkstra;
+import helpers.LaneFilter;
 import helpers.MD5;
 import notification.Notification;
 
@@ -35,9 +34,8 @@ public class AirportController implements Runnable {
 
 	/** The active plane list. */
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
-
-	/** The free lane list. */
-	// private List<Lane> freeLaneList;
+	
+	private static List<Path> pathList;
 
 	/** The airport. */
 	private Airport airport;
@@ -59,11 +57,14 @@ public class AirportController implements Runnable {
 	 *
 	 * @param airport
 	 *            the airport
+	 * @param laneList 
+	 * @param pathList 
 	 */
-	public AirportController(Airport airport) {
+	public AirportController(Airport airport, List<Path> pathList) {
 
 		this.airport = airport;
 		mutex = new Semaphore(1, true);
+		AirportController.pathList = pathList;
 	}
 
 	/*
@@ -145,7 +146,7 @@ public class AirportController implements Runnable {
 	private boolean allocateLaneIfFree(PlaneThread plane) {
 		boolean ret = false;
 
-		List<Lane> freeLaneList = DAOLane.getFreeLanes(airport.getId());
+		List<Lane> freeLaneList = LaneFilter.getFreeLanes(pathList, airport.getId());
 		if (freeLaneList != null && assignFreeGate(plane)) {
 			Lane lane = freeLaneList.get(0);
 			lane.setStatus(false);
@@ -197,26 +198,28 @@ public class AirportController implements Runnable {
 	 * (kontrollerrak permisoa emoterakoan
 	 */
 	public static LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
-		List<Path> paths = DAOPath.loadAllFreePaths();
+		List<Path> paths = LaneFilter.getFreePaths(pathList);
 		Node source;
 		Node destination;
 
 		if (mode == Dijkstra.ARRIVAL_MODE) {
-
+			System.out.println("Dijkstra " + landLane.getEndNode() + "  " + flight.getEndGate().getPositionNode());
 			source = landLane.getEndNode();
 			destination = flight.getEndGate().getPositionNode();
 
 		} else {
-
+			System.out.println("Dijkstra FROM" + flight.getStartGate().getPositionNode() + " TO " + landLane.getStartNode());
 			source = flight.getStartGate().getPositionNode();
 			destination = landLane.getStartNode();
 
 		}
 
 		Dijkstra dijkstra = new Dijkstra(paths);
+		System.out.println("start dijkstra");
 		dijkstra.execute(source, mode);
-
+		System.out.println("finish dijkstra");
 		LinkedList<Path> pathList = dijkstra.getPath(destination);
+		System.out.println("dijkstra returns " + pathList);
 
 		return pathList;
 	}

@@ -41,7 +41,7 @@ public class DAOLane {
 	public static List<Lane> getFreeLanes(int airportId) {
 		List<Lane> laneList = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_FREE_LANES);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 			if (query.getResultList().size() > 0) {
@@ -50,7 +50,7 @@ public class DAOLane {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 		return laneList;
 	}

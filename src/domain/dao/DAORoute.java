@@ -44,14 +44,14 @@ public class DAORoute {
 		// ez dau lista bat bueltauko
 		List<Route> routeList = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 			routeList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return routeList;
@@ -68,14 +68,14 @@ public class DAORoute {
 
 		List<Route> routeList = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 			routeList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return routeList.get(0);

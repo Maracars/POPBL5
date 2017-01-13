@@ -54,6 +54,7 @@ public class ArrivingPlane extends PlaneThread {
 			Thread.currentThread().interrupt();
 			e1.printStackTrace();
 		}
+		System.out.println("Sartu de");
 		moveToAirport();
 		Notification.sendNotification(MD5.encrypt(ADMIN),
 				"Plane " + plane.getSerial() + " ASK PERMISSION TO ARRIVE");
@@ -70,9 +71,7 @@ public class ArrivingPlane extends PlaneThread {
 				e.printStackTrace();
 			}
 		}
-
-		Notification.sendNotification(MD5.encrypt(ADMIN), "Plane " + plane.getSerial() + " LANDED");
-
+		
 		goToDestine();
 		landPlane();
 		// set plane status OnAirport eta NeedRevision
@@ -82,8 +81,9 @@ public class ArrivingPlane extends PlaneThread {
 	 * Land plane.
 	 */
 	private void landPlane() {
-		changeLaneStatus(lane, true);
+		Notification.sendNotification(MD5.encrypt(ADMIN), "Plane " + plane.getSerial() + " LANDED");
 		activePlanes.decrementAndGet();
+		System.out.println(plane.getSerial() + " LANDED");
 
 	}
 
@@ -91,16 +91,16 @@ public class ArrivingPlane extends PlaneThread {
 	 * Move to airport.
 	 */
 	private void moveToAirport() {
-		try {
+		/*try {
 			controller.getMutex().acquire();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			e.printStackTrace();
-		}
+		}*/
 		plane.getPlaneMovement().setPositionX(INITIAL_POSX);
 		plane.getPlaneMovement().setPositionY(INITIAL_POSY);
 		HibernateGeneric.updateObject(plane);
-		controller.getMutex().release();
+		//controller.getMutex().release();
 
 	}
 

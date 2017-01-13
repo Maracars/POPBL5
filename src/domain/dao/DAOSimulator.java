@@ -63,7 +63,7 @@ public class DAOSimulator {
 		Date soon = new Date();
 
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_COUNT_FLIGHTS_IN_WEEK);
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
 			query.setParameter(PARAMETER_MARGIN_WEEK, 
@@ -72,7 +72,7 @@ public class DAOSimulator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return numFlights;
@@ -91,7 +91,7 @@ public class DAOSimulator {
 
 		try {
 
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 
 			StoredProcedureQuery query = session.createStoredProcedureQuery("selectDate")
 					.registerStoredProcedureParameter("planeId", Integer.class, ParameterMode.IN)
@@ -105,7 +105,7 @@ public class DAOSimulator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return date;

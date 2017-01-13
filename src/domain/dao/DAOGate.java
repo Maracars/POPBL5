@@ -38,7 +38,7 @@ public class DAOGate {
 	public static List<Gate> loadFreeGatesFromTerminal(int terminalId) {
 		List<Gate> gateList = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_FREE_GATES);
 			query.setParameter(PARAMETER_TERMINAL_ID, terminalId);
 			if (query.getResultList().size() > 0) {
@@ -47,7 +47,7 @@ public class DAOGate {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 		return gateList;
 	}

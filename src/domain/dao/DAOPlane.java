@@ -87,7 +87,7 @@ public class DAOPlane {
 		List<Flight> flightList = null;
 		Date soon = new Date();
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_ARRIVAL_FLIGHTS_SOON);
 			query.setParameter(PARAMETER_SOON_DATE, new Date(soon.getTime() + (MILIS_TO_HOURS * ARRIVAL_HOUR_MARGIN)));
 			query.setParameter(PARAMETER_AIRPORT_ID, airportId);
@@ -96,7 +96,7 @@ public class DAOPlane {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return flightList;
@@ -113,7 +113,7 @@ public class DAOPlane {
 		List<Flight> flightList = null;
 		Date soon = new Date();
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			// TODO PLANESTATUS GEHITZEN DANIAN HAU INPLEMENTATZEKO GERATZEN DA
 			Query query = session.createQuery(QUERY_DEPARTURING_FLIGHTS_SOON);
 			query.setParameter(PARAMETER_SOON_DATE,
@@ -124,7 +124,7 @@ public class DAOPlane {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return flightList;
@@ -138,14 +138,14 @@ public class DAOPlane {
 	public static Plane selectPlaneNeedToRevise() {
 		Plane plane = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_PLANES_NEED_REVISE);
 			plane = (Plane) query.setMaxResults(MAX_RESULTS).getSingleResult();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 		return plane;
 	}
@@ -160,13 +160,13 @@ public class DAOPlane {
 
 		List<Plane> planeList = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_FREE_PLANE);
 			planeList = query.setMaxResults(MAX_RESULTS).getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return planeList.size() > 0 ? planeList.get(0) : null;
@@ -183,14 +183,14 @@ public class DAOPlane {
 		List<Object> objectList = null;
 		try {
 
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Object> query = session.createQuery("from Plane");
 			objectList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return objectList;

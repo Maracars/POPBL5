@@ -22,7 +22,7 @@ public class StartSimulatorAction extends ActionSupport {
 	//@Override
 	public String startSimulator() throws Exception {
 
-		MainThread.createMainThread(null);
+		MainThread.initSimulator(null, null);
 		addActionMessage(getText("global.simulatorStarted"));
 		return SUCCESS;
 	}
@@ -34,7 +34,7 @@ public class StartSimulatorAction extends ActionSupport {
 	 * @throws Exception the exception
 	 */
 	public String stopSimulator() throws Exception {
-		MainThread.finishThreads();
+		MainThread.finishSimulator();
 		addActionMessage(getText("global.simulatorFinished"));
 		return SUCCESS;
 	}

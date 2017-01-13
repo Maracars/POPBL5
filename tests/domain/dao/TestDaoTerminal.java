@@ -14,7 +14,6 @@ import domain.model.Terminal;
 public class TestDaoTerminal {
 
 	private static final String ERROR_REMOVING = "Error removing one terminal from database";
-	private static final String ERROR_GETTING = "Error getting all terminals of an airport from database";
 	private static final String ERROR_INSERT = "Error insert terminal into database";
 
 	@Test
@@ -27,13 +26,6 @@ public class TestDaoTerminal {
 		assertEquals(ERROR_INSERT, true, result);
 	}
 
-	@Ignore
-	public void testLoadAllTerminalsFromOneSpecificAirport() {
-		int airportId = 1;
-		ArrayList<Terminal> terminalList;
-		terminalList = DAOTerminal.loadAllGatesFromTerminal(airportId);
-		assertNotNull(ERROR_GETTING, terminalList);
-	}
 
 	@Test
 	public void testRemoveOneSpecificTerminal() {

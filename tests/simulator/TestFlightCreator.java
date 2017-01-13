@@ -34,7 +34,7 @@ public class TestFlightCreator {
 		HibernateGeneric.deleteAllObjects(new Flight());
 		HibernateGeneric.deleteAllObjects(new Plane());
 		airport = Initializer.initializeExampleOnDB();
-		ac = new AirportController(airport);
+		ac = new AirportController(airport, null);
 		fg = new FlightCreator(airport, ac);
 	}
 

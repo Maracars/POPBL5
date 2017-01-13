@@ -28,7 +28,7 @@ public class DAOAirport {
 	public static Airport getLocaleAirport() {
 		Airport localeAirport = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_LOCALE_AIRPORT);
 			if (query.getResultList().size() > 0) {
 				localeAirport = (Airport) query.getResultList().get(0);
@@ -36,7 +36,7 @@ public class DAOAirport {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 		return localeAirport;
 	}

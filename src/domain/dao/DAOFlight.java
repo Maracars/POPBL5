@@ -39,7 +39,7 @@ public class DAOFlight {
 		Boolean result = true;
 		List<Flight> planeList = new ArrayList<>();
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			session.beginTransaction();
 			Query query = session.createQuery(LOAD_AIRLINE_FLIGHTS);
 			query.setParameter(PARAMETER_AIRLINE_USERNAME, airlineUsername);
@@ -60,7 +60,7 @@ public class DAOFlight {
 			result = false;
 
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return result;
@@ -105,7 +105,7 @@ public class DAOFlight {
 			result = false;
 
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return result;

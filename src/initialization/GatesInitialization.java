@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -15,6 +17,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domain.dao.DAOAirport;
+import domain.dao.DAOPath;
 import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
 import domain.model.Address;
@@ -27,6 +30,7 @@ import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import domain.model.Route;
 import domain.model.Terminal;
+import simulator.MainThread;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -85,17 +89,19 @@ public class GatesInitialization implements ServletContextListener {
 			{ "38", "39", "100" }, { "39", "40", "101" }, { "40", "41", "102" }, { "41", "42", "103" },
 			{ "42", "43", "104" }, { "43", "44", "105" }, { "44", "45", "106" }, { "46", "45", "99" },
 			{ "54", "55", "90" }, { "55", "36", "90" } };
-	
+
 	/** The node list. */
 	private List<Node> nodeList;
-	
+
 	/** The lane list. */
-	private List<Lane> laneList = new ArrayList<>();
-	
+	private List<Lane> laneList = new ArrayList<Lane>();
+
 	/** The locale airport. */
 	private Airport localeAirport = null;
-	
+
 	private List<Terminal> terminalList;
+
+	private List<Path> pathList;
 
 	/*
 	 * (non-Javadoc)
@@ -105,8 +111,7 @@ public class GatesInitialization implements ServletContextListener {
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		// TODO Auto-generated method stub
-
+		MainThread.finishSimulator();
 	}
 
 	/*
@@ -126,38 +131,72 @@ public class GatesInitialization implements ServletContextListener {
 			createLanes();
 			createPaths();
 			createPlaneModel();
-			terminalList = loadTerminalsJSON();
-			for (Terminal terminal : terminalList) {
-				terminal.setAirport(localeAirport);
-				HibernateGeneric.saveObject(terminal.getPositionNode());
-				HibernateGeneric.saveObject(terminal);
-			}
-			List<Gate> gatesList = loadGatesJSON();
-			for (Gate gate : gatesList) {
-				Random random = new Random();
-				gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())));
-				gate.setFree(true);
-				HibernateGeneric.saveObject(gate.getPositionNode());
-				HibernateGeneric.saveObject(gate);
-			}
-			insertRoutes(localeAirport);
+			createTerminals();
+			createGates();
+			insertRoutes();
+
+		} else {
+			// TODO FUNTZIO HAU FALTA DA ARREGLETAKO
+			getPathsFromDatabase();
 
 		}
+		System.out.println("List of paths: " + pathList);
+		MainThread.initSimulator(localeAirport, pathList);
 
+	}
+
+	private void getPathsFromDatabase() {
+		// TODO hemen path guztiek datubasetik kargau behar dire
+		List<Object> list = HibernateGeneric.loadAllObjects(new Path());
+		for (Object object : list) {
+			Path path = (Path) object;
+			// honek forak eztait funtzionauko dauen, ointxe bertan ipiniot, 
+			//baia berez path guztiek get inde gero, lanetako semaforoak inizializau in behar dire.
+			for(Lane lane : path.getLaneList()){
+				if(lane.isFree()){
+					lane.setSemaphore(new Semaphore(1,true));
+				}else{
+					lane.setSemaphore(new Semaphore(0,true));
+				}
+			}
+			
+			pathList.add(path);
+		}
+		
+	}
+
+	private void createGates() {
+		List<Gate> gatesList = loadGatesJSON();
+		for (Gate gate : gatesList) {
+			Random random = new Random();
+			gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())));
+			gate.setFree(true);
+			HibernateGeneric.saveObject(gate.getPositionNode());
+			HibernateGeneric.saveObject(gate);
+		}
+	}
+
+	private void createTerminals() {
+		terminalList = loadTerminalsJSON();
+		for (Terminal terminal : terminalList) {
+			terminal.setAirport(localeAirport);
+			HibernateGeneric.saveObject(terminal.getPositionNode());
+			HibernateGeneric.saveObject(terminal);
+		}
 	}
 
 	private void createPlaneModel() {
 		PlaneMaker planeMaker = Initializer.initPlaneMaker();
 		HibernateGeneric.saveObject(planeMaker);
-		
+
 		PlaneModel planeModel = Initializer.initPlaneModel(planeMaker);
 		HibernateGeneric.saveObject(planeModel);
-		
+
 	}
 
 	/**
-	 * Load gates JSON.
-	 * Class that contains dummy functions that initializes model objects with predefined data
+	 * Load gates JSON. Class that contains dummy functions that initializes
+	 * model objects with predefined data
 	 *
 	 * @return the list
 	 */
@@ -257,7 +296,8 @@ public class GatesInitialization implements ServletContextListener {
 	/**
 	 * Gets the node by name.
 	 *
-	 * @param name the name
+	 * @param name
+	 *            the name
 	 * @return the node by name
 	 */
 	private Node getNodeByName(String name) {
@@ -272,7 +312,8 @@ public class GatesInitialization implements ServletContextListener {
 	/**
 	 * Gets the lane by name.
 	 *
-	 * @param name the name
+	 * @param name
+	 *            the name
 	 * @return the lane by name
 	 */
 	private Lane getLaneByName(String name) {
@@ -303,6 +344,7 @@ public class GatesInitialization implements ServletContextListener {
 			}
 			lane.setStatus(true);
 			lane.setAirport(localeAirport);
+			lane.setSemaphore(new Semaphore(1, true));
 			laneList.add(lane);
 			HibernateGeneric.saveObject(lane);
 
@@ -312,7 +354,8 @@ public class GatesInitialization implements ServletContextListener {
 	/**
 	 * Gets the path.
 	 *
-	 * @param number the number
+	 * @param number
+	 *            the number
 	 * @return the path
 	 */
 	private Path getPath(String number) {
@@ -340,7 +383,7 @@ public class GatesInitialization implements ServletContextListener {
 	 * Creates the paths.
 	 */
 	private void createPaths() {
-		List<Path> pathList = new ArrayList<>();
+		pathList = new ArrayList<Path>();
 		Path path = null;
 		for (Integer i = 1; i <= 106; i++) {
 			path = getPath(i.toString());
@@ -348,26 +391,26 @@ public class GatesInitialization implements ServletContextListener {
 			HibernateGeneric.saveObject(path);
 		}
 	}
-	
-	public void insertRoutes(Airport departureAirport){
+
+	public void insertRoutes() {
 		Terminal departureTerminal = terminalList.get(0);
-		
-		//HibernateGeneric.saveObject(departureTerminal);
-		
+
+		// HibernateGeneric.saveObject(departureTerminal);
+
 		Address address = Initializer.initAddress();
 		Airport arrivalAirport = Initializer.initAirport(address, nodeList.get(0));
 		arrivalAirport.setLocale(false);
 		Terminal arrivalTerminal = Initializer.initTerminal(arrivalAirport);
-		
+
 		HibernateGeneric.saveObject(address);
 		HibernateGeneric.saveObject(arrivalAirport);
 		HibernateGeneric.saveObject(arrivalTerminal);
-		
+
 		Route route = Initializer.initRoute(arrivalTerminal, departureTerminal);
 		Route route2 = Initializer.initRoute(departureTerminal, arrivalTerminal);
-		
+
 		HibernateGeneric.saveObject(route);
 		HibernateGeneric.saveObject(route2);
-		
+
 	}
 }

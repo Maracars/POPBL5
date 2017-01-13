@@ -29,7 +29,7 @@ public class TestAirportController {
 	@Before
 	public void initialize() {
 		airport = Initializer.initializeExampleOnDB();
-		ac = new AirportController(airport);
+		ac = new AirportController(airport, null);
 	}
 
 	@Test

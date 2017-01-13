@@ -1,11 +1,14 @@
 package simulator;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import domain.dao.DAOAirport;
 import domain.dao.Initializer;
 import domain.model.Airport;
+import domain.model.Lane;
+import domain.model.Path;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -21,19 +24,21 @@ public class MainThread {
 
 	/**
 	 * Creates the main thread.
+	 * @param laneList 
+	 * @param pathList 
 	 *
 	 * @param args the args
 	 */
-	public static void createMainThread(String[] args) {
+	public static void initSimulator(Airport airport, List<Path> pathList) {
 
 		threadPool = Executors.newFixedThreadPool(THREAD_NUM);
 
-		
-		Airport airport = initialize();
-		AirportController ac = new AirportController(airport);
+		AirportController ac = new AirportController(airport,pathList);
 		FlightCreator fc = new FlightCreator(airport, ac);
 		AutomaticMaintenance am = new AutomaticMaintenance();
+		System.out.println("Hasi de");
 
+		
 
 		threadPool.submit(ac);
 		threadPool.submit(fc);
@@ -44,7 +49,7 @@ public class MainThread {
 	/**
 	 * Finish threads.
 	 */
-	public static void finishThreads() {
+	public static void finishSimulator() {
 		threadPool.shutdownNow();
 	}
 	
@@ -64,7 +69,7 @@ public class MainThread {
 	 *
 	 * @return the airport
 	 */
-	private static Airport initialize() {
+	public static Airport initializeExample() {
 		Airport myAirport = null;
 		myAirport = DAOAirport.getLocaleAirport();
 		

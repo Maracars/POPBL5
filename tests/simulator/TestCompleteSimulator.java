@@ -28,9 +28,9 @@ public class TestCompleteSimulator {
 	public void finishAllThreads() {
 		MainThread main = new MainThread();
 		try {
-			main.createMainThread(null);
+			main.initSimulator(main.initializeExample(), null);
 			Thread.sleep(TIME_TO_EXECUTE_ALL);
-			main.finishThreads();
+			main.finishSimulator();
 			Thread.sleep(TIME_TO_FINISH_THREADS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();

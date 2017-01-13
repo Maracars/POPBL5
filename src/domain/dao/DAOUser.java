@@ -33,7 +33,7 @@ public class DAOUser {
 	public static User getUser(String username) {
 		User user = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(USERNAME_QUERY);
 			query.setParameter(PARAMETER_USERNAME, username);
 			user = (User) query.getSingleResult();
@@ -41,7 +41,7 @@ public class DAOUser {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return user;
@@ -67,7 +67,7 @@ public class DAOUser {
 
 			}
 
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 
 			Query query = session.createQuery(
@@ -81,7 +81,7 @@ public class DAOUser {
 			session.getTransaction().rollback();
 
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return result > 0 ? true : false;
@@ -98,7 +98,7 @@ public class DAOUser {
 		long result = 0;
 		try {
 
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery("select count(*) " + USERNAME_QUERY);
 			query.setParameter(PARAMETER_USERNAME, username);
 			result = (long) query.getSingleResult();
@@ -106,7 +106,7 @@ public class DAOUser {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return result > 0 ? true : false;

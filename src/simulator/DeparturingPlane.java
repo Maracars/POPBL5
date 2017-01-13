@@ -57,6 +57,7 @@ public class DeparturingPlane extends PlaneThread {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("MIERDA PUTA");
 		// goToDestine();
 		goOutFromMap();
 		// set plane status arriving??

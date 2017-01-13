@@ -24,24 +24,19 @@ public class DAOPath {
 	 *
 	 * @return the list
 	 */
-	public static List<Path> loadAllFreePaths() {
+	public static List<Path> loadAllPaths() {
 		List<Path> pathList = null;
 		try {
 
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			@SuppressWarnings("unchecked")
 			TypedQuery<Path> query = session.createQuery("from Path");
 			pathList = query.getResultList();
-
-			Predicate<Path> personPredicate = p -> p.getLaneList().contains(false);
-			pathList.removeIf(personPredicate); // Listan falsen bat baldin
-												// badago
-												// borrau eitten da listatik
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return pathList.size() > 0 ? pathList : null;

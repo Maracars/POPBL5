@@ -32,7 +32,7 @@ public class HibernateGeneric {
 		try {
 			if (object instanceof User)
 				((User) object).setPassword(MD5.encrypt(((User) object).getPassword()));
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.save(object);
 			session.getTransaction().commit();
@@ -42,7 +42,7 @@ public class HibernateGeneric {
 			session.getTransaction().rollback();
 			result = false;
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return result;
@@ -59,7 +59,7 @@ public class HibernateGeneric {
 		boolean result = true;
 		try {
 
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.delete(object);
 			session.getTransaction().commit();
@@ -69,7 +69,7 @@ public class HibernateGeneric {
 
 			result = false;
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return result;
@@ -86,14 +86,14 @@ public class HibernateGeneric {
 		if (o != null) {
 			try {
 
-				session = HibernateConnection.getSessionFactory().openSession();
+				session = HibernateConnection.getSession();
 				@SuppressWarnings("unchecked")
 				TypedQuery<Object> query = session.createQuery("from " + o.getClass().getSimpleName());
 				objectList = query.getResultList();
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				session.close();
+				HibernateConnection.closeSession(session);
 			}
 		}
 
@@ -108,18 +108,20 @@ public class HibernateGeneric {
 	 */
 	public static boolean updateObject(Object object) {
 		boolean result = true;
+		Transaction transaction = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
-			session.getTransaction().begin();
+			session = HibernateConnection.getSession();
+			transaction = session.getTransaction();
+			transaction.begin();
 			session.update(object);
-			session.getTransaction().commit();
+			transaction.commit();
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			session.getTransaction().rollback();
+			transaction.rollback();
 			result = false;
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return result;
@@ -134,7 +136,7 @@ public class HibernateGeneric {
 	public static boolean deleteAllObjects(Object object) {
 		boolean result = true;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			Query query = session.createQuery("delete from " + object.getClass().getSimpleName());
 			query.executeUpdate();
@@ -144,7 +146,7 @@ public class HibernateGeneric {
 			session.getTransaction().rollback();
 			result = false;
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 		return result;
 	}

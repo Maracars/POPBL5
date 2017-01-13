@@ -24,13 +24,7 @@
 	    <listener-class>
 	       initialization.AdminInitialization
 	    </listener-class>
-	</listener>  
-	
-	<listener>  
-	    <listener-class>
-	       initialization.GatesInitialization
-	    </listener-class>
-	</listener>  
+	</listener>    
 	
 	<listener>  
 	    <listener-class>
@@ -42,6 +36,12 @@
 	<listener-class>
 		org.apache.struts2.tiles.StrutsTilesListener
 	</listener-class>
+	</listener>
+	
+	<listener>  
+	    <listener-class>
+	       initialization.GatesInitialization
+	    </listener-class>
 	</listener>
 
 	<filter>

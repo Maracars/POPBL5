@@ -100,4 +100,13 @@ public class Path {
 		return laneList.toString() + distance;
 	}
 
+	public boolean isFree() {
+		for (Lane lane : laneList) {
+			if(!lane.isFree()){
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
