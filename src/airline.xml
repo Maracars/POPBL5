@@ -37,6 +37,10 @@
 		<action name="airplaneListJSON" class="action.airline.AirplaneListJSONAction">
 			<result name="*" type="json"></result>
 		</action>
+		
+		<action name="weekFlightListJSON" class="action.airline.MainPageAction">
+			<result name="*" type="json"></result>
+		</action>
 
 	</package>
 </struts>

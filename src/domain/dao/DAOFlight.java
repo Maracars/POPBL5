@@ -28,6 +28,9 @@ public class DAOFlight {
 
 	private static final String LOAD_TABLE_FLIGHTS = "from Flight as f order by f.";
 	
+	private static final String LOAD_WEEK_FLIGHTS = "from Flight as f where DATE(f.expectedArrivalDate) = "
+			+ "current_date or DATE(f.expectedDepartureDate) = current_date" ;
+	
 	
 	/** The session. */
 	private static Session session;
@@ -134,6 +137,24 @@ public class DAOFlight {
 		}
 
 		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Flight> loadOneWeekFlights(){
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_WEEK_FLIGHTS);
+			if (query.getResultList().size() > 0) {
+				flightList = query.getResultList();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return flightList;
 	}
 
 }

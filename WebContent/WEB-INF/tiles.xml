@@ -39,6 +39,13 @@
 			value="/pages/tiles/bodies/airline/home.jsp" />
 		<put-list-attribute name="stylesheets">
 			<add-attribute value="/css/airline.css"></add-attribute>
+			<add-attribute value="/css/c3.css"></add-attribute>
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
+			<add-attribute value="https://d3js.org/d3.v3.min.js"></add-attribute>
+			<add-attribute value="/js/c3.min.js"></add-attribute>
+			<add-attribute value="/js/airlineCharts.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
 
