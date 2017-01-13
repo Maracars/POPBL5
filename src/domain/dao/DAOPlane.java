@@ -73,7 +73,7 @@ public class DAOPlane {
 			+ "where f.realArrivalDate < current_timestamp or f is null";
 
 	private static final String PARAMETER_SERIAL_NUMBER = "serialNumber";
-	
+
 	private static final String QUERY_PLANE_WITH_SERIAL = "from Plane as p join p.airline as a where p.serial = :" + PARAMETER_SERIAL_NUMBER + " and a.id = :" + PARAMETER_AIRLINE_ID;
 
 	/** The Constant MILIS_TO_HOURS. */
@@ -222,10 +222,13 @@ public class DAOPlane {
 		} finally {
 			session.close();
 		}
-		
-		for(Object[] planeObjectList : objectList){
-			Plane plane = (Plane) planeObjectList[0];
-			planeList.add(plane);
+
+		if(objectList != null){
+
+			for(Object[] planeObjectList : objectList){
+				Plane plane = (Plane) planeObjectList[0];
+				planeList.add(plane);
+			}
 		}
 
 		return planeList;
@@ -249,15 +252,17 @@ public class DAOPlane {
 		} finally {
 			session.close();
 		}
-		
-		for(Object[] planeObjectList : objectList){
-			Plane plane = (Plane) planeObjectList[0];
-			planeList.add(plane);
+
+		if(objectList != null){
+			for(Object[] planeObjectList : objectList){
+				Plane plane = (Plane) planeObjectList[0];
+				planeList.add(plane);
+			}
 		}
 
 		return planeList;
 	}
-	
+
 	public static Plane loadAirplaneWithSerial(int airlineId, String serial){
 		Object[] plane = null;
 		try {
@@ -273,6 +278,6 @@ public class DAOPlane {
 			session.close();
 		}
 		return (Plane)plane[0];
-		
+
 	}
 }

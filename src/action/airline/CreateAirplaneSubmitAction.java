@@ -61,8 +61,8 @@ public class CreateAirplaneSubmitAction extends ActionSupport{
 		plane.setFabricationDate(new Date());
 
 		PlaneStatus planeStatus = new PlaneStatus();
-		planeStatus.setPositionStatus(TECHNICAL_STATUS);
-		planeStatus.setTechnicalStatus(POSITION_STATUS);
+		planeStatus.setPositionStatus(POSITION_STATUS);
+		planeStatus.setTechnicalStatus(TECHNICAL_STATUS);
 		HibernateGeneric.saveObject(planeStatus);
 		plane.setPlaneStatus(planeStatus);
 
