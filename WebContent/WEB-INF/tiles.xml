@@ -46,6 +46,7 @@
 			<add-attribute value="https://d3js.org/d3.v3.min.js"></add-attribute>
 			<add-attribute value="/js/c3.min.js"></add-attribute>
 			<add-attribute value="/js/airlineMainPageCharts.js"></add-attribute>
+			<add-attribute value="/js/airlinePlaneCharts.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
 

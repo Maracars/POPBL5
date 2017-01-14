@@ -263,21 +263,29 @@ public class DAOPlane {
 		return planeList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static Plane loadAirplaneWithSerial(int airlineId, String serial){
-		Object[] plane = null;
+		Plane plane = null;
+		List<Object[]> objectList = null;
+
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(QUERY_PLANE_WITH_SERIAL);
 			query.setParameter(PARAMETER_SERIAL_NUMBER, serial);
 			query.setParameter(PARAMETER_AIRLINE_ID, airlineId);
-			plane = (Object[]) query.getSingleResult();
+			objectList = query.getResultList();
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
-		return (Plane)plane[0];
-
+		if(objectList != null){
+			for(Object[] planeObjectList : objectList){
+				plane = (Plane) planeObjectList[0];
+				}
+		}
+		return plane;
 	}
 }
