@@ -41,6 +41,14 @@
 		<action name="weekFlightListJSON" class="action.airline.MainPageAction">
 			<result name="*" type="json"></result>
 		</action>
+		
+		<action name="pieFlightListJSON" class="action.airline.PieChartAction">
+			<result name="*" type="json"></result>
+		</action>
+		
+		<action name="barPlaneHoursJSON" class="action.airline.BarChartAction">
+			<result name="*" type="json"></result>
+		</action>
 
 	</package>
 </struts>

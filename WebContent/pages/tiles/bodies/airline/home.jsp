@@ -17,19 +17,11 @@
 <div class="container-fluid" id="homeGraphs">
 	<s:actionerror />
 	<s:actionmessage />
-	<div class="jumbotron" id="pieChart">
-		<h1>Airline</h1>
-		<h2>NaranAir Airline</h2>
-		<p>Here is a d3 pie chart with the % of flights OK
-		</p>
+	<div id="pieChart">
 
 	</div>
 	
-		<div class="jumbotron" id="barChart">
-		<h1>Airline</h1>
-		<h2>NaranAir Airline</h2>
-		<p>Here is a d3 barchart with the year flights information
-		</p>
+		<div  id="barChart">
 
 	</div>
 </div>

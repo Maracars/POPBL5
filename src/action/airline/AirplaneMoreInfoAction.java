@@ -20,8 +20,6 @@ public class AirplaneMoreInfoAction extends ActionSupport{
 	public String execute() throws Exception {
 		String ret = SUCCESS;
 		
-		System.out.println(serial);
-		
 		if(serial == null || serial.equals("")){
 			addActionError("airline.serialBlank");
 		}else{

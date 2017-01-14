@@ -31,6 +31,22 @@ public class DAOFlight {
 	private static final String LOAD_WEEK_FLIGHTS = "from Flight as f where DATE(f.expectedArrivalDate) = "
 			+ "current_date or DATE(f.expectedDepartureDate) = current_date" ;
 	
+	private static final String LOAD_DAY_FLIGHTS_ARRIVE_ON_TIME = "from Flight as f where f.realArrivalDate < "
+			+ "f.expectedArrivalDate and DATE(expectedArrivalDate) = current_date";
+	
+	private static final String LOAD_DAY_FLIGHTS_DEPARTURE_ON_TIME = "from Flight as f where f.realDepartureDate < "
+			+ "f.expectedDepartureDate and DATE(expectedDepartureDate) = current_date";
+	
+	private static final String LOAD_DAY_FLIGHTS_NOT_ARRIVE_ON_TIME = "from Flight as f where (f.realArrivalDate > "
+			+ "f.expectedArrivalDate or f.realArrivalDate is NULL) and DATE(expectedArrivalDate) = current_date";
+	
+	private static final String LOAD_DAY_FLIGHTS_NOT_DEPARTURE_ON_TIME = "from Flight as f where (f.realDepartureDate > "
+			+ "f.expectedDepartureDate or f.realDepartureDate is NULL) and DATE(expectedDepartureDate) = current_date";
+
+	private static final String PARAMETER_PLANE_ID = "planeId";
+	
+	private static final String LOAD_AIRPLANE_FLIGHT_HOURS = "select sum(abs(extract(epoch from f.expectedArrivalDate - f.expectedDepartureDate)/3600)) from Flight as f join f.plane where f.plane.id = :" + PARAMETER_PLANE_ID;
+	
 	
 	/** The session. */
 	private static Session session;
@@ -155,6 +171,87 @@ public class DAOFlight {
 		}
 		
 		return flightList;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static int loadDayFlightsArriveOnTime(){
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_DAY_FLIGHTS_ARRIVE_ON_TIME);
+			flightList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return flightList.size();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static int loadDayFlightsDepartureOnTime(){
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_DAY_FLIGHTS_DEPARTURE_ON_TIME);
+			flightList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return flightList.size();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static int loadDayFlightsArriveOnNotTime(){
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_DAY_FLIGHTS_NOT_ARRIVE_ON_TIME);
+			flightList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return flightList.size();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static int loadDayFlightsDepartureOnNotTime(){
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_DAY_FLIGHTS_NOT_DEPARTURE_ON_TIME);
+			flightList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return flightList.size();
+	}
+	
+	public static long loadPlaneFlightHours(int planeId){
+		long flightHours = 0;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_AIRPLANE_FLIGHT_HOURS);
+			query.setParameter(PARAMETER_PLANE_ID, planeId);
+			flightHours = (long) query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return flightHours;
+		
 	}
 
 }
