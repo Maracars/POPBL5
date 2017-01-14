@@ -9,14 +9,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Test;
 
-import domain.dao.DAOLane;
 import domain.dao.DAORoute;
 import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
 import domain.model.Airport;
 import domain.model.Flight;
 import domain.model.Lane;
+import domain.model.Path;
 import domain.model.Route;
+import helpers.LaneFilter;
 import initialization.GatesInitialization;
 
 public class TestAirportController {
@@ -26,11 +27,13 @@ public class TestAirportController {
 	private static final String ERROR_FAIL_GETTING_PERMISSION = "Error, should not get permission";
 	Airport airport;
 	AirportController ac;
+	List<Path> pathList;
 
 	@Before
 	public void initialize() {
 		airport = Initializer.initializeExampleOnDB();
-		ac = new AirportController(airport, GatesInitialization.getPathsFromDatabase());
+		pathList =  GatesInitialization.getPathsFromDatabase();
+		ac = new AirportController(airport,pathList);
 	}
 
 	@Test
@@ -54,7 +57,7 @@ public class TestAirportController {
 	@Test
 	public void testFailGetPermissionCorrectly() {
 		ArrivingPlane plane = new ArrivingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), new Flight());
-		List<Lane> freeLaneList = DAOLane.getFreeLanes(airport.getId());
+		List<Lane> freeLaneList = LaneFilter.getFreeLanes(pathList, airport.getId());
 		for (Lane lane : freeLaneList) {
 			lane.setStatus(false);
 			HibernateGeneric.updateObject(lane);

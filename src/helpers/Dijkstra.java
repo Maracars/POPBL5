@@ -14,8 +14,8 @@ import domain.model.Path;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Dijkstra.
- * Class that contains the methots to find the best path throught the airports lanes
+ * The Class Dijkstra. Class that contains the methots to find the best path
+ * throught the airports lanes
  */
 public class Dijkstra {
 
@@ -69,11 +69,15 @@ public class Dijkstra {
 		executionMode = mode;
 		distance.put(source, 0.0);
 		unSettledNodes.add(source);
-		while (unSettledNodes.size() > 0) {
-			Node node = getMinimum(unSettledNodes);
-			settledNodes.add(node);
-			unSettledNodes.remove(node);
-			findMinimalDistances(node);
+		try {
+			while (unSettledNodes.size() > 0) {
+				Node node = getMinimum(unSettledNodes);
+				settledNodes.add(node);
+				unSettledNodes.remove(node);
+				findMinimalDistances(node);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -107,13 +111,10 @@ public class Dijkstra {
 	private Path getPathFromTwoNodes(Node node, Node target) {
 
 		for (Path path : paths) {
-			if (executionMode == ARRIVAL_MODE) {
-				if (checkPathExist(node, target, path))
-					return path;
-			} else {
-				if (checkPathExist(target, node, path))
-					return path;
-			}
+			if (checkPathExist(node, target, path))
+				return path;
+			if (checkPathExist(target, node, path))
+				return path;
 		}
 		throw new RuntimeException("Should not happen");
 	}
@@ -132,6 +133,7 @@ public class Dijkstra {
 			if (checkPathExist(node, target, path))
 				return path.getDistance();
 		}
+		System.out.println("aa");
 		throw new RuntimeException("Should not happen");
 	}
 
@@ -148,13 +150,13 @@ public class Dijkstra {
 	 */
 	private boolean checkPathExist(Node node, Node target, Path path) {
 		boolean checker = false;
-		if (path.getLaneList().get(0).getStartNode().getId() == node.getId()) {
-			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getId() == target.getId()) {
+		if (path.getLaneList().get(0).getStartNode().getName().equals(node.getName())) {
+			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getName().equals(target.getName())) {
 				checker = true;
 			}
 		}
-		if (path.getLaneList().get(0).getStartNode().getId() == target.getId()) {
-			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getId() == node.getId()) {
+		if (path.getLaneList().get(0).getStartNode().getName().equals(target.getName())) {
+			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getName().equals(node.getName())) {
 				checker = true;
 			}
 		}
@@ -171,16 +173,13 @@ public class Dijkstra {
 	private List<Node> getNeighbors(Node node) {
 		List<Node> neighbors = new ArrayList<Node>();
 		for (Path path : paths) {
-			if (executionMode == ARRIVAL_MODE) {
-				if (path.getLaneList().get(0).getStartNode().getId() == node.getId()
-						&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode())) {
-					neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode());
-				}
-			} else {
-				if (path.getLaneList().get(0).getEndNode().getId() == node.getId()
-						&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getStartNode())) {
-					neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getStartNode());
-				}
+			if (path.getLaneList().get(0).getStartNode().getName().equals(node.getName())
+					&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode())) {
+				neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode());
+			}
+			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getName().equals(node.getName())
+					&& !isSettled(path.getLaneList().get(0).getStartNode())) {
+				neighbors.add(path.getLaneList().get(0).getStartNode());
 			}
 
 		}
@@ -251,11 +250,17 @@ public class Dijkstra {
 		LinkedList<Path> pathList = new LinkedList<Path>();
 		Node step = target;
 		Node stepBefore;
-		// check if a path exists
-		if (predecessors.get(step) == null) {
+		Node eventualNode;
+		step = chageOuterNodeToInner(step);
+		//eventualNode = checkPredecesor(step); // check if a path exists
+		if ( predecessors.get(step) == null) {
 			return null;
 		}
 		path.add(step);
+		/*stepBefore = step;
+		step = eventualNode;
+		path.add(step);
+		pathList.add(getPathFromTwoNodes(step, stepBefore));*/
 		while (predecessors.get(step) != null) {
 			stepBefore = step;
 			step = predecessors.get(step);
@@ -267,6 +272,26 @@ public class Dijkstra {
 		Collections.reverse(pathList);
 
 		return pathList;
+	}
+
+	private Node chageOuterNodeToInner(Node step) {
+		for (Path path : paths) {
+			if (path.getLaneList().get(0).getStartNode().getName().equals(step.getName())) {
+				return path.getLaneList().get(0).getStartNode();
+			}
+			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getName().equals(step.getName())) {
+				return path.getLaneList().get(path.getLaneList().size() - 1).getEndNode();
+			}
+		}
+		return null;
+	}
+
+	private Node checkPredecesor(Node node) {
+		for (Node nodeToCheck : predecessors.keySet()){
+			if(nodeToCheck.getName().equals(node.getName()))
+				return nodeToCheck;
+		}
+		return null;
 	}
 
 }

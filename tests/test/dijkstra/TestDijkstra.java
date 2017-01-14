@@ -33,7 +33,7 @@ public class TestDijkstra {
 	@Test
 	public void testExcuteArrival() {
 
-		dijkstra.execute(nodes.get(0), Dijkstra.ARRIVAL_MODE);
+		dijkstra.execute(nodes.get(9), Dijkstra.ARRIVAL_MODE);
 		LinkedList<Path> paths = dijkstra.getPath(nodes.get(11));
 
 		assertNotNull(paths);
@@ -48,8 +48,8 @@ public class TestDijkstra {
 	@Test
 	public void testExcuteDeparture() {
 
-		dijkstra.execute(nodes.get(11), Dijkstra.DEPARTURE_MODE);
-		LinkedList<Path> paths = dijkstra.getPath(nodes.get(0));
+		dijkstra.execute(nodes.get(9), Dijkstra.DEPARTURE_MODE);
+		LinkedList<Path> paths = dijkstra.getPath(nodes.get(11));
 
 		assertNotNull(paths);
 		assertTrue(paths.size() > 0);
@@ -63,14 +63,14 @@ public class TestDijkstra {
 	@Test
 	public void testExecuteBothCheckAreEqual() {
 
-		dijkstra.execute(nodes.get(0), Dijkstra.ARRIVAL_MODE);
-		LinkedList<Path> pathsArrive = dijkstra.getPath(nodes.get(11));
+		dijkstra.execute(nodes.get(11), Dijkstra.ARRIVAL_MODE);
+		LinkedList<Path> pathsArrive = dijkstra.getPath(nodes.get(9));
 
 		assertNotNull(pathsArrive);
 		assertTrue(pathsArrive.size() > 0);
 
-		dijkstra.execute(nodes.get(11), Dijkstra.DEPARTURE_MODE);
-		LinkedList<Path> pathsDeparture = dijkstra.getPath(nodes.get(0));
+		dijkstra.execute(nodes.get(9), Dijkstra.DEPARTURE_MODE);
+		LinkedList<Path> pathsDeparture = dijkstra.getPath(nodes.get(11));
 
 		assertNotNull(pathsDeparture);
 		assertTrue(pathsDeparture.size() > 0);
@@ -127,6 +127,30 @@ public class TestDijkstra {
 		addLane("Edge_10", 9, 10);
 		addLane("Edge_11", 1, 10);
 		addLane("Edge_12", 7, 11);
+		addBigPath();
+	}
+
+	private static void addBigPath() {
+		ArrayList<Lane> laneList = new ArrayList<>();
+
+		Lane lane1 = new Lane();
+		lane1.setStartNode(nodes.get(2));
+		lane1.setEndNode(nodes.get(3));
+
+		laneList.add(lane1);
+		
+		Lane lane2 = new Lane();
+		lane2.setStartNode(nodes.get(3));
+		lane2.setEndNode(nodes.get(7));
+
+		laneList.add(lane2);
+
+		Path path = new Path();
+		path.setLaneList(laneList);
+		path.setId(0);
+
+		paths.add(path);
+		
 	}
 
 }

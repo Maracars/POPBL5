@@ -70,7 +70,7 @@ public abstract class PlaneThread implements Runnable {
 		plane.getPlaneMovement().setPositionY(momentLane.getStartNode().getPositionY());
 		moveInLane(momentLane);
 		System.out.println("Landed");
-		LinkedList<Path> listaPistas = AirportController.getBestRoute(mode, momentLane, flight);
+		LinkedList<Path> listaPistas = controller.getBestRoute(mode, momentLane, flight);
 		System.out.println("Lista de pistas: " + listaPistas);
 
 		for (int countList = 0; countList < listaPistas.size(); countList++) {

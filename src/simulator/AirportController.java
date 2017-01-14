@@ -201,21 +201,21 @@ public class AirportController implements Runnable {
 	 * mode thread berak jakingo zauen zein dan eta lane asignaute deko ya
 	 * (kontrollerrak permisoa emoterakoan
 	 */
-	public static LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
+	public LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
 		List<Path> paths = LaneFilter.getFreePaths(pathList);
 		Node source;
 		Node destination;
 
 		if (mode == Dijkstra.ARRIVAL_MODE) {
 			System.out.println("Dijkstra " + landLane.getEndNode() + "  " + flight.getEndGate().getPositionNode());
-			source = landLane.getEndNode();
+			source = landLane.getStartNode();
 			destination = flight.getEndGate().getPositionNode();
 
 		} else {
 			System.out.println(
 					"Dijkstra FROM" + flight.getStartGate().getPositionNode() + " TO " + landLane.getStartNode());
 			source = flight.getStartGate().getPositionNode();
-			destination = landLane.getStartNode();
+			destination = landLane.getEndNode();
 
 		}
 

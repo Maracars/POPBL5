@@ -1084,7 +1084,13 @@ public class Initializer {
 		lane.setEndNode(node);
 		lane.setStatus(true);
 		HibernateGeneric.saveObject(lane);
-
+		
+		Path path = new Path();
+		ArrayList<Lane> laneList = new ArrayList<Lane>();
+		laneList.add(lane);
+		path.setLaneList(laneList);
+		HibernateGeneric.saveObject(path);
+		
 		HibernateGeneric.saveObject(Initializer.initCompletePlaneModel());
 
 		return myAirport;
