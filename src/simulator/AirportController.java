@@ -145,12 +145,13 @@ public class AirportController implements Runnable {
 	 *            the plane
 	 * @return true, if successful
 	 */
-	private boolean allocateLaneIfFree(PlaneThread plane) {
+	private synchronized boolean allocateLaneIfFree(PlaneThread plane) {
 		boolean ret = false;
 
 		List<Lane> freeLaneList = LaneFilter.getFreeLanes(pathList, airport.getId());
 		if (freeLaneList != null && freeLaneList.size() != 0 && assignFreeGate(plane)) {
 			Lane lane = freeLaneList.get(0);
+			plane.setRouteOfPaths(getBestRoute(plane.getMode(), lane, plane.getFlight()));
 			lane.setStatus(false);
 			plane.setLane(lane);
 			HibernateGeneric.updateObject(lane);
@@ -169,7 +170,7 @@ public class AirportController implements Runnable {
 	private boolean assignFreeGate(PlaneThread plane) {
 		Gate freeGate = null;
 		boolean ret = true;
-		if (plane.isMode() == plane.ARRIVING) {
+		if (plane.getMode() == plane.ARRIVING) {
 			List<Gate> freeGateList = DAOGate
 					.loadFreeGatesFromTerminal(plane.getFlight().getRoute().getArrivalTerminal().getId());
 			if (freeGateList != null) {

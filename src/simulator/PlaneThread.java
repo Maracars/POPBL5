@@ -51,6 +51,8 @@ public abstract class PlaneThread implements Runnable {
 
 	/** The flight. */
 	protected Flight flight;
+	
+	LinkedList<Path> routeOfPaths;
 
 	/*
 	 * (non-Javadoc)
@@ -65,19 +67,19 @@ public abstract class PlaneThread implements Runnable {
 	 */
 	protected void goToDestine() {
 		System.out.println("Go to destine");
-		momentLane = lane;
+		momentLane = routeOfPaths.get(0).getLaneList().get(0);
 		plane.getPlaneMovement().setPositionX(momentLane.getStartNode().getPositionX());
 		plane.getPlaneMovement().setPositionY(momentLane.getStartNode().getPositionY());
-		moveInLane(momentLane);
+		HibernateGeneric.updateObject(plane);
+		//moveInLane(momentLane);
 		System.out.println("Landed");
-		LinkedList<Path> listaPistas = controller.getBestRoute(mode, momentLane, flight);
-		System.out.println("Lista de pistas: " + listaPistas);
+		System.out.println("Lista de pistas: " + routeOfPaths);
 
-		for (int countList = 0; countList < listaPistas.size(); countList++) {
-			for (int countLaneList = 0; countLaneList < listaPistas.get(countList).getLaneList()
+		for (int countList = 0; countList < routeOfPaths.size(); countList++) {
+			for (int countLaneList = 0; countLaneList < routeOfPaths.get(countList).getLaneList()
 					.size(); countLaneList++) {
 				// Hemen suposatzen dot planea edukiko dauela
-				momentLane = listaPistas.get(countList).getLaneList().get(countLaneList);
+				momentLane = routeOfPaths.get(countList).getLaneList().get(countLaneList);
 				moveInLane(momentLane);
 			}
 		}
@@ -89,7 +91,7 @@ public abstract class PlaneThread implements Runnable {
 	 *
 	 * @return true, if is mode
 	 */
-	public boolean isMode() {
+	public boolean getMode() {
 		return mode;
 	}
 
@@ -206,5 +208,9 @@ public abstract class PlaneThread implements Runnable {
 	 */
 	public Plane getPlane() {
 		return plane;
+	}
+	
+	public void setRouteOfPaths(LinkedList<Path> routeOfPaths) {
+		this.routeOfPaths = routeOfPaths;
 	}
 }
