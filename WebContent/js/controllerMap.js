@@ -49,7 +49,7 @@ $(document).ready(
 				if (featureToUpdate === null) {
 					featureToUpdate = new ol.Feature({
 						geometry : new ol.geom.Point(ol.proj.transform([
-								data.positionx, data.positiony ], 'EPSG:4326',
+								data.positiony, data.positionx ], 'EPSG:4326',
 								'EPSG:3857'))
 					});
 					featureToUpdate.setStyle(new ol.style.Style({
@@ -60,13 +60,13 @@ $(document).ready(
 				}
 				var beforeCoordWithoutChange = vectorSource.getFeatureById(
 						data.id).getGeometry().getCoordinates();
-				beforeCoord = getOriginLongLat(beforeCoordWithoutChange[0],
-						beforeCoordWithoutChange[1]);
+				beforeCoord = getOriginLongLat(beforeCoordWithoutChange[1],
+						beforeCoordWithoutChange[0]);
 
 				var afterCoord = getPointFromLongLat(data.positionx,
 						data.positiony);
-				latStep = (data.positiony - beforeCoord[1]) / steps;
-				longStep = (data.positionx - beforeCoord[0]) / steps;
+				latStep = (data.positionx - beforeCoord[0]) / steps;
+				longStep = (data.positiony - beforeCoord[1]) / steps;
 				simulateMovement(featureToUpdate, latStep, longStep,
 						beforeCoord, data);
 
@@ -91,8 +91,8 @@ $(document).ready(
 
 			function f(int, featureToUpdate, latStep, longStep, beforeCoord,
 					data) {
-				var long = beforeCoord[0] + longStep * int;
-				var lat = beforeCoord[1] + latStep * int
+				var long = beforeCoord[1] + longStep * int;
+				var lat = beforeCoord[0] + latStep * int
 				featureToUpdate.getGeometry().setCoordinates(
 						getPointFromLongLat(long, lat));
 				console.log(beforeCoord);
@@ -101,8 +101,8 @@ $(document).ready(
 						/ (beforeCoord[0] - data.positionx)));
 
 				featureToUpdate.getStyle().getImage().setRotation(
-						Math.atan((beforeCoord[1] - data.positionx)
-								/ (beforeCoord[0] - data.positiony)));
+						Math.atan((beforeCoord[1] - data.positiony)
+								/ (beforeCoord[0] - data.positionx)));
 				if (int === steps) {
 					var momentMove = checksNextPendingMoveOfPlane(data.id);
 					pendingMoves.splice(momentMove.index, 1);
