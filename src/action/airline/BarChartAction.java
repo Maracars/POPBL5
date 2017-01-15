@@ -2,20 +2,22 @@ package action.airline;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.DAOFlight;
 import domain.dao.DAOPlane;
 import domain.model.Plane;
+import domain.model.users.User;
 
 public class BarChartAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
 	private String serial;
-	private Integer airlineId;
 
 	
 	List<FlightView> data;
@@ -23,7 +25,9 @@ public class BarChartAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		User user = (User) session.get("user");
+		int airlineId = user.getId();
 		plane = DAOPlane.loadAirplaneWithSerial(airlineId, serial);
 		long flightHours = DAOFlight.loadPlaneFlightHours(plane.getId());
 		
@@ -93,13 +97,7 @@ public class BarChartAction extends ActionSupport {
 	public void setSerial(String serial) {
 		this.serial = serial;
 	}
-	public Integer getAirlineId() {
-		return airlineId;
-	}
-
-	public void setAirlineId(Integer airlineId) {
-		this.airlineId = airlineId;
-	}
+	
 
 
 }

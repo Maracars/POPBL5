@@ -1,7 +1,5 @@
 var dataSet = [];
 $(document).ready(function() {
-	var airlineId = 774;
-
 
 	$.ajax({
 		traditional : true,
@@ -10,8 +8,7 @@ $(document).ready(function() {
 		dataType : "json",
 		data : {
 			serial : "JAJAJAJA",
-			airlineId : airlineId,
-			
+
 		},
 
 		success : function(result, success) {

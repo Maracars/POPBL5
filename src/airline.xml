@@ -30,7 +30,7 @@
 			<result name="*" type="tiles">createPlane</result>
 		</action>
 		
-		<action name="airplaneMoreInfo/{serial}" class="action.airline.AirplaneMoreInfoAction">
+		<action name="airplaneMoreInfo/{serial}/" class="action.airline.AirplaneMoreInfoAction">
 			<result name="success" type="tiles">airplaneMoreInfo</result>
 		</action>
 		

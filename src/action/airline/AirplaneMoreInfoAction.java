@@ -19,7 +19,7 @@ public class AirplaneMoreInfoAction extends ActionSupport{
 	@Override
 	public String execute() throws Exception {
 		String ret = SUCCESS;
-		
+		System.out.println(serial);
 		if(serial == null || serial.equals("")){
 			addActionError("airline.serialBlank");
 		}else{
