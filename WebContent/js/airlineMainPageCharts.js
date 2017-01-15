@@ -6,11 +6,11 @@ $(document).ready(
 			$.ajax({
 				traditional : true,
 				type : "GET",
-				url : "airline/weekFlightListJSON",
+				url : "weekFlightListJSON",
 				dataType : "json",
 				success : function(result, success) {
 					c3.generate({
-						bindto : '#barChart',
+						bindto : '#lineChart',
 						data : {
 							columns : [ [ 'Week Flights', result.data.length,
 									50, 60 ] ]
@@ -43,7 +43,7 @@ $(document).ready(
 					$.ajax({
 						traditional : true,
 						type : "GET",
-						url : "airline/pieFlightListJSON",
+						url : "pieFlightListJSON",
 						dataType : "json",
 						success : function(result, success) {
 							for(i = 0; i < result.data.length; i++){

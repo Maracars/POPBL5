@@ -21,7 +21,7 @@
 
 	</div>
 	
-		<div  id="barChart">
+		<div  id="lineChart">
 
 	</div>
 </div>

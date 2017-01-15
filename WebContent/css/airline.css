@@ -5,7 +5,11 @@
 	width:calc(50% - 10px);
 }
 
-#barChart{
+#lineChart{
 	float:right;
 	width:50%;
+}
+
+#barChart{
+	width:100%;
 }

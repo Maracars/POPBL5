@@ -243,7 +243,8 @@ public class DAOFlight {
 			session = HibernateConnection.getSessionFactory().openSession();
 			Query query = session.createQuery(LOAD_AIRPLANE_FLIGHT_HOURS);
 			query.setParameter(PARAMETER_PLANE_ID, planeId);
-			flightHours = (long) query.getSingleResult();
+			if(query.getSingleResult() != null)
+				flightHours = (long) query.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
