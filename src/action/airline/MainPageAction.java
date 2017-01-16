@@ -10,6 +10,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import action.airline.PieChartAction.FlightView;
 import domain.dao.DAOFlight;
 import domain.model.Flight;
 
@@ -45,6 +46,11 @@ public class MainPageAction extends ActionSupport{
 			data.add(new FlightView(planeName, flightId, routeName, expectedDepartureDate, expectedArrivalDate));
 		}
 		return data;
+	}
+	
+	//Function for test
+	public FlightView newFlightView(String planeName, String flightId, String routeName, String expectedDepartureDate, String expectedArrivalDate){
+		return new FlightView(planeName, flightId, routeName, expectedDepartureDate, expectedArrivalDate);
 	}
 
 
