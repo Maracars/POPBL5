@@ -4,6 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.DAOFlight;
@@ -17,10 +21,14 @@ public class MainPageAction extends ActionSupport{
 
 	@Override
 	public String execute() throws Exception {
+		String ret = SUCCESS;
 		List<Flight> flightList = DAOFlight.loadOneWeekFlights();
 		
-		data = generateData(flightList);
-		return SUCCESS;
+		if(flightList != null){
+			data = generateData(flightList);
+		}
+		
+		return ret;
 	}
 
 

@@ -8,7 +8,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import action.airline.TestAirplaneMoreInfoAction;
 import action.airline.TestCreateAirplaneSubmitAction;
-import action.controller.TestFlightListJSONAction;
 import action.user.TestLoginAction;
 import action.user.TestLogoutAction;
 import action.user.TestRegisterAdminAction;

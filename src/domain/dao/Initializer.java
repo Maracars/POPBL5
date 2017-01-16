@@ -928,8 +928,7 @@ public class Initializer {
 		HibernateGeneric.saveObject(planeStatus);
 
 		PlaneMovement planeMovement = initPlaneMovement();
-		HibernateGeneric.saveObject(planeMovement);
-
+		
 		Plane plane = initPlane(airline, planeModel, new Date(), planeStatus, planeMovement);
 		HibernateGeneric.saveObject(plane);
 

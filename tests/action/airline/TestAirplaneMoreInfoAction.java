@@ -9,7 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
@@ -27,9 +30,6 @@ public class TestAirplaneMoreInfoAction {
 	
 	ActionContext ac;
 	AirplaneMoreInfoAction aMInfoAc;
-	
-	static HibernateInit  init;
-	static SocketIOInit initio;
 	
 	private static final String FIELD_ACTION_ERROR = "Field errors not generated properly";
 	private static final int _1_ERRORS = 1;
