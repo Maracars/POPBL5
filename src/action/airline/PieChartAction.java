@@ -34,6 +34,11 @@ public class PieChartAction extends ActionSupport{
 			return flightViewList;
 
 		}
+		
+		//Function for test
+		public FlightView newFlightView(String name, String quantity){
+			return new FlightView(name, quantity);
+		}
 
 
 		public class FlightView{
@@ -77,6 +82,7 @@ public class PieChartAction extends ActionSupport{
 		public void setData(List<FlightView> data) {
 			this.data = data;
 		}
+		
 	 
 
 }

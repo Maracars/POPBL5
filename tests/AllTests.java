@@ -8,6 +8,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import action.airline.TestAirplaneMoreInfoAction;
 import action.airline.TestCreateAirplaneSubmitAction;
+import action.airline.TestMainPageAction;
+import action.airline.TestPieChartAction;
 import action.user.TestLoginAction;
 import action.user.TestLogoutAction;
 import action.user.TestRegisterAdminAction;
@@ -84,7 +86,9 @@ import test.dijkstra.TestDijkstra;
 		TestCompleteSimulator.class,
 		//TestFlightListJSONAction.class,
 		TestCreateAirplaneSubmitAction.class,
-		TestAirplaneMoreInfoAction.class
+		TestAirplaneMoreInfoAction.class,
+		TestMainPageAction.class,
+		TestPieChartAction.class
 		})
 
 public class AllTests {
