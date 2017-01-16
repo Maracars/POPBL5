@@ -2,9 +2,14 @@ package action.airline;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+
+import domain.dao.DAOFlight;
+import domain.model.users.User;
 
 public class RouteStatsAction extends ActionSupport {
 
@@ -17,8 +22,21 @@ public class RouteStatsAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 
-		data = generateData();
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		User user = (User) session.get("user");
+		String airlineUser = user.getUsername();
+
+		data = DAOFlight.loadFlightsOfAirlineByRoute(airlineUser);
+		if (data == null || data.size() == 0) {
+			data = generateData();
+
+		}
+
 		return Action.SUCCESS;
+	}
+
+	public FlightView newFlightView(String name, String quantity) {
+		return new FlightView(name, quantity);
 	}
 
 	public List<FlightView> generateData() {
