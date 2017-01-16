@@ -42,9 +42,9 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 
 		recordsTotal = HibernateGeneric.loadAllObjects(new Flight()).size();
 
-		filter(data, search);
+		data = filter(data, search);
 
-		recordsFiltered = HibernateGeneric.loadAllObjects(new Flight()).size();
+		recordsFiltered = data.size();
 
 		return SUCCESS;
 	}

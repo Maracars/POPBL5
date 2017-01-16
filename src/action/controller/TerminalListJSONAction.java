@@ -43,9 +43,9 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport{
 
 		recordsTotal = DAOGate.loadAllGatesFromAirport(DAOAirport.getLocaleAirport().getId()).size();
 
-		filter(data, search);
+		data = filter(data, search);
 
-		recordsFiltered = DAOGate.loadAllGatesFromAirport(DAOAirport.getLocaleAirport().getId()).size();
+		recordsFiltered = data.size();
 
 		return SUCCESS;
 	}

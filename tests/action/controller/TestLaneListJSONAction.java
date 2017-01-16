@@ -1,4 +1,4 @@
-package action.airline;
+package action.controller;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,13 +13,12 @@ import org.mockito.Mockito;
 
 import com.opensymphony.xwork2.ActionContext;
 
-import domain.dao.DAOUser;
 import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
-import domain.model.Plane;
-import domain.model.users.Airline;
+import domain.model.Flight;
+import domain.model.Lane;
 
-public class TestAirplaneListJSONAction {
+public class TestLaneListJSONAction {
 	
 	private static final String JSON_DATA_EMPTY_ERROR = "Error, JSON data is not empty";
 	private static final String JSON_DATA_NOT_EMPTY_ERROR = "Error, JSON data is empty";
@@ -30,24 +29,21 @@ public class TestAirplaneListJSONAction {
 	private static final int FILTER_LENGTH = 1;
 	
 	ActionContext ac;
-	@SuppressWarnings("rawtypes")
-	AirplaneListJSONAction alJSONac;
 	HttpParameters paramsMap;
+	LaneListJSONAction lListJSONac;
 	
 	@Before
 	public void prepareTests(){
-		
-		HashMap<String, Object> sessionMap = new HashMap<>();
-		sessionMap.put("user", DAOUser.getUser("admin"));
-		
 		ac = Mockito.mock(ActionContext.class);
-		Mockito.when(ac.getSession()).thenReturn(sessionMap);
 		
+		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
+
 		ActionContext.setContext(ac);
+		
 	}
 	
 	@After
-	public void destroyTests(){
+	public void destroyTests() {
 		ac = null;
 	}
 	
@@ -81,87 +77,77 @@ public class TestAirplaneListJSONAction {
 		
 	}
 	
-
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void testExecuteNullData(){
-		HibernateGeneric.deleteAllObjects(new Plane());
-		alJSONac = new AirplaneListJSONAction();
+		HibernateGeneric.deleteAllObjects(new Lane());
+		lListJSONac = new LaneListJSONAction();
 		
 		createParameters("", "0", "asc", "0", "10");
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 		
 		try {
-			alJSONac.execute();
+			lListJSONac.execute();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		assertEquals(JSON_DATA_EMPTY_ERROR, JSON_DATA_EMPTY_LENGTH, alJSONac.getData().size());
+		assertEquals(JSON_DATA_EMPTY_ERROR, JSON_DATA_EMPTY_LENGTH, lListJSONac.getData().size());
 	}
 	
 
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void testExecuteNotNullData(){
-		HibernateGeneric.deleteAllObjects(new Plane());
+		HibernateGeneric.deleteAllObjects(new Lane());
 		
-		Plane plane = Initializer.initCompletePlane();
+		Lane lane = Initializer.initCompleteLane();
 		
-		Airline airline = new Airline();
-		airline.setId(DAOUser.getUser("admin").getId());
-		plane.setAirline(airline);
-		
-		HibernateGeneric.saveObject(plane);
-		
-		alJSONac = new AirplaneListJSONAction();
+		HibernateGeneric.saveObject(lane);
+		lListJSONac = new LaneListJSONAction();
 		
 		createParameters("", "0", "asc", "0", "10");
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 		
 		try {
-			alJSONac.execute();
+			lListJSONac.execute();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		assertEquals(JSON_DATA_NOT_EMPTY_ERROR, JSON_DATA_NOT_EMPTY_LENGTH, alJSONac.getData().size());
+		assertEquals(JSON_DATA_NOT_EMPTY_ERROR, JSON_DATA_NOT_EMPTY_LENGTH, lListJSONac.getData().size());
 		
 	}
 	
 	@SuppressWarnings("rawtypes")
 	@Test
 	public void testFilterWorkingProperly(){
-		HibernateGeneric.deleteAllObjects(new Plane());
+		HibernateGeneric.deleteAllObjects(new Lane());
 		
-		Plane firstPlane = Initializer.initCompletePlane();
-		Plane secondPlane = Initializer.initCompletePlane();
-		secondPlane.setSerial("SERIAL");
+		Lane firstLane = Initializer.initCompleteLane();
+		Lane secondLane = Initializer.initCompleteLane();
+		secondLane.setName("LANE");
 		
-		Airline airline = new Airline();
-		airline.setId(DAOUser.getUser("admin").getId());
-		firstPlane.setAirline(airline);
-		secondPlane.setAirline(airline);
+		HibernateGeneric.saveObject(firstLane);
+		HibernateGeneric.saveObject(secondLane);
 		
-		HibernateGeneric.saveObject(firstPlane);
-		HibernateGeneric.saveObject(secondPlane);
+		lListJSONac = new LaneListJSONAction();
 		
-		alJSONac = new AirplaneListJSONAction();
-		
-		createParameters(firstPlane.getSerial(), "0", "asc", "0", "10");
+		createParameters(firstLane.getName(), "0", "asc", "0", "10");
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 		
 		try {
-			alJSONac.execute();
+			lListJSONac.execute();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		assertEquals(FILTER_ERROR, FILTER_LENGTH, alJSONac.getData().size());
+		assertEquals(FILTER_ERROR, FILTER_LENGTH, lListJSONac.getData().size());
 		
 	}
+
 
 }

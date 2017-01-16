@@ -1,5 +1,6 @@
 package action.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -21,41 +22,40 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.opensymphony.xwork2.ActionContext;
 
+import action.airline.AirplaneListJSONAction;
 import domain.dao.DAOFlight;
+import domain.dao.DAOUser;
+import domain.dao.HibernateGeneric;
+import domain.dao.Initializer;
 import domain.model.Flight;
+import domain.model.Plane;
+import domain.model.users.Airline;
+import initialization.HibernateInit;
+import initialization.SocketIOInit;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ServletActionContext.class, DAOFlight.class})
+
 public class TestFlightListJSONAction {
 	
-	private static final String ERROR_GENERATING_DATA = "Error generating JSON data";
+	private static final String JSON_DATA_EMPTY_ERROR = "Error, JSON data is not empty";
+	private static final String JSON_DATA_NOT_EMPTY_ERROR = "Error, JSON data is empty";
+	private static final String FILTER_ERROR = "Table filter not working";
+	
+	private static final int JSON_DATA_EMPTY_LENGTH = 0;
+	private static final int JSON_DATA_NOT_EMPTY_LENGTH = 1;
+	private static final int FILTER_LENGTH = 1;
+	
 	ActionContext ac;
-	HttpParameters map;
-	HttpServletRequest mockRequest;
+	HttpParameters paramsMap;
 	@SuppressWarnings("rawtypes")
 	FlightListJSONAction flAction;
-	Map<String, String[]> mapValues;
 	
-	@SuppressWarnings("rawtypes")
+
 	@Before
 	public void prepareTests(){
+		
 		ac = Mockito.mock(ActionContext.class);
-		map = Mockito.mock(HttpParameters.class);
 		
-		createParameters();
-		Mockito.when(ac.getParameters()).thenReturn(map);
-		
-		
-		mockRequest = Mockito.mock(HttpServletRequest.class);
-		Mockito.when(mockRequest.getHeader("referer")).thenReturn("/url");
-		
-		PowerMockito.mockStatic(ServletActionContext.class);
-		PowerMockito.when(ServletActionContext.getRequest()).thenReturn(mockRequest);
-		
-		flAction = Mockito.spy(new FlightListJSONAction());
-		
-		PowerMockito.mockStatic(DAOFlight.class);
-		PowerMockito.when(DAOFlight.loadFlightsForTable(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(new ArrayList<Flight>());
+		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 
 		ActionContext.setContext(ac);
 		
@@ -64,45 +64,48 @@ public class TestFlightListJSONAction {
 	@After
 	public void destroyTests() {
 		ac = null;
-		mockRequest = null;
-		flAction = null;
-		map = null;
 	}
 	
 	
-	public void createParameters(){
+	public void createParameters(String search, String orderCol, String orderDir, String start, String length){
 		
 
-		mapValues = new HashMap<String, String[]>();
+		Map<String, String[]> mapValues = new HashMap<String, String[]>();
 		
 		
-		String[] value = {""};
+		String[] value = {search};
 		String key = "search[value]";
 		mapValues.put(key, value);
 		
 		key = "order[0][column]";
-		value = new String[]{"0"};
+		value = new String[]{orderCol};
 		mapValues.put(key,  value);
 		
 		key = "order[0][dir]";
-		value = new String[]{"asc"};
+		value = new String[]{orderDir};
 		mapValues.put(key, value);
 		
 		key = "start";
-		value = new String[]{"0"};
+		value = new String[]{start};
 		mapValues.put(key, value);
 		
 		key = "length";
-		value = new String[]{"10"};
+		value = new String[]{length};
 		mapValues.put(key, value);
 		
-		map = HttpParameters.create(mapValues).build();
+		paramsMap = HttpParameters.create(mapValues).build();
 		
 	}
 	
-
+	@SuppressWarnings("rawtypes")
 	@Test
-	public void testExecute(){
+	public void testExecuteNullData(){
+		HibernateGeneric.deleteAllObjects(new Plane());
+		HibernateGeneric.deleteAllObjects(new Flight());
+		flAction = new FlightListJSONAction();
+		
+		createParameters("", "0", "asc", "0", "10");
+		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 		
 		try {
 			flAction.execute();
@@ -111,10 +114,62 @@ public class TestFlightListJSONAction {
 			e.printStackTrace();
 		}
 		
-		assertNotNull(ERROR_GENERATING_DATA, flAction.getData());
+		assertEquals(JSON_DATA_EMPTY_ERROR, JSON_DATA_EMPTY_LENGTH, flAction.getData().size());
+	}
 	
+
+	@SuppressWarnings("rawtypes")
+	@Test
+	public void testExecuteNotNullData(){
+		HibernateGeneric.deleteAllObjects(new Plane());
+		HibernateGeneric.deleteAllObjects(new Flight());
+		
+		Flight flight = Initializer.initCompleteFlight();
+		
+		HibernateGeneric.saveObject(flight);
+		flAction = new FlightListJSONAction();
+		
+		createParameters("", "0", "asc", "0", "10");
+		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
+		
+		try {
+			flAction.execute();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertEquals(JSON_DATA_NOT_EMPTY_ERROR, JSON_DATA_NOT_EMPTY_LENGTH, flAction.getData().size());
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
+	@Test
+	public void testFilterWorkingProperly(){
+		HibernateGeneric.deleteAllObjects(new Plane());
+		HibernateGeneric.deleteAllObjects(new Flight());
+		
+		Flight firstFlight = Initializer.initCompleteFlight();
+		Flight secondFlight = Initializer.initCompleteFlight();
+		secondFlight.getPlane().setSerial("SERIAL");
+		
+		HibernateGeneric.saveObject(firstFlight);
+		HibernateGeneric.saveObject(secondFlight);
+		
+		flAction = new FlightListJSONAction();
+		
+		createParameters(firstFlight.getPlane().getSerial(), "0", "asc", "0", "10");
+		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
+		
+		try {
+			flAction.execute();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertEquals(FILTER_ERROR, FILTER_LENGTH, flAction.getData().size());
+		
+	}
 
 }

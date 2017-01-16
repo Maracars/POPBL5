@@ -11,6 +11,9 @@ import action.airline.TestAirplaneMoreInfoAction;
 import action.airline.TestCreateAirplaneSubmitAction;
 import action.airline.TestMainPageAction;
 import action.airline.TestPieChartAction;
+import action.controller.TestFlightListJSONAction;
+import action.controller.TestLaneListJSONAction;
+import action.controller.TestTerminalListJSONAction;
 import action.user.TestLoginAction;
 import action.user.TestLogoutAction;
 import action.user.TestRegisterAdminAction;
@@ -81,16 +84,18 @@ import test.dijkstra.TestDijkstra;
 		TestRegisterMantainanceActionStaticMock.class,
 		TestRegisterAirlineAction.class, 
 		TestRegisterAirlineActionStaticMock.class,
-		TestDijkstra.class,
-		TestFlightCreator.class,
-		TestAirportController.class,
-		TestCompleteSimulator.class,
-		//TestFlightListJSONAction.class,
+		TestFlightListJSONAction.class,
 		TestCreateAirplaneSubmitAction.class,
 		TestAirplaneMoreInfoAction.class,
 		TestMainPageAction.class,
 		TestPieChartAction.class,
-		TestAirplaneListJSONAction.class
+		TestAirplaneListJSONAction.class,
+		TestLaneListJSONAction.class,
+		TestTerminalListJSONAction.class,
+		TestDijkstra.class,
+		TestFlightCreator.class,
+		TestAirportController.class,
+		TestCompleteSimulator.class
 		})
 
 public class AllTests {
