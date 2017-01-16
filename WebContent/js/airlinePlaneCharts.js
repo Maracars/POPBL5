@@ -5,6 +5,7 @@ $(document).ready(function() {
 	var airlineId = 774;
 	
 	var serialNumber = $('#planeSerial').val();
+	var i = 0;
 
 	$.ajax({
 		traditional : true,
@@ -18,19 +19,19 @@ $(document).ready(function() {
 			}
 			console.log(cat);
 			c3.generate({
-				bindto : '#barChart',
+				bindto : "#barChart",
 				data : {
 					columns : dataSet,
-					type : 'bar'
+					type : "bar"
 				},
 				axis : {
 					y : {
-						label: 'Flight Hours'
+						label: "Flight Hours"
 					},
 					x : {
-						type : 'categories',
+						type : "categories",
 						categories : cat,
-						label : 'Plane Serial'
+						label : "Plane Serial"
 					}
 				}
 			});

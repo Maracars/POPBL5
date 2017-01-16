@@ -1,8 +1,11 @@
 
 var dataSet = [];
 $(document).ready(
+		
 		function() {
-
+			
+			var i = 0;
+			
 			$.ajax({
 				traditional : true,
 				type : "GET",
@@ -10,16 +13,16 @@ $(document).ready(
 				dataType : "json",
 				success : function(result, success) {
 					c3.generate({
-						bindto : '#lineChart',
+						bindto : "#lineChart",
 						data : {
-							columns : [ [ 'Week Flights', result.data.length,
+							columns : [ [ "Week Flights", result.data.length,
 									50, 60 ] ]
 						},
 						axis : {
 							y : {
 								label : {
-									text : 'Week Flights',
-									position : 'outer-middle'
+									text : "Week Flights",
+									position : "outer-middle"
 								},
 								tick : {
 									count : 3,
@@ -30,10 +33,10 @@ $(document).ready(
 							x : {
 								label : {
 
-									text : 'Weeks',
-									position : 'outer-middle'
+									text : "Weeks",
+									position : "outer-middle"
 								},
-								type : 'category',
+								type : "category",
 								tick : {
 									count : 5,
 								}
@@ -48,13 +51,12 @@ $(document).ready(
 						success : function(result, success) {
 							for(i = 0; i < result.data.length; i++){
 								dataSet[i] = [result.data[i].name, result.data[i].quantity];
-								console.log(dataSet[i]);
 							}
 							c3.generate({
-								bindto : '#pieChart',
+								bindto : "#pieChart",
 								data : {
 									columns : dataSet,
-									type : 'pie'
+									type : "pie"
 								},
 								
 							});

@@ -2,22 +2,23 @@ var table;
 
 $(document).ready(function(){
 	loadLanesTable();
-})
+});
 
 function loadLanesTable(numLi, totalNumLi){
 
-	$('#laneTable').css('display', 'block');
-	$('#terminalTable').css('display', 'none');
-	$('#termGateNavbar').on('click', "li", function(){
-		$('#termGateNavbar li').each(function(index){
-			if($(this).attr('class') == 'active'){
+	$("#laneTable").css("display", "block");
+	$("#terminalTable").css("display", "none");
+	
+	$("#termGateNavbar").on("click", "li", function(){
+		$("#termGateNavbar li").each(function(index){
+			if($(this).attr("class") == "active"){
 				$(this).removeClass();
 			}
 		});
 		$(this).addClass("active");
 	})
 
-	if($.fn.dataTable.isDataTable('#lanestable')){
+	if($.fn.dataTable.isDataTable("#lanestable")){
 		table = $('#lanestable').DataTable();
 	}else{
 
@@ -53,22 +54,23 @@ function loadLanesTable(numLi, totalNumLi){
 
 function loadTerminalsTable(){
 
-	$('#laneTable').css('display', 'none');
-	$("#terminalTable").css('display', 'block');
-	$('#termGateNavbar').on('click', 'li', function(){
-		$('#termGateNavbar li').each(function(index){
-			if($(this).attr('class') == 'active'){
+	$("#laneTable").css("display", "none");
+	$("#terminalTable").css("display", "block");
+	
+	$("#termGateNavbar").on("click", "li", function(){
+		$("#termGateNavbar li").each(function(index){
+			if($(this).attr("class") == "active"){
 				$(this).removeClass();
 			}
 		});
 		$(this).addClass("active");
 	});
 
-	if($.fn.dataTable.isDataTable('#terminalstable')){
-		table = $('#terminalstable').DataTable();
+	if($.fn.dataTable.isDataTable("#terminalstable")){
+		table = $("#terminalstable").DataTable();
 	}else{
 
-		table = $('#terminalstable').dataTable({
+		table = $("#terminalstable").dataTable({
 			"processing" : true,
 			"serverSide" : true,
 			"ajax" : {

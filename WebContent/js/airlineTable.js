@@ -1,6 +1,6 @@
 
 		$(document).ready(function() {
-			var table = $('#planestable').dataTable({
+			var table = $("#planestable").dataTable({
 				"processing" : true,
 				"serverSide" : true,
 				"ajax" : {
