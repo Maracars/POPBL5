@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 import domain.model.Lane;
+import domain.model.Node;
 import domain.model.Path;
 import domain.model.Plane;
 
@@ -51,7 +52,7 @@ public abstract class PlaneThread implements Runnable {
 
 	/** The flight. */
 	protected Flight flight;
-	
+
 	LinkedList<Path> routeOfPaths;
 
 	/*
@@ -66,24 +67,28 @@ public abstract class PlaneThread implements Runnable {
 	 * Go to destination.
 	 */
 	protected void goToDestine() {
+		Lane lastLane;
 		System.out.println("Go to destine");
 		momentLane = routeOfPaths.get(0).getLaneList().get(0);
 		plane.getPlaneMovement().setPositionX(momentLane.getStartNode().getPositionX());
 		plane.getPlaneMovement().setPositionY(momentLane.getStartNode().getPositionY());
 		HibernateGeneric.updateObject(plane);
-		//moveInLane(momentLane);
+		// moveInLane(momentLane);
 		System.out.println("Landed");
 		System.out.println("Lista de pistas: " + routeOfPaths);
 
 		for (int countList = 0; countList < routeOfPaths.size(); countList++) {
+			routeOfPaths.get(countList).changePathStatus(FULL);
 			for (int countLaneList = 0; countLaneList < routeOfPaths.get(countList).getLaneList()
 					.size(); countLaneList++) {
-				// Hemen suposatzen dot planea edukiko dauela
+				lastLane = momentLane;
 				momentLane = routeOfPaths.get(countList).getLaneList().get(countLaneList);
-				moveInLane(momentLane);
+				moveInLane(momentLane, lastLane);
 			}
-		}
+			routeOfPaths.get(countList).changePathStatus(FREE);
 
+		}
+System.out.println("kk");
 	}
 
 	/**
@@ -107,9 +112,11 @@ public abstract class PlaneThread implements Runnable {
 	/**
 	 * Move in lane.
 	 *
-	 * @param laneWhereMove the lane where move
+	 * @param laneWhereMove
+	 *            the lane where move
+	 * @param lastLane
 	 */
-	private void moveInLane(Lane laneWhereMove) {
+	private void moveInLane(Lane laneWhereMove, Lane lastLane) {
 		try {
 			laneWhereMove.getSemaphore().acquire();
 		} catch (InterruptedException e) {
@@ -118,13 +125,11 @@ public abstract class PlaneThread implements Runnable {
 			e.printStackTrace();
 		}
 		System.out.println(plane.getSerial() + " Enter to lane " + lane.getName());
-		changeLaneStatus(laneWhereMove, FULL);
 		System.out.println("2");
 		rotatePlane();
-		movePlaneToEndOfLane();
+		movePlaneToEndOfLane(laneWhereMove, lastLane);
 		System.out.println("3");
 		laneWhereMove.getSemaphore().release();
-		changeLaneStatus(laneWhereMove, FREE);
 		System.out.println(plane.getSerial() + " go out from lane " + lane.getName());
 		System.out.println("4");
 	}
@@ -132,42 +137,40 @@ public abstract class PlaneThread implements Runnable {
 	/**
 	 * Change lane status.
 	 *
-	 * @param laneToChange the lane to change
-	 * @param status the status
+	 * @param laneToChange
+	 *            the lane to change
+	 * @param status
+	 *            the status
 	 */
 	protected void changeLaneStatus(Lane laneToChange, boolean status) {
-		/*try {
-			System.out.println("Tokens" + controller.getMutex().availablePermits());
-			controller.getMutex().acquire();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
-		}*/
-		System.out.println(plane.getSerial() + "moving from " + laneToChange.getStartNode() + " to " + laneToChange.getEndNode());
+
+		System.out.println(
+				plane.getSerial() + "moving from " + laneToChange.getStartNode() + " to " + laneToChange.getEndNode());
 		laneToChange.setStatus(status);
 		HibernateGeneric.updateObject(laneToChange);
-		//controller.getMutex().release();
 	}
 
 	/**
 	 * Move plane to end of lane.
 	 */
-	private void movePlaneToEndOfLane() {
-		/*try {
-			System.out.println("pa");
-			controller.getMutex().acquire();
-			System.out.println("ap");
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
-		}*/
-		System.out.println(plane.getSerial() + " POSITION_X " + momentLane.getEndNode().getPositionX());
-		System.out.println(plane.getSerial() + " POSITION_Y " + momentLane.getEndNode().getPositionY());
-		plane.getPlaneMovement().setPositionX(momentLane.getEndNode().getPositionX());
-		plane.getPlaneMovement().setPositionY(momentLane.getEndNode().getPositionY());
+	private void movePlaneToEndOfLane(Lane firstLane, Lane lastLane) {
+		Node lastLaneEndNode = lastLane.getEndNode();
+		Node lastLaneStartNode = lastLane.getStartNode();
+		Node momentLaneEndNode = firstLane.getEndNode();
+		Node momentLaneStartNode = firstLane.getStartNode();
+
+		if (lastLaneEndNode.getName().equals(momentLaneStartNode.getName())
+				|| lastLaneStartNode.getName().equals(momentLaneStartNode.getName())) {
+			plane.getPlaneMovement().setPositionX(firstLane.getEndNode().getPositionX());
+			plane.getPlaneMovement().setPositionY(firstLane.getEndNode().getPositionY());
+		} else if (lastLaneEndNode.getName().equals(momentLaneEndNode.getName())
+				|| lastLaneStartNode.getName().equals(momentLaneStartNode.getName())) {
+			plane.getPlaneMovement().setPositionX(firstLane.getStartNode().getPositionX());
+			plane.getPlaneMovement().setPositionY(firstLane.getStartNode().getPositionY());
+		}
+
 		HibernateGeneric.updateObject(plane);
-		//controller.getMutex().release();
-		
+
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -209,7 +212,7 @@ public abstract class PlaneThread implements Runnable {
 	public Plane getPlane() {
 		return plane;
 	}
-	
+
 	public void setRouteOfPaths(LinkedList<Path> routeOfPaths) {
 		this.routeOfPaths = routeOfPaths;
 	}

@@ -28,7 +28,7 @@ $(document).ready(
 			socket.on("chatevent", function(jsonData) {
 				var data = JSON.parse(jsonData);
 				var pending;
-				console.log(pendingMoves);
+				console.log(data);
 				pending = checksNextPendingMoveOfPlane(data.id);
 				data.moveId = counter++;
 				pendingMoves.push(data);
@@ -58,15 +58,12 @@ $(document).ready(
 					featureToUpdate.setId(data.id);
 					vectorSource.addFeature(featureToUpdate);
 				}
-				var beforeCoordWithoutChange = vectorSource.getFeatureById(
-						data.id).getGeometry().getCoordinates();
-				beforeCoord = getOriginLongLat(beforeCoordWithoutChange[1],
-						beforeCoordWithoutChange[0]);
-
-				var afterCoord = getPointFromLongLat(data.positionx,
-						data.positiony);
-				latStep = (data.positionx - beforeCoord[0]) / steps;
-				longStep = (data.positiony - beforeCoord[1]) / steps;
+				beforeCoord = getLastPlanePosition(data.id);
+				console.log(beforeCoord);
+				/*var afterCoord = getPointFromLongLat(data.positionx,
+						data.positiony);*/
+				latStep = (data.positionx - beforeCoord.positionx) / steps;
+				longStep = (data.positiony - beforeCoord.positiony) / steps;
 				simulateMovement(featureToUpdate, latStep, longStep,
 						beforeCoord, data);
 
@@ -91,27 +88,42 @@ $(document).ready(
 
 			function f(int, featureToUpdate, latStep, longStep, beforeCoord,
 					data) {
-				var long = beforeCoord[1] + longStep * int;
-				var lat = beforeCoord[0] + latStep * int
+				var long = beforeCoord.positiony + longStep * int;
+				var lat = beforeCoord.positionx + latStep * int
 				featureToUpdate.getGeometry().setCoordinates(
 						getPointFromLongLat(long, lat));
-				console.log(beforeCoord);
-				console.log(data)
-				console.log(Math.atan((beforeCoord[1] - data.positiony)
-						/ (beforeCoord[0] - data.positionx)));
 
 				featureToUpdate.getStyle().getImage().setRotation(
-						Math.atan((beforeCoord[1] - data.positiony)
-								/ (beforeCoord[0] - data.positionx)));
+						Math.atan((beforeCoord.positiony - data.positiony)
+								/ (beforeCoord.positionx - data.positionx)));
 				if (int === steps) {
 					var momentMove = checksNextPendingMoveOfPlane(data.id);
 					pendingMoves.splice(momentMove.index, 1);
 					var nextMove = checksNextPendingMoveOfPlane(data.id);
+					changePlanePosition(data.id, long, lat);
 					if (nextMove !== null) {
 						movePlane(nextMove);
 					}
 				}
 
+			}
+			function getLastPlanePosition(id) {
+
+				for (var int = 0; int < planes.length; int++) {
+					if (planes[int].id === id) {
+						return planes[int];
+					}
+				}
+			}
+			function changePlanePosition(id, posy, posx) {
+
+				for (var int = 0; int < planes.length; int++) {
+					if (planes[int].id === id) {
+						planes[int].positionx = posx;
+
+						planes[int].positiony = posy;
+					}
+				}
 			}
 
 			function getPointFromLongLat(long, lat) {
@@ -126,8 +138,11 @@ $(document).ready(
 			$.get("/Naranair/controller/getFlights", function(data, status) {
 				var obj = jQuery.parseJSON(data);
 				planes = obj.result[0];
-
+				
 				for (var i = 0; i < planes.length; i++) {
+					planes[i].positionx = planes[i].planeMovement.positionX;					
+					planes[i].positiony = planes[i].planeMovement.positionY;
+					
 					if (planes[i].planeStatus.positionStatus !== "ARRIVING") {
 						var iconFeature = new ol.Feature({
 							geometry : new ol.geom.Point(ol.proj.transform([
@@ -143,6 +158,7 @@ $(document).ready(
 					}
 
 				}
+				console.log(planes);
 
 				// add the feature vector to the layer
 				// vector, and apply a style

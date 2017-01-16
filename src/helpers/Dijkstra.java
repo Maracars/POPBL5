@@ -132,6 +132,8 @@ public class Dijkstra {
 		for (Path path : paths) {
 			if (checkPathExist(node, target, path))
 				return path.getDistance();
+			if (checkPathExist(target, node, path))
+				return path.getDistance();
 		}
 		System.out.println("aa");
 		throw new RuntimeException("Should not happen");

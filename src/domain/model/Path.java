@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import domain.dao.HibernateGeneric;
 import helpers.DistanceCalculator;
 
 // TODO: Auto-generated Javadoc
@@ -47,7 +48,8 @@ public class Path {
 	/**
 	 * Sets the distance.
 	 *
-	 * @param distance the new distance
+	 * @param distance
+	 *            the new distance
 	 */
 	public void setDistance(double distance) {
 		this.distance = distance;
@@ -65,7 +67,8 @@ public class Path {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -83,7 +86,8 @@ public class Path {
 	/**
 	 * Sets the lane list.
 	 *
-	 * @param laneList the new lane list
+	 * @param laneList
+	 *            the new lane list
 	 */
 	public void setLaneList(ArrayList<Lane> laneList) {
 		this.laneList = laneList;
@@ -92,7 +96,9 @@ public class Path {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -102,11 +108,18 @@ public class Path {
 
 	public boolean isFree() {
 		for (Lane lane : laneList) {
-			if(!lane.isFree()){
+			if (!lane.isFree()) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	public void changePathStatus(boolean status) {
+		for (Lane lane : laneList) {
+			lane.setStatus(status);
+			HibernateGeneric.updateObject(lane);
+		}
 	}
 
 }

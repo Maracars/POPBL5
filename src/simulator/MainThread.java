@@ -38,8 +38,6 @@ public class MainThread {
 		AutomaticMaintenance am = new AutomaticMaintenance();
 		System.out.println("Hasi de");
 
-		
-
 		threadPool.submit(ac);
 		threadPool.submit(fc);
 		threadPool.submit(am);

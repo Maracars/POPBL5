@@ -151,7 +151,9 @@ public class AirportController implements Runnable {
 		List<Lane> freeLaneList = LaneFilter.getFreeLanes(pathList, airport.getId());
 		if (freeLaneList != null && freeLaneList.size() != 0 && assignFreeGate(plane)) {
 			Lane lane = freeLaneList.get(0);
-			plane.setRouteOfPaths(getBestRoute(plane.getMode(), lane, plane.getFlight()));
+			LinkedList<Path> bestRoute = getBestRoute(plane.getMode(), lane, plane.getFlight());
+			bestRoute.get(0).changePathStatus(false);
+			plane.setRouteOfPaths(bestRoute);
 			lane.setStatus(false);
 			plane.setLane(lane);
 			HibernateGeneric.updateObject(lane);
