@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import action.airline.TestAirplaneListJSONAction;
 import action.airline.TestAirplaneMoreInfoAction;
 import action.airline.TestCreateAirplaneSubmitAction;
 import action.airline.TestMainPageAction;
@@ -88,7 +89,8 @@ import test.dijkstra.TestDijkstra;
 		TestCreateAirplaneSubmitAction.class,
 		TestAirplaneMoreInfoAction.class,
 		TestMainPageAction.class,
-		TestPieChartAction.class
+		TestPieChartAction.class,
+		TestAirplaneListJSONAction.class
 		})
 
 public class AllTests {

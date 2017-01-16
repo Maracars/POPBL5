@@ -48,9 +48,9 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 		if(DAOPlane.loadAllAirplanesFromAirline(airlineId) != null){
 			recordsTotal = DAOPlane.loadAllAirplanesFromAirline(airlineId).size();
 
-			filter(data, search);
+			data = filter(data, search);
 
-			recordsFiltered = DAOPlane.loadAllAirplanesFromAirline(airlineId).size();
+			recordsFiltered = data.size();
 		}
 		return SUCCESS;
 	}
