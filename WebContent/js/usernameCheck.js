@@ -14,8 +14,7 @@ $(document).ready(function() {
 					$('input[type="submit"]').prop('disabled', result);
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
-					alert(xhr.status);
-					alert(thrownError);
+
 				}
 			});
 		}

@@ -49,8 +49,7 @@
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 
-<script type="text/javascript"
-	src="<s:url value="/js/controllerMap.js?n=1"/>"></script>
+
 <script src="<s:url value="/js/listener.js"/>"></script>
 <script src="<s:url value="/js/bootstrap-notify.min.js"/>"></script>
 <script src="<s:url value="/js/usernameCheck.js"/>"></script>

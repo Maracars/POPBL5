@@ -46,6 +46,9 @@
 		<action name="pieFlightListJSON" class="action.airline.PieChartAction">
 			<result name="*" type="json"></result>
 		</action>
+		<action name="routeListJSON" class="action.airline.RouteStatsAction">
+			<result name="*" type="json"></result>
+		</action>
 		
 	</package>
 </struts>

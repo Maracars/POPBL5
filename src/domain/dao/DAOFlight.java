@@ -9,7 +9,6 @@ import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 
 import domain.model.Flight;
-import domain.model.Gate;
 import domain.model.users.Passenger;
 import hibernate.HibernateConnection;
 

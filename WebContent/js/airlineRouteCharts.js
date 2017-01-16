@@ -10,16 +10,15 @@ $(document).ready(function() {
 	$.ajax({
 		traditional : true,
 		type : "GET",
-		url : "airline/barPlaneHoursJSON/"+serialNumber,
+		url : "routeListJSON",
 		dataType : "json",
 		success : function(result, success) {
 			for (i = 0; i < result.data.length; i++) {
 				dataSet[i] = [ result.data[i].name, result.data[i].quantity ];
 				cat[i] = result.data[i].name;
 			}
-			console.log(cat);
 			c3.generate({
-				bindto : "#barChart",
+				bindto : "#barChartStats",
 				data : {
 					columns : dataSet,
 					type : "bar"
@@ -31,7 +30,7 @@ $(document).ready(function() {
 					x : {
 						type : "categories",
 						categories : cat,
-						label : "Plane Serial"
+						label : "Route Name"
 					}
 				}
 			});

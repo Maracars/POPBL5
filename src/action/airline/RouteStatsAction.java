@@ -3,33 +3,27 @@ package action.airline;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
-import domain.dao.DAOFlight;
-
-public class PieChartAction extends ActionSupport {
+public class RouteStatsAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
 	List<FlightView> data;
-	String[] texts = { "Arrival On Time", "Departure On Time", "Arrival Delay", "Departure Delay" };
-	int[] values = new int[4];
+	int[] values = { 5, 6, 7 };
+	String[] texts = { "Arrival On Time", "Departure On Time", "Arrival Delay" };
 
 	@Override
 	public String execute() throws Exception {
 
-		values[0] = DAOFlight.loadDayFlightsArriveOnTime();
-		values[1] = DAOFlight.loadDayFlightsDepartureOnTime();
-		values[2] = DAOFlight.loadDayFlightsArriveOnNotTime();
-		values[3] = DAOFlight.loadDayFlightsDepartureOnNotTime();
-
 		data = generateData();
-		return SUCCESS;
+		return Action.SUCCESS;
 	}
 
 	public List<FlightView> generateData() {
 		List<FlightView> flightViewList = new ArrayList<FlightView>();
-		for (int i = 0; i < texts.length; i++) {
+		for (int i = 0; i < values.length; i++) {
 			flightViewList.add(new FlightView(texts[i], String.valueOf(values[i])));
 
 		}

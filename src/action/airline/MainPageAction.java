@@ -4,45 +4,39 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-
 import com.opensymphony.xwork2.ActionSupport;
 
-import action.airline.PieChartAction.FlightView;
 import domain.dao.DAOFlight;
 import domain.model.Flight;
 
-public class MainPageAction extends ActionSupport{
+public class MainPageAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	 List<FlightView> data;
+	List<FlightView> data;
 
 	@Override
 	public String execute() throws Exception {
 		String ret = SUCCESS;
 		List<Flight> flightList = DAOFlight.loadOneWeekFlights();
-		
-		if(flightList != null){
+		if (flightList != null) {
 			data = generateData(flightList);
-		}
-		
-		return ret;
-	}
 
+		}
+		return SUCCESS;
+	}
 
 	public List<FlightView> generateData(List<Flight> flightList) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		List<FlightView> data = new ArrayList<FlightView>();
-		for(Flight f : flightList){
+		for (Flight f : flightList) {
 			String planeName = f.getPlane().getSerial();
 			String flightId = String.valueOf(f.getId());
-			String routeName = f.getRoute().getDepartureTerminal().getName() + "-" + f.getRoute().getArrivalTerminal().getName();
+			String routeName = f.getRoute().getDepartureTerminal().getName() + "-"
+					+ f.getRoute().getArrivalTerminal().getName();
 			String expectedDepartureDate = sdf.format(f.getExpectedDepartureDate());
 			String expectedArrivalDate = sdf.format(f.getExpectedArrivalDate());
-			
+
 			data.add(new FlightView(planeName, flightId, routeName, expectedDepartureDate, expectedArrivalDate));
 		}
 		return data;
@@ -53,15 +47,15 @@ public class MainPageAction extends ActionSupport{
 		return new FlightView(planeName, flightId, routeName, expectedDepartureDate, expectedArrivalDate);
 	}
 
-
-	public class FlightView{
+	public class FlightView {
 		String planeName;
 		String flightId;
 		String routeName;
 		String expectedDepartureDate;
 		String expectedArrivalDate;
 
-		public FlightView(String planeName, String flightId, String routeName, String expectedDepartureDate, String expectedArrivalDate){
+		public FlightView(String planeName, String flightId, String routeName, String expectedDepartureDate,
+				String expectedArrivalDate) {
 			this.planeName = planeName;
 			this.flightId = flightId;
 			this.routeName = routeName;
@@ -110,15 +104,12 @@ public class MainPageAction extends ActionSupport{
 		}
 	}
 
-
 	public List<FlightView> getData() {
 		return data;
 	}
 
-
 	public void setData(List<FlightView> data) {
 		this.data = data;
 	}
-
 
 }
