@@ -18,7 +18,7 @@ var iconStyle = {
 	opacity : 1,
 	rotateWithView : true,
 
-	src : 'rsc/img/plane-icon.png'
+	src : 'rsc/img/miniplane.png'
 
 }
 
@@ -59,9 +59,6 @@ $(document).ready(
 					vectorSource.addFeature(featureToUpdate);
 				}
 				beforeCoord = getLastPlanePosition(data.id);
-				console.log(beforeCoord);
-				/*var afterCoord = getPointFromLongLat(data.positionx,
-						data.positiony);*/
 				latStep = (data.positionx - beforeCoord.positionx) / steps;
 				longStep = (data.positiony - beforeCoord.positiony) / steps;
 				simulateMovement(featureToUpdate, latStep, longStep,
@@ -94,8 +91,8 @@ $(document).ready(
 						getPointFromLongLat(long, lat));
 
 				featureToUpdate.getStyle().getImage().setRotation(
-						Math.atan((beforeCoord.positiony - data.positiony)
-								/ (beforeCoord.positionx - data.positionx)));
+						getRotation(beforeCoord.positionx,beforeCoord.positiony,data.positionx,data.positiony)
+						);
 				if (int === steps) {
 					var momentMove = checksNextPendingMoveOfPlane(data.id);
 					pendingMoves.splice(momentMove.index, 1);
@@ -107,6 +104,20 @@ $(document).ready(
 				}
 
 			}
+
+			function getRotation(bx, by, ax, ay) {
+				var dx = ax - bx;
+				var dy = ay - by;
+				if (dy === 0 && dx < 0){
+					return Math.PI;
+				} else if (dx === 0 && dy > 0){
+					return (Math.PI)/2;
+				} else if (dx === 0 && dy < 0){
+					return 3*(Math.PI)/2;
+				}
+				return 0;
+			}
+			
 			function getLastPlanePosition(id) {
 
 				for (var int = 0; int < planes.length; int++) {
@@ -138,11 +149,11 @@ $(document).ready(
 			$.get("/Naranair/controller/getFlights", function(data, status) {
 				var obj = jQuery.parseJSON(data);
 				planes = obj.result[0];
-				
+
 				for (var i = 0; i < planes.length; i++) {
-					planes[i].positionx = planes[i].planeMovement.positionX;					
+					planes[i].positionx = planes[i].planeMovement.positionX;
 					planes[i].positiony = planes[i].planeMovement.positionY;
-					
+
 					if (planes[i].planeStatus.positionStatus !== "ARRIVING") {
 						var iconFeature = new ol.Feature({
 							geometry : new ol.geom.Point(ol.proj.transform([
