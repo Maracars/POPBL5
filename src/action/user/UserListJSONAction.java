@@ -1,11 +1,9 @@
 package action.user;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -18,38 +16,38 @@ import domain.model.users.Mantainance;
 import domain.model.users.Passenger;
 import domain.model.users.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * <h3>The Class UserListJSONAction.</h3>
- * <p>Action that returns a user list as json according to request data from Datatables. For more information see datatables serverside processing.<p>
- * @param <sincronized> the generic type
+ * <p>
+ * Action that returns a user list as json according to request data from
+ * Datatables. For more information see datatables serverside processing.
+ * <p>
+ * 
+ * @param <sincronized>
+ *            the generic type
  */
 public class UserListJSONAction<sincronized> extends ActionSupport {
-	
+
+	private static final String STRING_ASC = "asc";
+
+	private static final String STRING_DESC = "desc";
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The start. */
 	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0, length = 0, start = 0;
-	
+
 	/** The data. */
 	private List<UserView> data = new ArrayList<UserView>();
-	
+
 	/** The error. */
 	String error = null;
 
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#execute()
-	 */
 	@Override
 	public synchronized String execute() throws Exception {
 
 		Map<String, String[]> map = ActionContext.getContext().getParameters().toMap();
-		for (Entry<String, String[]> entry : map.entrySet()) {
-			String key = entry.getKey();
-			Object value = entry.getValue();
-			System.out.println("key:" + key + " value: " + Arrays.toString((String[]) value));
-		}
 
 		String search = map.get("search[value]")[0];
 		int orderCol = Integer.parseInt(map.get("order[0][column]")[0]);
@@ -70,8 +68,10 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	/**
 	 * Filter.
 	 *
-	 * @param data the data
-	 * @param search the search
+	 * @param data
+	 *            the data
+	 * @param search
+	 *            the search
 	 * @return the list
 	 */
 	private List<UserView> filter(List<UserView> data, String search) {
@@ -92,33 +92,43 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	/**
 	 * Sort.
 	 *
-	 * @param data the data
-	 * @param orderCol the order col
-	 * @param orderDir the order dir
+	 * @param data
+	 *            the data
+	 * @param orderCol
+	 *            the order col
+	 * @param orderDir
+	 *            the order dir
 	 * @return the list
 	 */
 	private List<UserView> sort(List<UserView> data, int orderCol, String orderDir) {
 		switch (orderCol) {
 		case 1:
-			if (orderDir.equals("asc"))
-				data.sort((UserView uv1, UserView uv2) -> uv1.getType().compareToIgnoreCase(uv2.getType()));
-			if (orderDir.equals("desc"))
-				data.sort((UserView uv1, UserView uv2) -> -uv1.getType().compareToIgnoreCase(uv2.getType()));
+			if (orderDir.equals(STRING_ASC))
+				data.sort((UserView uv1, UserView uv2) 
+						-> uv1.getType().compareToIgnoreCase(uv2.getType()));
+			if (orderDir.equals(STRING_DESC))
+				data.sort((UserView uv1, UserView uv2) 
+						-> -uv1.getType().compareToIgnoreCase(uv2.getType()));
 			break;
 		case 2:
-			if (orderDir.equals("asc"))
-				data.sort((UserView uv1, UserView uv2) -> uv1.getUsername().compareToIgnoreCase(uv2.getUsername()));
-			if (orderDir.equals("desc"))
-				data.sort((UserView uv1, UserView uv2) -> -uv1.getUsername().compareTo(uv2.getUsername()));
+			if (orderDir.equals(STRING_ASC))
+				data.sort((UserView uv1, UserView uv2) 
+						-> uv1.getUsername().compareToIgnoreCase(uv2.getUsername()));
+			if (orderDir.equals(STRING_DESC))
+				data.sort((UserView uv1, UserView uv2) 
+						-> -uv1.getUsername().compareTo(uv2.getUsername()));
 			break;
 		case 3:
-			if (orderDir.equals("asc"))
-				data.sort((UserView uv1, UserView uv2) -> uv1.getName().compareToIgnoreCase(uv2.getName()));
-			if (orderDir.equals("desc"))
-				data.sort((UserView uv1, UserView uv2) -> -uv1.getName().compareToIgnoreCase(uv2.getName()));
+			if (orderDir.equals(STRING_ASC))
+				data.sort((UserView uv1, UserView uv2) 
+						-> uv1.getName().compareToIgnoreCase(uv2.getName()));
+			if (orderDir.equals(STRING_DESC))
+				data.sort((UserView uv1, UserView uv2) 
+						-> -uv1.getName().compareToIgnoreCase(uv2.getName()));
 			break;
 		default:
-			data.sort((UserView uv1, UserView uv2) -> uv1.getType().compareToIgnoreCase(uv2.getType()));
+			data.sort((UserView uv1, UserView uv2) 
+					-> uv1.getType().compareToIgnoreCase(uv2.getType()));
 			break;
 		}
 		return data;
@@ -170,7 +180,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	/**
 	 * Sets the data.
 	 *
-	 * @param data the new data
+	 * @param data
+	 *            the new data
 	 */
 	public void setData(List<UserView> data) {
 		this.data = data;
@@ -180,22 +191,25 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	 * The Class UserView.
 	 */
 	public class UserView {
-		
+
 		/** The type. */
 		String type;
-		
+
 		/** The username. */
 		String username;
-		
+
 		/** The name. */
 		String name;
 
 		/**
 		 * Instantiates a new user view.
 		 *
-		 * @param username the username
-		 * @param name the name
-		 * @param type the type
+		 * @param username
+		 *            the username
+		 * @param name
+		 *            the name
+		 * @param type
+		 *            the type
 		 */
 		public UserView(String username, String name, String type) {
 			this.username = username;
@@ -215,7 +229,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 		/**
 		 * Sets the type.
 		 *
-		 * @param type the new type
+		 * @param type
+		 *            the new type
 		 */
 		public void setType(String type) {
 			this.type = type;
@@ -233,7 +248,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 		/**
 		 * Sets the username.
 		 *
-		 * @param username the new username
+		 * @param username
+		 *            the new username
 		 */
 		public void setUsername(String username) {
 			this.username = username;
@@ -251,7 +267,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 		/**
 		 * Sets the name.
 		 *
-		 * @param name the new name
+		 * @param name
+		 *            the new name
 		 */
 		public void setName(String name) {
 			this.name = name;
@@ -271,7 +288,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	/**
 	 * Sets the draw.
 	 *
-	 * @param draw the new draw
+	 * @param draw
+	 *            the new draw
 	 */
 	public void setDraw(Integer draw) {
 		this.draw = draw;
@@ -289,7 +307,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	/**
 	 * Sets the records total.
 	 *
-	 * @param recordsTotal the new records total
+	 * @param recordsTotal
+	 *            the new records total
 	 */
 	public void setRecordsTotal(Integer recordsTotal) {
 		this.recordsTotal = recordsTotal;
@@ -307,7 +326,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	/**
 	 * Sets the records filtered.
 	 *
-	 * @param recordsFiltered the new records filtered
+	 * @param recordsFiltered
+	 *            the new records filtered
 	 */
 	public void setRecordsFiltered(Integer recordsFiltered) {
 		this.recordsFiltered = recordsFiltered;
@@ -325,7 +345,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	/**
 	 * Sets the length.
 	 *
-	 * @param length the new length
+	 * @param length
+	 *            the new length
 	 */
 	public void setLength(Integer length) {
 		this.length = length;
@@ -343,7 +364,8 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	/**
 	 * Sets the start.
 	 *
-	 * @param start the new start
+	 * @param start
+	 *            the new start
 	 */
 	public void setStart(Integer start) {
 		this.start = start;

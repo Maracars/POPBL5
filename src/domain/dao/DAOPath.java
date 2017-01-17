@@ -1,7 +1,6 @@
 package domain.dao;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import javax.persistence.TypedQuery;
 
@@ -10,7 +9,6 @@ import org.hibernate.Session;
 import domain.model.Path;
 import hibernate.HibernateConnection;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DAOPath.
  */
@@ -32,7 +30,7 @@ public class DAOPath {
 			@SuppressWarnings("unchecked")
 			TypedQuery<Path> query = session.createQuery("from Path");
 			pathList = query.getResultList();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

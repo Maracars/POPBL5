@@ -33,32 +33,31 @@ public class TestAirportController {
 	@Before
 	public void initialize() {
 		airport = Initializer.initializeExampleOnDB();
-		pathList =  GatesInitialization.getPathsFromDatabase();
-		ac = new AirportController(airport,pathList);
+		pathList = GatesInitialization.getPathsFromDatabase();
+		ac = new AirportController(airport, pathList);
 	}
 
-	
 	/* Eztakit zerba eztabil ondo */
 	@Ignore
 	public void testGetPermissionCorrectlyForDeparture() {
 		Flight flight = new Flight();
 		Route route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
 		flight.setRoute(route);
-		DeparturingPlane plane = new DeparturingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(),
-				flight);
+		DeparturingPlane plane = new DeparturingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), flight);
 		boolean result = ac.askPermission(plane);
 		assertTrue(ERROR_GET_PERMISSION_DEPARTURE, result);
 	}
 
 	@Test
 	public void testGetPermissionCorrectlyForArrival() {
-		try{Flight flight = new Flight();
-		Route route = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
-		flight.setRoute(route);
-		ArrivingPlane plane = new ArrivingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), flight);
-		boolean result = ac.askPermission(plane);
-		assertTrue(ERROR_GET_PERMISSION_ARRIVE, result);
-		}catch (Exception e) {
+		try {
+			Flight flight = new Flight();
+			Route route = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
+			flight.setRoute(route);
+			ArrivingPlane plane = new ArrivingPlane(Initializer.initCompletePlane(), ac, new AtomicInteger(), flight);
+			boolean result = ac.askPermission(plane);
+			assertTrue(ERROR_GET_PERMISSION_ARRIVE, result);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

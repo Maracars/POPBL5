@@ -53,11 +53,9 @@ public class DeparturingPlane extends PlaneThread {
 				waitingThread.interrupt();
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				System.out.println("Interrupted plane");
 				e.printStackTrace();
 			}
 		}
-		System.out.println("MIERDA PUTA");
 		// goToDestine();
 		goOutFromMap();
 		// set plane status arriving??
@@ -74,7 +72,6 @@ public class DeparturingPlane extends PlaneThread {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			Thread.currentThread().interrupt();
-			System.out.println("Interrupted plane");
 			e.printStackTrace();
 		}
 		HibernateGeneric.updateObject(lane);

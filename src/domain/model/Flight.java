@@ -21,7 +21,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import domain.model.users.Passenger;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Flight.
  */
@@ -63,7 +62,6 @@ public class Flight {
 	Plane plane;
 
 	/** The route. */
-	// TODO tagak jarri
 	@ManyToOne(optional = true)
 	Route route;
 

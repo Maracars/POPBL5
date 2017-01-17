@@ -7,7 +7,6 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StepAction.
  * Saves the caling page in the session scope so that it can be retrieved at the end of a wizard like procedure
@@ -23,12 +22,6 @@ public class StepAction extends ActionSupport {
 	/** The name. */
 	public String name = this.getName();
 	
-	
-	
-	
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#execute()
-	 */
 	@Override
 	public String execute() throws Exception {
 		

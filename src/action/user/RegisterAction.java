@@ -9,7 +9,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import domain.dao.HibernateGeneric;
 import domain.model.users.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RegisterAction.
  * Abstract class for the registry form processing of the users

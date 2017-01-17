@@ -9,37 +9,32 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class LogoutAction.
- * Class that logs out the loged user gives the option to return to index after logout or to the calling page
+ * The Class LogoutAction. Class that logs out the loged user gives the option
+ * to return to index after logout or to the calling page
  */
 public class LogoutAction extends ActionSupport {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The url. */
 	private String url;
-	
+
 	/** The goto index. */
 	private String gotoIndex = "false";
 
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#execute()
-	 */
 	@Override
 	public String execute() throws Exception {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		session.remove("user");
 		session.remove("listenerUser");
-		session.remove("listenerRole");	
-		if(!gotoIndex.equals("true")){
+		session.remove("listenerRole");
+		if (!gotoIndex.equals("true")) {
 			HttpServletRequest request = ServletActionContext.getRequest();
-			url = request.getHeader("referer"); 
+			url = request.getHeader("referer");
 		}
-		
-		
+
 		return SUCCESS;
 	}
 
@@ -55,7 +50,8 @@ public class LogoutAction extends ActionSupport {
 	/**
 	 * Sets the url.
 	 *
-	 * @param url the new url
+	 * @param url
+	 *            the new url
 	 */
 	public void setUrl(String url) {
 		this.url = url;
@@ -73,11 +69,11 @@ public class LogoutAction extends ActionSupport {
 	/**
 	 * Sets the goto index.
 	 *
-	 * @param gotoIndex the new goto index
+	 * @param gotoIndex
+	 *            the new goto index
 	 */
 	public void setGotoIndex(String gotoIndex) {
 		this.gotoIndex = gotoIndex;
 	}
-	
 
 }

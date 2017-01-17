@@ -9,7 +9,6 @@ import javax.persistence.TemporalType;
 
 import domain.model.Address;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Passenger.
  */
@@ -18,19 +17,18 @@ public class Passenger extends User {
 
 	/** The name. */
 	String name;
-	
+
 	/** The second name. */
 	String secondName;
-	
+
 	/** The birth date. */
 	@Temporal(TemporalType.DATE)
 	Date birthDate;
-	
+
 	/** The address. */
-	@ManyToOne(optional = false) 
+	@ManyToOne(optional = false)
 	Address address;
-	
-	
+
 	/**
 	 * Instantiates a new passenger.
 	 */
@@ -41,7 +39,8 @@ public class Passenger extends User {
 	/**
 	 * Instantiates a new passenger.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 */
 	public Passenger(User user) {
 		this.setEmail(user.getEmail());
@@ -62,7 +61,8 @@ public class Passenger extends User {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -80,7 +80,8 @@ public class Passenger extends User {
 	/**
 	 * Sets the second name.
 	 *
-	 * @param secondName the new second name
+	 * @param secondName
+	 *            the new second name
 	 */
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
@@ -98,7 +99,8 @@ public class Passenger extends User {
 	/**
 	 * Sets the birth date.
 	 *
-	 * @param birthDate the new birth date
+	 * @param birthDate
+	 *            the new birth date
 	 */
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
@@ -116,12 +118,11 @@ public class Passenger extends User {
 	/**
 	 * Sets the address.
 	 *
-	 * @param address the new address
+	 * @param address
+	 *            the new address
 	 */
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-	
 
 }

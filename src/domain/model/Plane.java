@@ -16,7 +16,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import domain.model.users.Airline;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Plane.
  */

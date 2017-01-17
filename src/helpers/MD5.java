@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MD5.
  * Provides MD5 encryption with custom salting
@@ -45,7 +44,6 @@ public class MD5 {
 			digest.update(saltedInput.getBytes(), 0, saltedInput.length());
 			md5 = new BigInteger(SIGNAL, digest.digest()).toString(BASE);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

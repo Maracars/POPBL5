@@ -19,7 +19,6 @@ import helpers.LaneFilter;
 import helpers.MD5;
 import notification.Notification;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AirportController.
  * <p>
@@ -69,11 +68,7 @@ public class AirportController implements Runnable {
 		AirportController.pathList = pathList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
+
 	@Override
 	public void run() {
 		while (!Thread.interrupted()) {
@@ -89,7 +84,8 @@ public class AirportController implements Runnable {
 				if (allocateLaneIfFree(plane)) {
 					activePlaneList.remove(plane);
 					Notification.sendNotification(MD5.encrypt(ADMIN),
-							"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
+							"Controller gives one PERMISSION to plane "
+									+ plane.getPlane().getSerial());
 					plane.givePermission();
 				}
 
@@ -224,7 +220,7 @@ public class AirportController implements Runnable {
 
 		Dijkstra dijkstra = new Dijkstra(paths);
 		System.out.println("start dijkstra");
-		dijkstra.execute(source, mode);
+		dijkstra.execute(source);
 		System.out.println("finish dijkstra");
 		LinkedList<Path> pathList = dijkstra.getPath(destination);
 		System.out.println("dijkstra returns " + pathList);

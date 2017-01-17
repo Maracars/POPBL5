@@ -9,7 +9,6 @@ import domain.model.users.Passenger;
 import domain.model.users.User;
 import hibernate.HibernateConnection;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DAOUser.
  */
@@ -71,7 +70,8 @@ public class DAOUser {
 			session.getTransaction().begin();
 
 			Query query = session.createQuery(
-					"delete " + user.getClass().getSimpleName() + " where username = :" + PARAMETER_USERNAME);
+					"delete " + user.getClass().getSimpleName() +
+					" where username = :" + PARAMETER_USERNAME);
 			query.setParameter(PARAMETER_USERNAME, user.getUsername());
 			result = query.executeUpdate();
 			session.getTransaction().commit();

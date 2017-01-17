@@ -9,10 +9,10 @@ import domain.dao.DAOUser;
 import domain.model.users.User;
 import helpers.MD5;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class LoginAction.
- * Action that checks the login forms input and verifiries if the username + password combination is correct and returns a result to Struts2 acordingly
+ * The Class LoginAction. Action that checks the login forms input and
+ * verifiries if the username + password combination is correct and returns a
+ * result to Struts2 acordingly
  */
 public class LoginAction extends ActionSupport {
 
@@ -24,16 +24,13 @@ public class LoginAction extends ActionSupport {
 
 	/** The username. */
 	private String username;
-	
+
 	/** The password. */
 	private String password;
-	
+
 	/** The url. */
 	private String url;
 
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#validate()
-	 */
 	@Override
 	public void validate() {
 		if (username == null || username.isEmpty()) {
@@ -46,9 +43,6 @@ public class LoginAction extends ActionSupport {
 			password = "";
 	}
 
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#execute()
-	 */
 	@Override
 	public String execute() throws Exception {
 		String ret = LOGIN;
@@ -79,7 +73,8 @@ public class LoginAction extends ActionSupport {
 	/**
 	 * Gets the listener role.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 * @return the listener role
 	 */
 	private String getListenerRole(User user) {
@@ -92,7 +87,8 @@ public class LoginAction extends ActionSupport {
 	/**
 	 * Gets the listener user.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 * @return the listener user
 	 */
 	private String getListenerUser(User user) {
@@ -114,7 +110,8 @@ public class LoginAction extends ActionSupport {
 	/**
 	 * Sets the username.
 	 *
-	 * @param username the new username
+	 * @param username
+	 *            the new username
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -132,7 +129,8 @@ public class LoginAction extends ActionSupport {
 	/**
 	 * Sets the password.
 	 *
-	 * @param password the new password
+	 * @param password
+	 *            the new password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -150,7 +148,8 @@ public class LoginAction extends ActionSupport {
 	/**
 	 * Sets the url.
 	 *
-	 * @param url the new url
+	 * @param url
+	 *            the new url
 	 */
 	public void setUrl(String url) {
 		this.url = url;

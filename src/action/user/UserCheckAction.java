@@ -7,10 +7,9 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.DAOUser;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class UserCheckAction.
- * Action to check if the username is in use returns result prepared for json format read on front-end
+ * The Class UserCheckAction. Action to check if the username is in use returns
+ * result prepared for json format read on front-end
  */
 public class UserCheckAction extends ActionSupport {
 
@@ -19,24 +18,18 @@ public class UserCheckAction extends ActionSupport {
 
 	/** The username. */
 	private String username;
-	
+
 	/** The result. */
 	private Boolean result;
-	
+
 	/** The json string. */
 	private String jsonString;
 
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#validate()
-	 */
 	@Override
 	public void validate() {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.opensymphony.xwork2.ActionSupport#execute()
-	 */
 	@Override
 	public String execute() throws Exception {
 		JSONObject json = new JSONObject();
@@ -58,7 +51,8 @@ public class UserCheckAction extends ActionSupport {
 	/**
 	 * Sets the username.
 	 *
-	 * @param username the new username
+	 * @param username
+	 *            the new username
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -76,7 +70,8 @@ public class UserCheckAction extends ActionSupport {
 	/**
 	 * Sets the json string.
 	 *
-	 * @param jsonString the new json string
+	 * @param jsonString
+	 *            the new json string
 	 */
 	public void setJsonString(String jsonString) {
 		this.jsonString = jsonString;
@@ -94,7 +89,8 @@ public class UserCheckAction extends ActionSupport {
 	/**
 	 * Sets the result.
 	 *
-	 * @param result the new result
+	 * @param result
+	 *            the new result
 	 */
 	public void setResult(Boolean result) {
 		this.result = result;

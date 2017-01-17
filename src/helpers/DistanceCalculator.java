@@ -2,7 +2,6 @@ package helpers;
 
 import domain.model.Node;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DistanceCalculator.
  * Calculates the distance of a segment of the airports roads

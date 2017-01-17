@@ -12,12 +12,13 @@ import java.util.Set;
 import domain.model.Node;
 import domain.model.Path;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Dijkstra. Class that contains the methots to find the best path
  * throught the airports lanes
  */
 public class Dijkstra {
+
+	private static final String SHOULD_NOT_HAPPEN = "Should not happen";
 
 	/** The Constant ARRIVAL_MODE. */
 	public static final boolean ARRIVAL_MODE = true;
@@ -40,9 +41,6 @@ public class Dijkstra {
 	/** The distance. */
 	private Map<Node, Double> distance;
 
-	/** The execution mode. */
-	private boolean executionMode;
-
 	/**
 	 * Instantiates a new dijkstra.
 	 *
@@ -61,12 +59,11 @@ public class Dijkstra {
 	 * @param mode
 	 *            the mode
 	 */
-	public void execute(Node source, boolean mode) {
+	public void execute(Node source) {
 		settledNodes = new HashSet<Node>();
 		unSettledNodes = new HashSet<Node>();
 		distance = new HashMap<Node, Double>();
 		predecessors = new HashMap<Node, Node>();
-		executionMode = mode;
 		distance.put(source, 0.0);
 		unSettledNodes.add(source);
 		try {
@@ -116,7 +113,7 @@ public class Dijkstra {
 			if (checkPathExist(target, node, path))
 				return path;
 		}
-		throw new RuntimeException("Should not happen");
+		throw new RuntimeException(SHOULD_NOT_HAPPEN);
 	}
 
 	/**
@@ -136,7 +133,7 @@ public class Dijkstra {
 				return path.getDistance();
 		}
 		System.out.println("aa");
-		throw new RuntimeException("Should not happen");
+		throw new RuntimeException(SHOULD_NOT_HAPPEN);
 	}
 
 	/**
@@ -153,12 +150,14 @@ public class Dijkstra {
 	private boolean checkPathExist(Node node, Node target, Path path) {
 		boolean checker = false;
 		if (path.getLaneList().get(0).getStartNode().getName().equals(node.getName())) {
-			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getName().equals(target.getName())) {
+			if (path.getLaneList().get(path.getLaneList().size() - 1)
+					.getEndNode().getName().equals(target.getName())) {
 				checker = true;
 			}
 		}
 		if (path.getLaneList().get(0).getStartNode().getName().equals(target.getName())) {
-			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getName().equals(node.getName())) {
+			if (path.getLaneList().get(path.getLaneList().size() - 1)
+					.getEndNode().getName().equals(node.getName())) {
 				checker = true;
 			}
 		}
@@ -179,7 +178,8 @@ public class Dijkstra {
 					&& !isSettled(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode())) {
 				neighbors.add(path.getLaneList().get(path.getLaneList().size() - 1).getEndNode());
 			}
-			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getName().equals(node.getName())
+			if (path.getLaneList().get(path.getLaneList().size() - 1)
+					.getEndNode().getName().equals(node.getName())
 					&& !isSettled(path.getLaneList().get(0).getStartNode())) {
 				neighbors.add(path.getLaneList().get(0).getStartNode());
 			}
@@ -252,17 +252,12 @@ public class Dijkstra {
 		LinkedList<Path> pathList = new LinkedList<Path>();
 		Node step = target;
 		Node stepBefore;
-		Node eventualNode;
 		step = chageOuterNodeToInner(step);
-		//eventualNode = checkPredecesor(step); // check if a path exists
-		if ( predecessors.get(step) == null) {
+		if (predecessors.get(step) == null) {
 			return null;
 		}
 		path.add(step);
-		/*stepBefore = step;
-		step = eventualNode;
-		path.add(step);
-		pathList.add(getPathFromTwoNodes(step, stepBefore));*/
+
 		while (predecessors.get(step) != null) {
 			stepBefore = step;
 			step = predecessors.get(step);
@@ -281,19 +276,11 @@ public class Dijkstra {
 			if (path.getLaneList().get(0).getStartNode().getName().equals(step.getName())) {
 				return path.getLaneList().get(0).getStartNode();
 			}
-			if (path.getLaneList().get(path.getLaneList().size() - 1).getEndNode().getName().equals(step.getName())) {
+			if (path.getLaneList().get(path.getLaneList().size() - 1)
+					.getEndNode().getName().equals(step.getName())) {
 				return path.getLaneList().get(path.getLaneList().size() - 1).getEndNode();
 			}
 		}
 		return null;
 	}
-
-	private Node checkPredecesor(Node node) {
-		for (Node nodeToCheck : predecessors.keySet()){
-			if(nodeToCheck.getName().equals(node.getName()))
-				return nodeToCheck;
-		}
-		return null;
-	}
-
 }

@@ -10,7 +10,6 @@ import org.postgresql.PGNotification;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PGSocketIONotify.
  * Class that encapsulates a socketIO server

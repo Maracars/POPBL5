@@ -12,19 +12,18 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Lane.
  */
 @Entity
 public class Lane {
-	
+
 	/** The Constant PRINCIPAL. */
 	public static final String PRINCIPAL = "PRINCIPAL";
-	
+
 	/** The Constant SECONDARY. */
 	public static final String SECONDARY = "SECONDARY";
-	
+
 	/** The id. */
 	@Id
 	@GeneratedValue
@@ -72,7 +71,8 @@ public class Lane {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -90,7 +90,8 @@ public class Lane {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -108,7 +109,8 @@ public class Lane {
 	/**
 	 * Sets the start node.
 	 *
-	 * @param startNode the new start node
+	 * @param startNode
+	 *            the new start node
 	 */
 	public void setStartNode(Node startNode) {
 		this.startNode = startNode;
@@ -123,7 +125,9 @@ public class Lane {
 		return endNode;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -134,7 +138,8 @@ public class Lane {
 	/**
 	 * Sets the end node.
 	 *
-	 * @param endNode the new end node
+	 * @param endNode
+	 *            the new end node
 	 */
 	public void setEndNode(Node endNode) {
 		this.endNode = endNode;
@@ -161,7 +166,8 @@ public class Lane {
 	/**
 	 * Sets the airport.
 	 *
-	 * @param airport the new airport
+	 * @param airport
+	 *            the new airport
 	 */
 	public void setAirport(Airport airport) {
 		this.airport = airport;
@@ -170,7 +176,8 @@ public class Lane {
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
 	public void setStatus(Boolean status) {
 		this.status = status;
@@ -188,7 +195,8 @@ public class Lane {
 	/**
 	 * Sets the semaphore.
 	 *
-	 * @param semaphore the new semaphore
+	 * @param semaphore
+	 *            the new semaphore
 	 */
 	public void setSemaphore(Semaphore semaphore) {
 		this.semaphore = semaphore;
@@ -206,7 +214,8 @@ public class Lane {
 	/**
 	 * Sets the type.
 	 *
-	 * @param type the new type
+	 * @param type
+	 *            the new type
 	 */
 	public void setType(String type) {
 		this.type = type;

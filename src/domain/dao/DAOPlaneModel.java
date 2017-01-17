@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import domain.model.PlaneModel;
 import hibernate.HibernateConnection;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DAOPlaneModel.
  */

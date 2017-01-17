@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import domain.dao.HibernateGeneric;
 import helpers.DistanceCalculator;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Path.
  */

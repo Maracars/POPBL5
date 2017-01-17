@@ -18,6 +18,8 @@ import helpers.Dijkstra;
 
 public class TestDijkstra {
 
+	private static final int END_NODE = 11;
+	private static final int INIT_NODE = 9;
 	private static final String NOT_SAME_ARRAYS = "error, arrays are not the same";
 	private static List<Node> nodes;
 	private static List<Path> paths;
@@ -33,8 +35,8 @@ public class TestDijkstra {
 	@Test
 	public void testExcuteArrival() {
 
-		dijkstra.execute(nodes.get(9), Dijkstra.ARRIVAL_MODE);
-		LinkedList<Path> paths = dijkstra.getPath(nodes.get(11));
+		dijkstra.execute(nodes.get(INIT_NODE));
+		LinkedList<Path> paths = dijkstra.getPath(nodes.get(END_NODE));
 
 		assertNotNull(paths);
 		assertTrue(paths.size() > 0);
@@ -48,8 +50,8 @@ public class TestDijkstra {
 	@Test
 	public void testExcuteDeparture() {
 
-		dijkstra.execute(nodes.get(9), Dijkstra.DEPARTURE_MODE);
-		LinkedList<Path> paths = dijkstra.getPath(nodes.get(11));
+		dijkstra.execute(nodes.get(INIT_NODE));
+		LinkedList<Path> paths = dijkstra.getPath(nodes.get(END_NODE));
 
 		assertNotNull(paths);
 		assertTrue(paths.size() > 0);
@@ -63,14 +65,14 @@ public class TestDijkstra {
 	@Test
 	public void testExecuteBothCheckAreEqual() {
 
-		dijkstra.execute(nodes.get(11), Dijkstra.ARRIVAL_MODE);
-		LinkedList<Path> pathsArrive = dijkstra.getPath(nodes.get(9));
+		dijkstra.execute(nodes.get(END_NODE));
+		LinkedList<Path> pathsArrive = dijkstra.getPath(nodes.get(INIT_NODE));
 
 		assertNotNull(pathsArrive);
 		assertTrue(pathsArrive.size() > 0);
 
-		dijkstra.execute(nodes.get(9), Dijkstra.DEPARTURE_MODE);
-		LinkedList<Path> pathsDeparture = dijkstra.getPath(nodes.get(11));
+		dijkstra.execute(nodes.get(INIT_NODE));
+		LinkedList<Path> pathsDeparture = dijkstra.getPath(nodes.get(END_NODE));
 
 		assertNotNull(pathsDeparture);
 		assertTrue(pathsDeparture.size() > 0);

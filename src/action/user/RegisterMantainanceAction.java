@@ -11,7 +11,6 @@ import domain.model.Address;
 import domain.model.users.Admin;
 import domain.model.users.Mantainance;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RegisterMantainanceAction.
  */
@@ -19,58 +18,55 @@ public class RegisterMantainanceAction extends RegisterAction {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The Constant NAME_FIELD. */
 	private static final String NAME_FIELD = "name";
-	
+
 	/** The Constant SECONDNAME. */
 	private static final String SECONDNAME = "secondName";
-	
+
 	/** The Constant INCORRECT_FORMAT. */
 	private static final String INCORRECT_FORMAT = "user.incorrectDateFormat";
-	
+
 	/** The Constant TOO_YOUNG. */
 	private static final String TOO_YOUNG = "user.underAge";
-	
+
 	/** The Constant BIRTH_DATE. */
 	private static final String BIRTH_DATE = "birthdate";
-	
+
 	/** The Constant BLANK. */
 	private static final String BLANK = "action.user.blank";
-	
+
 	/** The Constant MIN_YEARS. */
 	private static final int MIN_YEARS = 18;
-	
+
 	/** The Constant CITY. */
 	private static final String CITY = "address.city";
-	
+
 	/** The Constant COUNTRY. */
 	private static final String COUNTRY = "address.country";
-	
+
 	/** The Constant REGION. */
 	private static final String REGION = "address.region";
-	
+
 	/** The Constant STREETANDNUMBER. */
 	private static final String STREETANDNUMBER = "address.streetAndNumber";
-	
+
 	/** The Constant POSTCODE. */
 	private static final String POSTCODE = "address.postCode";
 
 	/** The birthdate. */
 	String birthdate;
-	
+
 	/** The name. */
 	String name;
-	
+
 	/** The second name. */
 	String secondName;
-	
+
 	/** The address. */
 	Address address = new Address();
 
-	/* (non-Javadoc)
-	 * @see action.user.RegisterAction#userSpecificValidate()
-	 */
 	@Override
 	void userSpecificValidate() {
 		allowedUsers.add(Admin.class);
@@ -121,8 +117,8 @@ public class RegisterMantainanceAction extends RegisterAction {
 			SimpleDateFormat df = new SimpleDateFormat(getText("global.dateFormat"));
 			try {
 				((Mantainance) user).setBirthDate(df.parse(birthdate));
-				LocalDate birthdate = ((Mantainance) user).getBirthDate().toInstant()
-						.atZone(ZoneId.systemDefault()).toLocalDate();
+				LocalDate birthdate = ((Mantainance) user).getBirthDate().toInstant().atZone(ZoneId.systemDefault())
+						.toLocalDate();
 				if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
 					addFieldError(BIRTH_DATE, getText(TOO_YOUNG) + " " + MIN_YEARS);
 			} catch (ParseException e) {
@@ -131,9 +127,6 @@ public class RegisterMantainanceAction extends RegisterAction {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see action.user.RegisterAction#userSpecificInsert()
-	 */
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;
@@ -153,7 +146,8 @@ public class RegisterMantainanceAction extends RegisterAction {
 	/**
 	 * Sets the birthdate.
 	 *
-	 * @param birthdate the new birthdate
+	 * @param birthdate
+	 *            the new birthdate
 	 */
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
@@ -171,7 +165,8 @@ public class RegisterMantainanceAction extends RegisterAction {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -189,7 +184,8 @@ public class RegisterMantainanceAction extends RegisterAction {
 	/**
 	 * Sets the second name.
 	 *
-	 * @param secondName the new second name
+	 * @param secondName
+	 *            the new second name
 	 */
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
@@ -207,7 +203,8 @@ public class RegisterMantainanceAction extends RegisterAction {
 	/**
 	 * Sets the address.
 	 *
-	 * @param address the new address
+	 * @param address
+	 *            the new address
 	 */
 	public void setAddress(Address address) {
 		this.address = address;

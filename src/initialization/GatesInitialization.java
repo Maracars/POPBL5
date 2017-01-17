@@ -30,11 +30,12 @@ import domain.model.Route;
 import domain.model.Terminal;
 import simulator.MainThread;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GatesInitialization.
  */
 public class GatesInitialization implements ServletContextListener {
+
+	private static final String STRING_LINE = "-";
 
 	private static final double CARACAS_POSY = -66.817;
 
@@ -85,12 +86,12 @@ public class GatesInitialization implements ServletContextListener {
 			{ "15", "27", "74" }, { "18", "28", "75" }, { "20", "19", "80" }, { "20", "21", "81" },
 			{ "21", "22", "82" }, { "22", "23", "83" }, { "23", "24", "84" }, { "24", "25", "85" },
 			{ "25", "NIDEA", "86" }, { "NIDEA", "26", "87" }, { "26", "27", "88" }, { "27", "28", "89" },
-			{ "19", "37", "80" }, { "20", "38", "91" }, { "21", "39", "92" },
-			{ "22", "40", "93" }, { "23", "41", "94" }, { "24", "42", "95" }, { "25", "43", "96" },
-			{ "26", "44", "97" }, { "27", "45", "98" }, { "28", "46", "99" }, { "37", "38", "80" },
-			{ "38", "39", "100" }, { "39", "40", "101" }, { "40", "41", "102" }, { "41", "42", "103" },
-			{ "42", "43", "104" }, { "43", "44", "105" }, { "44", "45", "106" }, { "46", "45", "99" },
-			{ "54", "55", "90" }, { "55", "36", "90" }, { "36", "28", "90" }, };
+			{ "19", "37", "80" }, { "20", "38", "91" }, { "21", "39", "92" }, { "22", "40", "93" },
+			{ "23", "41", "94" }, { "24", "42", "95" }, { "25", "43", "96" }, { "26", "44", "97" },
+			{ "27", "45", "98" }, { "28", "46", "99" }, { "37", "38", "80" }, { "38", "39", "100" },
+			{ "39", "40", "101" }, { "40", "41", "102" }, { "41", "42", "103" }, { "42", "43", "104" },
+			{ "43", "44", "105" }, { "44", "45", "106" }, { "46", "45", "99" }, { "54", "55", "90" },
+			{ "55", "36", "90" }, { "36", "28", "90" }, };
 
 	/** The node list. */
 	private List<Node> nodeList;
@@ -105,24 +106,11 @@ public class GatesInitialization implements ServletContextListener {
 
 	private static List<Path> pathList = new ArrayList<Path>();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.
-	 * ServletContextEvent)
-	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		MainThread.finishSimulator();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.servlet.ServletContextListener#contextInitialized(javax.servlet.
-	 * ServletContextEvent)
-	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 
@@ -131,11 +119,9 @@ public class GatesInitialization implements ServletContextListener {
 			initAirport();
 
 		} else {
-			// TODO FUNTZIO HAU FALTA DA ARREGLETAKO
 			getPathsFromDatabase();
 
 		}
-		System.out.println("List of paths: " + pathList);
 		MainThread.initSimulator(localeAirport, pathList);
 
 	}
@@ -152,14 +138,10 @@ public class GatesInitialization implements ServletContextListener {
 	}
 
 	public static List<Path> getPathsFromDatabase() {
-		// TODO hemen path guztiek datubasetik kargau behar dire
 		try {
 			List<Object> list = HibernateGeneric.loadAllObjects(new Path());
 			for (Object object : list) {
 				Path path = (Path) object;
-				// honek forak eztait funtzionauko dauen, ointxe bertan ipiniot,
-				// baia berez path guztiek get inde gero, lanetako semaforoak
-				// inizializau in behar dire.
 				for (Lane lane : path.getLaneList()) {
 					if (lane.isFree()) {
 						lane.setSemaphore(new Semaphore(1, true));
@@ -178,18 +160,17 @@ public class GatesInitialization implements ServletContextListener {
 	}
 
 	private void createGates() {
-		/* BEREZ hau in beharko zan baia probetako MIERDA bat programauko dot :D
-		 * List<Gate> gatesList = loadGatesJSON();
-		for (Gate gate : gatesList) {
-			Random random = new Random();
-			gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())));
-			gate.setFree(true);
-			HibernateGeneric.saveObject(gate.getPositionNode());
-			HibernateGeneric.saveObject(gate);
-		}
-		*/
-		
-		for(Node node : nodeList){
+		/*
+		 * BEREZ hau in beharko zan baia probetako MIERDA bat programauko dot :D
+		 * List<Gate> gatesList = loadGatesJSON(); for (Gate gate : gatesList) {
+		 * Random random = new Random();
+		 * gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())
+		 * )); gate.setFree(true);
+		 * HibernateGeneric.saveObject(gate.getPositionNode());
+		 * HibernateGeneric.saveObject(gate); }
+		 */
+
+		for (Node node : nodeList) {
 			switch (node.getName()) {
 			case "NIDEA":
 			case "4":
@@ -200,7 +181,7 @@ public class GatesInitialization implements ServletContextListener {
 			case "39":
 				Gate gate = new Gate();
 				Random random = new Random();
-				gate.setTerminal(terminalList.get(0));
+				gate.setTerminal(terminalList.get(random.nextInt(terminalList.size() - 1)));
 				gate.setFree(true);
 				gate.setPositionNode(node);
 				HibernateGeneric.saveObject(gate);
@@ -208,7 +189,7 @@ public class GatesInitialization implements ServletContextListener {
 				break;
 			}
 		}
-		
+
 	}
 
 	private void createTerminals() {
@@ -242,15 +223,12 @@ public class GatesInitialization implements ServletContextListener {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
 				URL url = getClass().getResource(AGATES_JSON_FILE);
-				System.out.println(url);
 				gateList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>() {
 				});
 				url = getClass().getResource(BGATES_JSON_FILE);
-				System.out.println(url);
 				gateList.addAll(mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>() {
 				}));
 				url = getClass().getResource(CGATES_JSON_FILE);
-				System.out.println(url);
 				gateList.addAll(mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>() {
 				}));
 				url = getClass().getResource(CGATES_JSON_FILE);
@@ -273,7 +251,6 @@ public class GatesInitialization implements ServletContextListener {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
 				URL url = getClass().getResource(TERMINALS_JSON_FILE);
-				System.out.println(url);
 				terminalList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Terminal>>() {
 				});
 			} catch (IOException e) {
@@ -370,7 +347,7 @@ public class GatesInitialization implements ServletContextListener {
 
 			lane.setStartNode(getNodeByName(laneNodes[0]));
 			lane.setEndNode(getNodeByName(laneNodes[1]));
-			lane.setName(laneNodes[0] + "-" + laneNodes[1]);
+			lane.setName(laneNodes[0] + STRING_LINE + laneNodes[1]);
 			if (Arrays.asList(principalNodes).contains(laneNodes[0])) {
 				lane.setType(Lane.PRINCIPAL);
 
@@ -401,7 +378,7 @@ public class GatesInitialization implements ServletContextListener {
 		for (String[] heathrowNodes : HEATHROW_LANES_NODES) {
 
 			if (number.equals(heathrowNodes[2])) {
-				String laneName = heathrowNodes[0] + "-" + heathrowNodes[1];
+				String laneName = heathrowNodes[0] + STRING_LINE + heathrowNodes[1];
 				lane = getLaneByName(laneName);
 				if (lane != null) {
 					laneList2.add(lane);
@@ -409,9 +386,9 @@ public class GatesInitialization implements ServletContextListener {
 				}
 			}
 		}
-		if(laneList2.size()>0){
-		path.setLaneList(laneList2);
-		}else{
+		if (laneList2.size() > 0) {
+			path.setLaneList(laneList2);
+		} else {
 			path = null;
 		}
 		return path;
@@ -424,13 +401,25 @@ public class GatesInitialization implements ServletContextListener {
 	private void createPaths() {
 		pathList = new ArrayList<Path>();
 		Path path = null;
-		for (Integer i = 1; i <= 106; i++) {
+		int[] array = Arrays.asList(HEATHROW_LANES_NODES[2]).stream().mapToInt(Integer::parseInt).toArray();
+		for (Integer i = 1; i <= getMaxOfArray(array); i++) {
 			path = getPath(i.toString());
-			if(path != null){
-			pathList.add(path);
-			HibernateGeneric.saveObject(path);
+			if (path != null) {
+				pathList.add(path);
+				HibernateGeneric.saveObject(path);
 			}
 		}
+	}
+
+	private int getMaxOfArray(int[] array) {
+		int max = Integer.MIN_VALUE;
+		for (Integer value : array) {
+			if (value > max) {
+				max = value;
+			}
+		}
+		return max;
+
 	}
 
 	public void insertRoutes() {

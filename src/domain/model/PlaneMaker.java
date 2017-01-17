@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PlaneMaker.
  */
@@ -15,7 +14,7 @@ public class PlaneMaker {
 	@Id
 	@GeneratedValue
 	Integer id;
-	
+
 	/** The name. */
 	String name;
 
@@ -31,7 +30,8 @@ public class PlaneMaker {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -49,7 +49,8 @@ public class PlaneMaker {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;

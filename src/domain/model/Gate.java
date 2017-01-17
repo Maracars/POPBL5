@@ -9,7 +9,6 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Gate.
  */
@@ -25,7 +24,6 @@ public class Gate {
 	private Integer number;
 
 	/** The position node. */
-	// TODO tagak jarri
 	@OneToOne
 	Node positionNode;
 

@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Node.
  */
@@ -21,11 +20,11 @@ public class Node {
 
 	/** The position X. */
 	@Column(nullable = false)
-	private double positionX; //Longitude
+	private double positionX; // Longitude
 
 	/** The position Y. */
 	@Column(nullable = false)
-	private double positionY; //Latitude
+	private double positionY; // Latitude
 
 	/** The name. */
 	private String name;
@@ -42,7 +41,8 @@ public class Node {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -51,7 +51,8 @@ public class Node {
 	/**
 	 * Sets the position X.
 	 *
-	 * @param positionX2 the new position X
+	 * @param positionX2
+	 *            the new position X
 	 */
 	public void setPositionX(double positionX2) {
 		this.positionX = positionX2;
@@ -60,7 +61,8 @@ public class Node {
 	/**
 	 * Sets the position Y.
 	 *
-	 * @param positionY the new position Y
+	 * @param positionY
+	 *            the new position Y
 	 */
 	public void setPositionY(double positionY) {
 		this.positionY = positionY;
@@ -96,15 +98,13 @@ public class Node {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return name + "positionX: " + positionX + "positionY: " + positionY;

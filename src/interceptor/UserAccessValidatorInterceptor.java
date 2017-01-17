@@ -15,16 +15,15 @@ import domain.model.users.Mantainance;
 import domain.model.users.Passenger;
 import domain.model.users.User;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class UserAccessValidatorInterceptor.
- * Struts2 interceptor that manages whether a user has permission or not to access an action
+ * The Class UserAccessValidatorInterceptor. Struts2 interceptor that manages
+ * whether a user has permission or not to access an action
  */
 public class UserAccessValidatorInterceptor implements Interceptor {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The Constant NO_PERMISSION. */
 	private static final String NO_PERMISSION = "global.noPermission";
 
@@ -46,12 +45,6 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 	/** The allowed. */
 	String allowed;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.opensymphony.xwork2.interceptor.Interceptor#intercept(com.
-	 * opensymphony.xwork2.ActionInvocation)
-	 */
 	@Override
 	public String intercept(ActionInvocation ai) throws Exception {
 		String result;
@@ -116,22 +109,12 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.opensymphony.xwork2.interceptor.Interceptor#destroy()
-	 */
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.opensymphony.xwork2.interceptor.Interceptor#init()
-	 */
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub

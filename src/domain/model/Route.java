@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Route.
  */
@@ -28,7 +27,8 @@ public class Route {
 	/**
 	 * Sets the arrival terminal.
 	 *
-	 * @param arrivalTerminal the new arrival terminal
+	 * @param arrivalTerminal
+	 *            the new arrival terminal
 	 */
 	public void setArrivalTerminal(Terminal arrivalTerminal) {
 		this.arrivalTerminal = arrivalTerminal;
@@ -37,7 +37,8 @@ public class Route {
 	/**
 	 * Sets the departure terminal.
 	 *
-	 * @param departureTerminal the new departure terminal
+	 * @param departureTerminal
+	 *            the new departure terminal
 	 */
 	public void setDepartureTerminal(Terminal departureTerminal) {
 		this.departureTerminal = departureTerminal;
@@ -60,7 +61,8 @@ public class Route {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;

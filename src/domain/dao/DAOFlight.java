@@ -12,26 +12,26 @@ import domain.model.Flight;
 import domain.model.users.Passenger;
 import hibernate.HibernateConnection;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DAOFlight.
  */
 public class DAOFlight {
-	
+
 	/** The Constant PARAMETER_AIRLINE_USERNAME. */
 	private static final String PARAMETER_AIRLINE_USERNAME = "airlineUsername";
-	
+
 	/** The Constant LOAD_AIRLINE_FLIGHTS. */
 	private static final String LOAD_AIRLINE_FLIGHTS = "from Flight as f where f.plane.airline.username = :"
 			+ PARAMETER_AIRLINE_USERNAME;
-	
+
 	/** The session. */
 	private static Session session;
 
 	/**
 	 * Sets the null airline flights.
 	 *
-	 * @param airlineUsername the airline username
+	 * @param airlineUsername
+	 *            the airline username
 	 * @return true, if successful
 	 */
 	@SuppressWarnings("unchecked")
@@ -69,7 +69,8 @@ public class DAOFlight {
 	/**
 	 * Sets the null passenger flights.
 	 * 
-	 * @param passengerUsername the passenger username
+	 * @param passengerUsername
+	 *            the passenger username
 	 * @return true, if successful
 	 */
 	@SuppressWarnings("unchecked")
@@ -78,7 +79,6 @@ public class DAOFlight {
 		List<Flight> flightList = new ArrayList<>();
 		try {
 
-			
 			session = HibernateConnection.getSessionFactory().openSession();
 			session.beginTransaction();
 			TypedQuery<Flight> query = session.createQuery("from Flight");

@@ -9,7 +9,6 @@ import javax.persistence.TemporalType;
 
 import domain.model.Address;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Controller.
  */

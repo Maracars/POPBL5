@@ -10,24 +10,20 @@ import domain.dao.HibernateGeneric;
 import domain.model.Address;
 import domain.model.users.Admin;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AdminInitialization.
  * Class that contains dummy functions that initializes model objects with predefined data
  */
 public class AdminInitialization implements ServletContextListener {
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
-	 */
+
+	private static final String STRING_ADMIN = "admin";
+
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
-	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		List<Object> users = HibernateGeneric.loadAllObjects(new Admin());
@@ -35,9 +31,9 @@ public class AdminInitialization implements ServletContextListener {
 			Admin admin = new Admin();
 			admin.setEmail("admin@naranair.com");
 			admin.setName("Admin");
-			admin.setPassword("admin");
+			admin.setPassword(STRING_ADMIN);
 			admin.setSecondName("Default");
-			admin.setUsername("admin");
+			admin.setUsername(STRING_ADMIN);
 			admin.setBirthDate(new Date());
 
 			Address a = new Address();

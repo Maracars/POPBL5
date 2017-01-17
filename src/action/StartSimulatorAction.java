@@ -4,7 +4,6 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import simulator.MainThread;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StartSimulatorAction.
  */

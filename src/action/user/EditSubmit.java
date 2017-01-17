@@ -19,6 +19,9 @@ import domain.model.users.Passenger;
 import domain.model.users.User;
 
 public class EditSubmit extends ActionSupport {
+	private static final String STRING_AIRLINE = "airline";
+	private static final String STRING_USER = "user";
+	private static final String STRING_LAST_PAGE = "lastPage";
 	private static final long serialVersionUID = 1L;
 	private static final String NAME_FIELD = "user.name";
 	private static final String SECONDNAME = "user.secondName";
@@ -49,7 +52,8 @@ public class EditSubmit extends ActionSupport {
 			addFieldError(EMAIL, getText(EMAIL_BLANK));
 		if (user.getUsername() == null || user.getUsername().isEmpty())
 			addFieldError(USERNAME, getText(USERNAME_BLANK));
-		if (((Passenger) user).getAddress().getCity() == null || ((Passenger) user).getAddress().getCity().equals(""))
+		if (((Passenger) user).getAddress().getCity() == null ||
+				((Passenger) user).getAddress().getCity().equals(""))
 			addFieldError(CITY, getText(BLANK));
 		if (((Passenger) user).getAddress().getCountry() == null
 				|| ((Passenger) user).getAddress().getCountry().equals(""))
@@ -63,14 +67,15 @@ public class EditSubmit extends ActionSupport {
 		if (((Passenger) user).getAddress().getStreetAndNumber() == null
 				|| ((Passenger) user).getAddress().getStreetAndNumber().equals(""))
 			addFieldError(STREETANDNUMBER, getText(BLANK));
-		if (((Passenger) user).getName() == null || ((Passenger) user).getName().equals(""))
+		if (((Passenger) user).getName() == null ||
+				((Passenger) user).getName().equals(""))
 			addFieldError(NAME_FIELD, getText(BLANK));
-		if (!type.equals("airline")){
-			if (((Passenger) user).getSecondName() == null || ((Passenger) user).getSecondName().equals(""))
+		if (!type.equals(STRING_AIRLINE)) {
+			if (((Passenger) user).getSecondName() == null ||
+					((Passenger) user).getSecondName().equals(""))
 				addFieldError(SECONDNAME, getText(BLANK));
 			validateBirthdate();
 		}
-		
 
 	}
 
@@ -81,8 +86,8 @@ public class EditSubmit extends ActionSupport {
 			SimpleDateFormat df = new SimpleDateFormat(getText("global.dateFormat"));
 			try {
 				((Passenger) user).setBirthDate(df.parse(birthdate));
-				LocalDate birthdate = ((Passenger) user).getBirthDate().toInstant().atZone(ZoneId.systemDefault())
-						.toLocalDate();
+				LocalDate birthdate = ((Passenger) user).getBirthDate()
+						.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
 					addFieldError(BIRTH_DATE, getText(TOO_YOUNG) + " " + MIN_YEARS);
 			} catch (ParseException e) {
@@ -128,7 +133,7 @@ public class EditSubmit extends ActionSupport {
 			newUser = aux1;
 			HibernateGeneric.updateObject(((Controller) newUser).getAddress());
 			break;
-		case "airline":
+		case STRING_AIRLINE:
 			newUser = new Airline();
 			Airline aux2 = (Airline) newUser;
 			aux2.setPassword(oldUser.getPassword());
@@ -177,14 +182,15 @@ public class EditSubmit extends ActionSupport {
 
 		HibernateGeneric.updateObject(newUser);
 
-		if (((User) ActionContext.getContext().getSession().get("user")).getId().equals(oldUser.getId())) {
-			ActionContext.getContext().getSession().remove("user");
-			ActionContext.getContext().getSession().put("user", newUser);
+		if (((User) ActionContext.getContext().getSession().get(STRING_USER))
+				.getId().equals(oldUser.getId())) {
+			ActionContext.getContext().getSession().remove(STRING_USER);
+			ActionContext.getContext().getSession().put(STRING_USER, newUser);
 		}
 
 		if (getFieldErrors().isEmpty()) {
-			url = (String) ActionContext.getContext().getSession().get("lastPage");
-			ActionContext.getContext().getSession().remove("lastPage");
+			url = (String) ActionContext.getContext().getSession().get(STRING_LAST_PAGE);
+			ActionContext.getContext().getSession().remove(STRING_LAST_PAGE);
 		}
 
 		return ret;

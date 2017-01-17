@@ -11,7 +11,6 @@ import domain.model.Node;
 import domain.model.Path;
 import domain.model.Plane;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PlaneThread.
  */
@@ -31,10 +30,10 @@ public abstract class PlaneThread implements Runnable {
 
 	public static final Double FLIGHT_SPEED = 500.0;
 
-	public static final Double CONSTANT_TIME  = 1000000.0;
-	
+	public static final Double CONSTANT_TIME = 1000000.0;
+
 	public static final Double LAND_SPEED = 300.0;
-	
+
 	public static final Double LANE_SPEED = 100.0;
 
 	/** The plane. */
@@ -63,11 +62,6 @@ public abstract class PlaneThread implements Runnable {
 
 	LinkedList<Path> routeOfPaths;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
 	@Override
 	abstract public void run();
 
@@ -85,7 +79,6 @@ public abstract class PlaneThread implements Runnable {
 		try {
 			Thread.sleep((long) (CONSTANT_TIME / LAND_SPEED));
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Landed");
@@ -102,7 +95,7 @@ public abstract class PlaneThread implements Runnable {
 			routeOfPaths.get(countList).changePathStatus(FREE);
 
 		}
-System.out.println("kk");
+		System.out.println("kk");
 	}
 
 	/**
@@ -182,7 +175,7 @@ System.out.println("kk");
 			plane.getPlaneMovement().setPositionX(firstLane.getStartNode().getPositionX());
 			plane.getPlaneMovement().setPositionY(firstLane.getStartNode().getPositionY());
 		}
-		
+
 		plane.getPlaneMovement().setSpeed(LANE_SPEED);
 
 		HibernateGeneric.updateObject(plane);
@@ -190,7 +183,6 @@ System.out.println("kk");
 		try {
 			Thread.sleep((long) (CONSTANT_TIME / LANE_SPEED));
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -199,7 +191,6 @@ System.out.println("kk");
 	 * Rotate plane.
 	 */
 	private void rotatePlane() {
-		// TODO Auto-generated method stub
 
 	}
 

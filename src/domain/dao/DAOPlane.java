@@ -12,21 +12,22 @@ import domain.model.Flight;
 import domain.model.Plane;
 import hibernate.HibernateConnection;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DAOPlane.
  */
 public class DAOPlane {
-	
+
+	private static final String UNCHECKED = "unchecked";
+
 	/** The Constant MAX_RESULTS. */
 	private static final int MAX_RESULTS = 1;
-	
+
 	/** The Constant SECOND_TO_MIN. */
 	private static final int SECOND_TO_MIN = 60;
-	
+
 	/** The Constant MILIS_TO_SECOND. */
 	private static final int MILIS_TO_SECOND = 1000;
-	
+
 	/** The Constant MIN_TO_HOURS. */
 	private static final int MIN_TO_HOURS = 60;
 	// private static final int HOURS_TO_DAY = 24;
@@ -34,10 +35,10 @@ public class DAOPlane {
 	/** The Constant ARRIVAL_HOUR_MARGIN. */
 	// * MIN_TO_HOURS * HOURS_TO_DAY;
 	private static final int ARRIVAL_HOUR_MARGIN = 2;
-	
+
 	/** The Constant PARAMETER_AIRPORT_ID. */
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
-	
+
 	/** The Constant PARAMETER_SOON_DATE. */
 	private static final String PARAMETER_SOON_DATE = "soonDate";
 
@@ -52,10 +53,10 @@ public class DAOPlane {
 			+ "where f.expectedArrivalDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
 			+ " and p.status.positionStatus = 'ARRIVING'" + "and f.route.arrivalTerminal.airport.id = :"
 			+ PARAMETER_AIRPORT_ID;
-	
+
 	/** The Constant DEPARTURE_HOUR_MARGIN. */
 	private static final int DEPARTURE_HOUR_MARGIN = 3;
-	
+
 	/** The Constant QUERY_DEPARTURING_PLANES_SOON. */
 	private static final String QUERY_DEPARTURING_FLIGHTS_SOON = SELECT_FLIGHT_JOIN_PLANE
 			+ "where f.expectedDepartureDate BETWEEN current_timestamp and :" + PARAMETER_SOON_DATE
@@ -69,7 +70,7 @@ public class DAOPlane {
 	/** The Constant QUERY_FREE_PLANE. */
 	private static final String QUERY_FREE_PLANE = SELECT_PLANE_JOIN_FLIGHT
 			+ "where f.realArrivalDate < current_timestamp or f is null";
-	
+
 	/** The Constant MILIS_TO_HOURS. */
 	private static final int MILIS_TO_HOURS = MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS;
 
@@ -79,10 +80,11 @@ public class DAOPlane {
 	/**
 	 * Gets the arriving planes soon.
 	 *
-	 * @param airportId the airport id
+	 * @param airportId
+	 *            the airport id
 	 * @return the arriving planes soon
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static List<Flight> getArrivingFlightsSoon(int airportId) {
 		List<Flight> flightList = null;
 		Date soon = new Date();
@@ -105,10 +107,11 @@ public class DAOPlane {
 	/**
 	 * Gets the departuring planes soon.
 	 *
-	 * @param airportId the airport id
+	 * @param airportId
+	 *            the airport id
 	 * @return the departuring planes soon
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static List<Flight> getDeparturingFlightsSoon(int airportId) {
 		List<Flight> flightList = null;
 		Date soon = new Date();
@@ -155,7 +158,7 @@ public class DAOPlane {
 	 *
 	 * @return the free plane
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static Plane getFreePlane() {
 
 		List<Plane> planeList = null;
@@ -172,8 +175,6 @@ public class DAOPlane {
 		return planeList.size() > 0 ? planeList.get(0) : null;
 	}
 
-
-
 	/**
 	 * Gets the plane position.
 	 *
@@ -184,7 +185,7 @@ public class DAOPlane {
 		try {
 
 			session = HibernateConnection.getSession();
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings(UNCHECKED)
 			TypedQuery<Object> query = session.createQuery("from Plane");
 			objectList = query.getResultList();
 		} catch (Exception e) {

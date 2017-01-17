@@ -7,22 +7,23 @@ import org.hibernate.Session;
 import domain.model.Airport;
 import hibernate.HibernateConnection;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DAOAirport.
  */
 public class DAOAirport {
-	
+
 	/** The Constant QUERY_LOCALE_AIRPORT. */
-	private static final String QUERY_LOCALE_AIRPORT = "from Airport as a "
-			+ "where a.locale is true";
-	
+	private static final String QUERY_LOCALE_AIRPORT = "from Airport as a " + "where a.locale is true";
+
 	/** The session. */
 	private static Session session;
-	
+
 	/**
 	 * Gets the locale airport.
-	 * <p>Gets the local airport</p>
+	 * <p>
+	 * Gets the local airport
+	 * </p>
+	 * 
 	 * @return the locale airport
 	 */
 	public static Airport getLocaleAirport() {

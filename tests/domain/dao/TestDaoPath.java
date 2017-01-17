@@ -35,10 +35,10 @@ public class TestDaoPath {
 		boolean result = HibernateGeneric.deleteObject(path);
 		assertEquals(DELETE_ERROR, true, result);
 	}
-	
+
 	@Test
-	public void testGetPathsFromDatabase(){
-		assertNotNull("COULD NOT GET THE PATHS",  GatesInitialization.getPathsFromDatabase());
+	public void testGetPathsFromDatabase() {
+		assertNotNull("COULD NOT GET THE PATHS", GatesInitialization.getPathsFromDatabase());
 	}
 
 }

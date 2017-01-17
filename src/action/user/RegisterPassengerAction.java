@@ -10,7 +10,6 @@ import domain.dao.HibernateGeneric;
 import domain.model.Address;
 import domain.model.users.Passenger;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RegisterPassengerAction.
  */
@@ -129,10 +128,7 @@ public class RegisterPassengerAction extends RegisterAction {
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see action.user.RegisterAction#userSpecificInsert()
-	 */
+
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;

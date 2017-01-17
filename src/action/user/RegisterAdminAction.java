@@ -10,7 +10,6 @@ import domain.dao.HibernateGeneric;
 import domain.model.Address;
 import domain.model.users.Admin;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RegisterAdminAction.
  * @see action.user.RegisterAction
@@ -69,9 +68,6 @@ public class RegisterAdminAction extends RegisterAction {
 	Address address = new Address();
 
 
-	/* (non-Javadoc)
-	 * @see action.user.RegisterAction#userSpecificValidate()
-	 */
 	@Override
 	void userSpecificValidate() {
 		allowedUsers.add(Admin.class);
@@ -122,8 +118,8 @@ public class RegisterAdminAction extends RegisterAction {
 			SimpleDateFormat df = new SimpleDateFormat(getText("global.dateFormat"));
 			try {
 				((Admin) user).setBirthDate(df.parse(birthdate));
-				LocalDate birthdate = ((Admin) user).getBirthDate().toInstant().atZone(ZoneId.systemDefault())
-						.toLocalDate();
+				LocalDate birthdate = ((Admin) user).getBirthDate()
+						.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				if (Period.between(birthdate, LocalDate.now()).getYears() < MIN_YEARS)
 					addFieldError(BIRTH_DATE, getText(TOO_YOUNG) + " " + MIN_YEARS);
 			} catch (ParseException e) {
@@ -132,9 +128,6 @@ public class RegisterAdminAction extends RegisterAction {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see action.user.RegisterAction#userSpecificInsert()
-	 */
 	@Override
 	public String userSpecificInsert() {
 		String ret = SUCCESS;

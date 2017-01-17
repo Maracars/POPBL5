@@ -11,10 +11,9 @@ import domain.model.users.Mantainance;
 import domain.model.users.Passenger;
 import domain.model.users.User;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ProfileAction.
- * Action that loads and prepares the data of the target user to be viewwe on the profile page
+ * The Class ProfileAction. Action that loads and prepares the data of the
+ * target user to be viewwe on the profile page
  */
 public class ProfileAction extends ActionSupport {
 
@@ -23,17 +22,19 @@ public class ProfileAction extends ActionSupport {
 
 	/** The username. */
 	String username;
-	
+
 	/** The birthdate. */
 	String birthdate;
-	
+
 	/** The user. */
 	User user;
-	
+
 	/** The type. */
 	String type;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.opensymphony.xwork2.ActionSupport#execute()
 	 */
 	@Override
@@ -57,7 +58,8 @@ public class ProfileAction extends ActionSupport {
 	/**
 	 * Gets the birthdate.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 * @return the birthdate
 	 */
 	private String getBirthdate(User user) {
@@ -86,7 +88,8 @@ public class ProfileAction extends ActionSupport {
 	/**
 	 * Sets the type.
 	 *
-	 * @param type the new type
+	 * @param type
+	 *            the new type
 	 */
 	public void setType(String type) {
 		this.type = type;
@@ -104,7 +107,8 @@ public class ProfileAction extends ActionSupport {
 	/**
 	 * Sets the username.
 	 *
-	 * @param username the new username
+	 * @param username
+	 *            the new username
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -122,7 +126,8 @@ public class ProfileAction extends ActionSupport {
 	/**
 	 * Sets the birthdate.
 	 *
-	 * @param birthdate the new birthdate
+	 * @param birthdate
+	 *            the new birthdate
 	 */
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
@@ -140,7 +145,8 @@ public class ProfileAction extends ActionSupport {
 	/**
 	 * Sets the user.
 	 *
-	 * @param user the new user
+	 * @param user
+	 *            the new user
 	 */
 	public void setUser(User user) {
 		this.user = user;

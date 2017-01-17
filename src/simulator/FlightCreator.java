@@ -21,11 +21,12 @@ import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FlightCreator.
  */
 public class FlightCreator implements Runnable {
+
+	private static final double INITIALIZER_0 = 0.0;
 
 	/** The Constant ADMIN. */
 	private static final String ADMIN = new Admin().getClass().getSimpleName();
@@ -91,11 +92,7 @@ public class FlightCreator implements Runnable {
 		this.controller = ac;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Runnable#run()
-	 */
+	
 	@Override
 	public void run() {
 		threadPool = Executors.newFixedThreadPool(MAX_ACTIVE_PLANES);
@@ -108,7 +105,6 @@ public class FlightCreator implements Runnable {
 			try {
 				Thread.sleep(SLEEP_5_MINUTES_IN_MILIS);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
@@ -132,7 +128,7 @@ public class FlightCreator implements Runnable {
 
 			if (flight != null) {
 				System.out.println("bien");
-				Notification.sendNotification(MD5.encrypt(ADMIN), "ARRIVING flight created. " + "Plane: "
+				Notification.sendNotification(MD5.encrypt(ADMIN), "ARRIVING flight created. " + "Plane "
 						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
 				System.out.println("ups");
 			}
@@ -186,7 +182,6 @@ public class FlightCreator implements Runnable {
 	 */
 	private Route selectRandomArrivalRoute() {
 		List<Route> routeList = DAORoute.getRandomArrivalRouteFromAirport(airport.getId());
-		// TODO aukeratu bat aleatoriamente listatik
 		return routeList.get(0);
 	}
 
@@ -205,9 +200,6 @@ public class FlightCreator implements Runnable {
 		Flight flight = null;
 		Date date = selectDate(plane);
 		if (date != null) {
-			if(mode == DEPARTURE){
-				// TODO date.
-			}
 			flight = createFlight(route, plane, date, mode);
 			HibernateGeneric.saveObject(flight);
 		}
@@ -267,11 +259,11 @@ public class FlightCreator implements Runnable {
 		HibernateGeneric.saveObject(planestatus);
 
 		PlaneMovement planeMovement = new PlaneMovement();
-		planeMovement.setDirectionX(Math.random() * 40);
-		planeMovement.setDirectionY(Math.random() * 40);
-		planeMovement.setPositionX(Math.random() * 40);
-		planeMovement.setPositionY(Math.random() * 40);
-		planeMovement.setSpeed(Math.random() * 40);
+		planeMovement.setDirectionX(INITIALIZER_0);
+		planeMovement.setDirectionY(INITIALIZER_0);
+		planeMovement.setPositionX(INITIALIZER_0);
+		planeMovement.setPositionY(INITIALIZER_0);
+		planeMovement.setSpeed(INITIALIZER_0);
 
 		Plane plane = new Plane();
 		plane.setFabricationDate(new Date());
@@ -291,8 +283,9 @@ public class FlightCreator implements Runnable {
 	 * @return the string
 	 */
 	private String createSerial() {
-		String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-				"S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+		String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", 
+				"L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
+				"Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 		String serial = "";
 		for (int i = 0; i < SERIAL_LENGTH; i++) {
 			int numRandom = (int) Math.round(Math.random() * (letters.length - 1));
