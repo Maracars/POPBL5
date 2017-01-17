@@ -6,7 +6,7 @@ var vectorLayer;
 var select;
 var planeId;
 var vectorSource = new ol.source.Vector({
-//	create empty vector
+// create empty vector
 });
 
 var planes = [];
@@ -15,13 +15,13 @@ var overlay;
 var counter = 0;
 var steps = 1000;
 var iconStyle = {
-		anchor : [ 0.5, 46 ],
-		anchorXUnits : 'fraction',
-		anchorYUnits : 'pixels',
-		opacity : 1,
-		rotateWithView : true,
+	anchor : [ 0.5, 46 ],
+	anchorXUnits : 'fraction',
+	anchorYUnits : 'pixels',
+	opacity : 1,
+	rotateWithView : true,
 
-		src : 'rsc/img/miniplane.png'
+	src : 'rsc/img/miniplane.png'
 
 }
 
@@ -52,8 +52,8 @@ $(document).ready(
 				if (featureToUpdate === null) {
 					featureToUpdate = new ol.Feature({
 						geometry : new ol.geom.Point(ol.proj.transform([
-							data.positiony, data.positionx ], 'EPSG:4326',
-						'EPSG:3857'))
+								data.positiony, data.positionx ], 'EPSG:4326',
+								'EPSG:3857'))
 					});
 					featureToUpdate.setStyle(new ol.style.Style({
 						image : new ol.style.Icon(iconStyle)
@@ -96,8 +96,8 @@ $(document).ready(
 				var lat = beforeCoord.positionx + latStep * int
 				featureToUpdate.getGeometry().setCoordinates(
 						getPointFromLongLat(long, lat));
-				
-				if(data.id == planeId){
+
+				if (data.id == planeId) {
 					overlay.setPosition(getPointFromLongLat(long, lat));
 				}
 
@@ -152,11 +152,11 @@ $(document).ready(
 
 			function getPointFromLongLat(long, lat) {
 				return ol.proj.transform([ long, lat ], 'EPSG:4326',
-				'EPSG:3857');
+						'EPSG:3857');
 			}
 			function getOriginLongLat(long, lat) {
 				return ol.proj.transform([ long, lat ], 'EPSG:3857',
-				'EPSG:4326');
+						'EPSG:4326');
 			}
 
 			$.get("/Naranair/controller/getFlights", function(data, status) {
@@ -173,9 +173,9 @@ $(document).ready(
 					if (planes[i].planeStatus.positionStatus !== "ARRIVING") {
 						var iconFeature = new ol.Feature({
 							geometry : new ol.geom.Point(ol.proj.transform([
-								planes[i].planeMovement.positionY,
-								planes[i].planeMovement.positionX ],
-								'EPSG:4326', 'EPSG:3857'))
+									planes[i].planeMovement.positionY,
+									planes[i].planeMovement.positionX ],
+									'EPSG:4326', 'EPSG:3857'))
 						});
 						iconFeature.setStyle(new ol.style.Style({
 							image : new ol.style.Icon(iconStyle)
@@ -235,31 +235,33 @@ $(document).ready(
 						element : document.getElementById("planeInfo")
 					});
 
-					map.on("click", function(evt){
+					map.on("click", function(evt) {
 						coordinate = evt.coordinate;
 					})
 
 					map.addInteraction(select);
 
-					select.on("select", function(e){
+					select.on("select", function(e) {
 						var element = overlay.getElement();
-						if(e.target.getFeatures().getLength() > 0){
-							e.target.getFeatures().forEach(function(feature){
+						if (e.target.getFeatures().getLength() > 0) {
+							e.target.getFeatures().forEach(function(feature) {
 								planeId = feature.getId();
 							})
-							
+							var plane = getLastPlanePosition(planeId);
+
 							overlay.setPosition(coordinate);
 							map.addOverlay(overlay);
 							$(element).popover("destroy");
 							$(element).popover({
-								"placement": "top",
-								"animation": false,
-								"title" : "Titulua",
-								"html": true,
-								"content": "Hegazkiñan informaziua"
+								"placement" : "top",
+								"animation" : false,
+								"title" : plane.serial,
+								"html" : true,
+								"content" : "<div><ul><li><h4>"+ plane.model.name +"</h4></li>" +
+										"<li><h5>Long: "+plane.positiony+" & Lat: "+plane.positionx+"</h5></li></ul></div>",
 							});
 							$(element).popover("show");
-						}else{
+						} else {
 							$(element).popover("destroy");
 						}
 					});
@@ -267,8 +269,6 @@ $(document).ready(
 				});
 
 			}
-
-
 
 		});
 
@@ -278,17 +278,17 @@ function changeTerminalZoom(longitude, latitude, type) {
 		map.getView().animate(
 				{
 					center : ol.proj.fromLonLat([ parseFloat(latitude),
-						parseFloat(longitude) ]),
-						duration : 2000,
-						zoom : 16
+							parseFloat(longitude) ]),
+					duration : 2000,
+					zoom : 16
 				});
 	} else if (String(type) == "gate") {
 		map.getView().animate(
 				{
 					center : ol.proj.fromLonLat([ parseFloat(latitude),
-						parseFloat(longitude) ]),
-						duration : 2000,
-						zoom : 19
+							parseFloat(longitude) ]),
+					duration : 2000,
+					zoom : 19
 				});
 	}
 

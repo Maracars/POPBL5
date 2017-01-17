@@ -1,0 +1,14 @@
+hr {
+        margin-top: 1px !important;
+        margin-bottom: 1px !important;
+}
+ 
+.popover {
+        font-size: 0.8em !important;
+        background-color: #000 !important;
+        color: #fff !important;
+}
+ 
+.popover-content {
+        font-size: 0.8em !important;
+}
