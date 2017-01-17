@@ -1,11 +1,9 @@
 package action.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -14,7 +12,13 @@ import domain.dao.DAOAirport;
 import domain.dao.DAOGate;
 import domain.model.Gate;
 
-public class TerminalListJSONAction<sincronized> extends ActionSupport{
+public class TerminalListJSONAction<sincronized> extends ActionSupport {
+
+	private static final String TERMINAL_NAME = "terminal.name";
+
+	private static final int FREE = 2;
+
+	private static final int NODE_NAME = 1;
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,11 +30,6 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport{
 	public synchronized String execute() throws Exception {
 
 		Map<String, String[]> map = ActionContext.getContext().getParameters().toMap();
-		for (Entry<String, String[]> entry : map.entrySet()) {
-			String key = entry.getKey();
-			Object value = entry.getValue();
-			System.out.println("key:"+ key +" value: " + Arrays.toString((String[])value));
-		}
 
 		String search = map.get("search[value]")[0];
 		int orderCol = Integer.parseInt(map.get("order[0][column]")[0]);
@@ -45,7 +44,7 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport{
 
 		data = filter(data, search);
 
-		recordsFiltered = data.size();
+		recordsFiltered = DAOGate.loadAllGatesFromAirport(DAOAirport.getLocaleAirport().getId()).size();
 
 		return SUCCESS;
 	}
@@ -65,7 +64,6 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport{
 		return data;
 	}
 
-
 	public ArrayList<GateView> generateData(String search, int orderCol, String orderDir, int start, int length) {
 		List<Gate> gateList = null;
 		ArrayList<GateView> gateViews = new ArrayList<GateView>();
@@ -73,17 +71,16 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport{
 		int airportId = DAOAirport.getLocaleAirport().getId();
 		String gateState = null;
 
-
 		gateList = DAOGate.loadGatesForTable(airportId, colName, orderDir, start, length);
 
-		if(gateList != null){
-			for(Gate g : gateList){
+		if (gateList != null) {
+			for (Gate g : gateList) {
 
 				String terminalName = g.getTerminal().getName();
 				String gateName = g.getPositionNode().getName();
-				if(g.isFree()){
+				if (g.isFree()) {
 					gateState = "Free";
-				}else{
+				} else {
 					gateState = "Occupied";
 				}
 
@@ -94,24 +91,55 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport{
 		return gateViews;
 	}
 
-
-	public String getOrderColumnName(int orderCol){
+	public String getOrderColumnName(int orderCol) {
 		String colName = null;
-		switch(orderCol){
+		switch (orderCol) {
 		case 0:
-			colName = "terminal.name";
+			colName = TERMINAL_NAME;
 			break;
-		case 1:
+		case NODE_NAME:
 			colName = "positionNode.name";
 			break;
-		case 2:
+		case FREE:
 			colName = "free";
 			break;
 		default:
-			colName = "terminal.name";
+			colName = TERMINAL_NAME;
 			break;
 		}
 		return colName;
+	}
+
+	public Integer getDraw() {
+		return draw;
+	}
+
+	public void setDraw(Integer draw) {
+		this.draw = draw;
+	}
+
+	public Integer getRecordsTotal() {
+		return recordsTotal;
+	}
+
+	public void setRecordsTotal(Integer recordsTotal) {
+		this.recordsTotal = recordsTotal;
+	}
+
+	public Integer getRecordsFiltered() {
+		return recordsFiltered;
+	}
+
+	public void setRecordsFiltered(Integer recordsFiltered) {
+		this.recordsFiltered = recordsFiltered;
+	}
+
+	public List<GateView> getData() {
+		return data;
+	}
+
+	public void setData(List<GateView> data) {
+		this.data = data;
 	}
 
 	public class GateView {
@@ -150,38 +178,5 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport{
 		}
 
 	}
-
-	public Integer getDraw() {
-		return draw;
-	}
-
-	public void setDraw(Integer draw) {
-		this.draw = draw;
-	}
-
-	public Integer getRecordsTotal() {
-		return recordsTotal;
-	}
-
-	public void setRecordsTotal(Integer recordsTotal) {
-		this.recordsTotal = recordsTotal;
-	}
-
-	public Integer getRecordsFiltered() {
-		return recordsFiltered;
-	}
-
-	public void setRecordsFiltered(Integer recordsFiltered) {
-		this.recordsFiltered = recordsFiltered;
-	}
-
-	public List<GateView> getData() {
-		return data;
-	}
-
-	public void setData(List<GateView> data) {
-		this.data = data;
-	}
-
 
 }

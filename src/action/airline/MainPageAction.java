@@ -17,7 +17,6 @@ public class MainPageAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		String ret = SUCCESS;
 		List<Flight> flightList = DAOFlight.loadOneWeekFlights();
 		if (flightList != null) {
 			data = generateData(flightList);
@@ -41,10 +40,19 @@ public class MainPageAction extends ActionSupport {
 		}
 		return data;
 	}
-	
-	//Function for test
-	public FlightView newFlightView(String planeName, String flightId, String routeName, String expectedDepartureDate, String expectedArrivalDate){
+
+	// Function for test
+	public FlightView newFlightView(String planeName, String flightId, String routeName, String expectedDepartureDate,
+			String expectedArrivalDate) {
 		return new FlightView(planeName, flightId, routeName, expectedDepartureDate, expectedArrivalDate);
+	}
+
+	public List<FlightView> getData() {
+		return data;
+	}
+
+	public void setData(List<FlightView> data) {
+		this.data = data;
 	}
 
 	public class FlightView {
@@ -102,14 +110,6 @@ public class MainPageAction extends ActionSupport {
 		public void setExpectedArrivalDate(String expectedArrivalDate) {
 			this.expectedArrivalDate = expectedArrivalDate;
 		}
-	}
-
-	public List<FlightView> getData() {
-		return data;
-	}
-
-	public void setData(List<FlightView> data) {
-		this.data = data;
 	}
 
 }

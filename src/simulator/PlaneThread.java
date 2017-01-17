@@ -99,24 +99,6 @@ public abstract class PlaneThread implements Runnable {
 	}
 
 	/**
-	 * Checks if is mode.
-	 *
-	 * @return true, if is mode
-	 */
-	public boolean getMode() {
-		return mode;
-	}
-
-	/**
-	 * Gets the flight.
-	 *
-	 * @return the flight
-	 */
-	public Flight getFlight() {
-		return flight;
-	}
-
-	/**
 	 * Move in lane.
 	 *
 	 * @param laneWhereMove
@@ -222,5 +204,23 @@ public abstract class PlaneThread implements Runnable {
 
 	public void setRouteOfPaths(LinkedList<Path> routeOfPaths) {
 		this.routeOfPaths = routeOfPaths;
+	}
+
+	/**
+	 * Checks if is mode.
+	 *
+	 * @return true, if is mode
+	 */
+	public boolean getMode() {
+		return mode;
+	}
+
+	/**
+	 * Gets the flight.
+	 *
+	 * @return the flight
+	 */
+	public Flight getFlight() {
+		return flight;
 	}
 }

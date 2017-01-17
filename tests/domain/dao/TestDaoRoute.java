@@ -14,6 +14,8 @@ import domain.model.Terminal;
 
 public class TestDaoRoute {
 
+	private static final String ERROR_GET_LIST_OF_ROUTES_OF_AIRPORT_BY_AIRPORTID = 
+			"ERROR GET LIST OF ROUTES OF AIRPORT BY AIRPORTID";
 	private static final String ERROR_LOAD = "Error load all routes from database";
 	private static final String INSERT_ERROR = "Error insert route into database";
 	private static final String REMOVE_ERROR = "Error removing one route from database";
@@ -70,7 +72,8 @@ public class TestDaoRoute {
 
 		Route actualRoute = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
 
-		assertEquals(expectedRoute.getId(), actualRoute.getId());
+		assertEquals(ERROR_GET_LIST_OF_ROUTES_OF_AIRPORT_BY_AIRPORTID, 
+				expectedRoute.getId(), actualRoute.getId());
 
 	}
 

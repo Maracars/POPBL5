@@ -19,6 +19,8 @@ import hibernate.HibernateConnection;
  */
 public class DAOFlight {
 
+	private static final String UNCHECKED = "unchecked";
+
 	/** The Constant PARAMETER_AIRLINE_USERNAME. */
 	private static final String PARAMETER_AIRLINE_USERNAME = "airlineUsername";
 
@@ -48,8 +50,8 @@ public class DAOFlight {
 
 	private static final String PARAMETER_PLANE_ID = "planeId";
 
-	private static final String LOAD_AIRPLANE_FLIGHT_HOURS = "select sum(abs(extract(epoch from f.expectedArrivalDate - f.expectedDepartureDate)/3600)) from Flight as f join f.plane where f.plane.id = :"
-			+ PARAMETER_PLANE_ID;
+	private static final String LOAD_AIRPLANE_FLIGHT_HOURS = "select sum(abs(extract(epoch from f.expectedArrivalDate - f.expectedDepartureDate)/3600)) "
+			+ "from Flight as f join f.plane where f.plane.id = :" + PARAMETER_PLANE_ID;
 
 	/** The session. */
 	private static Session session;
@@ -57,12 +59,12 @@ public class DAOFlight {
 	/**
 	 * Sets the null airline flights.
 	 *
-
+	 * 
 	 * @param airlineUsername
 	 *            the airline username
 	 * @return true, if successful
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static boolean setNullAirlineFlights(String airlineUsername) {
 		Boolean result = true;
 		List<Flight> planeList = new ArrayList<>();
@@ -96,7 +98,7 @@ public class DAOFlight {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static List<Flight> loadFlightsForTable(String orderCol, String orderDir, int start, int length) {
 		List<Flight> flightList = null;
 		try {
@@ -116,7 +118,6 @@ public class DAOFlight {
 
 		return flightList;
 	}
-
 
 	public static List<FlightView> loadFlightsOfAirlineByRoute(String airlineUser) {
 		List<FlightView> flightViewList = new ArrayList<>();
@@ -146,9 +147,10 @@ public class DAOFlight {
 
 	/**
 	 * Sets the null passenger flights.
+	 * 
 	 * @return true, if successful
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static boolean setNullPassengerFlights(String passengerUsername) {
 		Boolean result = true;
 		List<Flight> flightList = new ArrayList<>();
@@ -187,7 +189,7 @@ public class DAOFlight {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static List<Flight> loadOneWeekFlights() {
 		List<Flight> flightList = null;
 		try {
@@ -205,7 +207,7 @@ public class DAOFlight {
 		return flightList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static int loadDayFlightsArriveOnTime() {
 		List<Flight> flightList = null;
 		try {
@@ -221,7 +223,7 @@ public class DAOFlight {
 		return flightList.size();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static int loadDayFlightsDepartureOnTime() {
 		List<Flight> flightList = null;
 		try {
@@ -237,7 +239,7 @@ public class DAOFlight {
 		return flightList.size();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static int loadDayFlightsArriveOnNotTime() {
 		List<Flight> flightList = null;
 		try {
@@ -253,7 +255,7 @@ public class DAOFlight {
 		return flightList.size();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static int loadDayFlightsDepartureOnNotTime() {
 		List<Flight> flightList = null;
 		try {
@@ -270,7 +272,7 @@ public class DAOFlight {
 	}
 
 	public static long loadPlaneFlightHours(int planeId) {
-		
+
 		long flightHours = 0;
 		try {
 			session = HibernateConnection.getSession();

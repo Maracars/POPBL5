@@ -1,11 +1,9 @@
 package action.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -15,9 +13,21 @@ import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 
 public class FlightListJSONAction<sincronized> extends ActionSupport {
+	private static final int DEPARTURE_AIRPORT = 1;
+
+	private static final int ARRIVAL_AIRPORT = 2;
+
+	private static final int EXPECTED_ARRIVAL_DATA = 3;
+
+	private static final int EXPECTED_DEPARTURE_DATA = 4;
+
+	private static final String PLANE_STRING = "plane";
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0;
+	private Integer draw = 0;
+	private Integer recordsTotal = 1;
+	private Integer recordsFiltered = 0;
 	private List<AirplaneView> data = new ArrayList<AirplaneView>();
 	String error = null;
 
@@ -25,11 +35,6 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	public synchronized String execute() throws Exception {
 
 		Map<String, String[]> map = ActionContext.getContext().getParameters().toMap();
-		for (Entry<String, String[]> entry : map.entrySet()) {
-			String key = entry.getKey();
-			Object value = entry.getValue();
-			System.out.println("key:"+ key +" value: " + Arrays.toString((String[])value));
-		}
 
 		String search = map.get("search[value]")[0];
 		int orderCol = Integer.parseInt(map.get("order[0][column]")[0]);
@@ -50,24 +55,23 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	}
 
 	private List<AirplaneView> filter(List<AirplaneView> data, String search) {
-		search = search.toLowerCase();
+		String searchToLower = search.toLowerCase();
 		for (Iterator<AirplaneView> fIt = data.iterator(); fIt.hasNext();) {
 			AirplaneView fv = fIt.next();
-			if (fv.getAirplane().toLowerCase().contains(search))
+			if (fv.getAirplane().toLowerCase().contains(searchToLower))
 				continue;
-			if (fv.getOrigin().toLowerCase().contains(search))
+			if (fv.getOrigin().toLowerCase().contains(searchToLower))
 				continue;
-			if (fv.getDestination().toLowerCase().contains(search))
+			if (fv.getDestination().toLowerCase().contains(searchToLower))
 				continue;
-			if (fv.getExpectedArrivalDate().toLowerCase().contains(search))
+			if (fv.getExpectedArrivalDate().toLowerCase().contains(searchToLower))
 				continue;
-			if (fv.getExpectedDepartureDate().toLowerCase().contains(search))
+			if (fv.getExpectedDepartureDate().toLowerCase().contains(searchToLower))
 				continue;
 			fIt.remove();
 		}
 		return data;
 	}
-
 
 	public ArrayList<AirplaneView> generateData(String search, int orderCol, String orderDir, int start, int length) {
 		List<Flight> flightList = null;
@@ -76,9 +80,9 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 
 		flightList = DAOFlight.loadFlightsForTable(colName, orderDir, start, length);
 
-		if(flightList != null){
+		if (flightList != null) {
 
-			for(Flight f : flightList){
+			for (Flight f : flightList) {
 				String airplane = f.getPlane().getSerial();
 				String origin = f.getRoute().getDepartureTerminal().getAirport().getName();
 				String destination = f.getRoute().getArrivalTerminal().getAirport().getName();
@@ -91,30 +95,61 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		return flightViews;
 	}
 
-
-	public String getOrderColumnName(int orderCol){
+	public String getOrderColumnName(int orderCol) {
 		String colName = null;
-		switch(orderCol){
+		switch (orderCol) {
 		case 0:
-			colName = "plane";
+			colName = PLANE_STRING;
 			break;
-		case 1:
+		case DEPARTURE_AIRPORT:
 			colName = "route.departureTerminal.airport";
 			break;
-		case 2:
+		case ARRIVAL_AIRPORT:
 			colName = "route.arrivalTerminal.airport";
 			break;
-		case 3:
+		case EXPECTED_ARRIVAL_DATA:
 			colName = "expectedArrivalDate";
 			break;
-		case 4:
+		case EXPECTED_DEPARTURE_DATA:
 			colName = "expectedDepartureDate";
 			break;
 		default:
-			colName = "plane";
+			colName = PLANE_STRING;
 			break;
 		}
 		return colName;
+	}
+
+	public Integer getDraw() {
+		return draw;
+	}
+
+	public void setDraw(Integer draw) {
+		this.draw = draw;
+	}
+
+	public Integer getRecordsTotal() {
+		return recordsTotal;
+	}
+
+	public void setRecordsTotal(Integer recordsTotal) {
+		this.recordsTotal = recordsTotal;
+	}
+
+	public Integer getRecordsFiltered() {
+		return recordsFiltered;
+	}
+
+	public void setRecordsFiltered(Integer recordsFiltered) {
+		this.recordsFiltered = recordsFiltered;
+	}
+
+	public List<AirplaneView> getData() {
+		return data;
+	}
+
+	public void setData(List<AirplaneView> data) {
+		this.data = data;
 	}
 
 	public class AirplaneView {
@@ -124,7 +159,8 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		String expectedArrivalDate;
 		String expectedDepartureDate;
 
-		public AirplaneView(String airplane, String origin, String destination, String expectedArrivalDate, String expectedDepartureDate) {
+		public AirplaneView(String airplane, String origin, String destination, String expectedArrivalDate,
+				String expectedDepartureDate) {
 			this.airplane = airplane;
 			this.origin = origin;
 			this.destination = destination;
@@ -172,38 +208,6 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 			this.expectedDepartureDate = expectedDepartureDate;
 		}
 
-	}
-
-	public Integer getDraw() {
-		return draw;
-	}
-
-	public void setDraw(Integer draw) {
-		this.draw = draw;
-	}
-
-	public Integer getRecordsTotal() {
-		return recordsTotal;
-	}
-
-	public void setRecordsTotal(Integer recordsTotal) {
-		this.recordsTotal = recordsTotal;
-	}
-
-	public Integer getRecordsFiltered() {
-		return recordsFiltered;
-	}
-
-	public void setRecordsFiltered(Integer recordsFiltered) {
-		this.recordsFiltered = recordsFiltered;
-	}
-
-	public List<AirplaneView> getData() {
-		return data;
-	}
-
-	public void setData(List<AirplaneView> data) {
-		this.data = data;
 	}
 
 }

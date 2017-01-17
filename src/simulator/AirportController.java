@@ -36,22 +36,13 @@ public class AirportController implements Runnable {
 	/** The active plane list. */
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
 
-	private static List<Path> pathList;
+	private static List<Path> pathList = new ArrayList<>();
 
 	/** The airport. */
 	private Airport airport;
 
 	/** The mutex. */
 	public Semaphore mutex;
-
-	/**
-	 * Gets the mutex.
-	 *
-	 * @return the mutex
-	 */
-	public Semaphore getMutex() {
-		return mutex;
-	}
 
 	/**
 	 * Instantiates a new airport controller.
@@ -68,7 +59,6 @@ public class AirportController implements Runnable {
 		AirportController.pathList = pathList;
 	}
 
-
 	@Override
 	public void run() {
 		while (!Thread.interrupted()) {
@@ -84,8 +74,7 @@ public class AirportController implements Runnable {
 				if (allocateLaneIfFree(plane)) {
 					activePlaneList.remove(plane);
 					Notification.sendNotification(MD5.encrypt(ADMIN),
-							"Controller gives one PERMISSION to plane "
-									+ plane.getPlane().getSerial());
+							"Controller gives one PERMISSION to plane " + plane.getPlane().getSerial());
 					plane.givePermission();
 				}
 
@@ -206,24 +195,19 @@ public class AirportController implements Runnable {
 		Node destination;
 
 		if (mode == Dijkstra.ARRIVAL_MODE) {
-			System.out.println("Dijkstra " + landLane.getEndNode() + "  " + flight.getEndGate().getPositionNode());
 			source = landLane.getStartNode();
 			destination = flight.getEndGate().getPositionNode();
 
 		} else {
-			System.out.println(
-					"Dijkstra FROM" + flight.getStartGate().getPositionNode() + " TO " + landLane.getStartNode());
+
 			source = flight.getStartGate().getPositionNode();
 			destination = landLane.getEndNode();
 
 		}
 
 		Dijkstra dijkstra = new Dijkstra(paths);
-		System.out.println("start dijkstra");
 		dijkstra.execute(source);
-		System.out.println("finish dijkstra");
 		LinkedList<Path> pathList = dijkstra.getPath(destination);
-		System.out.println("dijkstra returns " + pathList);
 
 		return pathList;
 	}
@@ -233,6 +217,15 @@ public class AirportController implements Runnable {
 	 */
 	public void interrupt() {
 		Thread.currentThread().interrupt();
+	}
+
+	/**
+	 * Gets the mutex.
+	 *
+	 * @return the mutex
+	 */
+	public Semaphore getMutex() {
+		return mutex;
 	}
 
 }

@@ -15,6 +15,7 @@ import domain.model.Flight;
 
 public class TestPieChartAction {
 
+	private static final String _0 = "0";
 	private static final String JSON_DATA_EMPTY_ERROR = "Error, JSON data is not empty";
 	private static final String JSON_DATA_NOT_OK_ERROR = "JSON data was not parsed OK";
 	private static final int JSON_DATA_EMPTY_LENGTH = 4;
@@ -41,13 +42,13 @@ public class TestPieChartAction {
 
 		PieChartAction pcAc = new PieChartAction();
 
-		FlightView fv = pcAc.newFlightView("Arrival On Time", "0");
+		FlightView fv = pcAc.newFlightView("Arrival On Time", _0);
 		lFv.add(fv);
-		fv = pcAc.newFlightView("Departure On Time", "0");
+		fv = pcAc.newFlightView("Departure On Time", _0);
 		lFv.add(fv);
-		fv = pcAc.newFlightView("Arrival Delay", "0");
+		fv = pcAc.newFlightView("Arrival Delay", _0);
 		lFv.add(fv);
-		fv = pcAc.newFlightView("Departure Delay", "0");
+		fv = pcAc.newFlightView("Departure Delay", _0);
 		lFv.add(fv);
 
 		try {

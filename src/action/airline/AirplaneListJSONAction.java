@@ -1,11 +1,9 @@
 package action.airline;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -26,11 +24,6 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 	public synchronized String execute() throws Exception {
 
 		Map<String, String[]> map = ActionContext.getContext().getParameters().toMap();
-		for (Entry<String, String[]> entry : map.entrySet()) {
-			String key = entry.getKey();
-			Object value = entry.getValue();
-			System.out.println("key:"+ key +" value: " + Arrays.toString((String[])value));
-		}
 
 		String search = map.get("search[value]")[0];
 		int orderCol = Integer.parseInt(map.get("order[0][column]")[0]);
@@ -45,12 +38,12 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 
 		data = generateData(airlineId, search, orderCol, orderDir, start, length);
 
-		if(DAOPlane.loadAllAirplanesFromAirline(airlineId) != null){
+		if (DAOPlane.loadAllAirplanesFromAirline(airlineId) != null) {
 			recordsTotal = DAOPlane.loadAllAirplanesFromAirline(airlineId).size();
 
 			data = filter(data, search);
 
-			recordsFiltered = data.size();
+			recordsFiltered = DAOPlane.loadAllAirplanesFromAirline(airlineId).size();
 		}
 		return SUCCESS;
 	}
@@ -70,18 +63,18 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 		return data;
 	}
 
-
-	public ArrayList<AirplaneView> generateData(int airlineId, String search, int orderCol, String orderDir, int start, int length) {
+	public ArrayList<AirplaneView> generateData(int airlineId, String search, int orderCol, String orderDir, int start,
+			int length) {
 		List<Plane> planeList = null;
 		ArrayList<AirplaneView> planeViews = new ArrayList<AirplaneView>();
 		String colName = getOrderColumnName(orderCol);
 
 		planeList = DAOPlane.loadAirplanesForTable(airlineId, colName, orderDir, start, length);
 
-		if(planeList != null){
+		if (planeList != null) {
 
-			for(int i = 0; i < planeList.size(); i++){
-				if(planeList.get(i) instanceof Plane){
+			for (int i = 0; i < planeList.size(); i++) {
+				if (planeList.get(i) instanceof Plane) {
 					String serial = planeList.get(i).getSerial();
 					String technicalStatus = planeList.get(i).getPlaneStatus().getTechnicalStatus();
 					String positionStatus = planeList.get(i).getPlaneStatus().getPositionStatus();
@@ -94,10 +87,9 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 		return planeViews;
 	}
 
-
-	public String getOrderColumnName(int orderCol){
+	public String getOrderColumnName(int orderCol) {
 		String colName = null;
-		switch(orderCol){
+		switch (orderCol) {
 		case 0:
 			colName = "serial";
 			break;
@@ -182,6 +174,5 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 	public void setData(List<AirplaneView> data) {
 		this.data = data;
 	}
-
 
 }

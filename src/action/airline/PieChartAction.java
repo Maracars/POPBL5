@@ -5,24 +5,31 @@ import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import action.airline.PieChartAction.FlightView;
 import domain.dao.DAOFlight;
 
 public class PieChartAction extends ActionSupport {
+
+	private static final int FORTH_VALUE = 3;
+
+	private static final int THIRD_VALUE = 2;
+
+	private static final int SECOND_VALUE = 1;
+
+	private static final int VALUE_NUMBER = 4;
 
 	private static final long serialVersionUID = 1L;
 
 	List<FlightView> data;
 	String[] texts = { "Arrival On Time", "Departure On Time", "Arrival Delay", "Departure Delay" };
-	int[] values = new int[4];
+	int[] values = new int[VALUE_NUMBER];
 
 	@Override
 	public String execute() throws Exception {
 
 		values[0] = DAOFlight.loadDayFlightsArriveOnTime();
-		values[1] = DAOFlight.loadDayFlightsDepartureOnTime();
-		values[2] = DAOFlight.loadDayFlightsArriveOnNotTime();
-		values[3] = DAOFlight.loadDayFlightsDepartureOnNotTime();
+		values[SECOND_VALUE] = DAOFlight.loadDayFlightsDepartureOnTime();
+		values[THIRD_VALUE] = DAOFlight.loadDayFlightsArriveOnNotTime();
+		values[FORTH_VALUE] = DAOFlight.loadDayFlightsDepartureOnNotTime();
 
 		data = generateData();
 		return SUCCESS;
@@ -37,6 +44,18 @@ public class PieChartAction extends ActionSupport {
 
 		return flightViewList;
 
+	}
+
+	public List<FlightView> getData() {
+		return data;
+	}
+
+	public void setData(List<FlightView> data) {
+		this.data = data;
+	}
+
+	public FlightView newFlightView(String string, String string2) {
+		return new FlightView(string, string2);
 	}
 
 	public class FlightView {
@@ -64,18 +83,6 @@ public class PieChartAction extends ActionSupport {
 			this.quantity = quantity;
 		}
 
-	}
-
-	public List<FlightView> getData() {
-		return data;
-	}
-
-	public void setData(List<FlightView> data) {
-		this.data = data;
-	}
-
-	public FlightView newFlightView(String string, String string2) {
-		return new FlightView(string, string2);
 	}
 
 }

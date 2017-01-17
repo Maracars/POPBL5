@@ -28,6 +28,8 @@ import domain.model.users.User;
  */
 public class UserListJSONAction<sincronized> extends ActionSupport {
 
+	private static final String BLANKSPACE = " ";
+
 	private static final String STRING_ASC = "asc";
 
 	private static final String STRING_DESC = "desc";
@@ -104,31 +106,24 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 		switch (orderCol) {
 		case 1:
 			if (orderDir.equals(STRING_ASC))
-				data.sort((UserView uv1, UserView uv2) 
-						-> uv1.getType().compareToIgnoreCase(uv2.getType()));
+				data.sort((UserView uv1, UserView uv2) -> uv1.getType().compareToIgnoreCase(uv2.getType()));
 			if (orderDir.equals(STRING_DESC))
-				data.sort((UserView uv1, UserView uv2) 
-						-> -uv1.getType().compareToIgnoreCase(uv2.getType()));
+				data.sort((UserView uv1, UserView uv2) -> -uv1.getType().compareToIgnoreCase(uv2.getType()));
 			break;
 		case 2:
 			if (orderDir.equals(STRING_ASC))
-				data.sort((UserView uv1, UserView uv2) 
-						-> uv1.getUsername().compareToIgnoreCase(uv2.getUsername()));
+				data.sort((UserView uv1, UserView uv2) -> uv1.getUsername().compareToIgnoreCase(uv2.getUsername()));
 			if (orderDir.equals(STRING_DESC))
-				data.sort((UserView uv1, UserView uv2) 
-						-> -uv1.getUsername().compareTo(uv2.getUsername()));
+				data.sort((UserView uv1, UserView uv2) -> -uv1.getUsername().compareTo(uv2.getUsername()));
 			break;
 		case 3:
 			if (orderDir.equals(STRING_ASC))
-				data.sort((UserView uv1, UserView uv2) 
-						-> uv1.getName().compareToIgnoreCase(uv2.getName()));
+				data.sort((UserView uv1, UserView uv2) -> uv1.getName().compareToIgnoreCase(uv2.getName()));
 			if (orderDir.equals(STRING_DESC))
-				data.sort((UserView uv1, UserView uv2) 
-						-> -uv1.getName().compareToIgnoreCase(uv2.getName()));
+				data.sort((UserView uv1, UserView uv2) -> -uv1.getName().compareToIgnoreCase(uv2.getName()));
 			break;
 		default:
-			data.sort((UserView uv1, UserView uv2) 
-					-> uv1.getType().compareToIgnoreCase(uv2.getType()));
+			data.sort((UserView uv1, UserView uv2) -> uv1.getType().compareToIgnoreCase(uv2.getType()));
 			break;
 		}
 		return data;
@@ -153,13 +148,13 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 			if (user instanceof Airline)
 				name = ((Airline) user).getName();
 			if (user instanceof Passenger)
-				name = ((Passenger) user).getName() + " " + ((Passenger) user).getSecondName();
+				name = ((Passenger) user).getName() + BLANKSPACE + ((Passenger) user).getSecondName();
 			if (user instanceof Mantainance)
-				name = ((Mantainance) user).getName() + " " + ((Mantainance) user).getSecondName();
+				name = ((Mantainance) user).getName() + BLANKSPACE + ((Mantainance) user).getSecondName();
 			if (user instanceof Controller)
-				name = ((Controller) user).getName() + " " + ((Controller) user).getSecondName();
+				name = ((Controller) user).getName() + BLANKSPACE + ((Controller) user).getSecondName();
 			if (user instanceof Admin)
-				name = ((Admin) user).getName() + " " + ((Admin) user).getSecondName();
+				name = ((Admin) user).getName() + BLANKSPACE + ((Admin) user).getSecondName();
 
 			usrs.add(new UserView(username, name, type));
 
@@ -185,95 +180,6 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	 */
 	public void setData(List<UserView> data) {
 		this.data = data;
-	}
-
-	/**
-	 * The Class UserView.
-	 */
-	public class UserView {
-
-		/** The type. */
-		String type;
-
-		/** The username. */
-		String username;
-
-		/** The name. */
-		String name;
-
-		/**
-		 * Instantiates a new user view.
-		 *
-		 * @param username
-		 *            the username
-		 * @param name
-		 *            the name
-		 * @param type
-		 *            the type
-		 */
-		public UserView(String username, String name, String type) {
-			this.username = username;
-			this.name = name;
-			this.type = type;
-		}
-
-		/**
-		 * Gets the type.
-		 *
-		 * @return the type
-		 */
-		public String getType() {
-			return type;
-		}
-
-		/**
-		 * Sets the type.
-		 *
-		 * @param type
-		 *            the new type
-		 */
-		public void setType(String type) {
-			this.type = type;
-		}
-
-		/**
-		 * Gets the username.
-		 *
-		 * @return the username
-		 */
-		public String getUsername() {
-			return username;
-		}
-
-		/**
-		 * Sets the username.
-		 *
-		 * @param username
-		 *            the new username
-		 */
-		public void setUsername(String username) {
-			this.username = username;
-		}
-
-		/**
-		 * Gets the name.
-		 *
-		 * @return the name
-		 */
-		public String getName() {
-			return name;
-		}
-
-		/**
-		 * Sets the name.
-		 *
-		 * @param name
-		 *            the new name
-		 */
-		public void setName(String name) {
-			this.name = name;
-		}
-
 	}
 
 	/**
@@ -369,6 +275,95 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	 */
 	public void setStart(Integer start) {
 		this.start = start;
+	}
+
+	/**
+	 * The Class UserView.
+	 */
+	public class UserView {
+
+		/** The type. */
+		String type;
+
+		/** The username. */
+		String username;
+
+		/** The name. */
+		String name;
+
+		/**
+		 * Instantiates a new user view.
+		 *
+		 * @param username
+		 *            the username
+		 * @param name
+		 *            the name
+		 * @param type
+		 *            the type
+		 */
+		public UserView(String username, String name, String type) {
+			this.username = username;
+			this.name = name;
+			this.type = type;
+		}
+
+		/**
+		 * Gets the type.
+		 *
+		 * @return the type
+		 */
+		public String getType() {
+			return type;
+		}
+
+		/**
+		 * Sets the type.
+		 *
+		 * @param type
+		 *            the new type
+		 */
+		public void setType(String type) {
+			this.type = type;
+		}
+
+		/**
+		 * Gets the username.
+		 *
+		 * @return the username
+		 */
+		public String getUsername() {
+			return username;
+		}
+
+		/**
+		 * Sets the username.
+		 *
+		 * @param username
+		 *            the new username
+		 */
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		/**
+		 * Gets the name.
+		 *
+		 * @return the name
+		 */
+		public String getName() {
+			return name;
+		}
+
+		/**
+		 * Sets the name.
+		 *
+		 * @param name
+		 *            the new name
+		 */
+		public void setName(String name) {
+			this.name = name;
+		}
+
 	}
 
 }

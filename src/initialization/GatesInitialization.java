@@ -416,7 +416,6 @@ public class GatesInitialization implements ServletContextListener {
 		pathList = new ArrayList<Path>();
 		Path path = null;
 
-		// int[] array =
 		// Arrays.asList(HEATHROW_LANES_NODES[2]).stream().mapToInt(Integer::parseInt).toArray();
 		for (Integer i = 1; i <= 106; i++) {
 			path = getPath(i.toString());

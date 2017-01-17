@@ -225,7 +225,7 @@ public class DAOPlane {
 		return objectList;
 	}
 
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings(UNCHECKED)
 	public static List<Plane> loadAllAirplanesFromAirline(int airlineId) {
 		List<Object[]> objectList = null;
 		List<Plane> planeList = new ArrayList<Plane>();
@@ -253,7 +253,7 @@ public class DAOPlane {
 		return planeList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static List<Plane> loadAirplanesForTable(int airlineId, String orderCol, String orderDir, int start,
 			int length) {
 		List<Object[]> objectList = null;
@@ -283,7 +283,7 @@ public class DAOPlane {
 		return planeList;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static Plane loadAirplaneWithSerial(int airlineId, String serial) {
 		Plane plane = null;
 		List<Object[]> objectList = null;

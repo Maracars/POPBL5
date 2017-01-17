@@ -92,7 +92,6 @@ public class FlightCreator implements Runnable {
 		this.controller = ac;
 	}
 
-	
 	@Override
 	public void run() {
 		threadPool = Executors.newFixedThreadPool(MAX_ACTIVE_PLANES);
@@ -123,18 +122,14 @@ public class FlightCreator implements Runnable {
 			if ((plane = DAOPlane.getFreePlane()) == null) {
 				plane = createPlane();
 			}
-			System.out.println("aaa");
 			flight = assignRouteInSpecificTime(route, plane, ARRIVAL);
 
 			if (flight != null) {
-				System.out.println("bien");
 				Notification.sendNotification(MD5.encrypt(ADMIN), "ARRIVING flight created. " + "Plane "
 						+ plane.getSerial() + " ArrivalDate:" + flight.getExpectedArrivalDate());
-				System.out.println("ups");
 			}
 
 			route = DAORoute.selectDepartureRouteFromAirport(airport.getId());
-			System.out.println("route:"+route);
 			flight = assignRouteInSpecificTime(route, plane, DEPARTURE);
 
 			if (flight != null) {
@@ -283,9 +278,8 @@ public class FlightCreator implements Runnable {
 	 * @return the string
 	 */
 	private String createSerial() {
-		String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", 
-				"L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
-				"Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+		String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+				"S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 		String serial = "";
 		for (int i = 0; i < SERIAL_LENGTH; i++) {
 			int numRandom = (int) Math.round(Math.random() * (letters.length - 1));
@@ -320,7 +314,7 @@ public class FlightCreator implements Runnable {
 	 * Interrupt.
 	 */
 	public void interrupt() {
-		Thread.currentThread().interrupt();			
+		Thread.currentThread().interrupt();
 	}
 
 }
