@@ -166,8 +166,8 @@ $(document).ready(
 					if (planes[i].planeStatus.positionStatus !== "ARRIVING") {
 						var iconFeature = new ol.Feature({
 							geometry : new ol.geom.Point(ol.proj.transform([
-									planes[i].planeMovement.positionX,
-									planes[i].planeMovement.positionY ],
+									planes[i].planeMovement.positionY,
+									planes[i].planeMovement.positionX ],
 									'EPSG:4326', 'EPSG:3857'))
 						});
 						iconFeature.setStyle(new ol.style.Style({
@@ -201,8 +201,7 @@ $(document).ready(
 							}) ],
 							view : new ol.View({
 								center : ol.proj.fromLonLat(centerPos),
-								zoom : 14,
-								minZoom : 14
+								zoom : 14
 							})
 						})
 					} else {
@@ -213,8 +212,7 @@ $(document).ready(
 							}), vectorLayer ],
 							view : new ol.View({
 								center : ol.proj.fromLonLat(centerPos),
-								zoom : 14,
-								minZoom : 14
+								zoom : 14
 							})
 						})
 					}

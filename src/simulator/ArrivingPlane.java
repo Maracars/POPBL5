@@ -61,7 +61,6 @@ public class ArrivingPlane extends PlaneThread {
 
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
-			moveToAirport();
 			try {
 				semControllerPermision.acquire();
 				waitingThread.interrupt();
@@ -72,19 +71,19 @@ public class ArrivingPlane extends PlaneThread {
 				e.printStackTrace();
 			}
 		}
-		
+		moveToAirport();
 		goToDestine();
 		landPlane();
 		// set plane status OnAirport eta NeedRevision
 	}
 
 	private void moveToAirport() {
-		if(lane.getStartNode().getName().equals("A")){
+		if(lane.getStartNode().getName().equals("B")){
 			plane.getPlaneMovement().setPositionX(51.478920);
-			plane.getPlaneMovement().setPositionX(-0.417926);
+			plane.getPlaneMovement().setPositionY(-0.417926);
 		}else{
 			plane.getPlaneMovement().setPositionX(51.465125);
-			plane.getPlaneMovement().setPositionX(-0.497062);
+			plane.getPlaneMovement().setPositionY(-0.497062);
 		}
 		plane.getPlaneMovement().setSpeed(LAND_SPEED);
 		HibernateGeneric.updateObject(plane);
@@ -115,7 +114,7 @@ public class ArrivingPlane extends PlaneThread {
 		double posx = flight.getRoute().getDepartureTerminal().getAirport().getPositionNode().getPositionX();
 		double posy = flight.getRoute().getDepartureTerminal().getAirport().getPositionNode().getPositionY();
 		plane.getPlaneMovement().setPositionX(posx);
-		plane.getPlaneMovement().setPositionX(posy);
+		plane.getPlaneMovement().setPositionY(posy);
 		plane.getPlaneMovement().setSpeed(FLIGHT_SPEED);
 		HibernateGeneric.updateObject(plane);
 		
