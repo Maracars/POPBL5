@@ -77,14 +77,14 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	 * @return the list
 	 */
 	private List<UserView> filter(List<UserView> data, String search) {
-		search = search.toLowerCase();
+		String searchToLower =  search.toLowerCase();
 		for (Iterator<UserView> uIt = data.iterator(); uIt.hasNext();) {
 			UserView uv = uIt.next();
-			if (uv.getName().toLowerCase().contains(search))
+			if (uv.getName().toLowerCase().contains(searchToLower))
 				continue;
-			if (uv.getUsername().toLowerCase().contains(search))
+			if (uv.getUsername().toLowerCase().contains(searchToLower))
 				continue;
-			if (uv.getType().toLowerCase().contains(search))
+			if (uv.getType().toLowerCase().contains(searchToLower))
 				continue;
 			uIt.remove();
 		}

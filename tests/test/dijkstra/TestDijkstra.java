@@ -56,10 +56,6 @@ public class TestDijkstra {
 		assertNotNull(PATH_EXISTS, paths);
 		assertTrue(GOT_MORE_THAN_A_POSIBLE_PATH, paths.size() > 0);
 
-		for (Path path1 : paths) {
-			System.out.println(path1);
-		}
-
 	}
 
 	@Test

@@ -17,7 +17,7 @@
 				"columns" : [ {
 					"data" : "serial",
 					"render" : function(data, type, full, meta){
-						return '<div><a id="planeSerial" href="airplaneMoreInfo/'+data+'">'+data+'</a></div>';
+						return "<div><a id='planeSerial' href='airplaneMoreInfo/"+data+"'>"+data+"</a></div>";
 					}
 				}, {
 					"data" : "technicalStatus"

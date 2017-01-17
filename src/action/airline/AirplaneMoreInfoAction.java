@@ -15,6 +15,8 @@ import domain.model.users.User;
 
 public class AirplaneMoreInfoAction extends ActionSupport {
 
+	private static final int TEN = 10;
+
 	private static final String AIRLINE_PLANE_NOT_FOUND = "airline.planeNotFound";
 
 	private static final String AIRLINE_SERIAL_BLANK = "airline.serialBlank";
@@ -65,7 +67,7 @@ public class AirplaneMoreInfoAction extends ActionSupport {
 	public List<FlightView> generateData(String planeName, long flightHours) {
 		List<FlightView> flightViewList = new ArrayList<FlightView>();
 		Random random = new Random();
-		long maxFlightHours = random.nextInt(10);
+		long maxFlightHours = random.nextInt(TEN);
 		flightViewList.add(new FlightView(planeName, String.valueOf(flightHours)));
 		flightViewList.add(new FlightView("Max Hours", String.valueOf(maxFlightHours)));
 		return flightViewList;

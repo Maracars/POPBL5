@@ -23,7 +23,7 @@ public abstract class PlaneThread implements Runnable {
 	private static final boolean FREE = true;
 
 	/** The Constant ARRIVING. */
-	protected final boolean ARRIVING = true;
+	protected static final boolean ARRIVING = true;
 
 	/** The Constant DEPARTURING. */
 	protected static final boolean DEPARTURING = false;

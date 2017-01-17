@@ -15,7 +15,9 @@ import domain.model.PlaneStatus;
 import domain.model.users.Airline;
 import domain.model.users.User;
 
-public class CreateAirplaneSubmitAction extends ActionSupport{
+public class CreateAirplaneSubmitAction extends ActionSupport {
+
+	private static final double _0_0 = 0.0;
 
 	private static final String POSITION_STATUS = "LANDED";
 
@@ -42,19 +44,19 @@ public class CreateAirplaneSubmitAction extends ActionSupport{
 	@Override
 	public String execute() {
 
-		if(planeModel.getId() == null){
+		if (planeModel.getId() == null) {
 
 			HibernateGeneric.saveObject(planeMaker);
 			planeModel.setPlaneMaker(planeMaker);
 
-		}else{
+		} else {
 			plane.setModel(planeModel);
 		}
 
-		if(planeMaker.getId() == null){
+		if (planeMaker.getId() == null) {
 			HibernateGeneric.saveObject(planeModel);
 			plane.setModel(planeModel);
-		}else{
+		} else {
 			plane.getModel().setPlaneMaker(planeMaker);
 		}
 
@@ -67,11 +69,11 @@ public class CreateAirplaneSubmitAction extends ActionSupport{
 		plane.setPlaneStatus(planeStatus);
 
 		PlaneMovement planeMovement = new PlaneMovement();
-		planeMovement.setDirectionX(0.0);
-		planeMovement.setDirectionY(0.0);
-		planeMovement.setPositionX(0.0);
-		planeMovement.setPositionY(0.0);
-		planeMovement.setSpeed(0.0);
+		planeMovement.setDirectionX(_0_0);
+		planeMovement.setDirectionY(_0_0);
+		planeMovement.setPositionX(_0_0);
+		planeMovement.setPositionY(_0_0);
+		planeMovement.setSpeed(_0_0);
 		plane.setPlaneMovement(planeMovement);
 
 		User user = (User) ActionContext.getContext().getSession().get("user");
@@ -87,11 +89,11 @@ public class CreateAirplaneSubmitAction extends ActionSupport{
 		listPlaneModel = HibernateGeneric.loadAllObjects(new PlaneModel());
 		listPlaneMaker = HibernateGeneric.loadAllObjects(new PlaneMaker());
 
-		if(plane.getSerial() == null || plane.getSerial().isEmpty())
+		if (plane.getSerial() == null || plane.getSerial().isEmpty())
 			addFieldError(SERIAL_NAME, getText(SERIAL_NAME_BLANK));
-		if((planeModel.getName() == null || planeModel.getName().isEmpty()) && planeModel.getId() == null)
+		if ((planeModel.getName() == null || planeModel.getName().isEmpty()) && planeModel.getId() == null)
 			addFieldError(MODEL_NAME, getText(MODEL_NAME_BLANK));
-		if((planeMaker.getName() == null || planeMaker.getName().isEmpty()) && planeMaker.getId() == null)
+		if ((planeMaker.getName() == null || planeMaker.getName().isEmpty()) && planeMaker.getId() == null)
 			addFieldError(MAKER_NAME, getText(MAKER_NAME_BLANK));
 	}
 

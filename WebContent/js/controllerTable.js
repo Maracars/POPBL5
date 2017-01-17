@@ -16,13 +16,13 @@ function loadLanesTable(numLi, totalNumLi){
 			}
 		});
 		$(this).addClass("active");
-	})
+	});
 
 	if($.fn.dataTable.isDataTable("#lanestable")){
-		table = $('#lanestable').DataTable();
+		table = $("#lanestable").DataTable();
 	}else{
 
-		table = $('#lanestable').dataTable({
+		table = $("#lanestable").dataTable({
 			"processing" : true,
 			"serverSide" : true,
 			"ajax" : {

@@ -11,30 +11,28 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
 /**
- * The Class PGSocketIONotify.
- * Class that encapsulates a socketIO server
+ * The Class PGSocketIONotify. Class that encapsulates a socketIO server
  */
 public class PGSocketIONotify implements Runnable {
-	
+
 	/** The Constant LOCALHOST. */
 	private static final String LOCALHOST = "localhost";
-	
+
 	/** The Constant SPLITTER. */
 	private static final String SPLITTER = ">";
 
-
 	/** The Constant LOOP_TIME. */
 	private static final int LOOP_TIME = 500;
-	
+
 	/** The Constant PORT_NMBER. */
 	private static final int PORT_NMBER = 9092;
-	
+
 	/** The pg conn. */
 	private PGConnection pgConn;
-	
+
 	/** The conf. */
 	private static Configuration conf;
-	
+
 	/** The server. */
 	private static SocketIOServer server;
 
@@ -60,10 +58,14 @@ public class PGSocketIONotify implements Runnable {
 	/**
 	 * Instantiates a new PG socket IO notify.
 	 *
-	 * @param conn the conn
-	 * @param listenToArray the listen to array
-	 * @throws SQLException the SQL exception
-	 * @throws InterruptedException the interrupted exception
+	 * @param conn
+	 *            the conn
+	 * @param listenToArray
+	 *            the listen to array
+	 * @throws SQLException
+	 *             the SQL exception
+	 * @throws InterruptedException
+	 *             the interrupted exception
 	 */
 	public PGSocketIONotify(Connection conn, String[] listenToArray) throws SQLException, InterruptedException {
 
@@ -78,9 +80,6 @@ public class PGSocketIONotify implements Runnable {
 		listenStatement.close();
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
 	@Override
 	public void run() {
 
@@ -95,7 +94,6 @@ public class PGSocketIONotify implements Runnable {
 						// PGk JSON bat bidaltzen dau, hori gero javascripten
 						// tratauko da
 						String[] tableInfo = pgNotification.getParameter().split(SPLITTER);
-						System.out.println(tableInfo[1]);
 						server.getBroadcastOperations().sendEvent("chatevent", tableInfo[1]);
 
 					}
@@ -109,17 +107,17 @@ public class PGSocketIONotify implements Runnable {
 			}
 		}
 	}
-	
+
 	/**
 	 * Send notification.
 	 *
-	 * @param receivingGroup the receiving group
-	 * @param message the message
+	 * @param receivingGroup
+	 *            the receiving group
+	 * @param message
+	 *            the message
 	 */
 	public static void sendNotification(String receivingGroup, String message) {
 		server.getBroadcastOperations().sendEvent(receivingGroup, message);
 	}
-
-
 
 }

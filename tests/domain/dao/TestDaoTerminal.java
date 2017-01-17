@@ -1,11 +1,7 @@
 package domain.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-
-import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.model.Airport;

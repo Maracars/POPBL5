@@ -2,7 +2,6 @@ package domain.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.Date;
 
@@ -16,7 +15,6 @@ import domain.model.PlaneModel;
 import domain.model.PlaneMovement;
 import domain.model.PlaneStatus;
 import domain.model.users.Airline;
-import domain.model.users.User;
 
 public class TestDaoPlane {
 

@@ -50,14 +50,14 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport {
 	}
 
 	private List<GateView> filter(List<GateView> data, String search) {
-		search = search.toLowerCase();
+		String searchToLower = search.toLowerCase();
 		for (Iterator<GateView> gIt = data.iterator(); gIt.hasNext();) {
 			GateView gv = gIt.next();
-			if (gv.getTerminalName().toLowerCase().contains(search))
+			if (gv.getTerminalName().toLowerCase().contains(searchToLower))
 				continue;
-			if (gv.getGateName().toLowerCase().contains(search))
+			if (gv.getGateName().toLowerCase().contains(searchToLower))
 				continue;
-			if (gv.getGateState().toLowerCase().contains(search))
+			if (gv.getGateState().toLowerCase().contains(searchToLower))
 				continue;
 			gIt.remove();
 		}

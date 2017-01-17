@@ -24,26 +24,6 @@ public class Route {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	Terminal arrivalTerminal;
 
-	/**
-	 * Sets the arrival terminal.
-	 *
-	 * @param arrivalTerminal
-	 *            the new arrival terminal
-	 */
-	public void setArrivalTerminal(Terminal arrivalTerminal) {
-		this.arrivalTerminal = arrivalTerminal;
-	}
-
-	/**
-	 * Sets the departure terminal.
-	 *
-	 * @param departureTerminal
-	 *            the new departure terminal
-	 */
-	public void setDepartureTerminal(Terminal departureTerminal) {
-		this.departureTerminal = departureTerminal;
-	}
-
 	/** The departure gate. */
 	@ManyToOne(optional = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -84,6 +64,26 @@ public class Route {
 	 */
 	public Terminal getDepartureTerminal() {
 		return departureTerminal;
+	}
+
+	/**
+	 * Sets the arrival terminal.
+	 *
+	 * @param arrivalTerminal
+	 *            the new arrival terminal
+	 */
+	public void setArrivalTerminal(Terminal arrivalTerminal) {
+		this.arrivalTerminal = arrivalTerminal;
+	}
+
+	/**
+	 * Sets the departure terminal.
+	 *
+	 * @param departureTerminal
+	 *            the new departure terminal
+	 */
+	public void setDepartureTerminal(Terminal departureTerminal) {
+		this.departureTerminal = departureTerminal;
 	}
 
 }

@@ -14,6 +14,12 @@ import domain.model.users.User;
 
 public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 
+	private static final String SERIAL = "serial";
+
+	private static final int TECHNICAL_STATUS = 1;
+
+	private static final int POSITION_STATUS = 2;
+
 	private static final long serialVersionUID = 1L;
 
 	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0;
@@ -49,14 +55,14 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 	}
 
 	private List<AirplaneView> filter(List<AirplaneView> data, String search) {
-		search = search.toLowerCase();
+		String searchToLower = search.toLowerCase();
 		for (Iterator<AirplaneView> pIt = data.iterator(); pIt.hasNext();) {
 			AirplaneView pv = pIt.next();
-			if (pv.getSerial().toLowerCase().contains(search))
+			if (pv.getSerial().toLowerCase().contains(searchToLower))
 				continue;
-			if (pv.getTechnicalStatus().toLowerCase().contains(search))
+			if (pv.getTechnicalStatus().toLowerCase().contains(searchToLower))
 				continue;
-			if (pv.getPositionStatus().toLowerCase().contains(search))
+			if (pv.getPositionStatus().toLowerCase().contains(searchToLower))
 				continue;
 			pIt.remove();
 		}
@@ -91,19 +97,51 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 		String colName = null;
 		switch (orderCol) {
 		case 0:
-			colName = "serial";
+			colName = SERIAL;
 			break;
-		case 1:
+		case TECHNICAL_STATUS:
 			colName = "status.technicalStatus";
 			break;
-		case 2:
+		case POSITION_STATUS:
 			colName = "status.positionStatus";
 			break;
 		default:
-			colName = "serial";
+			colName = SERIAL;
 			break;
 		}
 		return colName;
+	}
+
+	public Integer getDraw() {
+		return draw;
+	}
+
+	public void setDraw(Integer draw) {
+		this.draw = draw;
+	}
+
+	public Integer getRecordsTotal() {
+		return recordsTotal;
+	}
+
+	public void setRecordsTotal(Integer recordsTotal) {
+		this.recordsTotal = recordsTotal;
+	}
+
+	public Integer getRecordsFiltered() {
+		return recordsFiltered;
+	}
+
+	public void setRecordsFiltered(Integer recordsFiltered) {
+		this.recordsFiltered = recordsFiltered;
+	}
+
+	public List<AirplaneView> getData() {
+		return data;
+	}
+
+	public void setData(List<AirplaneView> data) {
+		this.data = data;
 	}
 
 	public class AirplaneView {
@@ -141,38 +179,6 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 			this.positionStatus = positionStatus;
 		}
 
-	}
-
-	public Integer getDraw() {
-		return draw;
-	}
-
-	public void setDraw(Integer draw) {
-		this.draw = draw;
-	}
-
-	public Integer getRecordsTotal() {
-		return recordsTotal;
-	}
-
-	public void setRecordsTotal(Integer recordsTotal) {
-		this.recordsTotal = recordsTotal;
-	}
-
-	public Integer getRecordsFiltered() {
-		return recordsFiltered;
-	}
-
-	public void setRecordsFiltered(Integer recordsFiltered) {
-		this.recordsFiltered = recordsFiltered;
-	}
-
-	public List<AirplaneView> getData() {
-		return data;
-	}
-
-	public void setData(List<AirplaneView> data) {
-		this.data = data;
 	}
 
 }

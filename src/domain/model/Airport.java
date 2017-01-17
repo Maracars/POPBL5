@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Airport {
-	
+
 	/** The id. */
 	@Id
 	@GeneratedValue
@@ -23,22 +23,13 @@ public class Airport {
 
 	/** The max flights. */
 	Integer maxFlights;
-	
+
 	/** The locale. */
 	boolean locale;
-	
+
 	/** The position node. */
 	@OneToOne
 	Node positionNode;
-
-	/**
-	 * Sets the locale.
-	 *
-	 * @param locale the new locale
-	 */
-	public void setLocale(boolean locale) {
-		this.locale = locale;
-	}
 
 	/** The address. */
 	@ManyToOne(optional = false)
@@ -56,7 +47,8 @@ public class Airport {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -74,7 +66,8 @@ public class Airport {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -92,7 +85,8 @@ public class Airport {
 	/**
 	 * Sets the max flights.
 	 *
-	 * @param maxFlights the new max flights
+	 * @param maxFlights
+	 *            the new max flights
 	 */
 	public void setMaxFlights(Integer maxFlights) {
 		this.maxFlights = maxFlights;
@@ -110,7 +104,8 @@ public class Airport {
 	/**
 	 * Sets the address.
 	 *
-	 * @param address the new address
+	 * @param address
+	 *            the new address
 	 */
 	public void setAddress(Address address) {
 		this.address = address;
@@ -128,10 +123,21 @@ public class Airport {
 	/**
 	 * Sets the position node.
 	 *
-	 * @param positionNode the new position node
+	 * @param positionNode
+	 *            the new position node
 	 */
 	public void setPositionNode(Node positionNode) {
 		this.positionNode = positionNode;
+	}
+
+	/**
+	 * Sets the locale.
+	 *
+	 * @param locale
+	 *            the new locale
+	 */
+	public void setLocale(boolean locale) {
+		this.locale = locale;
 	}
 
 }

@@ -50,6 +50,14 @@ public class RouteStatsAction extends ActionSupport {
 
 	}
 
+	public List<FlightView> getData() {
+		return data;
+	}
+
+	public void setData(List<FlightView> data) {
+		this.data = data;
+	}
+
 	public class FlightView {
 		String name;
 		String quantity;
@@ -75,14 +83,6 @@ public class RouteStatsAction extends ActionSupport {
 			this.quantity = quantity;
 		}
 
-	}
-
-	public List<FlightView> getData() {
-		return data;
-	}
-
-	public void setData(List<FlightView> data) {
-		this.data = data;
 	}
 
 }

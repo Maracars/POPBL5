@@ -16,14 +16,14 @@ var counter = 0;
 var steps = 1000;
 var iconStyle = {
 	anchor : [ 0.5, 46 ],
-	anchorXUnits : 'fraction',
-	anchorYUnits : 'pixels',
+	anchorXUnits : "fraction",
+	anchorYUnits : "pixels",
 	opacity : 1,
 	rotateWithView : true,
 
-	src : 'rsc/img/miniplane.png'
+	src : "rsc/img/miniplane.png"
 
-}
+};
 
 $(document).ready(
 		function() {
@@ -31,7 +31,6 @@ $(document).ready(
 			socket.on("chatevent", function(jsonData) {
 				var data = JSON.parse(jsonData);
 				var pending;
-				console.log(data);
 				pending = checksNextPendingMoveOfPlane(data.id);
 				data.moveId = counter++;
 				pendingMoves.push(data);
@@ -52,8 +51,8 @@ $(document).ready(
 				if (featureToUpdate === null) {
 					featureToUpdate = new ol.Feature({
 						geometry : new ol.geom.Point(ol.proj.transform([
-								data.positiony, data.positionx ], 'EPSG:4326',
-								'EPSG:3857'))
+								data.positiony, data.positionx ], "EPSG:4326",
+								"EPSG:3857"))
 					});
 					featureToUpdate.setStyle(new ol.style.Style({
 						image : new ol.style.Icon(iconStyle)
@@ -93,7 +92,7 @@ $(document).ready(
 			function f(int, featureToUpdate, latStep, longStep, beforeCoord,
 					data, time) {
 				var long = beforeCoord.positiony + longStep * int;
-				var lat = beforeCoord.positionx + latStep * int
+				var lat = beforeCoord.positionx + latStep * int;
 				featureToUpdate.getGeometry().setCoordinates(
 						getPointFromLongLat(long, lat));
 
@@ -151,12 +150,12 @@ $(document).ready(
 			}
 
 			function getPointFromLongLat(long, lat) {
-				return ol.proj.transform([ long, lat ], 'EPSG:4326',
-						'EPSG:3857');
+				return ol.proj.transform([ long, lat ], "EPSG:4326",
+						"EPSG:3857");
 			}
 			function getOriginLongLat(long, lat) {
-				return ol.proj.transform([ long, lat ], 'EPSG:3857',
-						'EPSG:4326');
+				return ol.proj.transform([ long, lat ], "EPSG:3857",
+						"EPSG:4326");
 			}
 
 			$.get("/Naranair/controller/getFlights", function(data, status) {
@@ -175,7 +174,7 @@ $(document).ready(
 							geometry : new ol.geom.Point(ol.proj.transform([
 									planes[i].planeMovement.positionY,
 									planes[i].planeMovement.positionX ],
-									'EPSG:4326', 'EPSG:3857'))
+									"EPSG:4326", "EPSG:3857"))
 						});
 						iconFeature.setStyle(new ol.style.Style({
 							image : new ol.style.Icon(iconStyle)
@@ -185,7 +184,6 @@ $(document).ready(
 					}
 
 				}
-				console.log(planes);
 
 				// add the feature vector to the layer
 				// vector, and apply a style
@@ -201,10 +199,10 @@ $(document).ready(
 
 				var coordinate;
 
-				$('#map').ready(function() {
-					if (vectorLayer === undefined || planes.length === 0) {
+				$("#map").ready(function() {
+					if (typeof vectorLayer === "undefined" || planes.length === 0) {
 						map = new ol.Map({
-							target : 'map',
+							target : "map",
 							layers : [ new ol.layer.Tile({
 								source : new ol.source.OSM()
 							}) ],
@@ -212,10 +210,10 @@ $(document).ready(
 								center : ol.proj.fromLonLat(centerPos),
 								zoom : 14
 							})
-						})
+						});
 					} else {
 						map = new ol.Map({
-							target : 'map',
+							target : "map",
 							layers : [ new ol.layer.Tile({
 								source : new ol.source.OSM()
 							}), vectorLayer ],
@@ -223,7 +221,7 @@ $(document).ready(
 								center : ol.proj.fromLonLat(centerPos),
 								zoom : 14
 							})
-						})
+						});
 					}
 
 					select = new ol.interaction.Select({
