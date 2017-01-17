@@ -29,6 +29,14 @@ public abstract class PlaneThread implements Runnable {
 	/** The Constant DEPARTURING. */
 	protected static final boolean DEPARTURING = false;
 
+	public static final Double FLIGHT_SPEED = 500.0;
+
+	public static final Double CONSTANT_TIME  = 1000000.0;
+	
+	public static final Double LAND_SPEED = 300.0;
+	
+	public static final Double LANE_SPEED = 100.0;
+
 	/** The plane. */
 	protected Plane plane;
 
@@ -72,8 +80,14 @@ public abstract class PlaneThread implements Runnable {
 		momentLane = routeOfPaths.get(0).getLaneList().get(0);
 		plane.getPlaneMovement().setPositionX(momentLane.getStartNode().getPositionX());
 		plane.getPlaneMovement().setPositionY(momentLane.getStartNode().getPositionY());
+		plane.getPlaneMovement().setSpeed(LAND_SPEED);
 		HibernateGeneric.updateObject(plane);
-		// moveInLane(momentLane);
+		try {
+			Thread.sleep((long) (CONSTANT_TIME / LAND_SPEED));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Landed");
 		System.out.println("Lista de pistas: " + routeOfPaths);
 
@@ -168,11 +182,13 @@ System.out.println("kk");
 			plane.getPlaneMovement().setPositionX(firstLane.getStartNode().getPositionX());
 			plane.getPlaneMovement().setPositionY(firstLane.getStartNode().getPositionY());
 		}
+		
+		plane.getPlaneMovement().setSpeed(LANE_SPEED);
 
 		HibernateGeneric.updateObject(plane);
 
 		try {
-			Thread.sleep(1000);
+			Thread.sleep((long) (CONSTANT_TIME / LANE_SPEED));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

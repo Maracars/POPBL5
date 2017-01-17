@@ -55,16 +55,17 @@ public class ArrivingPlane extends PlaneThread {
 			e1.printStackTrace();
 		}
 		System.out.println("Sartu de");
-		moveToAirport();
+		startPlane();
 		Notification.sendNotification(MD5.encrypt(ADMIN),
 				"Plane " + plane.getSerial() + " ASK PERMISSION TO ARRIVE");
 
 		if (!controller.askPermission(this)) {
 			Thread waitingThread = new Thread(new MovePlaneInCircles(plane));
-			//run??
+			moveToAirport();
 			try {
 				semControllerPermision.acquire();
 				waitingThread.interrupt();
+				
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 				System.out.println("Interrupted plane");
@@ -75,6 +76,26 @@ public class ArrivingPlane extends PlaneThread {
 		goToDestine();
 		landPlane();
 		// set plane status OnAirport eta NeedRevision
+	}
+
+	private void moveToAirport() {
+		if(lane.getStartNode().getName().equals("A")){
+			plane.getPlaneMovement().setPositionX(51.478920);
+			plane.getPlaneMovement().setPositionX(-0.417926);
+		}else{
+			plane.getPlaneMovement().setPositionX(51.465125);
+			plane.getPlaneMovement().setPositionX(-0.497062);
+		}
+		plane.getPlaneMovement().setSpeed(LAND_SPEED);
+		HibernateGeneric.updateObject(plane);
+		
+		try {
+			Thread.sleep((long) (CONSTANT_TIME / LAND_SPEED));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -88,20 +109,22 @@ public class ArrivingPlane extends PlaneThread {
 	}
 
 	/**
-	 * Move to airport.
+	 * Init the position of the plane
 	 */
-	private void moveToAirport() {
-		/*try {
-			controller.getMutex().acquire();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
-		}*/
-		plane.getPlaneMovement().setPositionX(INITIAL_POSX);
-		plane.getPlaneMovement().setPositionY(INITIAL_POSY);
+	private void startPlane() {
+		double posx = flight.getRoute().getDepartureTerminal().getAirport().getPositionNode().getPositionX();
+		double posy = flight.getRoute().getDepartureTerminal().getAirport().getPositionNode().getPositionY();
+		plane.getPlaneMovement().setPositionX(posx);
+		plane.getPlaneMovement().setPositionX(posy);
+		plane.getPlaneMovement().setSpeed(FLIGHT_SPEED);
 		HibernateGeneric.updateObject(plane);
-		//controller.getMutex().release();
-
+		
+		try {
+			Thread.sleep((long) (CONSTANT_TIME / FLIGHT_SPEED));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

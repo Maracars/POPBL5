@@ -36,6 +36,10 @@ import simulator.MainThread;
  */
 public class GatesInitialization implements ServletContextListener {
 
+	private static final double CARACAS_POSY = -66.817;
+
+	private static final double CARACAS_POSX = 10.288;
+
 	/** The Constant NODE_POSITION_Y. */
 	private static final double NODE_POSITION_Y = -0.461389;
 
@@ -435,7 +439,12 @@ public class GatesInitialization implements ServletContextListener {
 		// HibernateGeneric.saveObject(departureTerminal);
 
 		Address address = Initializer.initAddress();
-		Airport arrivalAirport = Initializer.initAirport(address, nodeList.get(0));
+		Node node = new Node();
+		node.setName("Node OUT");
+		node.setPositionX(CARACAS_POSX);
+		node.setPositionY(CARACAS_POSY);
+		HibernateGeneric.saveObject(node);
+		Airport arrivalAirport = Initializer.initAirport(address, node);
 		arrivalAirport.setLocale(false);
 		Terminal arrivalTerminal = Initializer.initTerminal(arrivalAirport);
 

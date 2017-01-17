@@ -192,7 +192,8 @@ $(document).ready(
 							}) ],
 							view : new ol.View({
 								center : ol.proj.fromLonLat(centerPos),
-								zoom : 14
+								zoom : 14,
+								minZoom : 14
 							})
 						})
 					} else {
@@ -203,7 +204,8 @@ $(document).ready(
 							}), vectorLayer ],
 							view : new ol.View({
 								center : ol.proj.fromLonLat(centerPos),
-								zoom : 14
+								zoom : 14,
+								minZoom : 14
 							})
 						})
 					}
