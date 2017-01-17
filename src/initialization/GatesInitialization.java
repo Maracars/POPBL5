@@ -77,15 +77,18 @@ public class GatesInitialization implements ServletContextListener {
 			{ "JARRI", "JAJAXD", "17" }, { "JAJAXD", "666", "16" }, { "O", "666", "15" }, { "Q", "1", "43" },
 			{ "R", "4", "44" }, { "1", "4", "61" }, { "1", "2", "51" }, { "4", "5", "52" }, { "2", "5", "62" },
 			{ "2", "3", "57" }, { "5", "6", "58" }, { "3", "6", "63" }, { "3", "20", "59" }, { "6", "21", "60" },
+
 			{ "T", "22", "45" }, { "U", "23", "46" }, { "V", "7", "47" }, { "EZDAKIT", "10", "48" },
 			{ "7", "10", "68" }, { "7", "8", "53" }, { "10", "11", "54" }, { "10", "NARANA", "71" },
 			{ "NARANA", "NIDEA", "71" }, { "8", "11", "69" }, { "8", "9", "64" }, { "9", "12", "70" },
 			{ "11", "12", "65" }, { "9", "24", "66" }, { "12", "25", "67" }, { "JAJAXD", "13", "49" },
 			{ "666", "16", "50" }, { "13", "16", "76" }, { "13", "14", "55" }, { "16", "17", "56" },
+
 			{ "14", "17", "79" }, { "14", "15", "72" }, { "17", "18", "73" }, { "15", "18", "78" },
 			{ "15", "27", "74" }, { "18", "28", "75" }, { "20", "19", "80" }, { "20", "21", "81" },
 			{ "21", "22", "82" }, { "22", "23", "83" }, { "23", "24", "84" }, { "24", "25", "85" },
 			{ "25", "NIDEA", "86" }, { "NIDEA", "26", "87" }, { "26", "27", "88" }, { "27", "28", "89" },
+
 			{ "19", "37", "80" }, { "20", "38", "91" }, { "21", "39", "92" }, { "22", "40", "93" },
 			{ "23", "41", "94" }, { "24", "42", "95" }, { "25", "43", "96" }, { "26", "44", "97" },
 			{ "27", "45", "98" }, { "28", "46", "99" }, { "37", "38", "80" }, { "38", "39", "100" },
@@ -116,6 +119,7 @@ public class GatesInitialization implements ServletContextListener {
 
 		localeAirport = DAOAirport.getLocaleAirport();
 		if (localeAirport == null) {
+
 			initAirport();
 
 		} else {
@@ -152,6 +156,7 @@ public class GatesInitialization implements ServletContextListener {
 
 				pathList.add(path);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -181,6 +186,7 @@ public class GatesInitialization implements ServletContextListener {
 			case "39":
 				Gate gate = new Gate();
 				Random random = new Random();
+
 				gate.setTerminal(terminalList.get(random.nextInt(terminalList.size() - 1)));
 				gate.setFree(true);
 				gate.setPositionNode(node);
@@ -211,6 +217,7 @@ public class GatesInitialization implements ServletContextListener {
 	}
 
 	/**
+	 * 
 	 * Load gates JSON. Class that contains dummy functions that initializes
 	 * model objects with predefined data
 	 *
@@ -223,12 +230,15 @@ public class GatesInitialization implements ServletContextListener {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
 				URL url = getClass().getResource(AGATES_JSON_FILE);
+
 				gateList = mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>() {
 				});
 				url = getClass().getResource(BGATES_JSON_FILE);
+
 				gateList.addAll(mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>() {
 				}));
 				url = getClass().getResource(CGATES_JSON_FILE);
+
 				gateList.addAll(mapper.readValue(new File(url.getPath()), new TypeReference<List<Gate>>() {
 				}));
 				url = getClass().getResource(CGATES_JSON_FILE);
@@ -247,6 +257,7 @@ public class GatesInitialization implements ServletContextListener {
 	public List<Terminal> loadTerminalsJSON() {
 		List<Object> terminal = HibernateGeneric.loadAllObjects(new Terminal());
 		List<Terminal> terminalList = null;
+
 		if (terminal.isEmpty()) {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
@@ -347,6 +358,7 @@ public class GatesInitialization implements ServletContextListener {
 
 			lane.setStartNode(getNodeByName(laneNodes[0]));
 			lane.setEndNode(getNodeByName(laneNodes[1]));
+
 			lane.setName(laneNodes[0] + STRING_LINE + laneNodes[1]);
 			if (Arrays.asList(principalNodes).contains(laneNodes[0])) {
 				lane.setType(Lane.PRINCIPAL);
@@ -378,6 +390,7 @@ public class GatesInitialization implements ServletContextListener {
 		for (String[] heathrowNodes : HEATHROW_LANES_NODES) {
 
 			if (number.equals(heathrowNodes[2])) {
+
 				String laneName = heathrowNodes[0] + STRING_LINE + heathrowNodes[1];
 				lane = getLaneByName(laneName);
 				if (lane != null) {
@@ -386,6 +399,7 @@ public class GatesInitialization implements ServletContextListener {
 				}
 			}
 		}
+
 		if (laneList2.size() > 0) {
 			path.setLaneList(laneList2);
 		} else {
@@ -401,9 +415,12 @@ public class GatesInitialization implements ServletContextListener {
 	private void createPaths() {
 		pathList = new ArrayList<Path>();
 		Path path = null;
-		int[] array = Arrays.asList(HEATHROW_LANES_NODES[2]).stream().mapToInt(Integer::parseInt).toArray();
-		for (Integer i = 1; i <= getMaxOfArray(array); i++) {
+
+		// int[] array =
+		// Arrays.asList(HEATHROW_LANES_NODES[2]).stream().mapToInt(Integer::parseInt).toArray();
+		for (Integer i = 1; i <= 106; i++) {
 			path = getPath(i.toString());
+
 			if (path != null) {
 				pathList.add(path);
 				HibernateGeneric.saveObject(path);

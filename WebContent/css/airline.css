@@ -1,0 +1,15 @@
+
+#pieChart{
+	float:left;
+	margin-right:10px;
+	width:calc(50% - 10px);
+}
+
+#lineChart{
+	float:right;
+	width:50%;
+}
+
+#barChart{
+	width:100%;
+}

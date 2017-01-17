@@ -17,6 +17,14 @@
 	display:inline;
 }
 
+#terminalstable{
+	margin-top:20px;
+}
+
+#lanestable{
+	margin-top:20px;
+}
+
 #airportInfoFilter{
 	margin-bottom:20px;
 	margin-left:15px;

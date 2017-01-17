@@ -10,9 +10,24 @@
 <link rel='shortcut icon' type='image/png'
 	href="<s:url value="/rsc/img/favicon.png"/>" />
 
-<tiles:insertAttribute name="rsc" />
+<tiles:importAttribute name="stylesheets" ignore="true" />
+
+<sj:head />
 
 <sb:head />
+<s:if test="%{#attr.stylesheets != null}">
+	<s:iterator value="#attr.stylesheets" var="cssValue">
+		<link rel="stylesheet" type="text/css"
+			href="<s:url value="%{cssValue}"/>" />
+	</s:iterator>
+</s:if>
+
+<tiles:importAttribute name="javascripts" ignore="true" />
+<s:if test="%{#attr.javascripts != null}">
+	<s:iterator value="#attr.javascripts" var="jsValue">
+		<script type="text/javascript" src="<s:url value="%{jsValue}"/>"></script>
+	</s:iterator>
+</s:if>
 <link rel="stylesheet" type="text/css"
 	href="<s:url value="/css/font-awesome.min.css"/>" />
 <link rel="stylesheet" type="text/css"
@@ -35,8 +50,6 @@
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 
-<script type="text/javascript"
-	src="<s:url value="/js/controllerMap.js"/>"></script>
 <script src="<s:url value="/js/listener.js"/>"></script>
 <script src="<s:url value="/js/bootstrap-notify.min.js"/>"></script>
 <script src="<s:url value="/js/usernameCheck.js"/>"></script>
@@ -44,6 +57,7 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <tiles:importAttribute name="title" />
 <title>Naranair - <s:property value="%{getText(#attr.title)}" />
 </title>
@@ -51,31 +65,32 @@
 
 
 </head>
-<body onload="onLoadFunction()">
 
-	<input type="hidden" id="listenerRole" name="listenerRole"
-		value="${sessionScope.listenerRole}">
-	<input type="hidden" id="listenerUser" name="listenerUser"
-		value="${sessionScope.listenerUser}">
 
-	<div id="wrapper">
-		<nav style="margin: 0px; background-color: black; margin-bottom: 0;"
-			class="navbar navbar-default navbar-static-top">
-			<tiles:insertAttribute name="header" />
-			<tiles:insertAttribute name="sidemenu" />
-		</nav>
-		<div id="page-wrapper"
-			style="display: none; padding-top: 20px; padding-bottom: 10%;">
-			<tiles:insertAttribute name="body" />
-		</div>
+
+<input type="hidden" id="listenerRole" name="listenerRole"
+	value="${sessionScope.listenerRole}">
+<input type="hidden" id="listenerUser" name="listenerUser"
+	value="${sessionScope.listenerUser}">
+
+<div id="wrapper">
+	<nav style="margin: 0px; background-color: black; margin-bottom: 0;"
+		class="navbar navbar-default navbar-static-top">
+		<tiles:insertAttribute name="header" />
+		<tiles:insertAttribute name="sidemenu" />
+	</nav>
+	<div id="page-wrapper"
+		style="display: none; padding-top: 20px; padding-bottom: 10%;">
+		<tiles:insertAttribute name="body" />
 	</div>
+</div>
 
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#page-wrapper').fadeIn(500);
-			$('#focused').focus();
-		})
-	</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#page-wrapper').fadeIn(500);
+		$('#focused').focus();
+	})
+</script>
 
 </body>
 </html>

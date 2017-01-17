@@ -15,9 +15,15 @@ import domain.model.Terminal;
 
 public class TestDaoGate {
 
+	private static final int LENGTH = 10;
+	private static final int START = 0;
+	private static final String ORDER_COL_DIR = "asc";
+	private static final String ORDER_COL_NAME = "terminal.name";
 	private static final String ERROR_REMOVING = "Error removing one gate from database";
 	private static final String ERROR_GETTING = "Error getting all gates of a terminal from database";
 	private static final String ERROR_INSERT = "Error insert gate into database";
+	private static final String ERROR_LOAD_GATES_TABLE = "Error load gates for the table";
+	private static final String ERROR_LOAD_ALL_GATES = "Error load all gates from airport";
 
 	@Test
 	public void testInsertGateIntoDB() {
@@ -79,6 +85,23 @@ public class TestDaoGate {
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
+	@Test
+	public void testLoadGatesForTable(){
+		Gate gate = Initializer.initCompleteGate();
+		
+		HibernateGeneric.saveObject(gate);
+		
+		assertNotNull(ERROR_LOAD_GATES_TABLE, DAOGate.loadGatesForTable(gate.getTerminal().getAirport().getId(), ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
+	}
+	
+	@Test
+	public void testLoadAllGatesFromAirport(){
+		Gate gate = Initializer.initCompleteGate();
+		
+		HibernateGeneric.saveObject(gate);
+		
+		assertNotNull(ERROR_LOAD_ALL_GATES, DAOGate.loadAllGatesFromAirport(gate.getTerminal().getAirport().getId()));
+	}
 
 
 }

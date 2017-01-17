@@ -27,6 +27,7 @@ public class Path {
 	private Integer id;
 
 	/** The lane list. */
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pathId")
 	private List<Lane> laneList = new ArrayList<Lane>();
@@ -47,6 +48,7 @@ public class Path {
 	/**
 	 * Sets the distance.
 	 *
+
 	 * @param distance
 	 *            the new distance
 	 */
@@ -66,6 +68,7 @@ public class Path {
 	/**
 	 * Sets the id.
 	 *
+
 	 * @param id
 	 *            the new id
 	 */
@@ -85,6 +88,7 @@ public class Path {
 	/**
 	 * Sets the lane list.
 	 *
+
 	 * @param laneList
 	 *            the new lane list
 	 */
@@ -95,11 +99,7 @@ public class Path {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
+	
 	@Override
 	public String toString() {
 		return laneList.toString() + distance;

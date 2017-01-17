@@ -46,14 +46,13 @@
 			<result name="noPermission" type="redirectAction">index</result>
 			<result name="success" type="redirect">%{url}</result>
 			<result name="*" type="tiles">editUser</result>
-		</action>
-
-		<action name="u/{username}" class="action.user.ProfileAction">
+		</action>		<action name="u/{username}" class="action.user.ProfileAction">
 			<interceptor-ref name="validateStack">
 				<param name="validateUser.allowed">ADMIN</param>
 			</interceptor-ref>
 			<result name="noPermission" type="redirectAction">index</result>
 			<result name="*" type="tiles">profile</result>
+		
 		</action>
 
 
