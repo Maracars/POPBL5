@@ -61,8 +61,10 @@ $(document).ready(
 				beforeCoord = getLastPlanePosition(data.id);
 				latStep = (data.positionx - beforeCoord.positionx) / steps;
 				longStep = (data.positiony - beforeCoord.positiony) / steps;
+				var d = new Date();
+				var n = d.getTime();
 				simulateMovement(featureToUpdate, latStep, longStep,
-						beforeCoord, data);
+						beforeCoord, data, n);
 
 			}
 
@@ -76,28 +78,31 @@ $(document).ready(
 				return null;
 			}
 			function simulateMovement(featureToUpdate, latStep, longStep,
-					beforeCoord, data) {
+					beforeCoord, data, time) {
+				var plane = getLastPlanePosition(data.id);
+				var sleepTime = (time - plane.time) / steps;
 				for (var int = 1; int <= steps; int++) {
-					setTimeout(f, 10 * int, int, featureToUpdate, latStep,
-							longStep, beforeCoord, data);
+					setTimeout(f, sleepTime * int, int, featureToUpdate,
+							latStep, longStep, beforeCoord, data, time);
 				}
 			}
 
 			function f(int, featureToUpdate, latStep, longStep, beforeCoord,
-					data) {
+					data, time) {
 				var long = beforeCoord.positiony + longStep * int;
 				var lat = beforeCoord.positionx + latStep * int
 				featureToUpdate.getGeometry().setCoordinates(
 						getPointFromLongLat(long, lat));
 
 				featureToUpdate.getStyle().getImage().setRotation(
-						getRotation(beforeCoord.positionx,beforeCoord.positiony,data.positionx,data.positiony)
-						);
+						getRotation(beforeCoord.positionx,
+								beforeCoord.positiony, data.positionx,
+								data.positiony));
 				if (int === steps) {
 					var momentMove = checksNextPendingMoveOfPlane(data.id);
 					pendingMoves.splice(momentMove.index, 1);
 					var nextMove = checksNextPendingMoveOfPlane(data.id);
-					changePlanePosition(data.id, long, lat);
+					changePlanePosition(data.id, long, lat, time);
 					if (nextMove !== null) {
 						movePlane(nextMove);
 					}
@@ -108,16 +113,16 @@ $(document).ready(
 			function getRotation(bx, by, ax, ay) {
 				var dx = ax - bx;
 				var dy = ay - by;
-				if (dy === 0 && dx < 0){
+				if (dy === 0 && dx < 0) {
 					return Math.PI;
-				} else if (dx === 0 && dy > 0){
-					return (Math.PI)/2;
-				} else if (dx === 0 && dy < 0){
-					return 3*(Math.PI)/2;
+				} else if (dx === 0 && dy > 0) {
+					return (Math.PI) / 2;
+				} else if (dx === 0 && dy < 0) {
+					return 3 * (Math.PI) / 2;
 				}
 				return 0;
 			}
-			
+
 			function getLastPlanePosition(id) {
 
 				for (var int = 0; int < planes.length; int++) {
@@ -126,13 +131,14 @@ $(document).ready(
 					}
 				}
 			}
-			function changePlanePosition(id, posy, posx) {
+			function changePlanePosition(id, posy, posx, time) {
 
 				for (var int = 0; int < planes.length; int++) {
 					if (planes[int].id === id) {
 						planes[int].positionx = posx;
 
 						planes[int].positiony = posy;
+						planes[int].time = time;
 					}
 				}
 			}
@@ -149,10 +155,13 @@ $(document).ready(
 			$.get("/Naranair/controller/getFlights", function(data, status) {
 				var obj = jQuery.parseJSON(data);
 				planes = obj.result[0];
+				var d = new Date();
+				var n = d.getTime();
 
 				for (var i = 0; i < planes.length; i++) {
 					planes[i].positionx = planes[i].planeMovement.positionX;
 					planes[i].positiony = planes[i].planeMovement.positionY;
+					planes[i].time = n;
 
 					if (planes[i].planeStatus.positionStatus !== "ARRIVING") {
 						var iconFeature = new ol.Feature({
