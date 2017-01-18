@@ -6,7 +6,6 @@ var vectorLayer;
 var select;
 var planeId;
 var vectorSource = new ol.source.Vector({
-// create empty vector
 });
 
 var planes = [];
@@ -210,7 +209,7 @@ $(document).ready(
 								planeId = feature.getId();
 							});
 							var plane = getLastPlanePosition(planeId);
-
+							console.log(plane);
 							overlay.setPosition(coordinate);
 							map.addOverlay(overlay);
 							$(element).popover("destroy");
@@ -219,8 +218,15 @@ $(document).ready(
 								"animation" : false,
 								"title" : plane.serial,
 								"html" : true,
-								"content" : "<div><ul><li><h4>"+ plane.model.name +"</h4></li>" +
-										"<li><h5>Long: "+plane.positiony+" & Lat: "+plane.positionx+"</h5></li></ul></div>",
+								"content" : "<ul class='list-unstyled'>" +
+										"<li><b>Plane model: </b>" + plane.model.planeMaker.name + ", " + plane.model.name +
+										"</li><li><b>Lat: </b>" + plane.positiony +
+										
+										"</li><li><b>Long: </b>" + plane.positionx +
+										"</li><li><b>Position status: </b>" + plane.planeStatus.positionStatus +
+										"</li><li><b>Technical status: </b>" + plane.planeStatus.technicalStatus +
+
+										"</li></ul>",
 							});
 							$(element).popover("show");
 						} else {
