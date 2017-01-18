@@ -28,7 +28,7 @@
 				</h4>
 				<s:if test="%{!getListPlaneModel().isEmpty()}">
 					<s:select list="listPlaneModel" listKey="id" listTitle="airline.selectPlaneModel" listValue="name"
-						label="airline.selectPlaneModel" labelSeparator=":" name="planeModel.id"></s:select>
+						label="%{getText('airline.selectPlaneModel')}" labelSeparator=":" name="planeModel.id"></s:select>
 				</s:if>
 				<s:else>
 					<s:textfield labelSeparator=":" key="airline.planeModelName"
@@ -41,7 +41,7 @@
 				</h4>
 				<s:if test="%{!getListPlaneMaker().isEmpty()}">
 					<s:select list="listPlaneMaker" listKey="id" listValue="name"
-						label="airline.selectPlaneMaker" name="planeMaker.id"></s:select>
+						label="%{getText('airline.selectPlaneMaker')}" labelSeparator=":" name="planeMaker.id"></s:select>
 				</s:if>
 				<s:else>
 					<s:textfield labelSeparator=":" key="airline.planeMakerName"
