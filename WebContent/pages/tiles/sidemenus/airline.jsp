@@ -19,7 +19,7 @@
 						</span>
 					</div>
 				</s:form></li>
-			<li><s:a action="index" namespace="/airline">
+			<li><s:a action="index" namespace="/">
 					<i class="fa fa-home fa-fw"></i>
 					<s:text name="global.home" />
 				</s:a></li>

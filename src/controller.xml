@@ -6,33 +6,81 @@
 	<package name="controller" namespace="/controller" extends="default">
 
 		<action name="airport" class="action.controller.AirportInfoAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">CONTROLLER</param>
+			</interceptor-ref>
+			<result name="noPermission" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">index</param>
+			</result>
 			<result name="success" type="tiles">airportInfo</result>
 		</action>
-		
+
 		<action name="flights">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">CONTROLLER</param>
+			</interceptor-ref>
+			<result name="noPermission" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">index</param>
+			</result>
 			<result type="tiles">flightsInfo</result>
 		</action>
-		
+
 		<action name="laneAndGate">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">CONTROLLER</param>
+			</interceptor-ref>
+			<result name="noPermission" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">index</param>
+			</result>
 			<result type="tiles">termAndGateInfo</result>
 		</action>
-		
-		<action name="getFlights"  class="action.FlightInitAction">
-          <result type = "json">
-          	<param name ="root">jsonString</param>
-          
-          </result>
-        </action>
-        
-        <action name="flightListJSON" class="action.controller.FlightListJSONAction">
+
+		<action name="getFlights" class="action.FlightInitAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">CONTROLLER</param>
+			</interceptor-ref>
+			<result name="noPermission" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">index</param>
+			</result>
+			<result type="json">
+				<param name="root">jsonString</param>
+			</result>
+		</action>
+
+		<action name="flightListJSON" class="action.controller.FlightListJSONAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">CONTROLLER</param>
+			</interceptor-ref>
+			<result name="noPermission" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">index</param>
+			</result>
 			<result name="*" type="json"></result>
 		</action>
-		
-		 <action name="laneListJSON" class="action.controller.LaneListJSONAction">
+
+		<action name="laneListJSON" class="action.controller.LaneListJSONAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">CONTROLLER</param>
+			</interceptor-ref>
+			<result name="noPermission" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">index</param>
+			</result>
 			<result name="*" type="json"></result>
 		</action>
-		
+
 		<action name="terminalListJSON" class="action.controller.TerminalListJSONAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">CONTROLLER</param>
+			</interceptor-ref>
+			<result name="noPermission" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">index</param>
+			</result>
 			<result name="*" type="json"></result>
 		</action>
 
