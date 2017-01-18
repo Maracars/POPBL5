@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import domain.model.Flight;
@@ -20,6 +23,7 @@ public class TestDaoFlight {
 	private static final int FLIGHT_HOURS = 1;
 	private static final int WEEK_FLIGHTS = 1;
 	private static final int ARRIVAL_ON_TIME = 1;
+	private static final int DEPARTURE_SIZE = 1;
 	private static final int ARRIVAL_ON_NOT_TIME = 1;
 	private static final int DEPARTURE_ON_TIME = 1;
 	private static final int DEPARTURE_ON_NOT_TIME = 1;
@@ -31,7 +35,9 @@ public class TestDaoFlight {
 	private static final String REMOVE_ERROR = "Error removing one city from database";
 	private static final String ERROR_LOAD_FLIGHTS_TABLE = "Error loading flights for table";
 	private static final int HOUR_IN_MILIS = 3600000;
+	private static final String ERROR_LOAD_NEXT_DEPARTURE_FLIGHTS = "Error loading next departure flights";
 	
+
 
 	@Test
 	public void testInsertFlightWithNothingIntoDB() {
@@ -40,6 +46,7 @@ public class TestDaoFlight {
 		assertEquals(INSERT_ERROR, false, result);
 	}
 
+
 	@Test
 	public void testInsertFlightDB() {
 
@@ -47,11 +54,13 @@ public class TestDaoFlight {
 		assertEquals(INSERT_ERROR, true, result);
 	}
 
+
 	@Test
 	public void testLoadAllFlights() {
 		assertNotNull(ERROR_LOAD, HibernateGeneric.loadAllObjects(new Flight()));
 
 	}
+
 
 	@Test
 	public void testRemoveOneSpecificFlight() {
@@ -63,7 +72,7 @@ public class TestDaoFlight {
 		assertEquals(REMOVE_ERROR, true, result);
 	}
 	
-	
+
 	@Test
 	public void testLoadFlightsForTable(){
 		
@@ -73,6 +82,7 @@ public class TestDaoFlight {
 		assertNotNull(ERROR_LOAD_FLIGHTS_TABLE, DAOFlight.loadFlightsForTable(ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
 		
 	}
+	
 	
 	@Test
 	public void testLoadPlaneFlightHours(){
@@ -85,8 +95,16 @@ public class TestDaoFlight {
 		assertEquals(ERROR_LOAD_FLIGHT_HOURS, FLIGHT_HOURS, DAOFlight.loadPlaneFlightHours(flight.getPlane().getId()));
 	}
 	
+
 	@Test
 	public void testLoadOneWeekFlights(){
+		
+		List<Object> flightList = HibernateGeneric.loadAllObjects(new Flight());
+		for(Object flight : flightList){
+			((Flight) flight).setPassengerList(null);
+			HibernateGeneric.updateObject(flight);
+		}
+		
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
 		
@@ -99,8 +117,16 @@ public class TestDaoFlight {
 		assertEquals(ERROR_LOAD_FLIGHT_HOURS, WEEK_FLIGHTS, DAOFlight.loadOneWeekFlights().size());
 	}
 	
+
 	@Test
 	public void testLoadDayFlightsArriveOnTime(){
+		
+		List<Object> flightList = HibernateGeneric.loadAllObjects(new Flight());
+		for(Object flight : flightList){
+			((Flight) flight).setPassengerList(null);
+			HibernateGeneric.updateObject(flight);
+		}
+		
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
 		
@@ -113,8 +139,16 @@ public class TestDaoFlight {
 		assertEquals(ERROR_LOAD_FLIGHT_HOURS, ARRIVAL_ON_TIME, DAOFlight.loadDayFlightsArriveOnTime());
 	}
 	
+
 	@Test
 	public void testLoadDayFlightsDepartureOnTime(){
+		
+		List<Object> flightList = HibernateGeneric.loadAllObjects(new Flight());
+		for(Object flight : flightList){
+			((Flight) flight).setPassengerList(null);
+			HibernateGeneric.updateObject(flight);
+		}
+		
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
 		
@@ -129,6 +163,13 @@ public class TestDaoFlight {
 	
 	@Test
 	public void testloadDayFlightsArriveOnNotTime(){
+		
+		List<Object> flightList = HibernateGeneric.loadAllObjects(new Flight());
+		for(Object flight : flightList){
+			((Flight) flight).setPassengerList(null);
+			HibernateGeneric.updateObject(flight);
+		}
+		
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
 		
@@ -141,8 +182,16 @@ public class TestDaoFlight {
 		assertEquals(ERROR_LOAD_FLIGHT_HOURS, ARRIVAL_ON_NOT_TIME, DAOFlight.loadDayFlightsArriveOnNotTime());
 	}
 	
+
 	@Test
 	public void testloadDayFlightsDepartureOnNotTime(){
+		
+		List<Object> flightList = HibernateGeneric.loadAllObjects(new Flight());
+		for(Object flight : flightList){
+			((Flight) flight).setPassengerList(null);
+			HibernateGeneric.updateObject(flight);
+		}
+		
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
 		
@@ -153,6 +202,30 @@ public class TestDaoFlight {
 		HibernateGeneric.saveObject(flight);
 		
 		assertEquals(ERROR_LOAD_FLIGHT_HOURS, DEPARTURE_ON_NOT_TIME, DAOFlight.loadDayFlightsDepartureOnNotTime());
+	}
+	
+	@Test
+	public void testLoadNextDepartureFlights(){
+		
+		List<Object> flightList = HibernateGeneric.loadAllObjects(new Flight());
+		for(Object flight : flightList){
+			((Flight) flight).setPassengerList(null);
+			HibernateGeneric.updateObject(flight);
+		}
+		HibernateGeneric.deleteAllObjects(new Plane());
+		HibernateGeneric.deleteAllObjects(new Flight());
+		
+		Flight flight = Initializer.initCompleteFlight();
+		flight.getRoute().getDepartureTerminal().getAirport().setLocale(true);
+		HibernateGeneric.updateObject(flight.getRoute().getDepartureTerminal().getAirport());
+		flight.setRealArrivalDate(null);
+		flight.setRealDepartureDate(null);
+		flight.getRoute().getArrivalTerminal().getAirport().setLocale(false);
+		Date date = new Date();
+		flight.setExpectedDepartureDate(new Date(date.getTime() + HOUR_IN_MILIS));
+		HibernateGeneric.saveObject(flight);
+		
+		assertEquals(ERROR_LOAD_NEXT_DEPARTURE_FLIGHTS, DEPARTURE_SIZE, DAOFlight.loadNextDepartureFlights().size());
 	}
 
 }
