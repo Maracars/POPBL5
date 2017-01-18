@@ -27,94 +27,7 @@ var iconStyle = {
 
 $(document).ready(
 		function() {
-
-			socket.on("chatevent", function(jsonData) {
-				var data = JSON.parse(jsonData);
-				var pending;
-				pending = checksNextPendingMoveOfPlane(data.id);
-				data.moveId = counter++;
-				pendingMoves.push(data);
-				if (pending === null) {
-					movePlane(data);
-
-				}
-
-			});
-			function movePlane(data) {
-				var beforeCoord;
-				var latStep;
-				var longStep;
-				var featureToUpdate = null;
-
-				featureToUpdate = vectorSource.getFeatureById(data.id);
-
-				if (featureToUpdate === null) {
-					featureToUpdate = new ol.Feature({
-						geometry : new ol.geom.Point(ol.proj.transform([
-								data.positiony, data.positionx ], "EPSG:4326",
-								"EPSG:3857"))
-					});
-					featureToUpdate.setStyle(new ol.style.Style({
-						image : new ol.style.Icon(iconStyle)
-					}));
-					featureToUpdate.setId(data.id);
-					vectorSource.addFeature(featureToUpdate);
-				}
-				beforeCoord = getLastPlanePosition(data.id);
-				latStep = (data.positionx - beforeCoord.positionx) / steps;
-				longStep = (data.positiony - beforeCoord.positiony) / steps;
-				var d = new Date();
-				var n = d.getTime();
-				simulateMovement(featureToUpdate, latStep, longStep,
-						beforeCoord, data, n);
-
-			}
-
-			function checksNextPendingMoveOfPlane(id) {
-				for (var int = 0; int < pendingMoves.length; int++) {
-					if (pendingMoves[int].id === id) {
-						pendingMoves[int].index = int;
-						return pendingMoves[int];
-					}
-				}
-				return null;
-			}
-			function simulateMovement(featureToUpdate, latStep, longStep,
-					beforeCoord, data, time) {
-				var plane = getLastPlanePosition(data.id);
-				var sleepTime = (time - plane.time) / steps;
-				for (var int = 1; int <= steps; int++) {
-					setTimeout(f, sleepTime * int, int, featureToUpdate,
-							latStep, longStep, beforeCoord, data, time);
-				}
-			}
-
-			function f(int, featureToUpdate, latStep, longStep, beforeCoord,
-					data, time) {
-				var long = beforeCoord.positiony + longStep * int;
-				var lat = beforeCoord.positionx + latStep * int;
-				featureToUpdate.getGeometry().setCoordinates(
-						getPointFromLongLat(long, lat));
-
-				if (data.id == planeId) {
-					overlay.setPosition(getPointFromLongLat(long, lat));
-				}
-
-				featureToUpdate.getStyle().getImage().setRotation(
-						getRotation(beforeCoord.positionx,
-								beforeCoord.positiony, data.positionx,
-								data.positiony));
-				if (int === steps) {
-					var momentMove = checksNextPendingMoveOfPlane(data.id);
-					pendingMoves.splice(momentMove.index, 1);
-					var nextMove = checksNextPendingMoveOfPlane(data.id);
-					changePlanePosition(data.id, long, lat, time);
-					if (nextMove !== null) {
-						movePlane(nextMove);
-					}
-				}
-
-			}
+			
 
 			function getRotation(bx, by, ax, ay) {
 				var dx = ax - bx;
@@ -157,44 +70,95 @@ $(document).ready(
 				return ol.proj.transform([ long, lat ], "EPSG:3857",
 						"EPSG:4326");
 			}
+			
+			function movePlane(data) {
+				var beforeCoord;
+				var latStep;
+				var longStep;
+				var featureToUpdate = null;
 
-			$.get("/Naranair/controller/getFlights", function(data, status) {
-				var obj = jQuery.parseJSON(data);
-				planes = obj.result[0];
+				featureToUpdate = vectorSource.getFeatureById(data.id);
+
+				if (featureToUpdate === null) {
+					featureToUpdate = new ol.Feature({
+						geometry : new ol.geom.Point(ol.proj.transform([
+								data.positiony, data.positionx ], "EPSG:4326",
+								"EPSG:3857"))
+					});
+					featureToUpdate.setStyle(new ol.style.Style({
+						image : new ol.style.Icon(iconStyle)
+					}));
+					featureToUpdate.setId(data.id);
+					vectorSource.addFeature(featureToUpdate);
+				}
+				beforeCoord = getLastPlanePosition(data.id);
+				latStep = (data.positionx - beforeCoord.positionx) / steps;
+				longStep = (data.positiony - beforeCoord.positiony) / steps;
 				var d = new Date();
 				var n = d.getTime();
-
-				for (var i = 0; i < planes.length; i++) {
-					planes[i].positionx = planes[i].planeMovement.positionX;
-					planes[i].positiony = planes[i].planeMovement.positionY;
-					planes[i].time = n;
-
-					if (planes[i].planeStatus.positionStatus !== "ARRIVING") {
-						var iconFeature = new ol.Feature({
-							geometry : new ol.geom.Point(ol.proj.transform([
-									planes[i].planeMovement.positionY,
-									planes[i].planeMovement.positionX ],
-									"EPSG:4326", "EPSG:3857"))
-						});
-						iconFeature.setStyle(new ol.style.Style({
-							image : new ol.style.Icon(iconStyle)
-						}));
-						iconFeature.setId(planes[i].id);
-						vectorSource.addFeature(iconFeature);
+				simulateMovement(featureToUpdate, latStep, longStep,
+						beforeCoord, data, n);
+			}
+			function checksNextPendingMoveOfPlane(id) {
+				for (var int = 0; int < pendingMoves.length; int++) {
+					if (pendingMoves[int].id === id) {
+						pendingMoves[int].index = int;
+						return pendingMoves[int];
 					}
+				}
+				return null;
+			}
+			function f(int, featureToUpdate, latStep, longStep, beforeCoord,
+					data, time) {
+				var long = beforeCoord.positiony + longStep * int;
+				var lat = beforeCoord.positionx + latStep * int;
+				featureToUpdate.getGeometry().setCoordinates(
+						getPointFromLongLat(long, lat));
+
+				if (data.id == planeId) {
+					overlay.setPosition(getPointFromLongLat(long, lat));
+				}
+
+				featureToUpdate.getStyle().getImage().setRotation(
+						getRotation(beforeCoord.positionx,
+								beforeCoord.positiony, data.positionx,
+								data.positiony));
+				if (int === steps) {
+					var momentMove = checksNextPendingMoveOfPlane(data.id);
+					pendingMoves.splice(momentMove.index, 1);
+					var nextMove = checksNextPendingMoveOfPlane(data.id);
+					changePlanePosition(data.id, long, lat, time);
+					if (nextMove !== null) {
+						movePlane(nextMove);
+					}
+				}
+
+			}
+
+			socket.on("chatevent", function(jsonData) {
+				var data = JSON.parse(jsonData);
+				var pending;
+				pending = checksNextPendingMoveOfPlane(data.id);
+				data.moveId = counter++;
+				pendingMoves.push(data);
+				if (pending === null) {
+					movePlane(data);
 
 				}
 
-				// add the feature vector to the layer
-				// vector, and apply a style
-				// to whole layer
-				vectorLayer = new ol.layer.Vector({
-					source : vectorSource,
-				});
-				initMap();
-
-			}, "json");
-
+			});
+			
+			
+			function simulateMovement(featureToUpdate, latStep, longStep,
+					beforeCoord, data, time) {
+				var plane = getLastPlanePosition(data.id);
+				var sleepTime = (time - plane.time) / steps;
+				for (var int = 1; int <= steps; int++) {
+					setTimeout(f, sleepTime * int, int, featureToUpdate,
+							latStep, longStep, beforeCoord, data, time);
+				}
+			}
+			
 			function initMap() {
 
 				var coordinate;
@@ -235,7 +199,7 @@ $(document).ready(
 
 					map.on("click", function(evt) {
 						coordinate = evt.coordinate;
-					})
+					});
 
 					map.addInteraction(select);
 
@@ -244,7 +208,7 @@ $(document).ready(
 						if (e.target.getFeatures().getLength() > 0) {
 							e.target.getFeatures().forEach(function(feature) {
 								planeId = feature.getId();
-							})
+							});
 							var plane = getLastPlanePosition(planeId);
 
 							overlay.setPosition(coordinate);
@@ -267,6 +231,46 @@ $(document).ready(
 				});
 
 			}
+
+			
+			$.get("/Naranair/controller/getFlights", function(data, status) {
+				var obj = jQuery.parseJSON(data);
+				planes = obj.result[0];
+				var d = new Date();
+				var n = d.getTime();
+
+				for (var i = 0; i < planes.length; i++) {
+					planes[i].positionx = planes[i].planeMovement.positionX;
+					planes[i].positiony = planes[i].planeMovement.positionY;
+					planes[i].time = n;
+
+					if (planes[i].planeStatus.positionStatus !== "ARRIVING") {
+						var iconFeature = new ol.Feature({
+							geometry : new ol.geom.Point(ol.proj.transform([
+									planes[i].planeMovement.positionY,
+									planes[i].planeMovement.positionX ],
+									"EPSG:4326", "EPSG:3857"))
+						});
+						iconFeature.setStyle(new ol.style.Style({
+							image : new ol.style.Icon(iconStyle)
+						}));
+						iconFeature.setId(planes[i].id);
+						vectorSource.addFeature(iconFeature);
+					}
+
+				}
+
+				// add the feature vector to the layer
+				// vector, and apply a style
+				// to whole layer
+				vectorLayer = new ol.layer.Vector({
+					source : vectorSource,
+				});
+				initMap();
+
+			}, "json");
+
+
 
 		});
 
