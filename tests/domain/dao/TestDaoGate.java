@@ -102,6 +102,16 @@ public class TestDaoGate {
 		
 		assertNotNull(ERROR_LOAD_ALL_GATES, DAOGate.loadAllGatesFromAirport(gate.getTerminal().getAirport().getId()));
 	}
+	
+	@Test
+	public void testLoadGateFromPosition(){
+		Gate gate = Initializer.initCompleteGate();
+		
+		HibernateGeneric.saveObject(gate);
+		
+		assertNotNull(ERROR_LOAD_ALL_GATES, DAOGate.getNodeFromPosXPosY(gate.getPositionNode().getPositionX(), gate.getPositionNode().getPositionY()));
+	}
+	
 
 
 }

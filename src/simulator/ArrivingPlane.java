@@ -17,10 +17,6 @@ import notification.Notification;
 public class ArrivingPlane extends PlaneThread {
 
 	private static final int SLEEP_ARRIVING_PLANE = 1000;
-	private static final double INIT_54_Y = -0.497062;
-	private static final double INIT_54_X = 51.465125;
-	private static final double INIT_B_Y = -0.417926;
-	private static final double INIT_B_X = 51.478920;
 	private static final String STRING_PLANE = "Plane ";
 	/** The Constant ADMIN. */
 	private static final String ADMIN = new Admin().getClass().getSimpleName();
@@ -53,7 +49,6 @@ public class ArrivingPlane extends PlaneThread {
 			Thread.sleep(SLEEP_ARRIVING_PLANE);
 		} catch (InterruptedException e1) {
 			Thread.currentThread().interrupt();
-			e1.printStackTrace();
 		}
 		startPlane();
 		Notification.sendNotification(MD5.encrypt(ADMIN),
@@ -67,17 +62,15 @@ public class ArrivingPlane extends PlaneThread {
 
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				e.printStackTrace();
 			}
 		}
 		moveToAirport();
 		goToDestine();
 		landPlane();
-		// set plane status OnAirport eta NeedRevision
 	}
 
 	private void moveToAirport() {
-		if (lane.getStartNode().getName().equals("B")) {
+		if (landLane.getStartNode().getName().equals("B")) {
 			plane.getPlaneMovement().setPositionX(INIT_B_X);
 			plane.getPlaneMovement().setPositionY(INIT_B_Y);
 		} else {
@@ -90,10 +83,24 @@ public class ArrivingPlane extends PlaneThread {
 		try {
 			Thread.sleep((long) (CONSTANT_TIME / LAND_SPEED));
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
-
+		
+		momentLane = routeOfPaths.get(0).getLaneList().get(0);
+		plane.getPlaneMovement().setPositionX(momentLane.getStartNode().getPositionX());
+		plane.getPlaneMovement().setPositionY(momentLane.getStartNode().getPositionY());
+		plane.getPlaneMovement().setSpeed(LAND_SPEED);
+		HibernateGeneric.updateObject(plane);
+		
+		try {
+			Thread.sleep((long) (CONSTANT_TIME / LAND_SPEED));
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 	}
+	
+	
+	
 
 	/**
 	 * Land plane.
@@ -101,6 +108,9 @@ public class ArrivingPlane extends PlaneThread {
 	private void landPlane() {
 		Notification.sendNotification(MD5.encrypt(ADMIN), STRING_PLANE + plane.getSerial() + " LANDED");
 		activePlanes.decrementAndGet();
+		plane.getPlaneStatus().setPositionStatus("ON AIRPORT");
+		plane.getPlaneStatus().setTechnicalStatus("OK");
+		HibernateGeneric.updateObject(plane.getPlaneStatus());
 
 	}
 
@@ -118,8 +128,7 @@ public class ArrivingPlane extends PlaneThread {
 		try {
 			Thread.sleep((long) (CONSTANT_TIME / FLIGHT_SPEED));
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 	}
 

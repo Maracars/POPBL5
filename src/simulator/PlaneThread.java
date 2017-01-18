@@ -17,10 +17,10 @@ import domain.model.Plane;
 public abstract class PlaneThread implements Runnable {
 
 	/** The Constant FULL. */
-	private static final boolean FULL = false;
+	protected static final boolean FULL = false;
 
 	/** The Constant FREE. */
-	private static final boolean FREE = true;
+	protected static final boolean FREE = true;
 
 	/** The Constant ARRIVING. */
 	protected final boolean ARRIVING = true;
@@ -35,6 +35,11 @@ public abstract class PlaneThread implements Runnable {
 	public static final Double LAND_SPEED = 300.0;
 
 	public static final Double LANE_SPEED = 100.0;
+	
+	protected static final double INIT_54_Y = -0.497062;
+	protected static final double INIT_54_X = 51.464703;
+	protected static final double INIT_B_Y = -0.417926;
+	protected static final double INIT_B_X = 51.477588;
 
 	/** The plane. */
 	protected Plane plane;
@@ -46,10 +51,10 @@ public abstract class PlaneThread implements Runnable {
 	protected Semaphore semControllerPermision;
 
 	/** The moment lane. */
-	protected Lane momentLane;
+	protected Lane momentLane = null;
 
 	/** The lane. */
-	protected Lane lane;
+	protected Lane landLane;
 
 	/** The active planes. */
 	protected AtomicInteger activePlanes;
@@ -69,33 +74,42 @@ public abstract class PlaneThread implements Runnable {
 	 * Go to destination.
 	 */
 	protected void goToDestine() {
-		Lane lastLane;
-		System.out.println("Go to destine");
-		momentLane = routeOfPaths.get(0).getLaneList().get(0);
-		plane.getPlaneMovement().setPositionX(momentLane.getStartNode().getPositionX());
-		plane.getPlaneMovement().setPositionY(momentLane.getStartNode().getPositionY());
-		plane.getPlaneMovement().setSpeed(LAND_SPEED);
-		HibernateGeneric.updateObject(plane);
-		try {
-			Thread.sleep((long) (CONSTANT_TIME / LAND_SPEED));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Landed");
-		System.out.println("Lista de pistas: " + routeOfPaths);
-
+		Lane lastLane = momentLane;
 		for (int countList = 0; countList < routeOfPaths.size(); countList++) {
 			routeOfPaths.get(countList).changePathStatus(FULL);
-			for (int countLaneList = 0; countLaneList < routeOfPaths.get(countList).getLaneList()
-					.size(); countLaneList++) {
-				lastLane = momentLane;
-				momentLane = routeOfPaths.get(countList).getLaneList().get(countLaneList);
-				moveInLane(momentLane, lastLane);
-			}
+			lastLane = moveInPath(routeOfPaths.get(countList), lastLane);
 			routeOfPaths.get(countList).changePathStatus(FREE);
 
 		}
-		System.out.println("kk");
+	}
+
+	private Lane moveInPath(Path path, Lane lastLane) {
+		if (lastLane != null) {
+			Node pathStartNode = path.getLaneList().get(0).getStartNode();
+			Node pathEndNode = path.getLaneList().get(path.getLaneList().size() - 1).getEndNode();
+			if (lastLane.getEndNode().getName().equals(pathStartNode.getName())
+					|| lastLane.getStartNode().getName().equals(pathStartNode.getName())) {
+				for (int countLaneList = 0; countLaneList < path.getLaneList().size(); countLaneList++) {
+					momentLane = path.getLaneList().get(countLaneList);
+					moveInLane(momentLane, lastLane);
+					lastLane = momentLane;
+				}
+			} else if (lastLane.getEndNode().getName().equals(pathEndNode.getName())
+					|| lastLane.getStartNode().getName().equals(pathEndNode.getName())) {
+				for (int countLaneList = (path.getLaneList().size() - 1); countLaneList >= 0; countLaneList--) {
+					momentLane = path.getLaneList().get(countLaneList);
+					moveInLane(momentLane, lastLane);
+					lastLane = momentLane;
+				}
+			}
+		} else {
+			for (int countLaneList = 0; countLaneList < path.getLaneList().size(); countLaneList++) {
+				momentLane = path.getLaneList().get(countLaneList);
+				moveInLane(momentLane, lastLane);
+				lastLane = momentLane;
+			}
+		}
+		return lastLane;
 	}
 
 	/**
@@ -105,22 +119,17 @@ public abstract class PlaneThread implements Runnable {
 	 *            the lane where move
 	 * @param lastLane
 	 */
-	private void moveInLane(Lane laneWhereMove, Lane lastLane) {
+	protected void moveInLane(Lane laneWhereMove, Lane lastLane) {
 		try {
 			laneWhereMove.getSemaphore().acquire();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			System.out.println("Interrupted plane");
 			e.printStackTrace();
 		}
-		System.out.println(plane.getSerial() + " Enter to lane " + lane.getName());
-		System.out.println("2");
+
 		rotatePlane();
 		movePlaneToEndOfLane(laneWhereMove, lastLane);
-		System.out.println("3");
 		laneWhereMove.getSemaphore().release();
-		System.out.println(plane.getSerial() + " go out from lane " + lane.getName());
-		System.out.println("4");
 	}
 
 	/**
@@ -143,19 +152,11 @@ public abstract class PlaneThread implements Runnable {
 	 * Move plane to end of lane.
 	 */
 	private void movePlaneToEndOfLane(Lane firstLane, Lane lastLane) {
-		Node lastLaneEndNode = lastLane.getEndNode();
-		Node lastLaneStartNode = lastLane.getStartNode();
-		Node momentLaneEndNode = firstLane.getEndNode();
-		Node momentLaneStartNode = firstLane.getStartNode();
 
-		if (lastLaneEndNode.getName().equals(momentLaneStartNode.getName())
-				|| lastLaneStartNode.getName().equals(momentLaneStartNode.getName())) {
-			plane.getPlaneMovement().setPositionX(firstLane.getEndNode().getPositionX());
-			plane.getPlaneMovement().setPositionY(firstLane.getEndNode().getPositionY());
-		} else if (lastLaneEndNode.getName().equals(momentLaneEndNode.getName())
-				|| lastLaneStartNode.getName().equals(momentLaneStartNode.getName())) {
-			plane.getPlaneMovement().setPositionX(firstLane.getStartNode().getPositionX());
-			plane.getPlaneMovement().setPositionY(firstLane.getStartNode().getPositionY());
+		if (lastLane != null) {
+			changePlanePositionNormal(firstLane, lastLane);
+		} else {
+			changePlanePositionWithoutLastLane(firstLane);
 		}
 
 		plane.getPlaneMovement().setSpeed(LANE_SPEED);
@@ -166,6 +167,38 @@ public abstract class PlaneThread implements Runnable {
 			Thread.sleep((long) (CONSTANT_TIME / LANE_SPEED));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void changePlanePositionWithoutLastLane(Lane firstLane) {
+			if (firstLane.getStartNode().getName().equals(flight.getStartGate().getPositionNode().getName())) {
+				plane.getPlaneMovement().setPositionX(firstLane.getEndNode().getPositionX());
+				plane.getPlaneMovement().setPositionY(firstLane.getEndNode().getPositionY());
+			} else {
+				plane.getPlaneMovement().setPositionX(firstLane.getStartNode().getPositionX());
+				plane.getPlaneMovement().setPositionY(firstLane.getStartNode().getPositionY());
+			}
+	}
+
+	private void changePlanePositionNormal(Lane firstLane, Lane lastLane) {
+		Node lastLaneEndNode;
+		Node lastLaneStartNode;
+		Node momentLaneEndNode;
+		Node momentLaneStartNode;
+
+		lastLaneEndNode = lastLane.getEndNode();
+		lastLaneStartNode = lastLane.getStartNode();
+		momentLaneEndNode = firstLane.getEndNode();
+		momentLaneStartNode = firstLane.getStartNode();
+
+		if (lastLaneEndNode.getName().equals(momentLaneStartNode.getName())
+				|| lastLaneStartNode.getName().equals(momentLaneStartNode.getName())) {
+			plane.getPlaneMovement().setPositionX(firstLane.getEndNode().getPositionX());
+			plane.getPlaneMovement().setPositionY(firstLane.getEndNode().getPositionY());
+		} else if (lastLaneEndNode.getName().equals(momentLaneEndNode.getName())
+				|| lastLaneStartNode.getName().equals(momentLaneEndNode.getName())) {
+			plane.getPlaneMovement().setPositionX(firstLane.getStartNode().getPositionX());
+			plane.getPlaneMovement().setPositionY(firstLane.getStartNode().getPositionY());
 		}
 	}
 
@@ -190,7 +223,7 @@ public abstract class PlaneThread implements Runnable {
 	 *            the new lane
 	 */
 	public void setLane(Lane lane) {
-		this.lane = lane;
+		this.landLane = lane;
 	}
 
 	/**

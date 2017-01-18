@@ -3,8 +3,10 @@ package simulator;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import domain.dao.DAOGate;
 import domain.dao.HibernateGeneric;
 import domain.model.Flight;
+import domain.model.Gate;
 import domain.model.Plane;
 import domain.model.users.Admin;
 import helpers.MD5;
@@ -43,6 +45,9 @@ public class DeparturingPlane extends PlaneThread {
 	 */
 	@Override
 	public void run() {
+		Gate gate = DAOGate.getNodeFromPosXPosY(plane.getPlaneMovement().getPositionX(), plane.getPlaneMovement().getPositionY());
+		flight.setStartGate(gate);
+		HibernateGeneric.saveObject(flight);
 		Notification.sendNotification(MD5.encrypt(ADMIN),
 				"Plane " + plane.getSerial() + " ASKED PERMISSION TO DEPARTURE");
 		if (!controller.askPermission(this)) {
@@ -53,12 +58,10 @@ public class DeparturingPlane extends PlaneThread {
 				waitingThread.interrupt();
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				e.printStackTrace();
 			}
 		}
-		// goToDestine();
+		goToDestine();
 		goOutFromMap();
-		// set plane status arriving??
 
 	}
 
@@ -66,17 +69,15 @@ public class DeparturingPlane extends PlaneThread {
 	 * Go out from map.
 	 */
 	private void goOutFromMap() {
-		lane.setStatus(true);
-		try {
-			controller.mutex.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			Thread.currentThread().interrupt();
-			e.printStackTrace();
-		}
-		HibernateGeneric.updateObject(lane);
-		controller.getMutex().release();
+		double posx = flight.getRoute().getArrivalTerminal().getAirport().getPositionNode().getPositionX();
+		double posy = flight.getRoute().getArrivalTerminal().getAirport().getPositionNode().getPositionY();
+		plane.getPlaneMovement().setPositionX(posx);
+		plane.getPlaneMovement().setPositionY(posy);
+		plane.getPlaneMovement().setSpeed(FLIGHT_SPEED);
+		HibernateGeneric.updateObject(plane);
 		activePlanes.decrementAndGet();
+		plane.getPlaneStatus().setPositionStatus("DEPARTURED");
+		HibernateGeneric.updateObject(plane.getPlaneStatus());
 
 	}
 

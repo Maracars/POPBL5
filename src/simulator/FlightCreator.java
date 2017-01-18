@@ -105,7 +105,6 @@ public class FlightCreator implements Runnable {
 				Thread.sleep(SLEEP_5_MINUTES_IN_MILIS);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-				e.printStackTrace();
 			}
 		}
 		threadPool.shutdownNow();
