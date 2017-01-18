@@ -36,9 +36,9 @@ public abstract class PlaneThread implements Runnable {
 
 	public static final Double LANE_SPEED = 100.0;
 	
-	protected static final double INIT_54_Y = -0.537062;
+	protected static final double INIT_54_Y = -0.557062;
 	protected static final double INIT_54_X = 51.464703;
-	protected static final double INIT_B_Y = -0.377926;
+	protected static final double INIT_B_Y = -0.357926;
 	protected static final double INIT_B_X = 51.477588;
 
 	/** The plane. */
@@ -124,7 +124,6 @@ public abstract class PlaneThread implements Runnable {
 			laneWhereMove.getSemaphore().acquire();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 
 		rotatePlane();
@@ -166,7 +165,7 @@ public abstract class PlaneThread implements Runnable {
 		try {
 			Thread.sleep((long) (CONSTANT_TIME / LANE_SPEED));
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 	}
 
