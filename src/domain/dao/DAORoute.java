@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import domain.model.Route;
 import hibernate.HibernateConnection;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DAORoute.
  */

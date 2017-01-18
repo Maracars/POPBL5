@@ -13,10 +13,16 @@ import domain.model.users.User;
 
 public class RouteStatsAction extends ActionSupport {
 
+	private static final int _7 = 7;
+
+	private static final int _6 = 6;
+
+	private static final int _5 = 5;
+
 	private static final long serialVersionUID = 1L;
 
 	List<FlightView> data;
-	int[] values = { 5, 6, 7 };
+	int[] values = { _5, _6, _7 };
 	String[] texts = { "Arrival On Time", "Departure On Time", "Arrival Delay" };
 
 	@Override

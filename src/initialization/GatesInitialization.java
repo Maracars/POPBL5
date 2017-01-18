@@ -40,6 +40,14 @@ import simulator.MainThread;
  */
 public class GatesInitialization implements ServletContextListener {
 
+	private static final int PATH_NUMBER_ = 2;
+
+	private static final int END_LANE = 1;
+
+	private static final int START_LANE = 0;
+
+	private static final int NODE_INFO_ROWS = 3;
+
 	private static final int PATH_NUMBER = 106;
 
 	private static final String HEATHROW_LANES_JSON = "HeathrowLanes.json";
@@ -153,16 +161,15 @@ public class GatesInitialization implements ServletContextListener {
 
 			JSONArray arr = (JSONArray) object;
 
-			HEATHROW_LANES_NODES = new String[arr.size()][3];
+			HEATHROW_LANES_NODES = new String[arr.size()][NODE_INFO_ROWS];
 			for (int i = 0; i < arr.size(); i++) {
 				org.json.simple.JSONObject jo = (org.json.simple.JSONObject) arr.get(i);
 
-				HEATHROW_LANES_NODES[i][0] = (String) jo.get("laneStart");
-				HEATHROW_LANES_NODES[i][1] = (String) jo.get("laneEnd");
-				HEATHROW_LANES_NODES[i][2] = (String) jo.get("laneNumber");
+				HEATHROW_LANES_NODES[i][START_LANE] = (String) jo.get("laneStart");
+				HEATHROW_LANES_NODES[i][END_LANE] = (String) jo.get("laneEnd");
+				HEATHROW_LANES_NODES[i][PATH_NUMBER_] = (String) jo.get("laneNumber");
 			}
 
-			System.out.println("Me la suda");
 		} catch (FileNotFoundException fe) {
 			fe.printStackTrace();
 		} catch (Exception e) {

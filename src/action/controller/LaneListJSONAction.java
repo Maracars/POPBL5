@@ -14,9 +14,13 @@ import domain.model.Lane;
 
 public class LaneListJSONAction<sincronized> extends ActionSupport {
 
+	private static final String OCCUPIED = "Occupied";
+
 	private static final long serialVersionUID = 1L;
 
-	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0;
+	private Integer draw = 0;
+	private Integer recordsTotal = 1;
+	private Integer recordsFiltered = 0;
 	private List<LaneView> data = new ArrayList<LaneView>();
 	String error = null;
 
@@ -60,7 +64,7 @@ public class LaneListJSONAction<sincronized> extends ActionSupport {
 		List<Lane> laneList = null;
 		ArrayList<LaneView> laneViews = new ArrayList<LaneView>();
 		String colName = getOrderColumnName(orderCol);
-		String state = "Occupied";
+		String state = OCCUPIED;
 
 		laneList = DAOLane.loadLanesForTable(colName, orderDir, start, length);
 
@@ -71,7 +75,7 @@ public class LaneListJSONAction<sincronized> extends ActionSupport {
 				if (l.isFree()) {
 					state = "Free";
 				} else {
-					state = "Occupied";
+					state = OCCUPIED;
 				}
 
 				laneViews.add(new LaneView(name, state));

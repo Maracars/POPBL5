@@ -186,37 +186,39 @@ public class TestDaoPlane {
 		Plane resultPlane = DAOPlane.getFreePlane();
 		assertNotNull(ERROR_LOADING_PLANE_WITHOUT_FLIGHT, resultPlane);
 	}
-	
+
 	@Test
-	public void testLoadAllAirplanesFromAirline(){
+	public void testLoadAllAirplanesFromAirline() {
 		Plane plane = Initializer.initCompletePlane();
-		
+
 		HibernateGeneric.saveObject(plane);
-		
-		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE, DAOPlane.loadAllAirplanesFromAirline(plane.getAirline().getId()));
+
+		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE,
+				DAOPlane.loadAllAirplanesFromAirline(plane.getAirline().getId()));
 	}
-	
+
 	@Test
-	public void testLoadAirplanesForTable(){
+	public void testLoadAirplanesForTable() {
 		Plane plane = Initializer.initCompletePlane();
-		
+
 		HibernateGeneric.saveObject(plane);
-		
-		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE_TABLE, DAOPlane.loadAirplanesForTable(plane.getAirline().getId(), ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
+
+		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE_TABLE, DAOPlane.loadAirplanesForTable(plane.getAirline().getId(),
+				ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
 
 	}
-	
+
 	@Test
-	public void testLoadAirplaneWithSerial(){
-		
+	public void testLoadAirplaneWithSerial() {
+
 		Plane plane = Initializer.initCompletePlane();
 		plane.setSerial("AAAAA");
-		
+
 		HibernateGeneric.saveObject(plane);
-		
-		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE_SERIAL, DAOPlane.loadAirplaneWithSerial(plane.getAirline().getId(), plane.getSerial()));
-		
+
+		assertNotNull(ERROR_LOADING_ALL_PLANES_AIRLINE_SERIAL,
+				DAOPlane.loadAirplaneWithSerial(plane.getAirline().getId(), plane.getSerial()));
+
 	}
-	
 
 }

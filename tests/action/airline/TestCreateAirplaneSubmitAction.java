@@ -30,8 +30,8 @@ public class TestCreateAirplaneSubmitAction {
 	CreateAirplaneSubmitAction caAction;
 
 	@Before
-	public void prepareTests(){
-		
+	public void prepareTests() {
+
 		AdminInitialization initaializer = new AdminInitialization();
 		initaializer.contextInitialized(null);
 
@@ -48,8 +48,9 @@ public class TestCreateAirplaneSubmitAction {
 		ActionContext.setContext(ac);
 
 	}
+
 	@After
-	public void destroyTets(){
+	public void destroyTets() {
 		ac = null;
 	}
 
@@ -61,49 +62,49 @@ public class TestCreateAirplaneSubmitAction {
 		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, caAction.getFieldErrors().size());
 
 	}
-	
+
 	@Test
-	public void testExecuteWithIDNull(){
+	public void testExecuteWithIDNull() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setName(_707);
 		caAction.setPlaneModel(planeModel);
-		
+
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setName(BOEING);
 		planeModel.setPlaneMaker(planeMaker);
 		caAction.setPlaneMaker(planeMaker);
-		
+
 		Plane plane = new Plane();
 		plane.setSerial(A13AA);
 		plane.setModel(planeModel);
 		caAction.setPlane(plane);
-		
+
 		String result = caAction.execute();
-		
+
 		assertEquals(INCORRECT_RESULTS, CreateAirplaneSubmitAction.SUCCESS, result);
-		
+
 	}
-	
+
 	@Test
-	public void testExecuteWithIDNotNull(){
+	public void testExecuteWithIDNotNull() {
 		PlaneModel planeModel = new PlaneModel();
 		planeModel.setName(_707);
 		planeModel.setId(1);
 		caAction.setPlaneModel(planeModel);
-		
+
 		PlaneMaker planeMaker = new PlaneMaker();
 		planeMaker.setName(BOEING);
 		planeMaker.setId(1);
 		planeModel.setPlaneMaker(planeMaker);
 		caAction.setPlaneMaker(planeMaker);
-		
+
 		Plane plane = new Plane();
 		plane.setSerial(A13AA);
 		plane.setModel(planeModel);
 		caAction.setPlane(plane);
-		
+
 		String result = caAction.execute();
-		
+
 		assertEquals(INCORRECT_RESULTS, CreateAirplaneSubmitAction.SUCCESS, result);
 	}
 

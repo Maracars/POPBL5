@@ -22,7 +22,9 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0;
+	private Integer draw = 0;
+	private Integer recordsTotal = 1;
+	private Integer recordsFiltered = 0;
 	private List<GateView> data = new ArrayList<GateView>();
 	String error = null;
 

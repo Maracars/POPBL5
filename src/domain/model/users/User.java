@@ -11,7 +11,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class User.
  */
@@ -49,7 +48,8 @@ public class User {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -67,7 +67,8 @@ public class User {
 	/**
 	 * Sets the password.
 	 *
-	 * @param password the new password
+	 * @param password
+	 *            the new password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -85,7 +86,8 @@ public class User {
 	/**
 	 * Sets the username.
 	 *
-	 * @param username the new username
+	 * @param username
+	 *            the new username
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -103,12 +105,11 @@ public class User {
 	/**
 	 * Sets the email.
 	 *
-	 * @param email the new email
+	 * @param email
+	 *            the new email
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
 
 }

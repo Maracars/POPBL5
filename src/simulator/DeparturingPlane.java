@@ -10,7 +10,6 @@ import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DeparturingPlane.
  */
@@ -22,10 +21,14 @@ public class DeparturingPlane extends PlaneThread {
 	/**
 	 * Instantiates a new departuring plane.
 	 *
-	 * @param plane            the plane
-	 * @param controller            the controller
-	 * @param activePlanesNum            the active planes number
-	 * @param flight the flight
+	 * @param plane
+	 *            the plane
+	 * @param controller
+	 *            the controller
+	 * @param activePlanesNum
+	 *            the active planes number
+	 * @param flight
+	 *            the flight
 	 */
 	public DeparturingPlane(Plane plane, AirportController controller, AtomicInteger activePlanesNum, Flight flight) {
 		this.plane = plane;
