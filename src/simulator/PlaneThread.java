@@ -23,7 +23,7 @@ public abstract class PlaneThread implements Runnable {
 	protected static final boolean FREE = true;
 
 	/** The Constant ARRIVING. */
-	protected final boolean ARRIVING = true;
+	protected static final boolean ARRIVING = true;
 
 	/** The Constant DEPARTURING. */
 	protected static final boolean DEPARTURING = false;
@@ -36,9 +36,9 @@ public abstract class PlaneThread implements Runnable {
 
 	public static final Double LANE_SPEED = 100.0;
 	
-	protected static final double INIT_54_Y = -0.497062;
+	protected static final double INIT_54_Y = -0.537062;
 	protected static final double INIT_54_X = 51.464703;
-	protected static final double INIT_B_Y = -0.417926;
+	protected static final double INIT_B_Y = -0.377926;
 	protected static final double INIT_B_X = 51.477588;
 
 	/** The plane. */

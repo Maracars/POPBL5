@@ -17,19 +17,21 @@ import domain.model.Plane;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 import initialization.AdminInitialization;
-import initialization.HibernateInit;
-import initialization.SocketIOInit;
 
 public class TestCreateAirplaneSubmitAction {
 
+	private static final String BOEING = "BOEING";
+	private static final String _707 = "707";
+	private static final String INCORRECT_RESULTS = "Incorrect results";
+	private static final String A13AA = "A13AA";
 	private static final String FIELD_ACTION_ERROR = "Field errors not generated properly";
 	private static final int _3_ERRORS = 3;
 	ActionContext ac;
 	CreateAirplaneSubmitAction caAction;
 
 	@Before
-	public void prepareTests(){
-		
+	public void prepareTests() {
+
 		AdminInitialization initaializer = new AdminInitialization();
 		initaializer.contextInitialized(null);
 
@@ -46,8 +48,9 @@ public class TestCreateAirplaneSubmitAction {
 		ActionContext.setContext(ac);
 
 	}
+
 	@After
-	public void destroyTets(){
+	public void destroyTets() {
 		ac = null;
 	}
 
@@ -59,50 +62,50 @@ public class TestCreateAirplaneSubmitAction {
 		assertEquals(FIELD_ACTION_ERROR, _3_ERRORS, caAction.getFieldErrors().size());
 
 	}
-	
+
 	@Test
-	public void testExecuteWithIDNull(){
+	public void testExecuteWithIDNull() {
 		PlaneModel planeModel = new PlaneModel();
-		planeModel.setName("707");
+		planeModel.setName(_707);
 		caAction.setPlaneModel(planeModel);
-		
+
 		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName("BOEING");
+		planeMaker.setName(BOEING);
 		planeModel.setPlaneMaker(planeMaker);
 		caAction.setPlaneMaker(planeMaker);
-		
+
 		Plane plane = new Plane();
-		plane.setSerial("A13AA");
+		plane.setSerial(A13AA);
 		plane.setModel(planeModel);
 		caAction.setPlane(plane);
-		
+
 		String result = caAction.execute();
-		
-		assertEquals("Incorrect results", CreateAirplaneSubmitAction.SUCCESS, result);
-		
+
+		assertEquals(INCORRECT_RESULTS, CreateAirplaneSubmitAction.SUCCESS, result);
+
 	}
-	
+
 	@Test
-	public void testExecuteWithIDNotNull(){
+	public void testExecuteWithIDNotNull() {
 		PlaneModel planeModel = new PlaneModel();
-		planeModel.setName("707");
+		planeModel.setName(_707);
 		planeModel.setId(1);
 		caAction.setPlaneModel(planeModel);
-		
+
 		PlaneMaker planeMaker = new PlaneMaker();
-		planeMaker.setName("BOEING");
+		planeMaker.setName(BOEING);
 		planeMaker.setId(1);
 		planeModel.setPlaneMaker(planeMaker);
 		caAction.setPlaneMaker(planeMaker);
-		
+
 		Plane plane = new Plane();
-		plane.setSerial("A13AA");
+		plane.setSerial(A13AA);
 		plane.setModel(planeModel);
 		caAction.setPlane(plane);
-		
+
 		String result = caAction.execute();
-		
-		assertEquals("Incorrect results", CreateAirplaneSubmitAction.SUCCESS, result);
+
+		assertEquals(INCORRECT_RESULTS, CreateAirplaneSubmitAction.SUCCESS, result);
 	}
 
 }

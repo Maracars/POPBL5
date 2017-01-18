@@ -5,7 +5,6 @@ import javax.persistence.ManyToOne;
 
 import domain.model.Address;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Airline.
  *
@@ -18,7 +17,7 @@ public class Airline extends User {
 	String name;
 
 	/** The address. */
-	@ManyToOne(optional = false) 
+	@ManyToOne(optional = false)
 	Address address;
 
 	/**
@@ -31,7 +30,8 @@ public class Airline extends User {
 	/**
 	 * Instantiates a new airline.
 	 *
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 */
 	public Airline(User user) {
 		this.setEmail(user.getEmail());
@@ -52,7 +52,8 @@ public class Airline extends User {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -70,12 +71,11 @@ public class Airline extends User {
 	/**
 	 * Sets the address.
 	 *
-	 * @param address the new address
+	 * @param address
+	 *            the new address
 	 */
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-	
 
 }

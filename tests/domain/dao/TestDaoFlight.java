@@ -5,13 +5,10 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import domain.model.Flight;
 import domain.model.Plane;
-import initialization.HibernateInit;
-import initialization.SocketIOInit;
 
 public class TestDaoFlight {
 
@@ -31,7 +28,6 @@ public class TestDaoFlight {
 	private static final String REMOVE_ERROR = "Error removing one city from database";
 	private static final String ERROR_LOAD_FLIGHTS_TABLE = "Error loading flights for table";
 	private static final int HOUR_IN_MILIS = 3600000;
-	
 
 	@Test
 	public void testInsertFlightWithNothingIntoDB() {
@@ -62,97 +58,103 @@ public class TestDaoFlight {
 
 		assertEquals(REMOVE_ERROR, true, result);
 	}
-	
-	
+
 	@Test
-	public void testLoadFlightsForTable(){
-		
+	public void testLoadFlightsForTable() {
+
 		Flight flight = Initializer.initCompleteFlight();
 		HibernateGeneric.saveObject(flight);
-		
-		assertNotNull(ERROR_LOAD_FLIGHTS_TABLE, DAOFlight.loadFlightsForTable(ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
-		
+
+		assertNotNull(ERROR_LOAD_FLIGHTS_TABLE,
+				DAOFlight.loadFlightsForTable(ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
+
 	}
-	
+
 	@Test
-	public void testLoadPlaneFlightHours(){
+	public void testLoadPlaneFlightHours() {
 		Date date = new Date();
 		Flight flight = Initializer.initCompleteFlight();
 		flight.setExpectedArrivalDate(date);
 		flight.setExpectedDepartureDate(new Date(date.getTime() + HOUR_IN_MILIS));
 		HibernateGeneric.saveObject(flight);
-		
-		assertEquals(ERROR_LOAD_FLIGHT_HOURS, FLIGHT_HOURS, DAOFlight.loadPlaneFlightHours(flight.getPlane().getId()));
+
+		assertEquals(ERROR_LOAD_FLIGHT_HOURS, FLIGHT_HOURS, 
+				DAOFlight.loadPlaneFlightHours(flight.getPlane().getId()));
 	}
-	
+
 	@Test
-	public void testLoadOneWeekFlights(){
+	public void testLoadOneWeekFlights() {
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
-		
+
 		Date date = new Date();
 		Flight flight = Initializer.initCompleteFlight();
 		flight.setExpectedArrivalDate(date);
 		flight.setExpectedDepartureDate(new Date(date.getTime() + HOUR_IN_MILIS));
 		HibernateGeneric.saveObject(flight);
-		
-		assertEquals(ERROR_LOAD_FLIGHT_HOURS, WEEK_FLIGHTS, DAOFlight.loadOneWeekFlights().size());
+
+		assertEquals(ERROR_LOAD_FLIGHT_HOURS, WEEK_FLIGHTS, 
+				DAOFlight.loadOneWeekFlights().size());
 	}
-	
+
 	@Test
-	public void testLoadDayFlightsArriveOnTime(){
+	public void testLoadDayFlightsArriveOnTime() {
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
-		
+
 		Date date = new Date();
 		Flight flight = Initializer.initCompleteFlight();
 		flight.setExpectedArrivalDate(date);
 		flight.setRealArrivalDate(new Date(date.getTime() - HOUR_IN_MILIS));
 		HibernateGeneric.saveObject(flight);
-		
-		assertEquals(ERROR_LOAD_FLIGHT_HOURS, ARRIVAL_ON_TIME, DAOFlight.loadDayFlightsArriveOnTime());
+
+		assertEquals(ERROR_LOAD_FLIGHT_HOURS, ARRIVAL_ON_TIME, 
+				DAOFlight.loadDayFlightsArriveOnTime());
 	}
-	
+
 	@Test
-	public void testLoadDayFlightsDepartureOnTime(){
+	public void testLoadDayFlightsDepartureOnTime() {
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
-		
+
 		Date date = new Date();
 		Flight flight = Initializer.initCompleteFlight();
 		flight.setExpectedDepartureDate(date);
 		flight.setRealDepartureDate(new Date(date.getTime() - HOUR_IN_MILIS));
 		HibernateGeneric.saveObject(flight);
-		
-		assertEquals(ERROR_LOAD_FLIGHT_HOURS, DEPARTURE_ON_TIME, DAOFlight.loadDayFlightsDepartureOnTime());
+
+		assertEquals(ERROR_LOAD_FLIGHT_HOURS, DEPARTURE_ON_TIME, 
+				DAOFlight.loadDayFlightsDepartureOnTime());
 	}
-	
+
 	@Test
-	public void testloadDayFlightsArriveOnNotTime(){
+	public void testloadDayFlightsArriveOnNotTime() {
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
-		
+
 		Date date = new Date();
 		Flight flight = Initializer.initCompleteFlight();
 		flight.setExpectedArrivalDate(date);
 		flight.setRealArrivalDate(new Date(date.getTime() + HOUR_IN_MILIS));
 		HibernateGeneric.saveObject(flight);
-		
-		assertEquals(ERROR_LOAD_FLIGHT_HOURS, ARRIVAL_ON_NOT_TIME, DAOFlight.loadDayFlightsArriveOnNotTime());
+
+		assertEquals(ERROR_LOAD_FLIGHT_HOURS, ARRIVAL_ON_NOT_TIME, 
+				DAOFlight.loadDayFlightsArriveOnNotTime());
 	}
-	
+
 	@Test
-	public void testloadDayFlightsDepartureOnNotTime(){
+	public void testloadDayFlightsDepartureOnNotTime() {
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
-		
+
 		Date date = new Date();
 		Flight flight = Initializer.initCompleteFlight();
 		flight.setExpectedDepartureDate(date);
 		flight.setRealDepartureDate(new Date(date.getTime() + HOUR_IN_MILIS));
 		HibernateGeneric.saveObject(flight);
-		
-		assertEquals(ERROR_LOAD_FLIGHT_HOURS, DEPARTURE_ON_NOT_TIME, DAOFlight.loadDayFlightsDepartureOnNotTime());
+
+		assertEquals(ERROR_LOAD_FLIGHT_HOURS, DEPARTURE_ON_NOT_TIME,
+				DAOFlight.loadDayFlightsDepartureOnNotTime());
 	}
 
 }

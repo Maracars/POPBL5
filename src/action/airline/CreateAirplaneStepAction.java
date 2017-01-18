@@ -8,7 +8,7 @@ import domain.dao.HibernateGeneric;
 import domain.model.PlaneMaker;
 import domain.model.PlaneModel;
 
-public class CreateAirplaneStepAction extends ActionSupport{
+public class CreateAirplaneStepAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,5 @@ public class CreateAirplaneStepAction extends ActionSupport{
 	public void setListPlaneMaker(List<Object> listPlaneMaker) {
 		this.listPlaneMaker = listPlaneMaker;
 	}
-
-
 
 }

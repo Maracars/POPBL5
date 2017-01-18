@@ -22,7 +22,9 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0;
+	private Integer draw = 0;
+	private Integer recordsTotal = 1;
+	private Integer recordsFiltered = 0;
 	private List<GateView> data = new ArrayList<GateView>();
 	String error = null;
 
@@ -50,14 +52,14 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport {
 	}
 
 	private List<GateView> filter(List<GateView> data, String search) {
-		search = search.toLowerCase();
+		String searchToLower = search.toLowerCase();
 		for (Iterator<GateView> gIt = data.iterator(); gIt.hasNext();) {
 			GateView gv = gIt.next();
-			if (gv.getTerminalName().toLowerCase().contains(search))
+			if (gv.getTerminalName().toLowerCase().contains(searchToLower))
 				continue;
-			if (gv.getGateName().toLowerCase().contains(search))
+			if (gv.getGateName().toLowerCase().contains(searchToLower))
 				continue;
-			if (gv.getGateState().toLowerCase().contains(search))
+			if (gv.getGateState().toLowerCase().contains(searchToLower))
 				continue;
 			gIt.remove();
 		}

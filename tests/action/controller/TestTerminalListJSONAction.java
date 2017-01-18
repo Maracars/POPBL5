@@ -22,150 +22,147 @@ import initialization.HibernateInit;
 import initialization.SocketIOInit;
 
 public class TestTerminalListJSONAction {
-	
+
+	private static final String RAWTYPES = "rawtypes";
+	private static final String _10 = "10";
+	private static final String _0 = "0";
+	private static final String ASC = "asc";
 	private static final String JSON_DATA_EMPTY_ERROR = "Error, JSON data is not empty";
 	private static final String JSON_DATA_NOT_EMPTY_ERROR = "Error, JSON data is empty";
 	private static final String FILTER_ERROR = "Table filter not working";
-	
+
 	private static final int JSON_DATA_EMPTY_LENGTH = 0;
 	private static final int JSON_DATA_NOT_EMPTY_LENGTH = 1;
 	private static final int FILTER_LENGTH = 1;
-	
+
 	ActionContext ac;
 	HttpParameters paramsMap;
 	TerminalListJSONAction tListJSONac;
-	
-	static HibernateInit  init;
+
+	static HibernateInit init;
 	static SocketIOInit initio;
-	
-	
+
 	@Before
-	public void prepareTests(){
+	public void prepareTests() {
 		init = new HibernateInit();
 		init.contextInitialized(null);
 		ac = Mockito.mock(ActionContext.class);
-		
+
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 
 		ActionContext.setContext(ac);
-		
+
 	}
-	
+
 	@After
 	public void destroyTests() {
 		ac = null;
 	}
-	
-	public void createParameters(String search, String orderCol, String orderDir, String start, String length){
-		
+
+	public void createParameters(String search, String orderCol, String orderDir, String start, String length) {
 
 		Map<String, String[]> mapValues = new HashMap<String, String[]>();
-		
-		
-		String[] value = {search};
+
+		String[] value = { search };
 		String key = "search[value]";
 		mapValues.put(key, value);
-		
+
 		key = "order[0][column]";
-		value = new String[]{orderCol};
-		mapValues.put(key,  value);
-		
+		value = new String[] { orderCol };
+		mapValues.put(key, value);
+
 		key = "order[0][dir]";
-		value = new String[]{orderDir};
+		value = new String[] { orderDir };
 		mapValues.put(key, value);
-		
+
 		key = "start";
-		value = new String[]{start};
+		value = new String[] { start };
 		mapValues.put(key, value);
-		
+
 		key = "length";
-		value = new String[]{length};
+		value = new String[] { length };
 		mapValues.put(key, value);
-		
+
 		paramsMap = HttpParameters.create(mapValues).build();
-		
+
 	}
-	
-	@SuppressWarnings("rawtypes")
+
+	@SuppressWarnings(RAWTYPES)
 	@Test
-	public void testExecuteNullData(){
+	public void testExecuteNullData() {
 		HibernateGeneric.deleteAllObjects(new Gate());
 		tListJSONac = new TerminalListJSONAction();
-		
-		createParameters("", "0", "asc", "0", "10");
+
+		createParameters("", _0, ASC, _0, _10);
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
-		
+
 		try {
 			tListJSONac.execute();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertEquals(JSON_DATA_EMPTY_ERROR, JSON_DATA_EMPTY_LENGTH, tListJSONac.getData().size());
 	}
-	
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings(RAWTYPES)
 	@Test
-	public void testExecuteNotNullData(){
+	public void testExecuteNotNullData() {
 		HibernateGeneric.deleteAllObjects(new Gate());
 		HibernateGeneric.deleteAllObjects(new Flight());
 		HibernateGeneric.deleteAllObjects(new Airport());
-		
+
 		Gate gate = Initializer.initCompleteGate();
 		gate.getTerminal().getAirport().setLocale(true);
 		HibernateGeneric.updateObject(gate.getTerminal().getAirport());
-		
+
 		HibernateGeneric.saveObject(gate);
-		
+
 		tListJSONac = new TerminalListJSONAction();
-		
-		createParameters("", "0", "asc", "0", "10");
+
+		createParameters("", _0, ASC, _0, _10);
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
-		
+
 		try {
 			tListJSONac.execute();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertEquals(JSON_DATA_NOT_EMPTY_ERROR, JSON_DATA_NOT_EMPTY_LENGTH, tListJSONac.getData().size());
-		
+
 	}
-	
-	@SuppressWarnings("rawtypes")
+
+	@SuppressWarnings(RAWTYPES)
 	@Test
-	public void testFilterWorkingProperly(){
+	public void testFilterWorkingProperly() {
 		HibernateGeneric.deleteAllObjects(new Gate());
 		HibernateGeneric.deleteAllObjects(new Flight());
 		HibernateGeneric.deleteAllObjects(new Airport());
-		
+
 		Gate firstGate = Initializer.initCompleteGate();
 		firstGate.getTerminal().getAirport().setLocale(true);
 		Gate secondGate = Initializer.initCompleteGate();
 		HibernateGeneric.updateObject(firstGate.getTerminal().getAirport());
-		
+
 		secondGate.getTerminal().setAirport(firstGate.getTerminal().getAirport());
-		
+
 		HibernateGeneric.saveObject(firstGate);
 		HibernateGeneric.saveObject(secondGate);
-		
+
 		tListJSONac = new TerminalListJSONAction();
-		
-		createParameters(firstGate.getTerminal().getName(), "0", "asc", "0", "10");
+
+		createParameters(firstGate.getTerminal().getName(), _0, ASC, _0, _10);
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
-		
+
 		try {
 			tListJSONac.execute();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertEquals(FILTER_ERROR, FILTER_LENGTH, tListJSONac.getData().size());
-		
+
 	}
 
 }

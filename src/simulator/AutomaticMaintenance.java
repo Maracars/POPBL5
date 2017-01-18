@@ -7,7 +7,6 @@ import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AutomaticMaintenance.
  */

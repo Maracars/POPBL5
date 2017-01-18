@@ -12,7 +12,6 @@ import domain.model.users.Admin;
 import helpers.MD5;
 import notification.Notification;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DeparturingPlane.
  */
@@ -24,10 +23,14 @@ public class DeparturingPlane extends PlaneThread {
 	/**
 	 * Instantiates a new departuring plane.
 	 *
-	 * @param plane            the plane
-	 * @param controller            the controller
-	 * @param activePlanesNum            the active planes number
-	 * @param flight the flight
+	 * @param plane
+	 *            the plane
+	 * @param controller
+	 *            the controller
+	 * @param activePlanesNum
+	 *            the active planes number
+	 * @param flight
+	 *            the flight
 	 */
 	public DeparturingPlane(Plane plane, AirportController controller, AtomicInteger activePlanesNum, Flight flight) {
 		this.plane = plane;
@@ -69,14 +72,37 @@ public class DeparturingPlane extends PlaneThread {
 	 * Go out from map.
 	 */
 	private void goOutFromMap() {
+		if (momentLane.getStartNode().getName().equals("B")) {
+			plane.getPlaneMovement().setPositionX(INIT_B_X);
+			plane.getPlaneMovement().setPositionY(INIT_B_Y);
+		} else {
+			plane.getPlaneMovement().setPositionX(INIT_54_X);
+			plane.getPlaneMovement().setPositionY(INIT_54_Y);
+		}
+		
+		plane.getPlaneMovement().setSpeed(FLIGHT_SPEED);
+		HibernateGeneric.updateObject(plane);
+		
+		try {
+			Thread.sleep((long) (CONSTANT_TIME / FLIGHT_SPEED));
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
+		
 		double posx = flight.getRoute().getArrivalTerminal().getAirport().getPositionNode().getPositionX();
 		double posy = flight.getRoute().getArrivalTerminal().getAirport().getPositionNode().getPositionY();
 		plane.getPlaneMovement().setPositionX(posx);
 		plane.getPlaneMovement().setPositionY(posy);
-		plane.getPlaneMovement().setSpeed(FLIGHT_SPEED);
 		HibernateGeneric.updateObject(plane);
-		activePlanes.decrementAndGet();
+
+		try {
+			Thread.sleep((long) (CONSTANT_TIME / FLIGHT_SPEED));
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 		plane.getPlaneStatus().setPositionStatus("DEPARTURED");
+			
+		activePlanes.decrementAndGet();
 		HibernateGeneric.updateObject(plane.getPlaneStatus());
 
 	}

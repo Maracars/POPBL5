@@ -3,7 +3,6 @@ package notification;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Notification.
  * Class that encapsulates initializes SocketIO

@@ -36,7 +36,7 @@ public class AirportController implements Runnable {
 	/** The active plane list. */
 	private ArrayList<PlaneThread> activePlaneList = new ArrayList<PlaneThread>();
 
-	private static List<Path> pathList = new ArrayList<>();
+	private static List<Path> pathList;
 
 	/** The airport. */
 	private Airport airport;
@@ -155,7 +155,7 @@ public class AirportController implements Runnable {
 	private boolean assignFreeGate(PlaneThread plane) {
 		Gate freeGate = null;
 		boolean ret = true;
-		if (plane.getMode() == plane.ARRIVING) {
+		if (plane.getMode() == PlaneThread.ARRIVING) {
 			List<Gate> freeGateList = DAOGate
 					.loadFreeGatesFromTerminal(plane.getFlight().getRoute().getArrivalTerminal().getId());
 			if (freeGateList != null) {

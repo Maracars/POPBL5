@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Delay.
  */
@@ -44,7 +43,8 @@ public class Delay {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -62,7 +62,8 @@ public class Delay {
 	/**
 	 * Sets the time in minutes.
 	 *
-	 * @param timeInMinutes the new time in minutes
+	 * @param timeInMinutes
+	 *            the new time in minutes
 	 */
 	public void setTimeInMinutes(Integer timeInMinutes) {
 		this.timeInMinutes = timeInMinutes;
@@ -80,7 +81,8 @@ public class Delay {
 	/**
 	 * Sets the description.
 	 *
-	 * @param description the new description
+	 * @param description
+	 *            the new description
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -98,7 +100,8 @@ public class Delay {
 	/**
 	 * Sets the affected flight.
 	 *
-	 * @param affectedFlight the new affected flight
+	 * @param affectedFlight
+	 *            the new affected flight
 	 */
 	public void setAffectedFlight(Flight affectedFlight) {
 		this.affectedFlight = affectedFlight;

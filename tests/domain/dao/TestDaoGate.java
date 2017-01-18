@@ -65,7 +65,7 @@ public class TestDaoGate {
 	public void testRemoveOneSpecificGate() {
 		Node node = Initializer.initNode();
 		HibernateGeneric.saveObject(node);
-		
+
 		Address address = Initializer.initAddress();
 		HibernateGeneric.saveObject(address);
 
@@ -77,30 +77,39 @@ public class TestDaoGate {
 
 		Terminal terminal = Initializer.initTerminal(airport);
 		HibernateGeneric.saveObject(terminal);
-		
+
 		Gate gate = Initializer.initGate(node, terminal);
 		HibernateGeneric.saveObject(gate);
-		
+
 		boolean result = HibernateGeneric.deleteObject(gate);
 		assertEquals(ERROR_REMOVING, true, result);
 	}
 
 	@Test
-	public void testLoadGatesForTable(){
+
+	public void testLoadGatesForTable() {
 		Gate gate = Initializer.initCompleteGate();
-		
+
+
 		HibernateGeneric.saveObject(gate);
-		
-		assertNotNull(ERROR_LOAD_GATES_TABLE, DAOGate.loadGatesForTable(gate.getTerminal().getAirport().getId(), ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
+
+
+		assertNotNull(ERROR_LOAD_GATES_TABLE, DAOGate.loadGatesForTable(
+				gate.getTerminal().getAirport().getId(),
+				ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
 	}
-	
+
+
 	@Test
-	public void testLoadAllGatesFromAirport(){
+
+	public void testLoadAllGatesFromAirport() {
 		Gate gate = Initializer.initCompleteGate();
-		
+
+
 		HibernateGeneric.saveObject(gate);
-		
-		assertNotNull(ERROR_LOAD_ALL_GATES, DAOGate.loadAllGatesFromAirport(gate.getTerminal().getAirport().getId()));
+
+		assertNotNull(ERROR_LOAD_ALL_GATES, DAOGate.loadAllGatesFromAirport(
+				gate.getTerminal().getAirport().getId()));
 	}
 	
 	@Test
@@ -112,6 +121,5 @@ public class TestDaoGate {
 		assertNotNull(ERROR_LOAD_ALL_GATES, DAOGate.getNodeFromPosXPosY(gate.getPositionNode().getPositionX(), gate.getPositionNode().getPositionY()));
 	}
 	
-
 
 }

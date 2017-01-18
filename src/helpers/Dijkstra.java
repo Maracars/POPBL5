@@ -132,7 +132,6 @@ public class Dijkstra {
 			if (checkPathExist(target, node, path))
 				return path.getDistance();
 		}
-		System.out.println("aa");
 		throw new RuntimeException(SHOULD_NOT_HAPPEN);
 	}
 

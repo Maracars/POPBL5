@@ -58,7 +58,7 @@ public class TestDaoLane {
 
 		Airport airport = Initializer.initAirport();
 		HibernateGeneric.saveObject(airport);
-		
+
 		Lane lane = Initializer.initLane(startNode, endNode, airport, true);
 
 		boolean result = HibernateGeneric.saveObject(lane);
@@ -77,9 +77,8 @@ public class TestDaoLane {
 
 		Airport airport = Initializer.initAirport();
 		HibernateGeneric.saveObject(airport);
-		
-		Lane lane = Initializer.initLane(startNode, endNode, PRINCIPAL, airport);
 
+		Lane lane = Initializer.initLane(startNode, endNode, PRINCIPAL, airport);
 
 		boolean result = HibernateGeneric.saveObject(lane);
 
@@ -94,9 +93,8 @@ public class TestDaoLane {
 
 		Node endNode = Initializer.initNode();
 		HibernateGeneric.saveObject(endNode);
-		
-		Lane lane = Initializer.initLane(startNode, endNode, true, PRINCIPAL);
 
+		Lane lane = Initializer.initLane(startNode, endNode, true, PRINCIPAL);
 
 		boolean result = HibernateGeneric.saveObject(lane);
 
@@ -123,7 +121,6 @@ public class TestDaoLane {
 	@Test
 	public void testGetFreeLanes() {
 
-
 		Node startNode = Initializer.initNode();
 		HibernateGeneric.saveObject(startNode);
 
@@ -144,13 +141,14 @@ public class TestDaoLane {
 
 		assertNotNull(ERROR_GETFREELANES, DAOLane.getFreeLanes(airport.getId()));
 	}
-	
+
 	@Test
-	public void testLoadLanesForTable(){
+	public void testLoadLanesForTable() {
 		Lane lane = Initializer.initCompleteLane();
 		HibernateGeneric.saveObject(lane);
-		
-		assertNotNull(ERROR_LOAD_TABLE_LANES, DAOLane.loadLanesForTable(ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
+
+		assertNotNull(ERROR_LOAD_TABLE_LANES, 
+				DAOLane.loadLanesForTable(ORDER_COL_NAME, ORDER_COL_DIR, START, LENGTH));
 	}
 
 }

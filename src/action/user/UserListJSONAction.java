@@ -38,7 +38,11 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	/** The start. */
-	private Integer draw = 0, recordsTotal = 1, recordsFiltered = 0, length = 0, start = 0;
+	private Integer draw = 0;
+	private Integer recordsTotal = 1;
+	private Integer recordsFiltered = 0;
+	private Integer length = 0;
+	private Integer start = 0;
 
 	/** The data. */
 	private List<UserView> data = new ArrayList<UserView>();
@@ -77,14 +81,14 @@ public class UserListJSONAction<sincronized> extends ActionSupport {
 	 * @return the list
 	 */
 	private List<UserView> filter(List<UserView> data, String search) {
-		search = search.toLowerCase();
+		String searchToLower = search.toLowerCase();
 		for (Iterator<UserView> uIt = data.iterator(); uIt.hasNext();) {
 			UserView uv = uIt.next();
-			if (uv.getName().toLowerCase().contains(search))
+			if (uv.getName().toLowerCase().contains(searchToLower))
 				continue;
-			if (uv.getUsername().toLowerCase().contains(search))
+			if (uv.getUsername().toLowerCase().contains(searchToLower))
 				continue;
-			if (uv.getType().toLowerCase().contains(search))
+			if (uv.getType().toLowerCase().contains(searchToLower))
 				continue;
 			uIt.remove();
 		}
