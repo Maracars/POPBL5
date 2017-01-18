@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="passenger" namespace="/passenger" extends="default">
+	
+		<action name="index">
+			<result type="tiles">passenger</result>
+		</action>
+		
+		<action name="bookFlight" class="action.passenger.BookFlightStepAction">
+			<result type="tiles">bookFlight</result>
+		</action>
+		
+		<action name="flightListJSON" class="action.passenger.FlightListJSONAction">
+			<result name="*" type="json"></result>
+		</action>
+		
+		<action name="bookFlightSubmit" class="action.passenger.BookFlightSubmit">
+			<result name="success" type="redirectAction">bookFlight</result>
+		</action>
+		
+	</package>
+</struts>

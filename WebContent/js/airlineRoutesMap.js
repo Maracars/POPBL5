@@ -83,39 +83,46 @@ $(document).ready(function(){
 		flightsSource = new ol.source.Vector({
 			wrapX : false,
 			loader : function(){
-				var url = "routesListJSON";
-				fetch(url).then(function(response){
-					return response.json();
-				}).then(function(json){
-					flightsData = json.data;
-					for(var i = 0; i < flightsData.length; i++){
-						var flight = flightsData[i];
-						var from = flight.source;
-						var to = flight.destination;
+				$.ajax({
+					traditional : true,
+					type : "GET",
+					url : "routesListJSON",
+					dataType : "json",
+					success : function(result, success) {
+						flightsData = result.data;
+						console.log(flightsData);
+						for(var i = 0; i < flightsData.length; i++){
+							var flight = flightsData[i];
+							var from = flight.source;
+							var to = flight.destination;
 
-						var arcGenerator = new arc.GreatCircle(
-								{x : from[1], y : from[0]},
-								{x : to[1], y : to[0]}
-						);
+							var arcGenerator = new arc.GreatCircle(
+									{x : from[1], y : from[0]},
+									{x : to[1], y : to[0]}
+							);
 
-						var arcLine = arcGenerator.Arc(100, {offset : 10});
+							var arcLine = arcGenerator.Arc(100, {offset : 10});
 
-						if(arcLine.geometries.length === 1){
-							var line = new ol.geom.LineString(arcLine.geometries[0].coords);
-							line.transform(ol.proj.get("EPSG:4326"), ol.proj.get("EPSG:3857"));
+							if(arcLine.geometries.length === 1){
+								var line = new ol.geom.LineString(arcLine.geometries[0].coords);
+								line.transform(ol.proj.get("EPSG:4326"), ol.proj.get("EPSG:3857"));
 
-							var feature = new ol.Feature({
-								geometry : line,
-								finished : false
+								var feature = new ol.Feature({
+									geometry : line,
+									finished : false
+									
+								});
 								
-							});
-							
-							feature.setId(i);
-							
-							addLater(feature, i*50);
+								feature.setId(i);
+								
+								addLater(feature, i*50);
+							}
 						}
+						map.on("postcompose", animateFlights);
+					},
+					error : function(xhr, ajaxOptions, thrownError) {
+
 					}
-					map.on("postcompose", animateFlights);
 				});
 			}
 		});

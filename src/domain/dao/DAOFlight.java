@@ -1,6 +1,7 @@
 package domain.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -49,8 +50,20 @@ public class DAOFlight {
 
 	private static final String PARAMETER_PLANE_ID = "planeId";
 
-	private static final String LOAD_AIRPLANE_FLIGHT_HOURS = "select sum(abs(extract(epoch from f.expectedArrivalDate - f.expectedDepartureDate)/3600)) from Flight as f join f.plane where f.plane.id = :"
+	private static final String LOAD_AIRPLANE_FLIGHT_HOURS = "select sum(abs(extract(epoch from f.expectedArrivalDate - "
+			+ "f.expectedDepartureDate)/3600)) from Flight as f join f.plane where f.plane.id = :"
 			+ PARAMETER_PLANE_ID;
+
+	private static final String LOAD_ALL_DEPARTURE_FLIGHTS = "from Flight as f where f.expectedDepartureDate > current_timestamp "
+			+ "and f.realDepartureDate is NULL and f.route.departureTerminal.airport.locale = true";
+
+	private static final String LOAD_DEPARTURE_FLIGHTS_TABLE = LOAD_ALL_DEPARTURE_FLIGHTS + " order by f.";
+
+	private static final String PARAMETER_FLIGHT_ID = "flightId";
+
+	private static final String LOAD_FLIGHT_BY_ID = "from Flight as f where f.id = :" + PARAMETER_FLIGHT_ID;
+	
+	private static final String LOAD_FLIGH_PASSENGERS = "select f.passengerList from Flight as f.id = :" + PARAMETER_FLIGHT_ID;
 
 	/** The session. */
 	private static Session session;
@@ -114,7 +127,6 @@ public class DAOFlight {
 
 		return flightList;
 	}
-
 
 	public static List<FlightView> loadFlightsOfAirlineByRoute(String airlineUser) {
 		List<FlightView> flightViewList = new ArrayList<>();
@@ -270,7 +282,7 @@ public class DAOFlight {
 	}
 
 	public static long loadPlaneFlightHours(int planeId) {
-		
+
 		long flightHours = 0;
 		try {
 			session = HibernateConnection.getSessionFactory().openSession();
@@ -286,6 +298,60 @@ public class DAOFlight {
 
 		return flightHours;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<Flight> loadNextDepartureFlights(){
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_ALL_DEPARTURE_FLIGHTS);
+			flightList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return flightList;
+	}
+
+	public static Flight loadFlightById(int flightId){
+		Flight flight = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_FLIGHT_BY_ID);
+			query.setParameter(PARAMETER_FLIGHT_ID, flightId);
+			flight = (Flight) query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return flight;
+
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<Flight> loadNextDepartureFlightsForTable(String orderCol, String orderDir, int start, int length){
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSessionFactory().openSession();
+			Query query = session.createQuery(LOAD_DEPARTURE_FLIGHTS_TABLE + orderCol + " " + orderDir);
+			if(query.getResultList().size() > 0){
+				query.setFirstResult(start);
+				query.setMaxResults(length);
+				flightList = query.getResultList();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return flightList;
 	}
 
 }

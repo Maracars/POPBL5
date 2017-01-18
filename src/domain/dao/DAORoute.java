@@ -14,20 +14,22 @@ import hibernate.HibernateConnection;
  * The Class DAORoute.
  */
 public class DAORoute {
-	
+
 	/** The Constant QUERY_ROUTE. */
 	private static final String QUERY_ROUTE = "from Route as r ";
-	
+
 	/** The Constant PARAMETER_AIRPORT_ID. */
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
-	
+	private static final String PARAMETER_AIRLINE_ID = "airlineId";
+
 	/** The Constant QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID. */
 	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
 			+ "where r.arrivalTerminal.airport.id = :" + PARAMETER_AIRPORT_ID;
-	
+
 	/** The Constant QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID. */
 	private static final String QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
 			+ "where r.departureTerminal.airport.id = :" + PARAMETER_AIRPORT_ID;
+	private static final String QUERY_ROUTES_FROM_AIRLINE = "select r from Flight as f join f.route as r where f.plane.airline.id = :" + PARAMETER_AIRLINE_ID;
 
 	/** The session. */
 	private static Session session;
@@ -79,6 +81,23 @@ public class DAORoute {
 		}
 
 		return routeList.get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<Route> getRouteListFromAirline(int airlineId){
+		List<Route> routeList = null;
+		session = HibernateConnection.getSessionFactory().openSession();
+		try {
+			Query query = session.createQuery(QUERY_ROUTES_FROM_AIRLINE);
+			query.setParameter(PARAMETER_AIRLINE_ID, airlineId);
+			routeList = query.getResultList();
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return routeList;
 	}
 
 }

@@ -50,7 +50,7 @@ public class Flight {
 	Date expectedArrivalDate;
 
     /** The passenger list. */
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "userFlights", joinColumns = {
 			@JoinColumn(name = "FlightId", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "PassengerId", nullable = false, updatable = false) })

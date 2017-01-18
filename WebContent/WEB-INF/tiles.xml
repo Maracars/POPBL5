@@ -30,10 +30,10 @@
 			<add-attribute value="/css/controller.css"></add-attribute>
 		</put-list-attribute>
 		<put-list-attribute name="javascripts">
-					<add-attribute value="/js/controllerMap.js"></add-attribute>
-		
+			<add-attribute value="/js/controllerMap.js"></add-attribute>
+
 		</put-list-attribute>
-		
+
 	</definition>
 
 	<definition name="airline" extends="default">
@@ -51,6 +51,30 @@
 			<add-attribute value="https://d3js.org/d3.v3.min.js"></add-attribute>
 			<add-attribute value="/js/airlineMainPageCharts.js"></add-attribute>
 			<add-attribute value="/js/c3.min.js"></add-attribute>
+		</put-list-attribute>
+	</definition>
+
+	<definition name="passenger" extends="default">
+		<put-attribute name="title" type="string" value="global.home" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
+		<put-attribute name="sidemenu"
+			value="/pages/tiles/sidemenus/passenger.jsp" />
+		<put-attribute name="body"
+			value="/pages/tiles/bodies/passenger/home.jsp" />
+	</definition>
+
+	<definition name="bookFlight" extends="passenger">
+		<put-attribute name="title" type="string" value="global.bookFlight" />
+		<put-attribute name="body"
+			value="/pages/tiles/bodies/passenger/bookFlight.jsp" />
+		<put-list-attribute name="stylesheets">
+			<add-attribute value="/css/passenger.css"></add-attribute>
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
+			<add-attribute
+				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
+				<add-attribute value="../js/passangerTable.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
 
@@ -96,35 +120,37 @@
 		<put-attribute name="title" type="string" value="global.airportInfo" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/controller/airportInfo.jsp"></put-attribute>
-			<put-list-attribute name="javascripts">
-					<add-attribute value="/js/controllerMap.js"></add-attribute>
-		
+		<put-list-attribute name="javascripts">
+			<add-attribute value="/js/controllerMap.js"></add-attribute>
+
 		</put-list-attribute>
 	</definition>
-	
+
 	<definition name="routesInfo" extends="airline">
 		<put-attribute name="title" type="string" value="global.routesInfo"></put-attribute>
-		<put-attribute name="body" value="/pages/tiles/bodies/airline/routesInfo.jsp"></put-attribute>
+		<put-attribute name="body"
+			value="/pages/tiles/bodies/airline/routesInfo.jsp"></put-attribute>
 		<put-list-attribute name="stylesheets">
 			<add-attribute value="/css/airline.css"></add-attribute>
 		</put-list-attribute>
 		<put-list-attribute name="javascripts">
 			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
-			<add-attribute value="https://api.mapbox.com/mapbox.js/plugins/arc.js/v0.1.0/arc.js"></add-attribute>
+			<add-attribute
+				value="https://api.mapbox.com/mapbox.js/plugins/arc.js/v0.1.0/arc.js"></add-attribute>
 			<add-attribute value="https://openlayers.org/en/v3.20.1/build/ol.js"></add-attribute>
 			<add-attribute
 				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
 			<add-attribute value="/js/airlineRoutesMap.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
-	
-	
+
+
 	<definition name="routeStats" extends="airline">
 		<put-attribute name="title" type="string" value="global.routeStats" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/airline/routeStats.jsp"></put-attribute>
-			
-			<put-list-attribute name="javascripts">
+
+		<put-list-attribute name="javascripts">
 			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
 			<add-attribute value="https://d3js.org/d3.v3.min.js"></add-attribute>
 			<add-attribute value="/js/airlineRouteCharts.js"></add-attribute>

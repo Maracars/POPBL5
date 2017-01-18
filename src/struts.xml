@@ -52,6 +52,7 @@
 	<include file="airline.xml" />
 	<include file="base.xml" />
 	<include file="login.xml" />
+	<include file="passenger.xml"/>
 
 
 

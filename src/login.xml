@@ -12,10 +12,11 @@
 			<result name="input" type="tiles">login</result>
 			<!--  <result name="success" type="redirect">%{url}</result>-->
 			 <!--  <result name="success" type="tiles">airline</result> -->
-			<result name="success" type="redirectAction">
+			 <result name="success" type="tiles">passenger</result>
+			<!--  <result name="success" type="redirectAction">
 				<param name="actionName">index</param>
 				<param name="namespace">/airline</param>
-			</result> 
+			</result> -->
 
 		</action>
 
