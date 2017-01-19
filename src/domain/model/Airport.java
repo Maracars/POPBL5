@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Airport.
  */

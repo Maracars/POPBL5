@@ -27,6 +27,14 @@
 		org.apache.struts2.tiles.StrutsTilesListener
 	</listener-class>
   </listener>
+  
+  	<listener>  
+	    <listener-class>
+	       initialization.DemoInitialization
+	    </listener-class>
+	</listener>
+   
+  
   <listener>
     <listener-class>
 	       initialization.GatesInitialization
