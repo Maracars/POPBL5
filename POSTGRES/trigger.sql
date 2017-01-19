@@ -1,19 +1,19 @@
-  CREATE OR REPLACE FUNCTION conversation_notify()
-  RETURNS trigger AS
-$$
-    BEGIN
-        PERFORM pg_notify('mezua',TG_TABLE_NAME || '>' ||row_to_json(NEW));
-        RETURN NEW;
-    END; 
-$$
-  LANGUAGE plpgsql ;
-
-
-CREATE TRIGGER conversation_notify
-  AFTER INSERT OR UPDATE
-  ON proba
-  FOR EACH ROW
-  EXECUTE PROCEDURE conversation_notify();
+--  CREATE OR REPLACE FUNCTION conversation_notify()
+--  RETURNS trigger AS
+--$$
+--    BEGIN
+ --       PERFORM pg_notify('mezua',TG_TABLE_NAME || '>' ||row_to_json(NEW));
+--        RETURN NEW;
+--    END; 
+--$$
+--  LANGUAGE plpgsql ;
+--
+--
+--CREATE TRIGGER conversation_notify
+--  AFTER INSERT OR UPDATE
+--  ON proba
+--  FOR EACH ROW
+--  EXECUTE PROCEDURE conversation_notify();
 
 
 
@@ -23,10 +23,10 @@ CREATE TRIGGER conversation_notify
   create or replace function planePositionChangedTriggerFunction () returns trigger as
 $$
 declare
-marginx integer := 50;
-marginy integer := 50;
-posx integer;
-posy integer;
+marginx numeric(5,5) := 50;
+marginy numeric(5,5) := 50;
+posx numeric;
+posy numeric;
 begin
 --Iual begiratu biharko da aireportua, triggerdun funtzinotan ezin da parametroik bialdu
 select an.positionx, an.positiony into posx, posy from airport a join airportNode an on a.positionNode_id = an.id;
