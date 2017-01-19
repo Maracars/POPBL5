@@ -23,10 +23,10 @@
   create or replace function planePositionChangedTriggerFunction () returns trigger as
 $$
 declare
-marginx numeric(5,5) := 50;
-marginy numeric(5,5) := 50;
-posx numeric;
-posy numeric;
+marginx real := 50.0;
+marginy real := 50.0;
+posx real;
+posy real;
 begin
 --Iual begiratu biharko da aireportua, triggerdun funtzinotan ezin da parametroik bialdu
 select an.positionx, an.positiony into posx, posy from airport a join airportNode an on a.positionNode_id = an.id;

@@ -123,7 +123,7 @@ public class DemoInitialization implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		initHeathrowAirport();
+		//initHeathrowAirport();
 		Terminal madridTerminal = initMadridAirport();
 		Terminal bilbaoTerminal = initBilbaoAirport();
 		Terminal tegelTerminal = initTegelAirport();
@@ -137,7 +137,7 @@ public class DemoInitialization implements ServletContextListener {
 		PlaneStatus planeStatus = initPlaneStatus();
 		PlaneMovement planeMovement = initPlaneMovement();
 		initPlanes(airline, planeStatus, planeMovement);
-		initFlights();
+		//initFlights();
 	}
 
 

@@ -22,11 +22,11 @@ public class DAORoute {
 
 	/** The Constant QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID. */
 	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
-			+ "where r.arrivalTerminal.airport.id = :" + PARAMETER_AIRPORT_ID;
+			+ "where r.arrivalTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + " order by rand()";
 
 	/** The Constant QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID. */
 	private static final String QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
-			+ "where r.departureTerminal.airport.id = :" + PARAMETER_AIRPORT_ID;
+			+ "where r.departureTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + " order by rand()";
 
 	/** The session. */
 	private static Session session;
