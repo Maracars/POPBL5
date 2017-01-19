@@ -8,6 +8,7 @@
 
 <s:i18n name="action.airline.package">
 
+
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header"></section>
@@ -59,8 +60,6 @@
 						cssClass="btn btn-primary  col-sm-offset-3" />
 				</div>
 			</s:form>
-
-		</section>
 
 	</div>
 </s:i18n>

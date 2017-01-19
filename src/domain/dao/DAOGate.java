@@ -32,6 +32,13 @@ public class DAOGate {
 	private static final String LOAD_ALL_GATES = "from Gate as g where g.terminal.airport.id = :"
 			+ PARAMETER_AIRPORT_ID;
 
+	private static final String PARAMETER_POSX = "posX";
+
+	private static final String PARAMETER_POSY = "posY";
+	
+	private static final String QUERY_GATE_FROM_POSITION = "from Gate as g where g.positionNode.positionX = :"
+			+ PARAMETER_POSX + " and g.positionNode.positionY = :" + PARAMETER_POSY;
+
 	@SuppressWarnings("unchecked")
 	public static List<Gate> loadFreeGatesFromTerminal(int terminalId) {
 		List<Gate> gateList = null;
@@ -92,5 +99,25 @@ public class DAOGate {
 
 		return gateList;
 	}
+	
+	public static Gate getNodeFromPosXPosY(double posX, double posY) {
+		Gate gate = null;
+		try {
+			session = HibernateConnection.getSession();
+			Query query = session.createQuery(QUERY_GATE_FROM_POSITION);
+			query.setParameter(PARAMETER_POSX, posX);
+			query.setParameter(PARAMETER_POSY, posY);
+			if (query.getResultList().size() > 0) {
+				gate = (Gate) query.getResultList().get(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			HibernateConnection.closeSession(session);
+		}
+		return gate;
+	}
+	
+	
 
 }

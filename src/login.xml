@@ -14,7 +14,7 @@
 		</action>
 
 		<action name="logout" class="action.user.LogoutAction">
-			<result type="redirect">%{url}</result>
+			<result type="redirect">index</result>
 		</action>
 
 		<action name="login" class="action.StepAction">

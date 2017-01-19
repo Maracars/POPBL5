@@ -83,7 +83,6 @@ public class AirportController implements Runnable {
 			try {
 				Thread.sleep(SLEEP_TIME_5_SEGS_IN_MILIS);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
 				Thread.currentThread().interrupt();
 			}
 		}
@@ -102,7 +101,6 @@ public class AirportController implements Runnable {
 			mutex.acquire();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			e.printStackTrace();
 		}
 
 		if (activePlaneList.size() == 0) {
@@ -139,7 +137,7 @@ public class AirportController implements Runnable {
 			LinkedList<Path> bestRoute = getBestRoute(plane.getMode(), lane, plane.getFlight());
 			bestRoute.get(0).changePathStatus(false);
 			plane.setRouteOfPaths(bestRoute);
-			lane.setStatus(false);
+			//lane.setStatus(false);
 			plane.setLane(lane);
 			HibernateGeneric.updateObject(lane);
 			ret = true;
@@ -185,10 +183,6 @@ public class AirportController implements Runnable {
 	 *            the flight
 	 * @return the best route
 	 */
-	/*
-	 * mode thread berak jakingo zauen zein dan eta lane asignaute deko ya
-	 * (kontrollerrak permisoa emoterakoan
-	 */
 	public LinkedList<Path> getBestRoute(boolean mode, Lane landLane, Flight flight) {
 		List<Path> paths = LaneFilter.getFreePaths(pathList);
 		Node source;
@@ -201,7 +195,7 @@ public class AirportController implements Runnable {
 		} else {
 
 			source = flight.getStartGate().getPositionNode();
-			destination = landLane.getEndNode();
+			destination = landLane.getStartNode();
 
 		}
 

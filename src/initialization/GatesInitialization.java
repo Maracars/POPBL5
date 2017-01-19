@@ -155,16 +155,18 @@ public class GatesInitialization implements ServletContextListener {
 
 	private void createHeathrowLanes() {
 		JSONParser parser = new JSONParser();
+		ObjectMapper mapper = new ObjectMapper();
+
 		try {
 			URL url = getClass().getResource(HEATHROW_LANES_JSON);
 			Object object = parser.parse(new FileReader(url.getPath()));
-
+			
 			JSONArray arr = (JSONArray) object;
 
 			HEATHROW_LANES_NODES = new String[arr.size()][NODE_INFO_ROWS];
 			for (int i = 0; i < arr.size(); i++) {
 				org.json.simple.JSONObject jo = (org.json.simple.JSONObject) arr.get(i);
-
+				
 				HEATHROW_LANES_NODES[i][START_LANE] = (String) jo.get("laneStart");
 				HEATHROW_LANES_NODES[i][END_LANE] = (String) jo.get("laneEnd");
 				HEATHROW_LANES_NODES[i][PATH_NUMBER_] = (String) jo.get("laneNumber");
@@ -200,7 +202,7 @@ public class GatesInitialization implements ServletContextListener {
 				Gate gate = new Gate();
 				Random random = new Random();
 
-				gate.setTerminal(terminalList.get(random.nextInt(terminalList.size() - 1)));
+				gate.setTerminal(terminalList.get(0));
 				gate.setFree(true);
 				gate.setPositionNode(node);
 				HibernateGeneric.saveObject(gate);
