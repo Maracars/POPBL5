@@ -1,4 +1,4 @@
-var socket = io.connect("http://localhost:9092");
+var socket = io.connect("http://localhost:9092");//http://maracars.sytes.net:9092
 
 var map = null;
 var centerPos = [ -0.461389, 51.4775 ];
@@ -15,7 +15,7 @@ var overlay;
 var counter = 0;
 var steps = 1000;
 var iconStyle = {
-	anchor : [ 0.5, 46 ],
+	anchor : [ 0.5, 0.5 ],
 	anchorXUnits : 'fraction',
 	anchorYUnits : 'pixels',
 	opacity : 1,

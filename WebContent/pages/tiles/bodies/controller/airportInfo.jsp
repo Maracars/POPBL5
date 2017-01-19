@@ -2,16 +2,7 @@
 <%@ taglib prefix="sb" uri="/struts-bootstrap-tags"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 
-
-
-
-
-
-<div class="content-wrapper">
-	<!-- Content Header (Page header) -->
-	<section class="content-header"></section>
-	<section>
-		<div id="airportInfoFilter">
+<div id="airportInfoFilter">
 	<div class="dropdown center-block" id="terminalDrop">
 		<button class="btn btn-primary dropdown-toggle" type="button"
 			id="dropdownTerminal" data-toggle="dropdown">
@@ -69,6 +60,3 @@
 	</div>
 </div>
 <div id="map" class="map"></div>
-	</section>
-
-</div>

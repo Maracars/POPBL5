@@ -3,105 +3,86 @@
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 
 <s:i18n name="action.user.package">
-
-	<div class="content-wrapper">
-		<!-- Content Header (Page header) -->
-		<section class="content-header"></section>
-		<section>
-
-			<div class="dropdown center-block">
-				<button class="btn btn-primary dropdown-toggle" type="button"
-					data-toggle="dropdown">
-					<s:text name="user.createUser" />
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li><s:a action="register/Passenger">
-							<s:text name="global.passenger" />
-						</s:a></li>
-					<li><s:a action="register/Controller">
-							<s:text name="global.controller" />
-						</s:a></li>
-					<li><s:a action="register/Mantainance">
-							<s:text name="global.mantainance" />
-						</s:a></li>
-					<li><s:a action="register/Admin">
-							<s:text name="global.admin" />
-						</s:a></li>
-					<li><s:a action="register/Airline">
-							<s:text name="global.airline" />
-						</s:a></li>
-				</ul>
-			</div>
-			<h3>
-
-				<s:text name="global.users" />
-			</h3>
-			<div class="container-fluid">
-				<table id="usertable"
-					class="table table-striped table-bordered table-hover table-responsive"
-					style="width: 100%;">
-					<thead>
-						<tr>
-							<th></th>
-							<th><s:text name="global.userType" /></th>
-							<th><s:text name="user.username" /></th>
-							<th><s:text name="user.name" /></th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-			<script>
-				$(document)
-						.ready(
-								function() {
-
-									$('#usertable')
-											.dataTable(
-													{
-														"processing" : true,
-														"serverSide" : true,
-														"ajax" : {
-															"url" : "userListJSON",
-															"type" : "POST"
-														},
-														"columnDefs" : [ {
-															"targets" : 0,
-															"orderable" : false
-														}, {
-															"width" : "120px",
-															"targets" : 0
-														} ],
-														"columns" : [
-																{
-																	"data" : "username",
-																	"render" : function(
-																			data,
-																			type,
-																			full,
-																			meta) {
-																		return '<div><a class="btn btn-primary" href="u/'+data+'"><i class="fa fa-user"></i></a>'
-																				+ '<a class="btn btn-warning" href="u/edit/'+data+'"><i class="fa fa-pencil-square-o"></i></a>'
-																				+ '<a class="btn btn-danger" href="deleteUser?username='
-																				+ data
-																				+ '"><i class="fa fa-times"></i></a></div';
-																	}
-																},
-																{
-																	"data" : "type"
-																},
-																{
-																	"data" : "username"
-																},
-																{
-																	"data" : "name"
-																} ]
-													});
-								});
-			</script>
-		</section>
-
+	<div class="dropdown center-block">
+		<button class="btn btn-primary dropdown-toggle" type="button"
+			data-toggle="dropdown">
+			<s:text name="user.createUser" />
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><s:a action="register/Passenger">
+					<s:text name="global.passenger" />
+				</s:a></li>
+			<li><s:a action="register/Controller">
+					<s:text name="global.controller" />
+				</s:a></li>
+			<li><s:a action="register/Mantainance">
+					<s:text name="global.mantainance" />
+				</s:a></li>
+			<li><s:a action="register/Admin">
+					<s:text name="global.admin" />
+				</s:a></li>
+			<li><s:a action="register/Airline">
+					<s:text name="global.airline" />
+				</s:a></li>
+		</ul>
 	</div>
+	<h3>
 
+		<s:text name="global.users" />
+	</h3>
+	<div class="container-fluid">
+		<table id="usertable"
+			class="table table-striped table-bordered table-hover table-responsive"
+			style="width: 100%;">
+			<thead>
+				<tr>
+					<th></th>
+					<th><s:text name="global.userType" /></th>
+					<th><s:text name="user.username" /></th>
+					<th><s:text name="user.name" /></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<script>
+		$(document)
+				.ready(
+						function() {
+
+							$('#usertable')
+									.dataTable(
+											{
+												"processing" : true,
+												"serverSide" : true,
+												"ajax" : {
+													"url" : "userListJSON",
+													"type" : "POST"
+												},
+												"columnDefs" : [ {
+													"targets" : 0,
+													"orderable" : false
+												},
+												 { "width": "120px", "targets": 0 }],
+												"columns" : [
+														{
+															"data" : "username",
+															"render" : function(
+																	data, type,
+																	full, meta) {
+																return 	'<div><a class="btn btn-primary" href="u/'+data+'"><i class="fa fa-user"></i></a>' +
+																		'<a class="btn btn-warning" href="u/edit/'+data+'"><i class="fa fa-pencil-square-o"></i></a>' + 
+																		'<a class="btn btn-danger" href="deleteUser?username='+data+'"><i class="fa fa-times"></i></a></div';
+															}
+														}, {
+															"data" : "type"
+														}, {
+															"data" : "username"
+														}, {
+															"data" : "name"
+														} ]
+											});
+						});
+	</script>
 
 </s:i18n>

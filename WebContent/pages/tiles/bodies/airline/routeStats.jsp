@@ -2,16 +2,13 @@
 <%@ taglib prefix="sb" uri="/struts-bootstrap-tags"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 
-
-<div class="content-wrapper">
-	<!-- Content Header (Page header) -->
-	<section class="content-header"></section>
-	<section>
+<s:i18n name="action.airline.package">
+	<div class="container-fluid">
 		<h2>
 			<s:text name="airline.routeStatsPerAirline" />
 		</h2>
 		<div id="barChartStats"></div>
-		</div>
-	</section>
 
-</div>
+	</div>
+
+</s:i18n>

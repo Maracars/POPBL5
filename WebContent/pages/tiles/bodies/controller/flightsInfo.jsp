@@ -4,14 +4,7 @@
 
 
 <s:i18n name="action.controller.package">
-
-</s:i18n>
-
-
-<div class="content-wrapper">
-	<!-- Content Header (Page header) -->
-	<section class="content-header"></section>
-	<section>
+	<div class="container-fluid">
 		<div class="jumbotron">
 			<table id="flightstable"
 				class="table table-striped table-bordered table-hover table-responsive"
@@ -27,37 +20,38 @@
 				</thead>
 			</table>
 		</div>
-		<script>
-			$(document).ready(function() {
-				var table = $('#flightstable').dataTable({
-					"processing" : true,
-					"serverSide" : true,
-					"ajax" : {
-						"url" : "flightListJSON",
-						"type" : "POST"
-					},
-					"columnDefs" : [ {
-						"targets" : 0,
-						"orderable" : false
-					}, {
-						"width" : "120px",
-						"targets" : 0
-					} ],
-					"columns" : [ {
-						"data" : "airplane"
-					}, {
-						"data" : "origin"
-					}, {
-						"data" : "destination"
-					}, {
-						"data" : "expectedArrivalDate"
-					}, {
-						"data" : "expectedDepartureDate"
-					} ]
-				});
-
+	</div>
+	<script>
+		$(document).ready(function() {
+			var table = $('#flightstable').dataTable({
+				"processing" : true,
+				"serverSide" : true,
+				"ajax" : {
+					"url" : "flightListJSON",
+					"type" : "POST"
+				},
+				"columnDefs" : [ {
+					"targets" : 0,
+					"orderable" : false
+				}, {
+					"width" : "120px",
+					"targets" : 0
+				} ],
+				"columns" : [ {
+					"data" : "airplane"
+				}, {
+					"data" : "origin"
+				}, {
+					"data" : "destination"
+				}, {
+					"data" : "expectedArrivalDate"
+				}, {
+					"data" : "expectedDepartureDate"
+				} ]
 			});
-		</script>
-	</section>
 
-</div>
+		});
+	
+		
+	</script>
+</s:i18n>

@@ -1,4 +1,4 @@
-var socket = io.connect("http://localhost:9092");
+var socket = io.connect("http://maracars.sytes.net:9092");
 
 var counter = 0;
 
