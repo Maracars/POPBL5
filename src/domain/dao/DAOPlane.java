@@ -160,21 +160,21 @@ public class DAOPlane {
 	 *
 	 * @return the plane
 	 */
+	@SuppressWarnings(UNCHECKED)
 	public static Plane selectPlaneNeedToRevise() {
-		Plane plane = null;
+		List<Plane> planeList = null;
 		try {
 
 			session = HibernateConnection.getSession();
 			Query query = session.createQuery(QUERY_PLANES_NEED_REVISE);
-			plane = (Plane) query.setMaxResults(MAX_RESULTS).getSingleResult();
-
+			planeList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 
 			HibernateConnection.closeSession(session);
 		}
-		return plane;
+		return planeList.size() > 0 ? planeList.get(0) : null;
 	}
 
 	/**

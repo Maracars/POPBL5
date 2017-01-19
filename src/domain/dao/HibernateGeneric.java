@@ -8,10 +8,10 @@ import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import domain.model.Terminal;
 import domain.model.users.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;
-
 
 /**
  * The Class HibernateGeneric.
@@ -24,7 +24,8 @@ public class HibernateGeneric {
 	/**
 	 * Save or update object.
 	 *
-	 * @param object the object
+	 * @param object
+	 *            the object
 	 * @return true, if successful
 	 */
 	public static boolean saveObject(Object object) {
@@ -32,6 +33,7 @@ public class HibernateGeneric {
 		try {
 			if (object instanceof User)
 				((User) object).setPassword(MD5.encrypt(((User) object).getPassword()));
+
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
 			session.save(object);
@@ -52,7 +54,8 @@ public class HibernateGeneric {
 	/**
 	 * Delete object.
 	 *
-	 * @param object the object
+	 * @param object
+	 *            the object
 	 * @return true, if successful
 	 */
 	public static boolean deleteObject(Object object) {
@@ -76,9 +79,10 @@ public class HibernateGeneric {
 	}
 
 	/**
-	 * Load all objects.
-	 * Loads all objects of class of the object o
-	 * @param o the object that defines the requested type of the objects
+	 * Load all objects. Loads all objects of class of the object o
+	 * 
+	 * @param o
+	 *            the object that defines the requested type of the objects
 	 * @return the list
 	 */
 	public static List<Object> loadAllObjects(Object o) {
@@ -103,7 +107,8 @@ public class HibernateGeneric {
 	/**
 	 * Update object.
 	 *
-	 * @param object the object
+	 * @param object
+	 *            the object
 	 * @return true, if successful
 	 */
 	public static boolean updateObject(Object object) {
@@ -130,7 +135,8 @@ public class HibernateGeneric {
 	/**
 	 * Delete all objects.
 	 *
-	 * @param object the object
+	 * @param object
+	 *            the object
 	 * @return true, if successful
 	 */
 	public static boolean deleteAllObjects(Object object) {
