@@ -3,7 +3,6 @@ package simulator;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 
@@ -44,20 +43,7 @@ public class TestFlightCreator {
 			Method method = fg.getClass().getDeclaredMethod("programFlights");
 			method.setAccessible(true);
 			method.invoke(fg);
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -80,7 +66,7 @@ public class TestFlightCreator {
 			Flight flight = Initializer.initFlight(plane);
 			Date date = new Date();
 			date.setTime(date.getTime() + ADDED_TIME);
-			
+
 			flight.setExpectedDepartureDate(date);
 			flight.setRoute(DAORoute.selectDepartureRouteFromAirport(airport.getId()));
 			HibernateGeneric.saveObject(flight);
@@ -88,20 +74,8 @@ public class TestFlightCreator {
 			Method method = fg.getClass().getDeclaredMethod("createThreadsOfFlights");
 			method.setAccessible(true);
 			method.invoke(fg);
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
 

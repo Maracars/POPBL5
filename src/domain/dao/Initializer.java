@@ -201,9 +201,10 @@ public class Initializer {
 	 *
 	 * @return the terminal
 	 */
-	public static Terminal initTerminal() {
+	public static Terminal initTerminal(Node positionNode) {
 		Terminal terminal = new Terminal();
 		terminal.setName(TERMINAL_NAME);
+		terminal.setPositionNode(positionNode);
 		return terminal;
 
 	}
@@ -215,8 +216,8 @@ public class Initializer {
 	 *            the airport
 	 * @return the terminal
 	 */
-	public static Terminal initTerminal(Airport airport) {
-		Terminal terminal = initTerminal();
+	public static Terminal initTerminal(Airport airport, Node positionNode) {
+		Terminal terminal = initTerminal(positionNode);
 		terminal.setAirport(airport);
 		return terminal;
 
@@ -238,7 +239,7 @@ public class Initializer {
 		Airport airport = initAirport(address, positionNode);
 		HibernateGeneric.saveObject(airport);
 
-		Terminal terminal = initTerminal(airport);
+		Terminal terminal = initTerminal(airport, positionNode);
 		HibernateGeneric.saveObject(terminal);
 
 		return initRoute(terminal, terminal);
@@ -819,7 +820,10 @@ public class Initializer {
 	public static Gate initCompleteGate() {
 		Gate gate = new Gate();
 
-		Terminal terminal = Initializer.initTerminal();
+		Node positionNode = Initializer.initNode();
+		HibernateGeneric.saveObject(positionNode);
+
+		Terminal terminal = Initializer.initTerminal(positionNode);
 
 		Airport airport = Initializer.initCompleteAirport();
 		HibernateGeneric.saveObject(airport);
@@ -827,8 +831,6 @@ public class Initializer {
 		terminal.setAirport(airport);
 		HibernateGeneric.saveObject(terminal);
 
-		Node positionNode = Initializer.initNode();
-		HibernateGeneric.saveObject(positionNode);
 		gate.setPositionNode(positionNode);
 
 		gate.setTerminal(terminal);
@@ -943,7 +945,7 @@ public class Initializer {
 		Airport airport = initAirport(address, positionNode);
 		HibernateGeneric.saveObject(airport);
 
-		Terminal terminal = initTerminal(airport);
+		Terminal terminal = initTerminal(airport, positionNode);
 		HibernateGeneric.saveObject(terminal);
 
 		Gate gate = initGate(node, terminal);
@@ -1001,7 +1003,7 @@ public class Initializer {
 		Airport airport = initAirport(address, positionNode);
 		HibernateGeneric.saveObject(airport);
 
-		Terminal terminal = initTerminal(airport);
+		Terminal terminal = initTerminal(airport, positionNode);
 		HibernateGeneric.saveObject(terminal);
 
 		Gate gate = initGate(node, terminal);

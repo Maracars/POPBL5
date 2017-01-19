@@ -36,7 +36,7 @@ public class TestDaoGate {
 		Airport airport = Initializer.initAirport(address, positionNode);
 		HibernateGeneric.saveObject(airport);
 
-		Terminal terminal = Initializer.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport, positionNode);
 		HibernateGeneric.saveObject(terminal);
 
 		boolean result = HibernateGeneric.saveObject(Initializer.initGate(terminal));
@@ -51,7 +51,7 @@ public class TestDaoGate {
 		HibernateGeneric.saveObject(positionNode);
 		Airport airport = Initializer.initAirport(address, positionNode);
 		HibernateGeneric.saveObject(airport);
-		Terminal terminal = Initializer.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport, positionNode);
 		HibernateGeneric.saveObject(terminal);
 		Gate gate = Initializer.initGate(terminal);
 		gate.setFree(true);
@@ -75,7 +75,7 @@ public class TestDaoGate {
 		Airport airport = Initializer.initAirport(address, positionNode);
 		HibernateGeneric.saveObject(airport);
 
-		Terminal terminal = Initializer.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport, positionNode);
 		HibernateGeneric.saveObject(terminal);
 
 		Gate gate = Initializer.initGate(node, terminal);

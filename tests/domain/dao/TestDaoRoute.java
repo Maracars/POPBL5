@@ -61,7 +61,7 @@ public class TestDaoRoute {
 		Airport airport = Initializer.initAirport(address, positionNode);
 		HibernateGeneric.saveObject(airport);
 
-		Terminal terminal = Initializer.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport, positionNode);
 		HibernateGeneric.saveObject(terminal);
 
 		Gate gate = Initializer.initGate(terminal);
@@ -72,8 +72,7 @@ public class TestDaoRoute {
 
 		Route actualRoute = DAORoute.getRandomArrivalRouteFromAirport(airport.getId()).get(0);
 
-		assertEquals(ERROR_GET_LIST_OF_ROUTES_OF_AIRPORT_BY_AIRPORTID, 
-				expectedRoute.getId(), actualRoute.getId());
+		assertEquals(ERROR_GET_LIST_OF_ROUTES_OF_AIRPORT_BY_AIRPORTID, expectedRoute.getId(), actualRoute.getId());
 
 	}
 

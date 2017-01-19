@@ -38,17 +38,17 @@ public class TestDaoSimulator {
 	public void testGetCorrectDateFromSchedule() {
 		Date date = new Date();
 
+		Node node = Initializer.initNode();
+		HibernateGeneric.saveObject(node);
+		
 		Plane plane = Initializer.initCompletePlane();
 		HibernateGeneric.saveObject(plane);
 
 		Airport airport = Initializer.initCompleteAirport();
 		HibernateGeneric.saveObject(airport);
 
-		Terminal terminal = Initializer.initTerminal(airport);
+		Terminal terminal = Initializer.initTerminal(airport, node);
 		HibernateGeneric.saveObject(terminal);
-
-		Node node = Initializer.initNode();
-		HibernateGeneric.saveObject(node);
 
 		Gate gate = Initializer.initGate(node, terminal);
 		HibernateGeneric.saveObject(gate);

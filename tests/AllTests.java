@@ -47,6 +47,7 @@ import domain.dao.TestHibernateGeneric;
 import initialization.HibernateInit;
 import initialization.SocketIOInit;
 import simulator.TestAirportController;
+import simulator.TestCompleteSimulator;
 import simulator.TestFlightCreator;
 import test.dijkstra.TestDijkstra;
 
@@ -95,7 +96,7 @@ import test.dijkstra.TestDijkstra;
 		TestFlightCreator.class,
 		TestAirportController.class,
 
-		//TestCompleteSimulator.class,
+		TestCompleteSimulator.class,
 		})
 
 public class AllTests {
