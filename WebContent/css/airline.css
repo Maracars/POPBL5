@@ -1,15 +1,28 @@
-
-#pieChart{
-	float:left;
-	margin-right:10px;
-	width:calc(50% - 10px);
+#pieChart {
+	float: left;
+	margin-right: 10px;
+	width: calc(50% - 10px);
 }
 
-#lineChart{
-	float:right;
-	width:50%;
+#lineChart {
+	float: right;
+	width: 50%;
 }
 
-#barChart{
-	width:100%;
+#barChart {
+	width: 100%;
+}
+
+#routesMap {
+	display: block;
+	height: 600px;
+	width: 100%;
+	margin: 0px auto;
+}
+
+.popover-content {
+	min-width: 180px;
+}
+.popover-content p{
+	text-align:center;
 }

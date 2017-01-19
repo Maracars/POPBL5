@@ -117,5 +117,9 @@
 			<result name="*" type="json"></result>
 		</action>
 
+		<action name="routesListJSON" class="action.airline.RoutesListJSONAction">
+			<result name="*" type="json"></result>
+		</action>
+		
 	</package>
 </struts>
