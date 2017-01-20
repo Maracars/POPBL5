@@ -12,6 +12,7 @@
 			<interceptor-ref name="defaultStack" />
 			<result name="controller" type="tiles">controller</result>
 			<result name="airline" type="tiles">airline</result>
+			<result name="passenger" type="tiles">passenger</result>
 			<result name="*" type="tiles">index</result>
 		</action>
 

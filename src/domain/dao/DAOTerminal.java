@@ -20,7 +20,7 @@ public class DAOTerminal {
 		try {
 
 			session = HibernateConnection.getSession();
-			Query query = session.createQuery("from terminal as t where t.id = :airportId");
+			Query query = session.createQuery("from Terminal as t where t.airport.id = :airportId");
 			query.setParameter("airportId", airportID);
 			list = query.getResultList();
 		} catch (Exception e) {
