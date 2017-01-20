@@ -62,7 +62,7 @@ public class Initializer {
 	private static final int MAX_FLIGHTS = 6;
 
 	/** The Constant HEATHROW. */
-	private static final String HEATHROW = "Heathrow";
+	private static final String HEATHROW = "Caracas";
 
 	/** The Constant BERGARA. */
 	private static final String BERGARA = "Bergara";

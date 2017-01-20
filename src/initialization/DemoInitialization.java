@@ -19,6 +19,7 @@ import domain.model.PlaneMovement;
 import domain.model.PlaneStatus;
 import domain.model.Route;
 import domain.model.Terminal;
+import domain.model.users.Admin;
 import domain.model.users.Airline;
 import domain.model.users.Controller;
 import domain.model.users.Mantainance;
@@ -82,8 +83,8 @@ public class DemoInitialization implements ServletContextListener {
 	private static final int BARAJAS_AIRPORT_MAXFLIGHTS = 0;
 	private static final double BARAJAS_AIRPORT_LONGITUDE = -3.5679514999999355;
 	private static final double BARAJAS_AIRPORT_LATITUDE = 40.4839361;
-	private static final String BARAJAS_AIRPORT_NODE_NAME = "Adolfo Su·rez Madrid Barajas";
-	private static final String BARAJAS_AIRPORT_STREETANDNUMBER = "Aeropuerto Adolfo Su·rez Madrid Barajas";
+	private static final String BARAJAS_AIRPORT_NODE_NAME = "Adolfo Su√°rez Madrid Barajas";
+	private static final String BARAJAS_AIRPORT_STREETANDNUMBER = "Aeropuerto Adolfo Su√°rez Madrid Barajas";
 	private static final String BARAJAS_AIRPORT_POSTCODE = "28042";
 	private static final String BARAJAS_AIRPORT_REGION = "Madrid";
 	private static final int LOIU_AIRPORT_MAX_FLIGHTS = 0;
@@ -108,35 +109,38 @@ public class DemoInitialization implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 
+
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		List<Object> listAirport = HibernateGeneric.loadAllObjects(new Airport());
-
-		if (listAirport == null || listAirport.size() == 0) {
-			Terminal madridTerminal = initMadridAirport();
-			Terminal bilbaoTerminal = initBilbaoAirport();
-			Terminal tegelTerminal = initTegelAirport();
+	
+		List<Object> users = HibernateGeneric.loadAllObjects(new Admin());
+		if (users.isEmpty()) {
+		//initHeathrowAirport();
 			Address address = initUsersAddress();
 			initController(address);
 			initPassenger(address);
-			Airline airline = initAirline(address);
 			initMaitenance(address);
+			Terminal madridTerminal = initMadridAirport();
+			Terminal bilbaoTerminal = initBilbaoAirport();
+			Terminal tegelTerminal = initTegelAirport();
+			Airline airline = initAirline(address);
 			initPlaneMakersAndModels();
 			initRoutes(madridTerminal, bilbaoTerminal, tegelTerminal);
 			PlaneStatus planeStatus = initPlaneStatus();
 			PlaneMovement planeMovement = initPlaneMovement();
 			initPlanes(airline, planeStatus, planeMovement);
-			// initFlights();
+			//initFlights();
 		}
-
+		
 	}
 
 	private void initFlights() {
 		Random random = new Random();
 		List<Object> routesList = HibernateGeneric.loadAllObjects(new Route());
 		List<Object> planesList = HibernateGeneric.loadAllObjects(new Plane());
+
 
 		for (int i = 0; i < 20; i++) {
 			int routePos = random.nextInt(routesList.size());
@@ -153,9 +157,11 @@ public class DemoInitialization implements ServletContextListener {
 			flight.setPrice((float) price);
 			flight.setRoute((Route) routesList.get(routePos));
 			flight.setPlane((Plane) planesList.get(planePos));
+
 			if (i % 2 == 0) {
 				flight.setExpectedDepartureDate(new Date(date.getTime() + departureHour));
 				flight.setExpectedArrivalDate(new Date(date.getTime() + arrivalHour));
+		
 			} else {
 				flight.setExpectedDepartureDate(new Date(date.getTime() - departureHour));
 				flight.setExpectedArrivalDate(new Date(date.getTime() - arrivalHour));
@@ -185,6 +191,7 @@ public class DemoInitialization implements ServletContextListener {
 	private void initPlanes(Airline airline, PlaneStatus planeStatus, PlaneMovement planeMovement) {
 		List<Object> planeModelList = HibernateGeneric.loadAllObjects(new PlaneModel());
 		Random random = new Random();
+
 
 		for (int i = 0; i < 10; i++) {
 			int planeModelPos = random.nextInt(planeModelList.size());
@@ -225,11 +232,13 @@ public class DemoInitialization implements ServletContextListener {
 		terminalPos = random.nextInt(heathrowTerminals.size());
 		route = new Route();
 		route.setDepartureTerminal(bilbaoTerminal);
+
 		route.setArrivalTerminal((Terminal) heathrowTerminals.get(terminalPos));
 		HibernateGeneric.saveObject(route);
 
 		terminalPos = random.nextInt(heathrowTerminals.size());
 		route = new Route();
+
 		route.setDepartureTerminal((Terminal) heathrowTerminals.get(terminalPos));
 		route.setArrivalTerminal(tegelTerminal);
 		HibernateGeneric.saveObject(route);
@@ -340,6 +349,7 @@ public class DemoInitialization implements ServletContextListener {
 
 	}
 
+
 	private Address initUsersAddress() {
 		Address address = new Address();
 		address.setCountry(USER_ADDRESS_COUNTRY);
@@ -363,6 +373,7 @@ public class DemoInitialization implements ServletContextListener {
 		HibernateGeneric.saveObject(controller);
 
 	}
+
 
 	private void initPassenger(Address address) {
 		Passenger passenger = new Passenger();

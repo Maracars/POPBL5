@@ -205,6 +205,7 @@ public class GatesInitialization implements ServletContextListener {
 				gate.setTerminal(terminalList.get(0));
 				gate.setFree(true);
 				gate.setPositionNode(node);
+				gate.setNumber(random.nextInt(40));
 				HibernateGeneric.saveObject(gate);
 			default:
 				break;

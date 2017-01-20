@@ -12,11 +12,7 @@
 	       initialization.HibernateInit
 	    </listener-class>
   </listener>
-  <listener>
-    <listener-class>
-	       initialization.AdminInitialization
-	    </listener-class>
-  </listener>
+  
   <listener>
     <listener-class>
 	       initialization.SocketIOInit
@@ -39,6 +35,11 @@
 	       initialization.DemoInitialization
 	    </listener-class>
 	</listener>
+	<listener>
+    <listener-class>
+	       initialization.AdminInitialization
+	    </listener-class>
+  </listener>
   
   <filter>
     <filter-name>struts2</filter-name>

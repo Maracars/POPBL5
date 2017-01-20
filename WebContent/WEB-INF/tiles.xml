@@ -132,9 +132,10 @@
 			value="/pages/tiles/bodies/controller/airportInfo.jsp"></put-attribute>
 					<put-list-attribute name="javascripts">
 			
-					<add-attribute value="/js/controllerMap.js"></add-attribute>
+					
 			<add-attribute value="https://cdn.socket.io/socket.io-1.4.5.js"></add-attribute>
 			<add-attribute value="https://openlayers.org/en/v3.20.0/build/ol.js"></add-attribute>
+			<add-attribute value="/js/controllerMap.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
 
