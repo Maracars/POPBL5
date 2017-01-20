@@ -14,6 +14,8 @@ import hibernate.HibernateConnection;
  */
 public class DAOGate {
 
+	private static final String QUERY_GATES_FROM_TERMINAL_FROM_AIRPORT = "from Gate as g where g.terminal.airport.id = :";
+
 	/** The session. */
 	private static Session session;
 
@@ -26,10 +28,10 @@ public class DAOGate {
 
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 
-	private static final String LOAD_TABLE_GATES = "from Gate as g where g.terminal.airport.id = :"
+	private static final String LOAD_TABLE_GATES = QUERY_GATES_FROM_TERMINAL_FROM_AIRPORT
 			+ PARAMETER_AIRPORT_ID + " order by g.";
 
-	private static final String LOAD_ALL_GATES = "from Gate as g where g.terminal.airport.id = :"
+	private static final String LOAD_ALL_GATES = QUERY_GATES_FROM_TERMINAL_FROM_AIRPORT
 			+ PARAMETER_AIRPORT_ID;
 
 	private static final String PARAMETER_POSX = "posX";

@@ -12,29 +12,29 @@ import domain.dao.DAOFlight;
 import domain.model.Flight;
 import domain.model.users.Passenger;
 
-public class FlightListJSONAction<sincronized> extends ActionSupport{
+public class FlightListJSONAction<sincronized> extends ActionSupport {
 
+	private static final String STRING_ROUTE_DEPARTURE_TERMINAL_AIRPORT_NAME = "route.departureTerminal.airport.name";
 
 	private static final long serialVersionUID = 1L;
 
 	private int recordsTotal = 1, recordsFiltered = 0, draw = 0;
 	List<FlightView> data;
 	String error = null;
-	
+
 	@Override
 	public synchronized String execute() throws Exception {
 		Map<String, String[]> map = ActionContext.getContext().getParameters().toMap();
-		
+
 		int orderCol = Integer.parseInt(map.get("order[0][column]")[0]);
 		String orderDir = map.get("order[0][dir]")[0];
 		String originSearch = map.get("columns[0][search][value]")[0];
 		String destinationSearch = map.get("columns[1][search][value]")[0];
-		
+
 		int start = Integer.parseInt(map.get("start")[0]);
 		int length = Integer.parseInt(map.get("length")[0]);
 
 		data = generateData(orderCol, orderDir, start, length);
-
 
 		recordsTotal = DAOFlight.loadNextDepartureFlights().size();
 
@@ -50,7 +50,8 @@ public class FlightListJSONAction<sincronized> extends ActionSupport{
 		destinationSearch = destinationSearch.toLowerCase();
 		for (Iterator<FlightView> fvIt = data.iterator(); fvIt.hasNext();) {
 			FlightView fv = fvIt.next();
-			if (fv.getSource().toLowerCase().contains(originSearch) && fv.getDestination().toLowerCase().contains(destinationSearch))
+			if (fv.getSource().toLowerCase().contains(originSearch)
+					&& fv.getDestination().toLowerCase().contains(destinationSearch))
 				continue;
 			fvIt.remove();
 		}
@@ -64,8 +65,8 @@ public class FlightListJSONAction<sincronized> extends ActionSupport{
 
 		flightList = DAOFlight.loadNextDepartureFlightsForTable(colName, orderDir, start, length);
 
-		if(flightList != null){
-			for(Flight flight : flightList){
+		if (flightList != null) {
+			for (Flight flight : flightList) {
 				String source = flight.getRoute().getDepartureTerminal().getAirport().getName();
 				String destination = flight.getRoute().getArrivalTerminal().getAirport().getName();
 				String departureDate = flight.getExpectedDepartureDate().toString();
@@ -79,23 +80,23 @@ public class FlightListJSONAction<sincronized> extends ActionSupport{
 		}
 		return fvViewsList;
 	}
-	
-	public String getFlightId(Flight flight){
+
+	public String getFlightId(Flight flight) {
 		String id = String.valueOf(flight.getId());
 		Passenger passenger = (Passenger) ActionContext.getContext().getSession().get("user");
-		for(Passenger p : flight.getPassengerList()){
-			if(p.getId() == passenger.getId()){
-				 id = "0";
+		for (Passenger p : flight.getPassengerList()) {
+			if (p.getId() == passenger.getId()) {
+				id = "0";
 			}
 		}
 		return id;
 	}
 
-	public String getOrderColumnName(int orderCol){
+	public String getOrderColumnName(int orderCol) {
 		String colName = null;
-		switch(orderCol){
+		switch (orderCol) {
 		case 0:
-			colName = "route.departureTerminal.airport.name";
+			colName = STRING_ROUTE_DEPARTURE_TERMINAL_AIRPORT_NAME;
 			break;
 		case 1:
 			colName = "route.arrivalTerminal.airport.name";
@@ -110,14 +111,53 @@ public class FlightListJSONAction<sincronized> extends ActionSupport{
 			colName = "plane.serial";
 			break;
 		default:
-			colName = "route.departureTerminal.airport.name";
+			colName = STRING_ROUTE_DEPARTURE_TERMINAL_AIRPORT_NAME;
 			break;
 		}
 		return colName;
 	}
 
+	public int getRecordsTotal() {
+		return recordsTotal;
+	}
 
-	public class FlightView{
+	public void setRecordsTotal(int recordsTotal) {
+		this.recordsTotal = recordsTotal;
+	}
+
+	public int getRecordsFiltered() {
+		return recordsFiltered;
+	}
+
+	public void setRecordsFiltered(int recordsFiltered) {
+		this.recordsFiltered = recordsFiltered;
+	}
+
+	public List<FlightView> getData() {
+		return data;
+	}
+
+	public void setData(List<FlightView> data) {
+		this.data = data;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public int getDraw() {
+		return draw;
+	}
+
+	public void setDraw(int draw) {
+		this.draw = draw;
+	}
+
+	public class FlightView {
 		String source;
 		String destination;
 		String departureDate;
@@ -125,7 +165,8 @@ public class FlightListJSONAction<sincronized> extends ActionSupport{
 		String planeInfo;
 		String flightId;
 
-		public FlightView(String source, String destination, String departureDate, String price, String planeInfo, String flightId){
+		public FlightView(String source, String destination, String departureDate, String price, String planeInfo,
+				String flightId) {
 			this.source = source;
 			this.destination = destination;
 			this.departureDate = departureDate;
@@ -181,54 +222,7 @@ public class FlightListJSONAction<sincronized> extends ActionSupport{
 		public void setFlightId(String flightId) {
 			this.flightId = flightId;
 		}
-		
-		
+
 	}
-
-
-	public int getRecordsTotal() {
-		return recordsTotal;
-	}
-
-	public void setRecordsTotal(int recordsTotal) {
-		this.recordsTotal = recordsTotal;
-	}
-
-	public int getRecordsFiltered() {
-		return recordsFiltered;
-	}
-
-	public void setRecordsFiltered(int recordsFiltered) {
-		this.recordsFiltered = recordsFiltered;
-	}
-
-	public List<FlightView> getData() {
-		return data;
-	}
-
-	public void setData(List<FlightView> data) {
-		this.data = data;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
-	}
-
-	public int getDraw() {
-		return draw;
-	}
-
-	public void setDraw(int draw) {
-		this.draw = draw;
-	}
-	
-	
-	
-	
-
 
 }

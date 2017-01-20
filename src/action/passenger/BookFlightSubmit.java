@@ -11,19 +11,19 @@ import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 import domain.model.users.Passenger;
 
-public class BookFlightSubmit extends ActionSupport{
+public class BookFlightSubmit extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	String flightId;
 
 	@Override
 	public String execute() throws Exception {
 		Passenger passenger = (Passenger) ActionContext.getContext().getSession().get("user");
 		Flight flight = DAOFlight.loadFlightById(Integer.parseInt(flightId));
-		if(flight.getPassengerList().size() > 0){
+		if (flight.getPassengerList().size() > 0) {
 			flight.getPassengerList().add(passenger);
-		}else{
+		} else {
 			Collection<Passenger> passengerList = new ArrayList<Passenger>();
 			passengerList.add(passenger);
 			flight.setPassengerList(passengerList);
@@ -40,10 +40,5 @@ public class BookFlightSubmit extends ActionSupport{
 	public void setFlightId(String flightId) {
 		this.flightId = flightId;
 	}
-	
-	
-	
-	
-	
 
 }

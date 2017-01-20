@@ -10,11 +10,11 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.DAOFlight;
-import domain.dao.DAOPlane;
 import domain.model.Flight;
-import domain.model.users.User;
 
 public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
+
+	private static final String STRING_EXPECTED_DEPARTURE_DATE = "expectedDepartureDate";
 
 	private static final int DESTINATION = 1;
 
@@ -105,7 +105,7 @@ public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
 		String colName = null;
 		switch (orderCol) {
 		case 0:
-			colName = "expectedDepartureDate";
+			colName = STRING_EXPECTED_DEPARTURE_DATE;
 			break;
 		case DESTINATION:
 			colName = "route.arrivalTerminal.airport.name";
@@ -117,7 +117,7 @@ public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
 			colName = "status.positionStatus";
 			break;
 		default:
-			colName = "expectedDepartureDate";
+			colName = STRING_EXPECTED_DEPARTURE_DATE;
 			break;
 		}
 		return colName;

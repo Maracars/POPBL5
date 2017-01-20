@@ -141,8 +141,6 @@ public abstract class PlaneThread implements Runnable {
 	 */
 	protected void changeLaneStatus(Lane laneToChange, boolean status) {
 
-		System.out.println(
-				plane.getSerial() + "moving from " + laneToChange.getStartNode() + " to " + laneToChange.getEndNode());
 		laneToChange.setStatus(status);
 		HibernateGeneric.updateObject(laneToChange);
 	}

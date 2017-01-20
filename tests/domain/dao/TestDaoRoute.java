@@ -3,7 +3,6 @@ package domain.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import domain.model.Address;
@@ -13,8 +12,6 @@ import domain.model.Gate;
 import domain.model.Node;
 import domain.model.Route;
 import domain.model.Terminal;
-import initialization.HibernateInit;
-import initialization.SocketIOInit;
 
 public class TestDaoRoute {
 
