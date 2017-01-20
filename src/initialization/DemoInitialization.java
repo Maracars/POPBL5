@@ -11,7 +11,6 @@ import domain.dao.HibernateGeneric;
 import domain.model.Address;
 import domain.model.Airport;
 import domain.model.Flight;
-import domain.model.Gate;
 import domain.model.Node;
 import domain.model.Plane;
 import domain.model.PlaneMaker;
@@ -20,6 +19,7 @@ import domain.model.PlaneMovement;
 import domain.model.PlaneStatus;
 import domain.model.Route;
 import domain.model.Terminal;
+import domain.model.users.Admin;
 import domain.model.users.Airline;
 import domain.model.users.Controller;
 import domain.model.users.Mantainance;
@@ -123,21 +123,25 @@ public class DemoInitialization implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
+		List<Object> users = HibernateGeneric.loadAllObjects(new Admin());
+		if (users.isEmpty()) {
 		//initHeathrowAirport();
-		Terminal madridTerminal = initMadridAirport();
-		Terminal bilbaoTerminal = initBilbaoAirport();
-		Terminal tegelTerminal = initTegelAirport();
-		Address address = initUsersAddress();
-		initController(address);
-		initPassenger(address);
-		Airline airline = initAirline(address);
-		initMaitenance(address);
-		initPlaneMakersAndModels();
-		initRoutes(madridTerminal, bilbaoTerminal, tegelTerminal);
-		PlaneStatus planeStatus = initPlaneStatus();
-		PlaneMovement planeMovement = initPlaneMovement();
-		initPlanes(airline, planeStatus, planeMovement);
-		//initFlights();
+			Address address = initUsersAddress();
+			initController(address);
+			initPassenger(address);
+			initMaitenance(address);
+			Terminal madridTerminal = initMadridAirport();
+			Terminal bilbaoTerminal = initBilbaoAirport();
+			Terminal tegelTerminal = initTegelAirport();
+			Airline airline = initAirline(address);
+			initPlaneMakersAndModels();
+			initRoutes(madridTerminal, bilbaoTerminal, tegelTerminal);
+			PlaneStatus planeStatus = initPlaneStatus();
+			PlaneMovement planeMovement = initPlaneMovement();
+			initPlanes(airline, planeStatus, planeMovement);
+			//initFlights();
+		}
+		
 	}
 
 
