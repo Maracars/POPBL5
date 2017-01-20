@@ -14,9 +14,14 @@
 			<result name="airline" type="tiles">airline</result>
 			<result name="*" type="tiles">index</result>
 		</action>
-
+		
 		<action name="locale" class="action.locale.Locale">
 			<result name="success" type="redirect">%{url}</result>
+		</action>
+
+		<action name="nextArrivingPlanes" class="action.NextArrivingFlightJSONAction">
+			
+			<result name="*" type="json"></result>
 		</action>
 
 		<action name="launchSimulator" class="action.StartSimulatorAction" method = "startSimulator">

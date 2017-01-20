@@ -19,6 +19,12 @@
 		<put-attribute name="sidemenu" value="/pages/tiles/sidemenus/default.jsp" />
 		<put-attribute name="body" value="/pages/tiles/bodies/home.jsp" />
 		<put-attribute name="rsc" value="/pages/tiles/rsc/default.jsp" />
+		<put-list-attribute name="javascripts">
+					<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
+		
+			<add-attribute value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
+					</put-list-attribute>
+			
 	</definition>
 
 

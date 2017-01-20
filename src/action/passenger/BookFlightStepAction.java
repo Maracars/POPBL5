@@ -1,14 +1,11 @@
 package action.passenger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import domain.dao.DAOFlight;
 import domain.dao.HibernateGeneric;
 import domain.model.Airport;
-import domain.model.Flight;
 
 public class BookFlightStepAction extends ActionSupport{
 

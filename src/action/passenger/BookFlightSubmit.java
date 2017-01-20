@@ -10,7 +10,6 @@ import domain.dao.DAOFlight;
 import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 import domain.model.users.Passenger;
-import domain.model.users.User;
 
 public class BookFlightSubmit extends ActionSupport{
 

@@ -330,7 +330,7 @@ public class DAOFlight {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static List<Flight> loadNextDepartureFlights(){
 		List<Flight> flightList = null;
 		try {
@@ -364,7 +364,7 @@ public class DAOFlight {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public static List<Flight> loadNextDepartureFlightsForTable(String orderCol, String orderDir, int start, int length){
 		List<Flight> flightList = null;
 		try {

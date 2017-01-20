@@ -8,7 +8,6 @@ import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import domain.model.Terminal;
 import domain.model.users.User;
 import helpers.MD5;
 import hibernate.HibernateConnection;
