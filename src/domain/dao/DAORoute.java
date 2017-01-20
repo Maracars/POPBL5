@@ -14,6 +14,8 @@ import hibernate.HibernateConnection;
  */
 public class DAORoute {
 
+	private static final String STRING_ORDER_BY = " order by rand()";
+
 	/** The Constant QUERY_ROUTE. */
 	private static final String QUERY_ROUTE = "from Route as r ";
 
@@ -23,14 +25,15 @@ public class DAORoute {
 
 	/** The Constant QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID. */
 	private static final String QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
-		
-			+ "where r.arrivalTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + " order by rand()";
+
+			+ "where r.arrivalTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + STRING_ORDER_BY;
 
 	/** The Constant QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID. */
 	private static final String QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
 
-			+ "where r.departureTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + " order by rand()";
-	private static final String QUERY_ROUTES_FROM_AIRLINE = "select r from Flight as f join f.route as r where f.plane.airline.id = :" + PARAMETER_AIRLINE_ID;
+			+ "where r.departureTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + STRING_ORDER_BY;
+	private static final String QUERY_ROUTES_FROM_AIRLINE = "select r from Flight as f join f.route as r where f.plane.airline.id = :"
+			+ PARAMETER_AIRLINE_ID;
 
 	/** The session. */
 	private static Session session;
@@ -38,14 +41,13 @@ public class DAORoute {
 	/**
 	 * Gets the random arrival route from airport.
 	 *
-
+	 * 
 	 * @param airportId
 	 *            the airport id
 	 * @return the random arrival route from airport
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<Route> getRandomArrivalRouteFromAirport(int airportId) {
-
 
 		List<Route> routeList = null;
 		try {
@@ -67,7 +69,7 @@ public class DAORoute {
 	/**
 	 * Select departure route from airport.
 	 *
-
+	 * 
 	 * @param airportId
 	 *            the airport id
 	 * @return the route
@@ -93,14 +95,14 @@ public class DAORoute {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Route> getRouteListFromAirline(int airlineId){
+	public static List<Route> getRouteListFromAirline(int airlineId) {
 		List<Route> routeList = null;
 		session = HibernateConnection.getSessionFactory().openSession();
 		try {
 			Query query = session.createQuery(QUERY_ROUTES_FROM_AIRLINE);
 			query.setParameter(PARAMETER_AIRLINE_ID, airlineId);
 			routeList = query.getResultList();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();

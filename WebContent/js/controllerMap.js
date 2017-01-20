@@ -16,15 +16,15 @@ var counter = 0;
 var steps = 1000;
 var iconStyle = {
 	anchor : [ 0.5, 0.5 ],
-	anchorXUnits : 'fraction',
-	anchorYUnits : 'pixels',
+	anchorXUnits : "fraction",
+	anchorYUnits : "pixels",
 	opacity : 1,
 	rotateWithView : true,
 	size : [ 32, 48 ],
 
-	src : 'rsc/img/miniplane.png'
+	src : "rsc/img/miniplane.png"
 
-}
+};
 
 $(document)
 		.ready(
@@ -34,7 +34,6 @@ $(document)
 						var data = JSON.parse(jsonData);
 						setTimeNow();
 						var pending;
-						console.log(data);
 						pending = checksNextPendingMoveOfPlane(data.id);
 						data.moveId = counter++;
 						pendingMoves.push(data);
@@ -56,7 +55,7 @@ $(document)
 							featureToUpdate = new ol.Feature({
 								geometry : new ol.geom.Point(ol.proj.transform(
 										[ data.positiony, data.positionx ],
-										'EPSG:4326', 'EPSG:3857'))
+										"EPSG:4326", "EPSG:3857"))
 							});
 							featureToUpdate.setStyle(new ol.style.Style({
 								image : new ol.style.Icon(iconStyle)
@@ -90,7 +89,6 @@ $(document)
 						var plane = getLastPlanePosition(data.id);
 						var sleepTime = (time - plane.time) / steps;
 						for (var int = 1; int <= steps; int++) {
-						console.log(sleepTime);
 							setTimeout(f, int * 10, int,
 									featureToUpdate, latStep, longStep,
 									beforeCoord, data, time);
@@ -100,7 +98,7 @@ $(document)
 					function f(int, featureToUpdate, latStep, longStep,
 							beforeCoord, data, time) {
 						var long = beforeCoord.positiony + longStep * int;
-						var lat = beforeCoord.positionx + latStep * int
+						var lat = beforeCoord.positionx + latStep * int;
 						featureToUpdate.getGeometry().setCoordinates(
 								getPointFromLongLat(long, lat));
 
@@ -158,12 +156,12 @@ $(document)
 					}
 
 					function getPointFromLongLat(long, lat) {
-						return ol.proj.transform([ long, lat ], 'EPSG:4326',
-								'EPSG:3857');
+						return ol.proj.transform([ long, lat ], "EPSG:4326",
+								"EPSG:3857");
 					}
 					function getOriginLongLat(long, lat) {
-						return ol.proj.transform([ long, lat ], 'EPSG:3857',
-								'EPSG:4326');
+						return ol.proj.transform([ long, lat ], "EPSG:3857",
+								"EPSG:4326");
 					}
 
 					$
@@ -189,8 +187,8 @@ $(document)
 																					[
 																							planes[i].planeMovement.positionY,
 																							planes[i].planeMovement.positionX ],
-																					'EPSG:4326',
-																					'EPSG:3857'))
+																					"EPSG:4326",
+																					"EPSG:3857"))
 														});
 												iconFeature
 														.setStyle(new ol.style.Style(
@@ -231,7 +229,7 @@ $(document)
 
 						var coordinate;
 
-						$('#map')
+						$("#map")
 								.ready(
 										function() {
 											if (vectorLayer === undefined

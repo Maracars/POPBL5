@@ -28,9 +28,9 @@ $(document).ready(function() {
 			"data" : "flightId",
 			"render" : function(data, type, full, meta){
 				if(data == "0"){
-					return '<div><button type="submit" class="btn btn-primary disabled" value='+data+' name="flightId"><i class="fa fa-credit-card"></i></button></div>'
+					return '<div><button type="submit" class="btn btn-primary disabled" value='+data+' name="flightId"><i class="fa fa-credit-card"></i></button></div>';
 				}else{
-					return '<div><button type="submit" class="btn btn-primary" value='+data+' name="flightId"><i class="fa fa-credit-card"></i></button></div>'
+					return '<div><button type="submit" class="btn btn-primary" value='+data+' name="flightId"><i class="fa fa-credit-card"></i></button></div>';
 				}
 			}
 		}]

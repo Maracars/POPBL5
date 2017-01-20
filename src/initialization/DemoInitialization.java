@@ -27,6 +27,8 @@ import domain.model.users.Passenger;
 
 public class DemoInitialization implements ServletContextListener {
 
+	private static final int RANDOM_MARGIN = 1000 - 1;
+	private static final int RANDOM_INT = 5;
 	private static final double SPEED = 0.0;
 	private static final double POSITION_Y = 0.0;
 	private static final double POSITION_X = 0.0;
@@ -109,15 +111,14 @@ public class DemoInitialization implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 
-
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-	
+
 		List<Object> users = HibernateGeneric.loadAllObjects(new Admin());
 		if (users.isEmpty()) {
-		//initHeathrowAirport();
+			// initHeathrowAirport();
 			Address address = initUsersAddress();
 			initController(address);
 			initPassenger(address);
@@ -131,9 +132,9 @@ public class DemoInitialization implements ServletContextListener {
 			PlaneStatus planeStatus = initPlaneStatus();
 			PlaneMovement planeMovement = initPlaneMovement();
 			initPlanes(airline, planeStatus, planeMovement);
-			//initFlights();
+			// initFlights();
 		}
-		
+
 	}
 
 	private void initFlights() {
@@ -141,15 +142,14 @@ public class DemoInitialization implements ServletContextListener {
 		List<Object> routesList = HibernateGeneric.loadAllObjects(new Route());
 		List<Object> planesList = HibernateGeneric.loadAllObjects(new Plane());
 
-
 		for (int i = 0; i < 20; i++) {
 			int routePos = random.nextInt(routesList.size());
 			int planePos = random.nextInt(planesList.size());
 
-			int departureHour = random.nextInt(5);
-			int arrivalHour = random.nextInt(5);
+			int departureHour = random.nextInt(RANDOM_INT);
+			int arrivalHour = random.nextInt(RANDOM_INT);
 
-			double price = Math.random() * (1000 - 1);
+			double price = Math.random() * RANDOM_MARGIN;
 
 			Date date = new Date();
 
@@ -161,7 +161,7 @@ public class DemoInitialization implements ServletContextListener {
 			if (i % 2 == 0) {
 				flight.setExpectedDepartureDate(new Date(date.getTime() + departureHour));
 				flight.setExpectedArrivalDate(new Date(date.getTime() + arrivalHour));
-		
+
 			} else {
 				flight.setExpectedDepartureDate(new Date(date.getTime() - departureHour));
 				flight.setExpectedArrivalDate(new Date(date.getTime() - arrivalHour));
@@ -191,7 +191,6 @@ public class DemoInitialization implements ServletContextListener {
 	private void initPlanes(Airline airline, PlaneStatus planeStatus, PlaneMovement planeMovement) {
 		List<Object> planeModelList = HibernateGeneric.loadAllObjects(new PlaneModel());
 		Random random = new Random();
-
 
 		for (int i = 0; i < 10; i++) {
 			int planeModelPos = random.nextInt(planeModelList.size());
@@ -349,7 +348,6 @@ public class DemoInitialization implements ServletContextListener {
 
 	}
 
-
 	private Address initUsersAddress() {
 		Address address = new Address();
 		address.setCountry(USER_ADDRESS_COUNTRY);
@@ -373,7 +371,6 @@ public class DemoInitialization implements ServletContextListener {
 		HibernateGeneric.saveObject(controller);
 
 	}
-
 
 	private void initPassenger(Address address) {
 		Passenger passenger = new Passenger();
