@@ -199,6 +199,7 @@ public class Initializer {
 	/**
 	 * Inits the terminal.
 	 *
+	 * @param positionNode the position node
 	 * @return the terminal
 	 */
 	public static Terminal initTerminal(Node positionNode) {
@@ -212,8 +213,8 @@ public class Initializer {
 	/**
 	 * Inits the terminal.
 	 *
-	 * @param airport
-	 *            the airport
+	 * @param airport            the airport
+	 * @param positionNode the position node
 	 * @return the terminal
 	 */
 	public static Terminal initTerminal(Airport airport, Node positionNode) {

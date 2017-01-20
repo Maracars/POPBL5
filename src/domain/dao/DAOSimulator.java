@@ -16,10 +16,13 @@ import hibernate.HibernateConnection;
  */
 public class DAOSimulator {
 
+	/** The Constant STRING_PLANE_ID. */
 	private static final String STRING_PLANE_ID = "planeId";
 
+	/** The Constant STRING_AIRPORT_ID. */
 	private static final String STRING_AIRPORT_ID = "airportId";
 
+	/** The Constant STRING_CORRECT_DATE. */
 	private static final String STRING_CORRECT_DATE = "correctDate";
 
 	/** The Constant SECOND_TO_MIN. */

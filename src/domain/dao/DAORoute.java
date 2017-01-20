@@ -14,6 +14,7 @@ import hibernate.HibernateConnection;
  */
 public class DAORoute {
 
+	/** The Constant STRING_ORDER_BY. */
 	private static final String STRING_ORDER_BY = " order by rand()";
 
 	/** The Constant QUERY_ROUTE. */
@@ -21,6 +22,8 @@ public class DAORoute {
 
 	/** The Constant PARAMETER_AIRPORT_ID. */
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
+	
+	/** The Constant PARAMETER_AIRLINE_ID. */
 	private static final String PARAMETER_AIRLINE_ID = "airlineId";
 
 	/** The Constant QUERY_ARRIVAL_ROUTES_FROM_AIRPORTID. */
@@ -32,6 +35,8 @@ public class DAORoute {
 	private static final String QUERY_DEPARTURE_ROUTES_FROM_AIRPORTID = QUERY_ROUTE
 
 			+ "where r.departureTerminal.airport.id = :" + PARAMETER_AIRPORT_ID + STRING_ORDER_BY;
+	
+	/** The Constant QUERY_ROUTES_FROM_AIRLINE. */
 	private static final String QUERY_ROUTES_FROM_AIRLINE = "select r from Flight as f join f.route as r where f.plane.airline.id = :"
 			+ PARAMETER_AIRLINE_ID;
 
@@ -94,6 +99,12 @@ public class DAORoute {
 		return routeList.get(0);
 	}
 
+	/**
+	 * Gets the route list from airline.
+	 *
+	 * @param airlineId the airline id
+	 * @return the route list from airline
+	 */
 	@SuppressWarnings("unchecked")
 	public static List<Route> getRouteListFromAirline(int airlineId) {
 		List<Route> routeList = null;

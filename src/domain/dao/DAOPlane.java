@@ -18,6 +18,7 @@ import hibernate.HibernateConnection;
  */
 public class DAOPlane {
 
+	/** The Constant UNCHECKED. */
 	private static final String UNCHECKED = "unchecked";
 
 	/** The Constant MAX_RESULTS. */
@@ -43,6 +44,7 @@ public class DAOPlane {
 	/** The Constant PARAMETER_SOON_DATE. */
 	private static final String PARAMETER_SOON_DATE = "soonDate";
 
+	/** The Constant PARAMETER_AIRLINE_ID. */
 	private static final String PARAMETER_AIRLINE_ID = "airlineId";
 
 	/** The Constant SELECT_PLANE. */
@@ -75,17 +77,21 @@ public class DAOPlane {
 	private static final String QUERY_FREE_PLANE = SELECT_PLANE_JOIN_FLIGHT
 			+ "where f.realArrivalDate < current_timestamp or f is null";
 
+	/** The Constant PARAMETER_SERIAL_NUMBER. */
 	private static final String PARAMETER_SERIAL_NUMBER = "serialNumber";
 
+	/** The Constant QUERY_PLANE_WITH_SERIAL. */
 	private static final String QUERY_PLANE_WITH_SERIAL = "from Plane as p join p.airline as a where p.serial = :"
 			+ PARAMETER_SERIAL_NUMBER + " and a.id = :" + PARAMETER_AIRLINE_ID;
 
 	/** The Constant MILIS_TO_HOURS. */
 	private static final int MILIS_TO_HOURS = MILIS_TO_SECOND * SECOND_TO_MIN * MIN_TO_HOURS;
 
+	/** The Constant LOAD_TABLE_PLANES. */
 	private static final String LOAD_TABLE_PLANES = "from Plane as p join p.airline as a where a.id = :"
 			+ PARAMETER_AIRLINE_ID + " order by p.";
 
+	/** The Constant LOAD_ALL_PLANES_FROM_AIRLINE. */
 	private static final String LOAD_ALL_PLANES_FROM_AIRLINE = "from Plane as p join p.airline as a where a.id = :"
 			+ PARAMETER_AIRLINE_ID;
 
@@ -225,6 +231,12 @@ public class DAOPlane {
 		return objectList;
 	}
 
+	/**
+	 * Load all airplanes from airline.
+	 *
+	 * @param airlineId the airline id
+	 * @return the list
+	 */
 	@SuppressWarnings(UNCHECKED)
 	public static List<Plane> loadAllAirplanesFromAirline(int airlineId) {
 		List<Object[]> objectList = null;
@@ -253,6 +265,16 @@ public class DAOPlane {
 		return planeList;
 	}
 
+	/**
+	 * Load airplanes for table.
+	 *
+	 * @param airlineId the airline id
+	 * @param orderCol the order col
+	 * @param orderDir the order dir
+	 * @param start the start
+	 * @param length the length
+	 * @return the list
+	 */
 	@SuppressWarnings(UNCHECKED)
 	public static List<Plane> loadAirplanesForTable(int airlineId, String orderCol, String orderDir, int start,
 			int length) {
@@ -283,6 +305,13 @@ public class DAOPlane {
 		return planeList;
 	}
 
+	/**
+	 * Load airplane with serial.
+	 *
+	 * @param airlineId the airline id
+	 * @param serial the serial
+	 * @return the plane
+	 */
 	@SuppressWarnings(UNCHECKED)
 	public static Plane loadAirplaneWithSerial(int airlineId, String serial) {
 		Plane plane = null;

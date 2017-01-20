@@ -100,11 +100,19 @@ public class Path {
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return laneList.toString() + distance;
 	}
 
+	/**
+	 * Checks if is free.
+	 *
+	 * @return true, if is free
+	 */
 	public boolean isFree() {
 		for (Lane lane : laneList) {
 			if (!lane.isFree()) {
@@ -114,6 +122,11 @@ public class Path {
 		return true;
 	}
 
+	/**
+	 * Change path status.
+	 *
+	 * @param status the status
+	 */
 	public void changePathStatus(boolean status) {
 		for (Lane lane : laneList) {
 			lane.setStatus(status);

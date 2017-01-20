@@ -37,6 +37,9 @@ public class AutomaticMaintenance implements Runnable {
 	private static final int SLEEP_TIME_5_MIN_IN_MILIS = SLEEP_MIN_TIME * SECOND_TO_MIN * MILIS_TO_SECOND;
 	
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		while (!Thread.interrupted()) {

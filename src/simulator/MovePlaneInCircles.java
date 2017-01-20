@@ -16,6 +16,9 @@ public class MovePlaneInCircles implements Runnable {
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 

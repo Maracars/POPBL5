@@ -28,17 +28,28 @@ public abstract class PlaneThread implements Runnable {
 	/** The Constant DEPARTURING. */
 	protected static final boolean DEPARTURING = false;
 
+	/** The Constant FLIGHT_SPEED. */
 	public static final Double FLIGHT_SPEED = 500.0;
 
+	/** The Constant CONSTANT_TIME. */
 	public static final Double CONSTANT_TIME = 1000000.0;
 
+	/** The Constant LAND_SPEED. */
 	public static final Double LAND_SPEED = 300.0;
 
+	/** The Constant LANE_SPEED. */
 	public static final Double LANE_SPEED = 100.0;
 	
+	/** The Constant INIT_54_Y. */
 	protected static final double INIT_54_Y = -0.557062;
+	
+	/** The Constant INIT_54_X. */
 	protected static final double INIT_54_X = 51.464703;
+	
+	/** The Constant INIT_B_Y. */
 	protected static final double INIT_B_Y = -0.357926;
+	
+	/** The Constant INIT_B_X. */
 	protected static final double INIT_B_X = 51.477588;
 
 	/** The plane. */
@@ -65,8 +76,12 @@ public abstract class PlaneThread implements Runnable {
 	/** The flight. */
 	protected Flight flight;
 
+	/** The route of paths. */
 	LinkedList<Path> routeOfPaths;
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	abstract public void run();
 
@@ -83,6 +98,13 @@ public abstract class PlaneThread implements Runnable {
 		}
 	}
 
+	/**
+	 * Move in path.
+	 *
+	 * @param path the path
+	 * @param lastLane the last lane
+	 * @return the lane
+	 */
 	private Lane moveInPath(Path path, Lane lastLane) {
 		if (lastLane != null) {
 			Node pathStartNode = path.getLaneList().get(0).getStartNode();
@@ -115,9 +137,8 @@ public abstract class PlaneThread implements Runnable {
 	/**
 	 * Move in lane.
 	 *
-	 * @param laneWhereMove
-	 *            the lane where move
-	 * @param lastLane
+	 * @param laneWhereMove            the lane where move
+	 * @param lastLane the last lane
 	 */
 	protected void moveInLane(Lane laneWhereMove, Lane lastLane) {
 		try {
@@ -147,6 +168,9 @@ public abstract class PlaneThread implements Runnable {
 
 	/**
 	 * Move plane to end of lane.
+	 *
+	 * @param firstLane the first lane
+	 * @param lastLane the last lane
 	 */
 	private void movePlaneToEndOfLane(Lane firstLane, Lane lastLane) {
 
@@ -167,6 +191,11 @@ public abstract class PlaneThread implements Runnable {
 		}
 	}
 
+	/**
+	 * Change plane position without last lane.
+	 *
+	 * @param firstLane the first lane
+	 */
 	private void changePlanePositionWithoutLastLane(Lane firstLane) {
 			if (firstLane.getStartNode().getName().equals(flight.getStartGate().getPositionNode().getName())) {
 				plane.getPlaneMovement().setPositionX(firstLane.getEndNode().getPositionX());
@@ -177,6 +206,12 @@ public abstract class PlaneThread implements Runnable {
 			}
 	}
 
+	/**
+	 * Change plane position normal.
+	 *
+	 * @param firstLane the first lane
+	 * @param lastLane the last lane
+	 */
 	private void changePlanePositionNormal(Lane firstLane, Lane lastLane) {
 		Node lastLaneEndNode;
 		Node lastLaneStartNode;
@@ -232,6 +267,11 @@ public abstract class PlaneThread implements Runnable {
 		return plane;
 	}
 
+	/**
+	 * Sets the route of paths.
+	 *
+	 * @param routeOfPaths the new route of paths
+	 */
 	public void setRouteOfPaths(LinkedList<Path> routeOfPaths) {
 		this.routeOfPaths = routeOfPaths;
 	}

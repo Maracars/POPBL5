@@ -44,6 +44,11 @@ public class Gate {
 		this.free = free;
 	}
 
+	/**
+	 * Checks if is free.
+	 *
+	 * @return true, if is free
+	 */
 	public boolean isFree() {
 		return free;
 	}

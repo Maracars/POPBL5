@@ -17,6 +17,7 @@ public class HibernateConnection {
 	/** The Constant HBN_LOCATION. */
 	private final static String HBN_LOCATION = "/resources/hibernate.cfg.xml";
 
+	/** The mutex. */
 	private static Semaphore mutex;
 
 	/**
@@ -44,6 +45,11 @@ public class HibernateConnection {
 
 	}
 
+	/**
+	 * Gets the session.
+	 *
+	 * @return the session
+	 */
 	public static Session getSession() {
 		Session session;
 		try {
@@ -57,6 +63,11 @@ public class HibernateConnection {
 
 	}
 
+	/**
+	 * Close session.
+	 *
+	 * @param sessionToRelease the session to release
+	 */
 	public static void closeSession(Session sessionToRelease) {
 		sessionToRelease.close();
 		mutex.release();

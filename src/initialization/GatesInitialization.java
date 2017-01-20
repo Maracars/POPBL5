@@ -40,22 +40,31 @@ import simulator.MainThread;
  */
 public class GatesInitialization implements ServletContextListener {
 
+	/** The Constant PATH_NUMBER_. */
 	private static final int PATH_NUMBER_ = 2;
 
+	/** The Constant END_LANE. */
 	private static final int END_LANE = 1;
 
+	/** The Constant START_LANE. */
 	private static final int START_LANE = 0;
 
+	/** The Constant NODE_INFO_ROWS. */
 	private static final int NODE_INFO_ROWS = 3;
 
+	/** The Constant PATH_NUMBER. */
 	private static final int PATH_NUMBER = 106;
 
+	/** The Constant HEATHROW_LANES_JSON. */
 	private static final String HEATHROW_LANES_JSON = "HeathrowLanes.json";
 
+	/** The Constant STRING_LINE. */
 	private static final String STRING_LINE = "-";
 
+	/** The Constant CARACAS_POSY. */
 	private static final double CARACAS_POSY = -66.817;
 
+	/** The Constant CARACAS_POSX. */
 	private static final double CARACAS_POSX = 10.288;
 
 	/** The Constant NODE_POSITION_Y. */
@@ -93,15 +102,23 @@ public class GatesInitialization implements ServletContextListener {
 	/** The locale airport. */
 	private Airport localeAirport = null;
 
+	/** The terminal list. */
 	private List<Terminal> terminalList;
 
+	/** The path list. */
 	private static List<Path> pathList = new ArrayList<Path>();
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		MainThread.finishSimulator();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 
@@ -118,6 +135,9 @@ public class GatesInitialization implements ServletContextListener {
 
 	}
 
+	/**
+	 * Inits the airport.
+	 */
 	private void initAirport() {
 		createHeathrowLanes();
 		localeAirport = createAirport();
@@ -130,6 +150,11 @@ public class GatesInitialization implements ServletContextListener {
 		insertRoutes();
 	}
 
+	/**
+	 * Gets the paths from database.
+	 *
+	 * @return the paths from database
+	 */
 	public static List<Path> getPathsFromDatabase() {
 		try {
 			List<Object> list = HibernateGeneric.loadAllObjects(new Path());
@@ -153,6 +178,9 @@ public class GatesInitialization implements ServletContextListener {
 
 	}
 
+	/**
+	 * Creates the heathrow lanes.
+	 */
 	private void createHeathrowLanes() {
 		JSONParser parser = new JSONParser();
 		ObjectMapper mapper = new ObjectMapper();
@@ -179,6 +207,9 @@ public class GatesInitialization implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Creates the gates.
+	 */
 	private void createGates() {
 		/* The correct function is the following one, but the gates of the json aren't linked to the lanes yet.
 		 * 
@@ -214,6 +245,9 @@ public class GatesInitialization implements ServletContextListener {
 
 	}
 
+	/**
+	 * Creates the terminals.
+	 */
 	private void createTerminals() {
 		terminalList = loadTerminalsJSON();
 		for (Terminal terminal : terminalList) {
@@ -223,6 +257,9 @@ public class GatesInitialization implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Creates the plane model.
+	 */
 	private void createPlaneModel() {
 		PlaneMaker planeMaker = Initializer.initPlaneMaker();
 		HibernateGeneric.saveObject(planeMaker);
@@ -442,6 +479,9 @@ public class GatesInitialization implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Insert routes.
+	 */
 	public void insertRoutes() {
 		Terminal departureTerminal = terminalList.get(0);
 

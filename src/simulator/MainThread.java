@@ -22,12 +22,9 @@ public class MainThread {
 
 	/**
 	 * Creates the main thread.
-	 * 
-	 * @param laneList
-	 * @param pathList
 	 *
-	 * @param args
-	 *            the args
+	 * @param airport the airport
+	 * @param pathList the path list
 	 */
 	public static void initSimulator(Airport airport, List<Path> pathList) {
 

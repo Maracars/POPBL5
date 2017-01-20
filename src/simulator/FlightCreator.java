@@ -26,6 +26,7 @@ import notification.Notification;
  */
 public class FlightCreator implements Runnable {
 
+	/** The Constant INITIALIZER_0. */
 	private static final double INITIALIZER_0 = 0.0;
 
 	/** The Constant ADMIN. */
@@ -92,6 +93,9 @@ public class FlightCreator implements Runnable {
 		this.controller = ac;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		threadPool = Executors.newFixedThreadPool(MAX_ACTIVE_PLANES);

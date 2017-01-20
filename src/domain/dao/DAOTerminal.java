@@ -10,10 +10,20 @@ import org.hibernate.Session;
 import domain.model.Terminal;
 import hibernate.HibernateConnection;
 
+/**
+ * The Class DAOTerminal.
+ */
 public class DAOTerminal {
 	
+	/** The session. */
 	private static Session session;
 	
+	/**
+	 * Load terminals from airport.
+	 *
+	 * @param airportID the airport ID
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public static List<Terminal> loadTerminalsFromAirport(int airportID) {
 		List<Terminal> list = new ArrayList<>();
