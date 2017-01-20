@@ -180,8 +180,8 @@ public class GatesInitialization implements ServletContextListener {
 	}
 
 	private void createGates() {
-		/*
-		 * BEREZ hau in beharko zan baia probetako MIERDA bat programauko dot :D
+		/* The correct function is the following one, but the gates of the json aren't linked to the lanes yet.
+		 * 
 		 * List<Gate> gatesList = loadGatesJSON(); for (Gate gate : gatesList) {
 		 * Random random = new Random();
 		 * gate.setTerminal(terminalList.get(random.nextInt(terminalList.size())
@@ -192,13 +192,13 @@ public class GatesInitialization implements ServletContextListener {
 
 		for (Node node : nodeList) {
 			switch (node.getName()) {
-			case "NIDEA":
-			case "4":
-			case "2":
-			case "13":
-			case "18":
-			case "24":
-			case "39":
+			case "56":
+			case "57":
+			case "58":
+			case "59":
+			case "60":
+			case "61":
+			case "62":
 				Gate gate = new Gate();
 				Random random = new Random();
 
@@ -432,7 +432,7 @@ public class GatesInitialization implements ServletContextListener {
 		pathList = new ArrayList<Path>();
 		Path path = null;
 
-		for (Integer i = 1; i <= PATH_NUMBER; i++) {
+		for (Integer i = 1; i <= HEATHROW_LANES_NODES.length; i++) {
 			path = getPath(i.toString());
 
 			if (path != null) {

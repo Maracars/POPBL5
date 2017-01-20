@@ -100,6 +100,11 @@
 		"name": "S"
 	},
 	{
+		"positionX": 51.473808,
+		"positionY": -0.481253,
+		"name": "61"
+	},
+	{
 		"positionX": 51.474808,
 		"positionY": -0.478849,
 		"name": "T"
@@ -125,6 +130,11 @@
 		"name": "W"
 	},
 	{
+		"positionX": 51.474108,
+		"positionY": -0.460911,
+		"name": "60"
+	},
+	{
 		"positionX": 51.474808,
 		"positionY": -0.457478,
 		"name": "X"
@@ -143,6 +153,11 @@
 		"positionX": 51.474808,
 		"positionY": -0.446663,
 		"name": "ZEIZEN"
+	},
+	{
+		"positionX": 51.472808,
+		"positionY": -0.446663,
+		"name": "58"
 	},
 	{
 		"positionX": 51.474808,
@@ -175,9 +190,19 @@
 		"name": "3"
 	},
 	{
+		"positionX": 51.468659,
+		"positionY": -0.486358,
+		"name": "57"
+	},
+	{
 		"positionX": 51.472509,
 		"positionY": -0.483656,
 		"name": "4"
+	},
+	{
+		"positionX": 51.472509,
+		"positionY": -0.481956,
+		"name": "62"
 	},
 	{
 		"positionX": 51.470477,
@@ -320,6 +345,11 @@
 		"name": "26"
 	},
 	{
+		"positionX": 51.46853,
+		"positionY": -0.455761,
+		"name": "59"
+	},
+	{
 		"positionX": 51.46743,
 		"positionY": -0.448294,
 		"name": "27"
@@ -353,6 +383,11 @@
 		"positionX": 51.470477,
 		"positionY": -0.436277,
 		"name": "17"
+	},
+	{
+		"positionX": 51.470477,
+		"positionY": -0.433777,
+		"name": "56"
 	},
 	{
 		"positionX": 51.469301,

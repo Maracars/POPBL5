@@ -563,5 +563,40 @@
 		"laneStart": "36",
 		"laneEnd": "28",
 		"laneNumber": "90"
+	},
+	{
+		"laneStart": "S",
+		"laneEnd": "61",
+		"laneNumber": "107"
+	},
+	{
+		"laneStart": "3",
+		"laneEnd": "57",
+		"laneNumber": "108"
+	},
+	{
+		"laneStart": "4",
+		"laneEnd": "62",
+		"laneNumber": "109"
+	},
+	{
+		"laneStart": "W",
+		"laneEnd": "60",
+		"laneNumber": "110"
+	},
+	{
+		"laneStart": "ZEIZEN",
+		"laneEnd": "58",
+		"laneNumber": "111"
+	},
+	{
+		"laneStart": "17",
+		"laneEnd": "56",
+		"laneNumber": "112"
+	},
+	{
+		"laneStart": "26",
+		"laneEnd": "59",
+		"laneNumber": "113"
 	}
 ]
