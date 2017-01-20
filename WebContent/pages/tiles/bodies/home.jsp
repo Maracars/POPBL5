@@ -23,7 +23,8 @@
 		</ul>
 
 		<div class="tab-content">
-			<div id="departuring" class="tab-pane active">
+			<div id="departuring" class="tab-pane active"
+				style="overflow-x: scroll">
 				<table id="flightstableDeparture"
 					class="table table-striped table-bordered table-hover table-responsive"
 					style="width: 100%;">
@@ -37,7 +38,7 @@
 					</thead>
 				</table>
 			</div>
-			<div id="arriving" class="tab-pane fade">
+			<div id="arriving" class="tab-pane fade" style="overflow-x: scroll">
 				<table id="flightstableArrival"
 					class="table table-striped table-bordered table-hover table-responsive"
 					style="width: 100%;">
