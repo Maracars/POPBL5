@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import domain.dao.HibernateGeneric;
-import domain.model.Gate;
-import domain.model.Terminal;
+import domain.dao.DAOAirport;
+import domain.dao.DAOGate;
+import domain.dao.DAOTerminal;
+import domain.model.Airport;
 
 /**
  * The Class AirportInfoAction. Loads terminals and gates info to be sent as
@@ -18,15 +19,16 @@ public class AirportInfoAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	/** The terminal list. */
-	List<Object> terminalList;
+	List<?> terminalList;
 
 	/** The gates list. */
-	List<Object> gatesList;
+	List<?> gatesList;
 
 	@Override
 	public String execute() throws Exception {
-		terminalList = HibernateGeneric.loadAllObjects(new Terminal());
-		gatesList = HibernateGeneric.loadAllObjects(new Gate());
+		Airport local = DAOAirport.getLocaleAirport();
+		terminalList = DAOTerminal.loadTerminalsFromAirport(local.getId());
+		gatesList = DAOGate.loadAllGatesFromAirport(local.getId());
 		return SUCCESS;
 	}
 
@@ -35,7 +37,7 @@ public class AirportInfoAction extends ActionSupport {
 	 *
 	 * @return the terminal list
 	 */
-	public List<Object> getTerminalList() {
+	public List<?> getTerminalList() {
 		return terminalList;
 	}
 
@@ -44,7 +46,7 @@ public class AirportInfoAction extends ActionSupport {
 	 *
 	 * @return the gates list
 	 */
-	public List<Object> getGatesList() {
+	public List<?> getGatesList() {
 		return gatesList;
 	}
 
