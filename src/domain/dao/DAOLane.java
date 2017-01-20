@@ -18,7 +18,7 @@ public class DAOLane {
 	private static final String PARAMETER_AIRPORT_ID = "airportId";
 
 	/** The Constant QUERY_FREE_LANES. */
-	private static final String QUERY_FREE_LANES = "from Lane as l " + "where l.status is true and l.airport.id = :"
+	private static final String QUERY_FREE_LANES = "from Lane as l where l.status is true and l.airport.id = :"
 			+ PARAMETER_AIRPORT_ID;
 
 	private static final String LOAD_TABLE_LANES = "from Lane as l order by l.";

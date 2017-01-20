@@ -24,6 +24,11 @@
 			
 			<result name="*" type="json"></result>
 		</action>
+		
+		<action name="nextDeparturingPlanes" class="action.NextDeparturingFlightJSONAction">
+			
+			<result name="*" type="json"></result>
+		</action>
 
 		<action name="launchSimulator" class="action.StartSimulatorAction" method = "startSimulator">
 			<interceptor-ref name="validateStack">

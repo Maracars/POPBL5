@@ -323,13 +323,13 @@ public class DAOFlight {
 	public static List<Flight> loadNextDepartureFlights() {
 		List<Flight> flightList = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_ALL_DEPARTURE_FLIGHTS);
 			flightList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return flightList;
@@ -338,14 +338,14 @@ public class DAOFlight {
 	public static Flight loadFlightById(int flightId) {
 		Flight flight = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_FLIGHT_BY_ID);
 			query.setParameter(PARAMETER_FLIGHT_ID, flightId);
 			flight = (Flight) query.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
 		}
 
 		return flight;
@@ -357,7 +357,7 @@ public class DAOFlight {
 			int length) {
 		List<Flight> flightList = null;
 		try {
-			session = HibernateConnection.getSessionFactory().openSession();
+			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_DEPARTURE_FLIGHTS_TABLE + orderCol + " " + orderDir);
 			if (query.getResultList().size() > 0) {
 				query.setFirstResult(start);
@@ -367,7 +367,67 @@ public class DAOFlight {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			HibernateConnection.closeSession(session);
+		}
+
+		return flightList;
+	}
+
+	@SuppressWarnings(UNCHECKED)
+	public static List<Flight> filterDeparturingFlights(String orderCol, String orderDir, int start, int length,
+			String search) {
+		List<Flight> flightList = null;
+		String searchToLower = search.toLowerCase();
+		try {
+			session = HibernateConnection.getSession();
+			Query query = session
+					.createQuery("from Flight as f where lower(f.route.arrivalTerminal.airport.name) LIKE :destination "
+							+ "or lower(f.plane.serial) LIKE :serial or lower(f.plane.status.positionStatus) LIKE :positionStatus"
+							+ " and f.expectedDepartureDate > current_timestamp "
+							+ "and f.realDepartureDate is NULL and f.route.departureTerminal.airport.locale = true");
+			query.setParameter("serial", "%" + searchToLower + "%");
+			query.setParameter("positionStatus", "%" + searchToLower + "%");
+			query.setParameter("destination", "%" + searchToLower + "%");
+
+			if (query.getResultList().size() > 0) {
+				query.setFirstResult(start);
+				query.setMaxResults(length);
+				flightList = query.getResultList();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			HibernateConnection.closeSession(session);
+		}
+
+		return flightList;
+	}
+	
+	@SuppressWarnings(UNCHECKED)
+	public static List<Flight> filterArrivalFlights(String orderCol, String orderDir, int start, int length,
+			String search) {
+		List<Flight> flightList = null;
+		String searchToLower = search.toLowerCase();
+		try {
+			session = HibernateConnection.getSession();
+			Query query = session
+					.createQuery("from Flight as f where lower(f.route.departureTerminal.airport.name) LIKE :origin "
+							+ "or lower(f.plane.serial) LIKE :serial or lower(f.plane.status.positionStatus) LIKE :positionStatus"
+							+ " and f.expectedArrivalDate > current_timestamp "
+							+ "and f.realArrivalDate is NULL and f.route.arrivalTerminal.airport.locale = true");
+			query.setParameter("serial", "%" + searchToLower + "%");
+			query.setParameter("positionStatus", "%" + searchToLower + "%");
+			query.setParameter("origin", "%" + searchToLower + "%");
+
+			if (query.getResultList().size() > 0) {
+				query.setFirstResult(start);
+				query.setMaxResults(length);
+				flightList = query.getResultList();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			HibernateConnection.closeSession(session);
 		}
 
 		return flightList;
