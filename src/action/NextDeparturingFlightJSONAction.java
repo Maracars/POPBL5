@@ -11,9 +11,9 @@ import com.opensymphony.xwork2.ActionSupport;
 import domain.dao.DAOFlight;
 import domain.model.Flight;
 
-public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
+public class NextDeparturingFlightJSONAction<sincronized> extends ActionSupport {
 
-	private static final int ARRIVAL = 1;
+	private static final int DESTINATION = 1;
 
 	private static final int FLIGHT_INFO = 2;
 
@@ -51,7 +51,11 @@ public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
 		return SUCCESS;
 	}
 
-
+	private List<AirplaneView> filter(List<AirplaneView> data, String search) {
+		String searchToLower = search.toLowerCase();
+		//data = DAOFlight.filterDeparturingFlights(searchToLower);
+		return data;
+	}
 
 	public ArrayList<AirplaneView> generateData(String search, String orderCol, String orderDir, int start,
 			int length) {
@@ -60,7 +64,7 @@ public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
 		
 		String colName = getOrderColumnName(Integer.parseInt(orderCol));
 		
-		flightList = DAOFlight.filterArrivalFlights(colName, orderDir, start, length, search);
+		flightList = DAOFlight.filterDeparturingFlights(colName, orderDir, start, length, search);
 
 		if (flightList != null) {
 
@@ -70,11 +74,11 @@ public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
 							+ flightList.get(i).getPlane().getSerial();
 
 					// Hemen egongo da desberdintasunetako bat bi taulen artian
-					String destination = flightList.get(i).getRoute().getDepartureTerminal().getAirport().getName();
+					String destination = flightList.get(i).getRoute().getArrivalTerminal().getAirport().getName();
 					String positionStatus = flightList.get(i).getPlane().getPlaneStatus().getPositionStatus();
 
 					// Hemen egongo da desberdintasunetako bat bi taulen artian
-					Date date = flightList.get(i).getExpectedArrivalDate();
+					Date date = flightList.get(i).getExpectedDepartureDate();
 
 					planeViews.add(new AirplaneView(date, flightInfo, destination, positionStatus));
 				}
@@ -88,10 +92,10 @@ public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
 		String colName = null;
 		switch (orderCol) {
 		case 0:
-			colName = "expectedArrivalDate";
+			colName = "expectedDepartureDate";
 			break;
-		case ARRIVAL:
-			colName = "route.departureTerminal.airport.name";
+		case DESTINATION:
+			colName = "route.arrivalTerminal.airport.name";
 			break;
 		case FLIGHT_INFO:
 			colName = "plane.serial";
@@ -100,7 +104,7 @@ public class NextArrivingFlightJSONAction<sincronized> extends ActionSupport {
 			colName = "status.positionStatus";
 			break;
 		default:
-			colName = "expectedArrivalDate";
+			colName = "expectedDepartureDate";
 			break;
 		}
 		return colName;
