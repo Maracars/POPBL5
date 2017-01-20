@@ -18,7 +18,6 @@ public class DAOTerminal {
 	public static List<Terminal> loadTerminalsFromAirport(int airportID) {
 		List<Terminal> list = new ArrayList<>();
 		try {
-
 			session = HibernateConnection.getSession();
 			Query query = session.createQuery("from Terminal as t where t.airport.id = :airportId");
 			query.setParameter("airportId", airportID);

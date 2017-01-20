@@ -30,6 +30,12 @@ public class DAOFlight {
 
 	private static final String LOAD_TABLE_FLIGHTS = "from Flight as f order by f.";
 
+	private static final String LOAD_TABLE_FLIGHT_USER = "select f from Flight f, Passenger p FETCH ALL PROPERTIES where p.id = :passengerId"
+			+ " and p in elements(f.passengerList) and (lower(f.route.arrivalTerminal.airport.address.city) like :search or"
+			+ " lower(f.route.departureTerminal.airport.name) like :search or "
+			+ " lower(f.plane.airline.name) like :search or lower(f.plane.serial) like :search) and lower(f.route.departureTerminal.airport.name) like :origin and "
+			+ "	lower(f.route.arrivalTerminal.airport.address.city) like :destination order by f.";
+
 	private static final String LOAD_AIRLINE_ROUTE_FLIGHTS = "select count(*), f.route.id from Flight as f where f.plane.airline.username =:"
 			+ PARAMETER_AIRLINE_USERNAME + " group by f.route";
 
@@ -58,11 +64,13 @@ public class DAOFlight {
 	private static final String PARAMETER_FLIGHT_ID = "flightId";
 
 	private static final String LOAD_FLIGHT_BY_ID = "from Flight as f where f.id = :" + PARAMETER_FLIGHT_ID;
+	
 
 	private static final String LOAD_FLIGH_PASSENGERS = "select f.passengerList from Flight as f.id = :"
 			+ PARAMETER_FLIGHT_ID;
 
 	private static final String LOAD_AIRPLANE_FLIGHT_HOURS = "select sum(abs(extract(epoch from f.expectedArrivalDate - "
+
 			+ "f.expectedDepartureDate)/3600)) from Flight as f join f.plane where f.plane.id = :" + PARAMETER_PLANE_ID;
 	/** The session. */
 	private static Session session;
@@ -108,6 +116,28 @@ public class DAOFlight {
 		}
 
 		return result;
+	}
+
+	@SuppressWarnings(UNCHECKED)
+	public static List<Flight> loadFlightsForTablePasenger(String orderCol, String orderDir, String search, String destination, String origin,
+			int passengerId) {
+		List<Flight> flightList = null;
+		try {
+			session = HibernateConnection.getSession();
+			Query query = session.createQuery(LOAD_TABLE_FLIGHT_USER + orderCol + " " + orderDir);
+			query.setParameter("passengerId", passengerId);
+			query.setParameter("search", "%" + search.toLowerCase() + "%");
+			query.setParameter("destination", "%" + destination.toLowerCase() + "%");
+			query.setParameter("origin", "%" + origin.toLowerCase() + "%");
+			flightList = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+			HibernateConnection.closeSession(session);
+		}
+
+		return flightList;
 	}
 
 	@SuppressWarnings(UNCHECKED)
@@ -319,25 +349,29 @@ public class DAOFlight {
 
 	}
 
+	
 	@SuppressWarnings(UNCHECKED)
 	public static List<Flight> loadNextDepartureFlights() {
 		List<Flight> flightList = null;
 		try {
+			
 			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_ALL_DEPARTURE_FLIGHTS);
 			flightList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+		
 			HibernateConnection.closeSession(session);
 		}
 
 		return flightList;
 	}
 
-	public static Flight loadFlightById(int flightId) {
+	public static Flight loadFlightById(int flightId){
 		Flight flight = null;
 		try {
+
 			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_FLIGHT_BY_ID);
 			query.setParameter(PARAMETER_FLIGHT_ID, flightId);
@@ -345,6 +379,7 @@ public class DAOFlight {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+	
 			HibernateConnection.closeSession(session);
 		}
 
@@ -352,13 +387,16 @@ public class DAOFlight {
 
 	}
 
-	@SuppressWarnings(UNCHECKED)
+	
+	@SuppressWarnings("unchecked")
 	public static List<Flight> loadNextDepartureFlightsForTable(String orderCol, String orderDir, int start,
 			int length) {
 		List<Flight> flightList = null;
 		try {
+		
 			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_DEPARTURE_FLIGHTS_TABLE + orderCol + " " + orderDir);
+		
 			if (query.getResultList().size() > 0) {
 				query.setFirstResult(start);
 				query.setMaxResults(length);
@@ -367,6 +405,7 @@ public class DAOFlight {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			
 			HibernateConnection.closeSession(session);
 		}
 

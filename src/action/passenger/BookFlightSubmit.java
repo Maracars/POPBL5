@@ -29,7 +29,7 @@ public class BookFlightSubmit extends ActionSupport {
 			flight.setPassengerList(passengerList);
 		}
 		HibernateGeneric.updateObject(flight);
-		addActionMessage("Flight booked");
+		addActionMessage(getText("passenger.flightBooked"));
 		return SUCCESS;
 	}
 

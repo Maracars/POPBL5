@@ -15,6 +15,10 @@
 					<i class="fa fa-suitcase fa-fw"></i>
 					<s:text name="global.bookFlight" />
 				</s:a></li>
+			<li><s:a action="myFlights" namespace="/passenger">
+					<i class="fa fa-plane fa-fw"></i>
+					<s:text name="global.myFlights" />
+				</s:a></li>
 		</ul>
 	</div>
 	<!-- /.sidebar-collapse -->

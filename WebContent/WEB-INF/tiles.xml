@@ -87,6 +87,21 @@
 				<add-attribute value="../js/passangerTable.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
+	
+	<definition name="myFlights" extends="passenger">
+		<put-attribute name="title" type="string" value="global.myFlights" />
+		<put-attribute name="body"
+			value="/pages/tiles/bodies/passenger/myFlights.jsp" />
+		<put-list-attribute name="stylesheets">
+			<add-attribute value="/css/passenger.css"></add-attribute>
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
+			<add-attribute
+				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
+				<add-attribute value="../js/myPassangerTable.js"></add-attribute>
+		</put-list-attribute>
+	</definition>
 
 	<definition name="airplanesInfo" extends="airline">
 		<put-attribute name="title" type="string" value="global.airplaneInfo" />

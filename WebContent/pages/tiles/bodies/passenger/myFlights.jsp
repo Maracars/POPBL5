@@ -6,12 +6,12 @@
 <s:i18n name="action.passenger.package">
 	<div class="container-fluid">
 
-		<s:form action="bookFlightSubmit" namespace="/passenger"
-			key="global.bookFlight" enctype="multipart/form-data"
+		<s:form action="unbookFlightSubmit" namespace="/passenger"
+			key="global.myFlights" enctype="multipart/form-data"
 			cssClass="form-horizontal">
 			<div class="errors">
 				<s:actionerror />
-				<s:actionmessage/>
+				<s:actionmessage />
 			</div>
 			<div class="well">
 				<h4>
@@ -33,7 +33,7 @@
 						<th><s:text name="passenger.departureDate" /></th>
 						<th><s:text name="passenger.price"/></th>
 						<th><s:text name="passenger.planeInfo"/></th>
-						<th><s:text name="passenger.book"/></th>
+						<th><s:text name="passenger.unbook"/></th>
 					</tr>
 				</thead>
 			</table>

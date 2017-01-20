@@ -13,8 +13,20 @@
 			<result type="tiles">bookFlight</result>
 		</action>
 		
+		<action name="myFlights" class="action.passenger.BookFlightStepAction">
+			<result type="tiles">myFlights</result>
+		</action>
+		
+		<action name="myFlightListJSON" class="action.passenger.MyFlightListJSONAction">
+			<result name="*" type="json"></result>
+		</action>
+				
 		<action name="flightListJSON" class="action.passenger.FlightListJSONAction">
 			<result name="*" type="json"></result>
+		</action>
+		
+		<action name="unbookFlightSubmit" class="action.passenger.UnbookFlightSubmit">
+			<result name="success" type="redirectAction">bookFlight</result>
 		</action>
 		
 		<action name="bookFlightSubmit" class="action.passenger.BookFlightSubmit">
