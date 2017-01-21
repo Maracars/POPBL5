@@ -425,7 +425,7 @@ public class DemoInitialization implements ServletContextListener {
 		int terminalPos = random.nextInt(heathrowTerminals.size());
 
 		Route route = new Route();
-		route.setDepartureTerminal((Terminal) heathrowTerminals.get(terminalPos));
+		route.setDepartureTerminal((Terminal) heathrowTerminals.get(0));
 		route.setArrivalTerminal(madridTerminal);
 		HibernateGeneric.saveObject(route);
 
@@ -433,7 +433,7 @@ public class DemoInitialization implements ServletContextListener {
 		route = new Route();
 		route.setDepartureTerminal(bilbaoTerminal);
 
-		route.setArrivalTerminal((Terminal) heathrowTerminals.get(terminalPos));
+		route.setArrivalTerminal((Terminal) heathrowTerminals.get(0));
 		HibernateGeneric.saveObject(route);
 
 		terminalPos = random.nextInt(heathrowTerminals.size());

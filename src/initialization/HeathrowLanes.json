@@ -186,7 +186,7 @@
 	},
 	{
 		"laneStart": "N",
-		"laneEnd": "69",
+		"laneEnd": "LA",
 		"laneNumber": "14"
 	},
 	{
@@ -195,12 +195,12 @@
 		"laneNumber": "18"
 	},
 	{
-		"laneStart": "69",
+		"laneStart": "LA",
 		"laneEnd": "JARRI",
 		"laneNumber": "42"
 	},
 	{
-		"laneStart": "69",
+		"laneStart": "LA",
 		"laneEnd": "O",
 		"laneNumber": "15"
 	},
@@ -311,11 +311,11 @@
 	},
 	{
 		"laneStart": "10",
-		"laneEnd": "NARANA",
+		"laneEnd": "UPS",
 		"laneNumber": "71"
 	},
 	{
-		"laneStart": "NARANA",
+		"laneStart": "UPS",
 		"laneEnd": "NIDEA",
 		"laneNumber": "71"
 	},

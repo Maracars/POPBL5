@@ -88,7 +88,7 @@ public class GatesInitialization implements ServletContextListener {
 
 	private static final String HEATRHOW_AIRPORT_STREETANDNUMBER = "Nelson Road";
 
-	private static final String HEATRHOW_AIRPORT_NODE_NAME = "Heatrhow center";
+	private static final String HEATRHOW_AIRPORT_NODE_NAME = "Heathrow";
 
 	private static final double HEATRHOW_AIRPORT_LATITUDE = 51.4775;
 
