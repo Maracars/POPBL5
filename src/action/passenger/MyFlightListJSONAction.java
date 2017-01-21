@@ -9,6 +9,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.DAOFlight;
+import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 import domain.model.users.User;
 
@@ -47,6 +48,14 @@ public class MyFlightListJSONAction<sincronized> extends ActionSupport {
 		int start = Integer.parseInt(map.get("start")[0]);
 		int length = Integer.parseInt(map.get("length")[0]);
 		User user = (User) ActionContext.getContext().getSession().get("user");
+		
+		List<Object> allFlights = HibernateGeneric.loadAllObjects(new Flight());
+		
+		allFlights.removeIf((Object f) -> ((Flight)f).getPassengerList().contains(user));
+		
+		recordsTotal = allFlights.size();
+		
+		
 		data = generateData(orderCol, orderDir, destinationSearch, originSearch, search);
 		
 		try{

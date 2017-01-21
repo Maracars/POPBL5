@@ -111,5 +111,13 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof User){
+			return ((User)obj).getId() == id;
+		}
+		return false;
+	}
 
 }
