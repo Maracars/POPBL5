@@ -31,7 +31,7 @@
 
 		<s:text name="global.users" />
 	</h3>
-	<div class="container-fluid">
+	<div class="container-fluid" style="overflow-x: scroll">
 		<table id="usertable"
 			class="table table-striped table-bordered table-hover table-responsive"
 			style="width: 100%;">

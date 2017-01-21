@@ -5,10 +5,10 @@
 
 <s:i18n name="action.user.package">
 	<div class="container-fluid">
-	
-		<s:form action="register/AdminSubmit"
-			key="global.registerAdmin" enctype="multipart/form-data"
-			theme="bootstrap" cssClass="form-vertical">
+
+		<s:form action="register/AdminSubmit" key="global.registerAdmin"
+			enctype="multipart/form-data" theme="bootstrap"
+			cssClass="form-vertical">
 			<div class="errors">
 				<s:actionerror />
 			</div>
@@ -17,7 +17,10 @@
 					<s:text name="user.accountInfo" />
 				</h4>
 				<s:textfield id="focused" labelSeparator=":" key="user.username"
-					name="user.username" class ="username"/>
+					name="user.username" class="username" />
+				<span style="display: none;"
+					class="d-block user-taken-msg  help-block alert-danger"><s:text
+						name="user.usernameNotAvailable"></s:text></span>
 				<s:password labelSeparator=":" key="user.password"
 					name="user.password" />
 				<s:password labelSeparator=":" key="user.repeatPassword"

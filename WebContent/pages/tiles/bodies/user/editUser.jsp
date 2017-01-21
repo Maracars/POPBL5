@@ -6,8 +6,8 @@
 
 		<s:form action="editSubmit" namespace="/" key="global.editUser"
 			enctype="multipart/form-data" cssClass="form-vertical">
-			<s:hidden key="type"/>
-			<s:hidden key="username"/>
+			<s:hidden key="type" />
+			<s:hidden key="username" />
 			<div class="errors">
 				<s:actionerror />
 			</div>
@@ -23,12 +23,14 @@
 				</h4>
 				<s:textfield id="focused" labelSeparator=":" key="user.username"
 					name="user.username" />
+				<span style="display: none;"
+					class="d-block user-taken-msg  help-block alert-danger"><s:text
+						name="user.usernameNotAvailable"></s:text></span>
 				<s:textfield labelSeparator=":" key="user.email" type="email"
 					name="user.email" />
 			</div>
 			<div class="well col-lg-4">
-				<s:if
-					test='%{!type.equals("airline")}'>
+				<s:if test='%{!type.equals("airline")}'>
 					<h4>
 						<s:text name="user.personalInfo" />
 					</h4>

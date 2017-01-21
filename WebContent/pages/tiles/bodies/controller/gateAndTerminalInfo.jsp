@@ -5,7 +5,7 @@
 
 <s:i18n name="action.controller.package">
 
-	<div class="container-fluid">
+	<div class="container-fluid" >
 		<ul class="nav nav-pills nav-justified" id="termGateNavbar">
 			<li class="active"><a href="javascript:loadLanesTable(0,1)">Lanes</a></li>
 			<li><a href="javascript:loadTerminalsTable(1,1)">Terminal
@@ -13,7 +13,7 @@
 		</ul>
 	</div>
 	<div class="container-fluid" id="laneTable">
-		<div class="jumbotron">
+		<div class="jumbotron" style="overflow-x: scroll">
 			<table id="lanestable"
 				class="table table-striped table-bordered table-hover table-responsive"
 				style="width: 100%;">
@@ -28,7 +28,7 @@
 	</div>
 
 	<div class="container-fluid" id="terminalTable">
-		<div class="jumbotron">
+		<div class="jumbotron" style="overflow-x: scroll">
 			<table id="terminalstable"
 				class="table table-striped table-bordered table-hover table-responsive"
 				style="width: 100%;">

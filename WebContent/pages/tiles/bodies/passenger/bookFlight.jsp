@@ -4,7 +4,7 @@
 <script src="<s:url value="/js/usernameCheck.js"/>"></script>
 
 <s:i18n name="action.passenger.package">
-	<div class="container-fluid">
+	<div class="container-fluid" style="overflow-x: scroll">
 
 		<s:form action="bookFlightSubmit" namespace="/passenger"
 			key="global.bookFlight" enctype="multipart/form-data"

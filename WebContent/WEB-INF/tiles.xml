@@ -20,11 +20,11 @@
 		<put-attribute name="body" value="/pages/tiles/bodies/home.jsp" />
 		<put-attribute name="rsc" value="/pages/tiles/rsc/default.jsp" />
 		<put-list-attribute name="javascripts">
-					<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
-		
-			<add-attribute value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
-					</put-list-attribute>
-			
+			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
+			<add-attribute
+				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
+		</put-list-attribute>
+
 	</definition>
 
 
@@ -40,9 +40,10 @@
 		</put-list-attribute>
 		<put-list-attribute name="javascripts">
 
-<add-attribute value="https://cdn.socket.io/socket.io-1.4.5.js"></add-attribute>
+			<add-attribute value="https://cdn.socket.io/socket.io-1.4.5.js"></add-attribute>
 			<add-attribute value="https://openlayers.org/en/v3.20.0/build/ol.js"></add-attribute>
-			<add-attribute value="/js/controllerMap.js"></add-attribute>		</put-list-attribute>
+			<add-attribute value="/js/controllerMap.js"></add-attribute>
+		</put-list-attribute>
 
 	</definition>
 
@@ -84,10 +85,10 @@
 			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
 			<add-attribute
 				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
-				<add-attribute value="../js/passangerTable.js"></add-attribute>
+			<add-attribute value="../js/passangerTable.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
-	
+
 	<definition name="myFlights" extends="passenger">
 		<put-attribute name="title" type="string" value="global.myFlights" />
 		<put-attribute name="body"
@@ -99,7 +100,7 @@
 			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
 			<add-attribute
 				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
-				<add-attribute value="../js/myPassangerTable.js"></add-attribute>
+			<add-attribute value="../js/myPassangerTable.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
 
@@ -145,9 +146,9 @@
 		<put-attribute name="title" type="string" value="global.airportInfo" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/controller/airportInfo.jsp"></put-attribute>
-					<put-list-attribute name="javascripts">
-			
-					
+		<put-list-attribute name="javascripts">
+
+
 			<add-attribute value="https://cdn.socket.io/socket.io-1.4.5.js"></add-attribute>
 			<add-attribute value="https://openlayers.org/en/v3.20.0/build/ol.js"></add-attribute>
 			<add-attribute value="/js/controllerMap.js"></add-attribute>
@@ -215,32 +216,37 @@
 		</put-list-attribute>
 	</definition>
 
-	<definition name="registerPassenger" extends="index">
+	<definition name="registerPassenger" extends="default">
 		<put-attribute name="title" value="global.registerPassenger" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/user/registerPassenger.jsp" />
 	</definition>
 
-	<definition name="registerAirline" extends="index">
+	<definition name="registerAirline" extends="default">
 		<put-attribute name="title" value="global.registerAirline" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/user/registerAirline.jsp" />
 	</definition>
 
-	<definition name="registerController" extends="index">
+	<definition name="registerController" extends="default">
 		<put-attribute name="title" value="global.registerController" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/user/registerController.jsp" />
 	</definition>
 
-	<definition name="registerAdmin" extends="index">
+	<definition name="registerAdmin" extends="default">
 		<put-attribute name="title" value="global.registerAdmin" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/user/registerAdmin.jsp" />
 	</definition>
 
-	<definition name="registerMantainance" extends="index">
+	<definition name="registerMantainance" extends="default">
 		<put-attribute name="title" value="global.registerMantainance" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/user/registerMantainance.jsp" />
 	</definition>
@@ -251,8 +257,8 @@
 			value="/pages/tiles/bodies/user/accountManager.jsp" />
 		<put-attribute name="rsc" value="/pages/tiles/rsc/datatables.jsp" />
 		<put-list-attribute name="javascripts">
-		<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
-		<add-attribute
+			<add-attribute value="https://code.jquery.com/jquery-2.2.4.min.js"></add-attribute>
+			<add-attribute
 				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
 		</put-list-attribute>
 	</definition>
@@ -273,8 +279,10 @@
 			value="/pages/tiles/bodies/user/profile.jsp" />
 	</definition>
 
-	<definition name="editUser" extends="index">
+	<definition name="editUser" extends="default">
 		<put-attribute name="title" value="global.editUser" />
+		<put-attribute name="header" value="/pages/tiles/headers/default.jsp" />
+		<put-attribute name="sidemenu" value="/pages/tiles/sidemenus/default.jsp" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/user/editUser.jsp" />
 	</definition>

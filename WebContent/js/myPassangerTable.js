@@ -42,7 +42,7 @@ $(document)
 														} else {
 															return '<div><button type="submit" class="btn btn-primary" value='
 																	+ data
-																	+ ' name="flightId"><i class="fa fa-credit-card"></i></button></div>'
+																	+ ' name="flightId"><i class="fa fa-times"></i></button></div>'
 														}
 													}
 												} ]

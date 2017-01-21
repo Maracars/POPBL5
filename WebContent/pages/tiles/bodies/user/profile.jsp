@@ -6,11 +6,23 @@
 		<h2>
 			<s:text name="global.userProfile"></s:text>
 		</h2>
+
+		<s:if test="%{username.equals(#session.user.username) || #session.user instanceof domain.model.users.Admin}">
+
+			<s:a action="u/edit/%{username}" namespace="/">
+				<div class="btn btn-primary">
+					<s:text name="global.editUser"></s:text>
+				</div>
+			</s:a>
+
+
+		</s:if>
+
 		<div class="jumbotron">
 			<h3>
 				<strong><s:text name="global.userType" />: </strong>
 				<s:if test="%{user != null}">
-				<s:property value="%{getText('global.' + type)}" />
+					<s:property value="%{getText('global.' + type)}" />
 				</s:if>
 			</h3>
 			<s:actionerror />

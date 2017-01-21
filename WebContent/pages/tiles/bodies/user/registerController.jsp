@@ -16,12 +16,16 @@
 					<s:text name="user.accountInfo" />
 				</h4>
 				<s:textfield id="focused" labelSeparator=":" key="user.username"
-					name="user.username" class ="username"/>
+					name="user.username" class="username" />
+				<span style="display: none;"
+					class="d-block user-taken-msg  help-block alert-danger"><s:text
+						name="user.usernameNotAvailable"></s:text></span>
 				<s:password labelSeparator=":" key="user.password"
 					name="user.password" />
 				<s:password labelSeparator=":" key="user.repeatPassword"
 					name="repeatPassword" />
-				<s:textfield labelSeparator=":" key="user.email" type="email" name="user.email" />
+				<s:textfield labelSeparator=":" key="user.email" type="email"
+					name="user.email" />
 			</div>
 			<div class="well col-lg-4">
 				<h4>
