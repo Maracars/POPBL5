@@ -2,6 +2,7 @@ package simulator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -67,6 +68,10 @@ public class FlightCreator implements Runnable {
 
 	/** The Constant POSITION_STATUS_WAITING_TO_DEPARTURE. */
 	private static final String POSITION_STATUS_WAITING_TO_DEPARTURE = "WAITING TO DEPARTURE";
+
+	private static final int MAX_PRICE = 1200;
+
+	private static final int MIN_PRICE = 100;
 
 	/** The thread pool. */
 	private static ExecutorService threadPool;
@@ -242,6 +247,8 @@ public class FlightCreator implements Runnable {
 		}
 		flight.setRoute(route);
 		flight.setPlane(plane);
+		float randomPrice = new Random().nextFloat() * (MAX_PRICE - MIN_PRICE) + MIN_PRICE;
+		flight.setPrice(randomPrice);
 		return flight;
 	}
 

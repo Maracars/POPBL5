@@ -63,9 +63,15 @@ public class DeparturingPlane extends PlaneThread {
 				Thread.currentThread().interrupt();
 			}
 		}
+		goOutFromGate(gate);
 		goToDestine();
 		goOutFromMap();
 
+	}
+
+	private void goOutFromGate(Gate gate) {
+		gate.setFree(true);
+		HibernateGeneric.updateObject(gate);		
 	}
 
 	/**

@@ -52,9 +52,6 @@ public class GatesInitialization implements ServletContextListener {
 	/** The Constant NODE_INFO_ROWS. */
 	private static final int NODE_INFO_ROWS = 3;
 
-	/** The Constant PATH_NUMBER. */
-	private static final int PATH_NUMBER = 106;
-
 	/** The Constant HEATHROW_LANES_JSON. */
 	private static final String HEATHROW_LANES_JSON = "HeathrowLanes.json";
 
@@ -66,15 +63,6 @@ public class GatesInitialization implements ServletContextListener {
 
 	/** The Constant CARACAS_POSX. */
 	private static final double CARACAS_POSX = 10.288;
-
-	/** The Constant NODE_POSITION_Y. */
-	private static final double NODE_POSITION_Y = -0.461389;
-
-	/** The Constant NODE_POSITION_X. */
-	private static final double NODE_POSITION_X = 51.4775;
-
-	/** The Constant NODE_NAME. */
-	private static final String NODE_NAME = "Heathrow";
 
 	/** The Constant AGATES_JSON_FILE. */
 	private static final String AGATES_JSON_FILE = "AGates.json";
@@ -89,6 +77,24 @@ public class GatesInitialization implements ServletContextListener {
 	private static final String TERMINALS_JSON_FILE = "Terminal.json";
 	/** The Constant TERMINALS_JSON_FILE. */
 	private static final String HEATHROW_NODES_JSON_FILE = "HeathrowNodes.json";
+
+	private static final String HEATRHOW_AIRPORT_COUNTRY = "United Kingdom";
+
+	private static final String HEATRHOW_AIRPORT_REGION = "Greater London";
+
+	private static final String HEATRHOW_AIRPORT_CITY = "Hounslow";
+
+	private static final String HEATRHOW_AIRPORT_POSTCODE = "TW3";
+
+	private static final String HEATRHOW_AIRPORT_STREETANDNUMBER = "Nelson Road";
+
+	private static final String HEATRHOW_AIRPORT_NODE_NAME = "Heatrhow center";
+
+	private static final double HEATRHOW_AIRPORT_LATITUDE = 51.4775;
+
+	private static final double HEATRHOW_AIRPORT_LONGITUDE = -0.461389;
+
+	private static final Integer HEATRHOW_AIRPORT_MAX_FLIGHTS = 6;
 
 	/** The Constant HEATHROW_LANES_NODES. */
 	private static String[][] HEATHROW_LANES_NODES;
@@ -108,16 +114,23 @@ public class GatesInitialization implements ServletContextListener {
 	/** The path list. */
 	private static List<Path> pathList = new ArrayList<Path>();
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.
+	 * ServletContextEvent)
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		MainThread.finishSimulator();
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.servlet.ServletContextListener#contextInitialized(javax.servlet.
+	 * ServletContextEvent)
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
@@ -183,7 +196,6 @@ public class GatesInitialization implements ServletContextListener {
 	 */
 	private void createHeathrowLanes() {
 		JSONParser parser = new JSONParser();
-		ObjectMapper mapper = new ObjectMapper();
 
 		try {
 			URL url = getClass().getResource(HEATHROW_LANES_JSON);
@@ -211,7 +223,9 @@ public class GatesInitialization implements ServletContextListener {
 	 * Creates the gates.
 	 */
 	private void createGates() {
-		/* The correct function is the following one, but the gates of the json aren't linked to the lanes yet.
+		/*
+		 * The correct function is the following one, but the gates of the json
+		 * aren't linked to the lanes yet.
 		 * 
 		 * List<Gate> gatesList = loadGatesJSON(); for (Gate gate : gatesList) {
 		 * Random random = new Random();
@@ -331,16 +345,29 @@ public class GatesInitialization implements ServletContextListener {
 	 * @return the airport
 	 */
 	public Airport createAirport() {
-		Address address = Initializer.initAddress();
-		Node node = new Node();
-		node.setName(NODE_NAME);
-		node.setPositionX(NODE_POSITION_X);
-		node.setPositionY(NODE_POSITION_Y);
-		Airport airport = Initializer.initAirport(address, node);
-		airport.setLocale(true);
-		HibernateGeneric.saveObject(node);
+
+		Address address = new Address();
+		address.setCountry(HEATRHOW_AIRPORT_COUNTRY);
+		address.setRegion(HEATRHOW_AIRPORT_REGION);
+		address.setCity(HEATRHOW_AIRPORT_CITY);
+		address.setPostCode(HEATRHOW_AIRPORT_POSTCODE);
+		address.setStreetAndNumber(HEATRHOW_AIRPORT_STREETANDNUMBER);
 		HibernateGeneric.saveObject(address);
+
+		Node positionNode = new Node();
+		positionNode.setName(HEATRHOW_AIRPORT_NODE_NAME);
+		positionNode.setPositionX(HEATRHOW_AIRPORT_LATITUDE);
+		positionNode.setPositionY(HEATRHOW_AIRPORT_LONGITUDE);
+		HibernateGeneric.saveObject(positionNode);
+
+		Airport airport = new Airport();
+		airport.setAddress(address);
+		airport.setLocale(true);
+		airport.setMaxFlights(HEATRHOW_AIRPORT_MAX_FLIGHTS);
+		airport.setName(HEATRHOW_AIRPORT_NODE_NAME);
+		airport.setPositionNode(positionNode);
 		HibernateGeneric.saveObject(airport);
+
 		return airport;
 
 	}
