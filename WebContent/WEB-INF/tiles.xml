@@ -200,7 +200,7 @@
 
 	<definition name="termAndGateInfo" extends="controller">
 		<put-attribute name="title" type="string"
-			value="global.termAndGateInfo" />
+			value="global.laneAndGate" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/controller/gateAndTerminalInfo.jsp"></put-attribute>
 		<put-list-attribute name="stylesheets">

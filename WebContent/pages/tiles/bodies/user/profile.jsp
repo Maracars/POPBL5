@@ -2,7 +2,7 @@
 <%@ taglib prefix="sb" uri="/struts-bootstrap-tags"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <s:i18n name="action.user.package">
-	<div class="container-fluid">
+	<div class="container-fluid" style="word-wrap: break-word;">
 		<h2>
 			<s:text name="global.userProfile"></s:text>
 		</h2>
