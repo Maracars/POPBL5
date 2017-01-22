@@ -4,10 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import domain.dao.DAOFlight;
 import domain.model.Flight;
+import domain.model.users.Airline;
+import domain.model.users.User;
 
 /**
  * The Class MainPageAction.
@@ -19,7 +22,7 @@ public class MainPageAction extends ActionSupport {
 
 	/** The data. */
 	List<FlightView> data;
-
+	
 	/* (non-Javadoc)
 	 * @see com.opensymphony.xwork2.ActionSupport#execute()
 	 */
@@ -217,5 +220,7 @@ public class MainPageAction extends ActionSupport {
 			this.expectedArrivalDate = expectedArrivalDate;
 		}
 	}
+	
+	
 
 }
