@@ -11,6 +11,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 import domain.model.users.Passenger;
+import domain.model.users.User;
 
 /**
  * The Class FlightListJSONAction.
@@ -42,19 +43,22 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		Map<String, String[]> map = ActionContext.getContext().getParameters().toMap();
 
 		int orderCol = Integer.parseInt(map.get("order[0][column]")[0]);
+		String search = map.get("search[value]")[0].toLowerCase();
 		String orderDir = map.get("order[0][dir]")[0];
-		String originSearch = map.get("columns[0][search][value]")[0];
-		String destinationSearch = map.get("columns[1][search][value]")[0];
+		String originSearch = map.get("columns[0][search][value]")[0].toLowerCase();
+		String destinationSearch = map.get("columns[1][search][value]")[0].toLowerCase();
 
 		int start = Integer.parseInt(map.get("start")[0]);
 		int length = Integer.parseInt(map.get("length")[0]);
 
 		List<Object> allFlights = HibernateGeneric.loadAllObjects(new Flight());
-		allFlights.removeIf((Object f) -> !((Flight)f).getRoute().getArrivalTerminal().getAirport().isLocale() && !((Flight)f).getRoute().getDepartureTerminal().getAirport().isLocale());
+		allFlights.removeIf((Object f) -> !((Flight)f).getRoute().getArrivalTerminal().getAirport().isLocale() && 
+				!((Flight)f).getRoute().getDepartureTerminal().getAirport().isLocale());
+		allFlights.removeIf((Object f) -> ((Flight)f).getExpectedDepartureDate().before(new Date()));
 
 		recordsTotal = allFlights.size();
 
-		allFlights = filter(allFlights, originSearch, destinationSearch);
+		allFlights = filter(allFlights, originSearch, destinationSearch, search);
 
 		recordsFiltered = allFlights.size();
 
@@ -72,14 +76,20 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	 * @return the list
 	 */
 
-	private List<Object> filter(List<Object> allFlights, String destinationSearch, String originSearch) {
+	private List<Object> filter(List<Object> allFlights, String destinationSearch, String originSearch, String search) {
 		if (originSearch != null && !originSearch.equals(""))
 			allFlights.removeIf((Object f) -> !((Flight) f).getRoute().getDepartureTerminal().getAirport().getName()
 					.toLowerCase().contains(originSearch));
-
 		if (destinationSearch != null && !destinationSearch.equals(""))
 			allFlights.removeIf((Object f) -> !((Flight) f).getRoute().getArrivalTerminal().getAirport().getName()
 					.toLowerCase().contains(destinationSearch));
+
+		if (search != null && !search.equals(""))
+			allFlights.removeIf((Object f) -> !((Flight) f).getRoute().getArrivalTerminal().getAirport().getName()
+					.toLowerCase().contains(search)
+					&& !((Flight) f).getRoute().getDepartureTerminal().getAirport().getName().toLowerCase()
+							.contains(search)
+					&& !((Flight) f).getPlane().getSerial().toLowerCase().contains(search));
 
 		return allFlights;
 	}
@@ -96,6 +106,8 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	private List<FlightListJSONAction<sincronized>.FlightView> orderAndTrim(List<Object> allFlights, int orderCol,
 			String orderDir, int start, int length) {
 
+		User user = (User) ActionContext.getContext().getSession().get("user");
+		
 		switch (orderCol) {
 		case 0: // DEPARTURE AIRPORT
 			if (orderDir.equals("asc"))
@@ -160,7 +172,7 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 			String price = String.valueOf(flight.getPrice());
 			String planeInfo = flight.getPlane().getSerial();
 			String flightId = Integer
-					.toString(flight.getExpectedDepartureDate().after(new Date()) ? flight.getId() : 0);
+					.toString(!flight.getPassengerList().contains(user) ? flight.getId() : 0);
 
 			fvViewsList.add(new FlightView(source, destination, departureDate, price, planeInfo, flightId));
 
@@ -185,38 +197,6 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		}
 		return id;
 	}
-
-	/**
-	 * Gets the order column name.
-	 *
-	 * @param orderCol the order col
-	 * @return the order column name
-	 */
-	public String getOrderColumnName(int orderCol) {
-		String colName = null;
-		switch (orderCol) {
-		case 0:
-			colName = STRING_ROUTE_DEPARTURE_TERMINAL_AIRPORT_NAME;
-			break;
-		case 1:
-			colName = "route.arrivalTerminal.airport.name";
-			break;
-		case 2:
-			colName = "expectedDepartureDate";
-			break;
-		case 3:
-			colName = "price";
-			break;
-		case 4:
-			colName = "plane.serial";
-			break;
-		default:
-			colName = STRING_ROUTE_DEPARTURE_TERMINAL_AIRPORT_NAME;
-			break;
-		}
-		return colName;
-	}
-
 	/**
 	 * Gets the records total.
 	 *
