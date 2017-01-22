@@ -1,57 +1,108 @@
 package domain.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import domain.model.Gate;
-
+/**
+ * The Class Terminal.
+ */
 @Entity
 public class Terminal {
+	
+	/** The id. */
 	@Id
 	@GeneratedValue
 	Integer id;
+	
+	/** The name. */
 	String name;
-	@ElementCollection
-	@JoinTable(name = "TerminalGates", joinColumns = @JoinColumn(name = "terminalID"))
-	@GenericGenerator(name = "sequence", strategy = "sequence")
+	
+	/** The airport. */
+	@ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+	Airport airport;
+	
+	/** The position node. */
+	@OneToOne
+	Node positionNode;
 
-	@CollectionId(columns = { @Column(name = "gateID") }, generator = "sequence", type = @Type(type = "long"))
-	Collection<Gate> gatesList = new ArrayList<>();
 
+	/**
+	 * Gets the position node.
+	 *
+	 * @return the position node
+	 */
+	public Node getPositionNode() {
+		return positionNode;
+	}
+
+	/**
+	 * Sets the position node.
+	 *
+	 * @param positionNode the new position node
+	 */
+	public void setPositionNode(Node positionNode) {
+		this.positionNode = positionNode;
+	}
+
+	/**
+	 * Gets the airport.
+	 *
+	 * @return the airport
+	 */
+	public Airport getAirport() {
+		return airport;
+	}
+
+	/**
+	 * Sets the airport.
+	 *
+	 * @param airport the new airport
+	 */
+	public void setAirport(Airport airport) {
+		this.airport = airport;
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public Integer getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Collection<Gate> getGatesList() {
-		return gatesList;
-	}
-
-	public void setGatesList(Collection<Gate> gatesList) {
-		this.gatesList = gatesList;
 	}
 
 }

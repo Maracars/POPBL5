@@ -1,66 +1,45 @@
 package domain.dao;
 
-import java.util.List;
-
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 
 import domain.model.Airport;
 import hibernate.HibernateConnection;
 
+/**
+ * The Class DAOAirport.
+ */
 public class DAOAirport {
+
+	/** The Constant QUERY_LOCALE_AIRPORT. */
+	private static final String QUERY_LOCALE_AIRPORT = "from Airport as a " + "where a.locale is true";
+
+	/** The session. */
 	private static Session session;
 
-	public static boolean insertAirport(Airport airport) {
-		boolean result = true;
-		try {
-
-			session = HibernateConnection.getSession();
-			session.getTransaction().begin();
-			session.save(airport);
-			session.getTransaction().commit();
-
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-
-			result = false;
-		}
-
-		return result;
-
-	}
-
-	public static boolean deleteAirport(Airport airport) {
-		boolean result = true;
+	/**
+	 * Gets the locale airport.
+	 * <p>
+	 * Gets the local airport
+	 * </p>
+	 * 
+	 * @return the locale airport
+	 */
+	public static Airport getLocaleAirport() {
+		Airport localeAirport = null;
 		try {
 			session = HibernateConnection.getSession();
-			session.getTransaction().begin();
-			session.delete(airport);
-			session.getTransaction().commit();
-
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-
-			result = false;
-		}
-
-		return result;
-	}
-
-	public static List<Airport> loadAllAirports() {
-		List<Airport> airportList = null;
-		try {
-
-			session = HibernateConnection.getSession();
-			@SuppressWarnings("unchecked")
-			TypedQuery<Airport> query = session.createQuery("from Airport");
-			airportList = query.getResultList();
+			Query query = session.createQuery(QUERY_LOCALE_AIRPORT);
+			if (query.getResultList().size() > 0) {
+				localeAirport = (Airport) query.getResultList().get(0);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			HibernateConnection.closeSession(session);
 		}
-
-		return airportList;
+		return localeAirport;
 	}
 
 }

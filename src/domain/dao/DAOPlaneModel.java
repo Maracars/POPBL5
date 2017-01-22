@@ -1,72 +1,42 @@
 package domain.dao;
 
-import java.util.List;
-
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 
 import org.hibernate.Session;
 
 import domain.model.PlaneModel;
 import hibernate.HibernateConnection;
 
+/**
+ * The Class DAOPlaneModel.
+ */
 public class DAOPlaneModel {
+
+	/** The Constant QUERY_GET_PLANEMODEL. */
+	private static final String QUERY_GET_PLANEMODEL = "from PlaneModel order by rand()";
+
+	/** The session. */
 	private static Session session;
 
-	public static boolean insertPlaneModel(PlaneModel planeModel) {
-		boolean result = true;
+	/**
+	 * Gets the random plane model.
+	 *
+	 * @return the random plane model
+	 */
+	public static PlaneModel getRandomPlaneModel() {
+		PlaneModel planeModel = null;
 		try {
-			
 			session = HibernateConnection.getSession();
-			session.getTransaction().begin();
-			session.persist(planeModel);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			result = false;
-		} finally {
-			
+			Query query = session.createQuery(QUERY_GET_PLANEMODEL);
 
-		}
-
-		return result;
-
-	}
-
-	public static boolean deletePlaneModel(PlaneModel planeMaker) {
-		boolean result = true;
-		try {
-			
-			session = HibernateConnection.getSession();
-			session.getTransaction().begin();
-			session.delete(planeMaker);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			result = false;
-		} finally {
-			
-
-		}
-
-		return result;
-	}
-
-	public static List<PlaneModel> loadAllPlaneModels() {
-		List<PlaneModel> PlaneModelList = null;
-		try {
-			
-			session = HibernateConnection.getSession();
-			@SuppressWarnings("unchecked")
-			TypedQuery<PlaneModel> query = session.createQuery("from PlaneModel");
-			PlaneModelList = query.getResultList();
+			planeModel = (PlaneModel)query.setMaxResults(1).getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			
-
+			HibernateConnection.closeSession(session);
 		}
 
-		return PlaneModelList;
+		return planeModel;
 	}
 
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="passenger" namespace="/passenger" extends="default">
+
+		<action name="index">
+			<result type="tiles">passenger</result>
+		</action>
+
+		<action name="bookFlight" class="action.passenger.BookFlightStepAction">
+			<interceptor-ref name="store">
+				<param name="operationMode">AUTOMATIC</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result type="tiles">bookFlight</result>
+		</action>
+
+		<action name="myFlights" class="action.passenger.BookFlightStepAction">
+			<interceptor-ref name="store">
+				<param name="operationMode">AUTOMATIC</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result type="tiles">myFlights</result>
+		</action>
+
+		<action name="myFlightListJSON" class="action.passenger.MyFlightListJSONAction">
+			<result name="*" type="json"></result>
+		</action>
+
+		<action name="flightListJSON" class="action.passenger.FlightListJSONAction">
+			<result name="*" type="json"></result>
+		</action>
+
+		<action name="unbookFlightSubmit" class="action.passenger.UnbookFlightSubmit">
+			<interceptor-ref name="store">
+				<param name="operationMode">AUTOMATIC</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result name="success" type="redirectAction">myFlights</result>
+		</action>
+
+		<action name="bookFlightSubmit" class="action.passenger.BookFlightSubmit">
+			<interceptor-ref name="store">
+				<param name="operationMode">AUTOMATIC</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<result name="success" type="redirectAction">bookFlight</result>
+		</action>
+
+	</package>
+</struts>

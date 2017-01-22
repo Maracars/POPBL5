@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="register" namespace="/" extends="default">
+
+		<action name="register/PassengerSubmit" class="action.user.RegisterPassengerAction">
+			<result name="success" type="redirect">%{url}</result>
+			<result name="*" type="tiles">registerPassenger</result>
+		</action>
+
+		<action name="register/Passenger" class="action.StepAction">
+			<result type="tiles">registerPassenger</result>
+		</action>
+
+		<action name="register/AdminSubmit" class="action.user.RegisterAdminAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="success" type="redirect">%{url}</result>
+			<result name="*" type="tiles">registerAdmin</result>
+		</action>
+
+		<action name="register/Admin" class="action.StepAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="*" type="tiles">registerAdmin</result>
+		</action>
+
+		<action name="register/AirlineSubmit" class="action.user.RegisterAirlineAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="success" type="redirect">%{url}</result>
+			<result name="*" type="tiles">registerAirline</result>
+		</action>
+
+		<action name="register/Airline" class="action.StepAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="*" type="tiles">registerAirline</result>
+		</action>
+
+		<action name="register/ControllerSubmit" class="action.user.RegisterControllerAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="success" type="redirect">%{url}</result>
+			<result name="*" type="tiles">registerController</result>
+		</action>
+
+		<action name="register/Controller" class="action.StepAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="*" type="tiles">registerController</result>
+		</action>
+
+		<action name="register/MantainanceSubmit" class="action.user.RegisterMantainanceAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="success" type="redirect">%{url}</result>
+			<result name="*" type="tiles">registerMantainance</result>
+		</action>
+
+		<action name="register/Mantainance" class="action.StepAction">
+			<interceptor-ref name="validateStack">
+				<param name="validateUser.allowed">ADMIN</param>
+			</interceptor-ref>
+
+			<result name="noPermission" type="redirectAction">
+				<param name="actionName">index</param>
+				<param name="namespace">/</param>
+			</result>
+			<result name="*" type="tiles">registerMantainance</result>
+		</action>
+		
+		<action name="register/UserCheck"  class="action.user.UserCheckAction">
+          <result type = "json">
+          	<param name ="root">jsonString</param>
+          
+          </result>
+        </action>
+       
+        
+
+	</package>
+</struts>

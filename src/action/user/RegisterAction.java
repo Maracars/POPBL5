@@ -1,105 +1,232 @@
 package action.user;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Map;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-import domain.dao.DAOUser;
-import domain.model.Passenger;
-import domain.model.User;
+import domain.dao.HibernateGeneric;
+import domain.model.users.User;
 
-public class RegisterAction extends ActionSupport{
+/**
+ * The Class RegisterAction.
+ * Abstract class for the registry form processing of the users
+ */
+public abstract class RegisterAction extends ActionSupport {
 
-	private static final String DATE_FORMAT = "dd-MM-yyyy";
-	private static final String PASS_NOT_MATCH = "Passwords do not match!";
-	private static final String REPEAT_PASSWORD = "repeatPassword";
-	private static final String INCORRECT_FORMAT = "Incorrect format!";
-	private static final String TOO_YOUNG = "You are too young m8!";
-	private static final String BIRTH_DATE = "birthdate";
-	private static final String PASSWORD_BLANK = "Password cannot be blank";
-	private static final String PASSWORD = "password";
-	private static final String USERNAME_BLANK = "Username cannot be blank";
-	private static final String USERNAME = "username";
+	/** The Constant STRING_LAST_PAGE. */
+	private static final String STRING_LAST_PAGE = "lastPage";
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant ERROR_SAVING. */
+	private static final String ERROR_SAVING = "user.errorSaving";
+	
+	/** The Constant PASS_NOT_MATCH. */
+	private static final String PASS_NOT_MATCH = "user.passwordNotMatch";
+	
+	/** The Constant REPEAT_PASSWORD. */
+	private static final String REPEAT_PASSWORD = "repeatPassword";
+	
+	/** The Constant PASSWORD_BLANK. */
+	private static final String PASSWORD_BLANK = "user.passwordBlank";
+	
+	/** The Constant PASSWORD. */
+	private static final String PASSWORD = "user.password";
+	
+	/** The Constant USERNAME_BLANK. */
+	private static final String USERNAME_BLANK = "user.usernameBlank";
+	
+	/** The Constant USERNAME. */
+	private static final String USERNAME = "user.username";
+	
+	/** The Constant EMAIL_BLANK. */
+	private static final String EMAIL_BLANK = "user.emailBlank";
+	
+	/** The Constant EMAIL. */
+	private static final String EMAIL = "user.email";
+	
+	/** The Constant NO_PERMISSION. */
+	private static final String NO_PERMISSION = "user.noPermission";
 
+	/** The user. */
 	User user = new User();
-	String type;
-	String birthdate;
+	
+	/** The repeat password. */
 	String repeatPassword;
 	
+	/** The url. */
+	String url;
+	
+	/** The allowed users. */
+	ArrayList<Class<?>> allowedUsers = new ArrayList<>();
+
+	/**
+	 * Checks the data input from the user
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
 	@Override
 	public void validate() {
-		if(!user.getPassword().equals(repeatPassword))
-			addFieldError(REPEAT_PASSWORD, PASS_NOT_MATCH);
-		if(user.getPassword().isEmpty())
-			addFieldError(PASSWORD, PASSWORD_BLANK);
-		if(user.getUsername().isEmpty())
-			addFieldError(USERNAME, USERNAME_BLANK);
-		if(user.getUsername().isEmpty())
-			addFieldError(USERNAME, USERNAME_BLANK);
-		
-		SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-		try {
-			user.setBirthDate(df.parse(birthdate));
-			LocalDate birthdate = user.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			if(Period.between(birthdate , LocalDate.now()).getYears() < 18)
-				addFieldError(BIRTH_DATE, TOO_YOUNG);
-		} catch (ParseException e) {
-			addFieldError(BIRTH_DATE, INCORRECT_FORMAT);
+
+		if (user.getEmail() == null || user.getEmail().isEmpty())
+			addFieldError(EMAIL, getText(EMAIL_BLANK));
+		if (user.getPassword() == null || user.getPassword().isEmpty())
+			addFieldError(PASSWORD, getText(PASSWORD_BLANK));
+		else {
+			if (!user.getPassword().equals(repeatPassword))
+				addFieldError(REPEAT_PASSWORD, getText(PASS_NOT_MATCH));
+		}
+		if (user.getUsername() == null || user.getUsername().isEmpty())
+			addFieldError(USERNAME, getText(USERNAME_BLANK));
+
+		userSpecificValidate();
+
+		if (!getFieldErrors().isEmpty()) {
+			repeatPassword = "";
+			user.setPassword("");
 		}
 	}
-	
+
+	/**
+	 * User specific validate.
+	 * Class to be filled with the validation that certain types of users have
+	 */
+	abstract void userSpecificValidate();
+
+
+	/**
+	 * Function that inserts the validated data into te database
+	 * @see com.opensymphony.xwork2.ActionSupport#execute()
+	 */
 	@Override
 	public String execute() throws Exception {
-		type = User.PASSENGER;
-		switch(type){
-		case User.PASSENGER:
-			user = new Passenger(user);
-			break;
-		//TODO mas tipos
+		String ret = SUCCESS;
+
+		ret = validateUserAccess();
+		if (ret != ERROR)
+			ret = userSpecificInsert();
+		if (ret != ERROR) {
+
+			ret = HibernateGeneric.saveObject(user) ? SUCCESS : ERROR;
+			addActionError(getText(ERROR_SAVING));
 		}
-		return DAOUser.insertUser(user) ? SUCCESS : ERROR;
+
+		if (!getFieldErrors().isEmpty()) {
+			repeatPassword = "";
+			user.setPassword("");
+		} else {
+			url = (String) ActionContext.getContext().getSession().get(STRING_LAST_PAGE);
+			ActionContext.getContext().getSession().remove(STRING_LAST_PAGE);
+		}
+
+		return ret;
 	}
 
-	
-	public String getRepeatPassword() {
-		return repeatPassword;
+	/**
+	 * User specific insert.
+	 *
+	 * @return the string
+	 */
+	public abstract String userSpecificInsert();
+
+	/**
+	 * Validate user access.
+	 *Function that checks if the user that is logged in has  permission to create this type of user.
+	 *
+	 * @return the string
+	 */
+	private String validateUserAccess() {
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		User sessionUser = (User) session.get("user");
+		String ret = SUCCESS;
+
+		if (allowedUsers.size() > 0) {
+			ret = ERROR;
+			if (sessionUser != null) {
+				for (Class<?> c : allowedUsers) {
+					if (c == sessionUser.getClass())
+						ret = SUCCESS;
+				}
+			}
+			if (ret == ERROR) {
+				addActionError(getText(NO_PERMISSION));
+			}
+		}
+		return ret;
 	}
 
-	public void setRepeatPassword(String repeatPassword) {
-		this.repeatPassword = repeatPassword;
-	}
-
+	/**
+	 * Gets the user.
+	 *
+	 * @return the user
+	 */
 	public User getUser() {
 		return user;
 	}
 
+	/**
+	 * Sets the user.
+	 *
+	 * @param user the new user
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
 
-	public String getType() {
-		return type;
+	/**
+	 * Gets the repeat password.
+	 *
+	 * @return the repeat password
+	 */
+	public String getRepeatPassword() {
+		return repeatPassword;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	/**
+	 * Sets the repeat password.
+	 *
+	 * @param repeatPassword the new repeat password
+	 */
+	public void setRepeatPassword(String repeatPassword) {
+		this.repeatPassword = repeatPassword;
 	}
 
-	public String getBirthdate() {
-		return birthdate;
+	/**
+	 * Gets the allowed users.
+	 *
+	 * @return the allowed users
+	 */
+	public ArrayList<Class<?>> getAllowedUsers() {
+		return allowedUsers;
 	}
 
-	public void setBirthdate(String birthdate) {
-		this.birthdate = birthdate;
+	/**
+	 * Sets the allowed users.
+	 *
+	 * @param allowedUsers the new allowed users
+	 */
+	public void setAllowedUsers(ArrayList<Class<?>> allowedUsers) {
+		this.allowedUsers = allowedUsers;
 	}
-	
-	
-	
-	
+
+	/**
+	 * Gets the url.
+	 *
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * Sets the url.
+	 *
+	 * @param url the new url
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 }

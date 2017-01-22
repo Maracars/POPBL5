@@ -15,17 +15,34 @@ import domain.model.users.Mantainance;
 import domain.model.users.Passenger;
 import domain.model.users.User;
 
+/**
+ * The Class UserAccessValidatorInterceptor. Struts2 interceptor that manages
+ * whether a user has permission or not to access an action
+ */
 public class UserAccessValidatorInterceptor implements Interceptor {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+
+	/** The Constant NO_PERMISSION. */
 	private static final String NO_PERMISSION = "global.noPermission";
 
+	/** The Constant PASSENGER. */
 	final static Class<?> PASSENGER = new Passenger().getClass();
+
+	/** The Constant AIRLINE. */
 	final static Class<?> AIRLINE = new Airline().getClass();
+
+	/** The Constant CONTROLLER. */
 	final static Class<?> CONTROLLER = new Controller().getClass();
+
+	/** The Constant MANTAINANCE. */
 	final static Class<?> MANTAINANCE = new Mantainance().getClass();
+
+	/** The Constant ADMIN. */
 	final static Class<?> ADMIN = new Admin().getClass();
 
+	/** The allowed. */
 	String allowed;
 
 	@Override
@@ -71,7 +88,7 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 				String us = null;
 				if (closeMethod != null)
 					us = (String) closeMethod.invoke(ai.getAction(), null);
-				if(sessionUser.getUsername().equals(us))
+				if (sessionUser.getUsername().equals(us))
 					hasPermission = true;
 			} catch (Exception e) {
 			}
@@ -104,10 +121,21 @@ public class UserAccessValidatorInterceptor implements Interceptor {
 
 	}
 
+	/**
+	 * Gets the allowed.
+	 *
+	 * @return the allowed
+	 */
 	public String getAllowed() {
 		return allowed;
 	}
 
+	/**
+	 * Sets the allowed.
+	 *
+	 * @param allowed
+	 *            the new allowed
+	 */
 	public void setAllowed(String allowed) {
 		this.allowed = allowed;
 	}

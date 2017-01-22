@@ -1,74 +1,147 @@
 package domain.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
+import javax.persistence.OneToOne;
 
+/**
+ * The Class Airport.
+ */
 @Entity
 public class Airport {
 
+	/** The id. */
 	@Id
 	@GeneratedValue
 	Integer id;
 
+	/** The name. */
 	String name;
 
+	/** The max flights. */
 	Integer maxFlights;
 
-	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@NotNull
-	City city;
+	/** The locale. */
+	boolean locale;
 
-	@OneToMany(cascade = CascadeType.PERSIST)
-	@NotNull
-	Collection<Terminal> TerminalList = new ArrayList<>();
+	/** The position node. */
+	@OneToOne
+	Node positionNode;
 
+	/** The address. */
+	@ManyToOne(optional = false)
+	Address address;
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public Integer getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id
+	 *            the new id
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name
+	 *            the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the max flights.
+	 *
+	 * @return the max flights
+	 */
 	public Integer getMaxFlights() {
 		return maxFlights;
 	}
 
-	public Collection<Terminal> getTerminalList() {
-		return TerminalList;
-	}
-
-	public void setTerminalList(Collection<Terminal> terminalList) {
-		TerminalList = terminalList;
-	}
-
+	/**
+	 * Sets the max flights.
+	 *
+	 * @param maxFlights
+	 *            the new max flights
+	 */
 	public void setMaxFlights(Integer maxFlights) {
 		this.maxFlights = maxFlights;
 	}
 
-	public City getCity() {
-		return city;
+	/**
+	 * Gets the address.
+	 *
+	 * @return the address
+	 */
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setCity(City city) {
-		this.city = city;
+	/**
+	 * Sets the address.
+	 *
+	 * @param address
+	 *            the new address
+	 */
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
+	/**
+	 * Gets the position node.
+	 *
+	 * @return the position node
+	 */
+	public Node getPositionNode() {
+		return positionNode;
+	}
+
+	/**
+	 * Sets the position node.
+	 *
+	 * @param positionNode
+	 *            the new position node
+	 */
+	public void setPositionNode(Node positionNode) {
+		this.positionNode = positionNode;
+	}
+
+	/**
+	 * Sets the locale.
+	 *
+	 * @param locale
+	 *            the new locale
+	 */
+	public void setLocale(boolean locale) {
+		this.locale = locale;
+	}
+
+	public boolean isLocale() {
+		return locale;
+	}
+
+	
 }

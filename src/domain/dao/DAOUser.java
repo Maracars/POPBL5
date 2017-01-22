@@ -1,135 +1,116 @@
 package domain.dao;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 
-import domain.model.User;
+import domain.model.users.Airline;
+import domain.model.users.Passenger;
+import domain.model.users.User;
 import hibernate.HibernateConnection;
 
+/**
+ * The Class DAOUser.
+ */
 public class DAOUser {
-	private static final String QUERY_USER = "from User";
-	private static final String USERNAME_QUERY = "from User U where U.username = '";
-	private static Session session;
-	private final static String SALT = "Kappa123&/()==?%#@|º¡¿@$@4&#%^$*";
-	private final static Integer BASE = 16;
-	private final static Integer SIGNAL = 1;
-
-	public static String md5(String input) {
-
-		String md5 = null;
-
-		if (null == input)
-			return null;
-
-		try {
-			input = input  + SALT;
-			MessageDigest digest = MessageDigest.getInstance("MD5");
-			digest.update(input.getBytes(), 0, input.length());
-			md5 = new BigInteger(SIGNAL, digest.digest()).toString(BASE);
-
-		} catch (NoSuchAlgorithmException e) {
-
-			e.printStackTrace();
-		}
-		return md5;
-	}
-
-	public static boolean insertUser(User user) {
-		try {
-			user.setPassword(md5(user.getPassword()));
-			
-			session = HibernateConnection.getSession();
-			session.getTransaction().begin();
-			session.save(user);
-			session.getTransaction().commit();
-			
-
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			
-			return false;
-		}
-
-		return true;
-
-	}
 	
+	/** The Constant PARAMETER_USERNAME. */
+	private static final String PARAMETER_USERNAME = "username";
+	
+	/** The Constant USERNAME_QUERY. */
+	private static final String USERNAME_QUERY = "from User U where U.username = :" + PARAMETER_USERNAME;
+	
+	/** The session. */
+	private static Session session;
+
+	/**
+	 * Gets the user.
+	 *
+	 * @param username the username
+	 * @return the user
+	 */
 	public static User getUser(String username) {
-		List<User> userList = null;
+		User user = null;
 		try {
-			
 			session = HibernateConnection.getSession();
-			@SuppressWarnings("unchecked")
-			TypedQuery<User> query = session
-									.createQuery(USERNAME_QUERY + username + "'");
-			userList = query.getResultList();
+			Query query = session.createQuery(USERNAME_QUERY);
+			query.setParameter(PARAMETER_USERNAME, username);
+			user = (User) query.getSingleResult();
+
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			HibernateConnection.closeSession(session);
 		}
-		
-		
-		return userList.isEmpty() ? null : userList.get(0);
+
+		return user;
 
 	}
 
-	public static boolean deleteUser(User user) {
-		try {
-			session = HibernateConnection.getSession();
-
-            session.beginTransaction();
-            session.delete(user);
-            session.getTransaction().commit();
-
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			
-			return false;
-		}
-
-		return true;
-	}
-
-	public static List<User> loadAllUsers() {
-		List<User> userList = null;
-		try {
-			
-			session = HibernateConnection.getSession();
-			@SuppressWarnings("unchecked")
-			TypedQuery<User> query = session.createQuery(QUERY_USER);
-			userList = query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-
-		return userList;
-	}
-
+	/**
+	 * Delete user with username.
+	 *
+	 * @param user the user
+	 * @return true, if successful
+	 */
 	public static boolean deleteUserWithUsername(User user) {
+		int result = 0;
 		try {
-			
+			if (user instanceof Airline) {
+				DAOFlight.setNullAirlineFlights(((Airline) user).getUsername());
+
+			}
+			if (user instanceof Passenger) {
+				DAOFlight.setNullPassengerFlights(((Passenger) user).getUsername());
+
+
+			}
+
 			session = HibernateConnection.getSession();
 			session.getTransaction().begin();
-			
-			Query query = session.createQuery("delete User where username = '"+user.getUsername()+"'");
-			query.executeUpdate();
+
+			Query query = session.createQuery(
+					"delete " + user.getClass().getSimpleName() +
+					" where username = :" + PARAMETER_USERNAME);
+			query.setParameter(PARAMETER_USERNAME, user.getUsername());
+			result = query.executeUpdate();
 			session.getTransaction().commit();
 
-			
 		} catch (Exception e) {
+			e.printStackTrace();
 			session.getTransaction().rollback();
-			
-			return false;
+
+		} finally {
+			HibernateConnection.closeSession(session);
 		}
 
-		return true;
-		
+		return result > 0 ? true : false;
+
 	}
+
+	/**
+	 * Check username exists.
+	 *
+	 * @param username the username
+	 * @return true, if successful
+	 */
+	public static boolean checkUsernameExists(String username) {
+		long result = 0;
+		try {
+
+			session = HibernateConnection.getSession();
+			Query query = session.createQuery("select count(*) " + USERNAME_QUERY);
+			query.setParameter(PARAMETER_USERNAME, username);
+			result = (long) query.getSingleResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			HibernateConnection.closeSession(session);
+		}
+
+		return result > 0 ? true : false;
+
+	}
+
 }

@@ -1,52 +1,89 @@
 package domain.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+/**
+ * The Class Route.
+ */
 @Entity
 public class Route {
 
+	/** The id. */
 	@Id
 	@GeneratedValue
 	Integer id;
-	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 
-	Gate arrivalGate;
-	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
-	Gate departureGate;
-	
-	@ManyToMany(mappedBy = "routesList")
-	Collection<Airline> airlineList = new ArrayList<Airline>();
+	/** The arrival gate. */
+	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	Terminal arrivalTerminal;
 
+	/** The departure gate. */
+	@ManyToOne(optional = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	Terminal departureTerminal;
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public Integer getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id
+	 *            the new id
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	Gate getArrivalGate() {
-		return arrivalGate;
+	/**
+	 * Gets the arrival terminal.
+	 *
+	 * @return the arrival terminal
+	 */
+	public Terminal getArrivalTerminal() {
+		return arrivalTerminal;
 	}
 
-	public void setArrivalGate(Gate arrivalGate) {
-		this.arrivalGate = arrivalGate;
+	/**
+	 * Gets the departure terminal.
+	 *
+	 * @return the departure terminal
+	 */
+	public Terminal getDepartureTerminal() {
+		return departureTerminal;
 	}
 
-	public Gate getDepartureGate() {
-		return departureGate;
+	/**
+	 * Sets the arrival terminal.
+	 *
+	 * @param arrivalTerminal
+	 *            the new arrival terminal
+	 */
+	public void setArrivalTerminal(Terminal arrivalTerminal) {
+		this.arrivalTerminal = arrivalTerminal;
 	}
 
-	public void setDepartureGate(Gate departureGate) {
-		this.departureGate = departureGate;
+	/**
+	 * Sets the departure terminal.
+	 *
+	 * @param departureTerminal
+	 *            the new departure terminal
+	 */
+	public void setDepartureTerminal(Terminal departureTerminal) {
+		this.departureTerminal = departureTerminal;
 	}
 
 }
