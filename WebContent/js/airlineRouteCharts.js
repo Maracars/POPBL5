@@ -17,6 +17,7 @@ $(document).ready(function() {
 				dataSet[i] = [ result.data[i].name, result.data[i].quantity ];
 				cat[i] = result.data[i].name;
 			}
+			console.log(dataSet.length);
 			c3.generate({
 				bindto : "#barChartStats",
 				data : {
@@ -30,7 +31,10 @@ $(document).ready(function() {
 					x : {
 						type : "categories",
 						categories : cat,
-						label : "Route Name"
+						label : "Route Name",
+						tick : {
+							count : dataSet.length,
+						}
 					}
 				}
 			});

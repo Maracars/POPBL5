@@ -218,7 +218,7 @@ public class DAOFlight {
 				for (int i = 0; i < list.size(); i++) {
 					Object[] row = (Object[]) list.get(i);
 
-					FlightView fv = rsa.newFlightView((String) row[1], ((Integer) row[0]).toString());
+					FlightView fv = rsa.newFlightView((String) row[1].toString(), ((Long) row[0]).toString());
 					flightViewList.add(fv);
 				}
 			}

@@ -9,6 +9,7 @@ var vectorSource = new ol.source.Vector({
 // create empty vector
 });
 
+//
 var planes = [];
 var pendingMoves = [];
 var overlay;

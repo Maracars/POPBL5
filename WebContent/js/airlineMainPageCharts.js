@@ -8,15 +8,15 @@ $(document).ready(
 			$.ajax({
 				traditional : true,
 				type : "GET",
-				url : "weekFlightListJSON",
+				url : "airline/weekFlightListJSON",
 				dataType : "json",
 				success : function(result, success) {
-					if(result !== null){
+					if (result !== null) {
 						c3.generate({
 							bindto : "#lineChart",
 							data : {
-								columns : [ [ "Week Flights", result.data.length,
-										50, 60 ] ]
+								columns : [ [ "Week Flights",
+										result.data.length, 50, 60 ] ]
 							},
 							axis : {
 								y : {
@@ -41,37 +41,39 @@ $(document).ready(
 										count : 5,
 									}
 								}
-							}
+							},
+
 						});
 					}
-					
-					$.ajax({
-						traditional : true,
-						type : "GET",
-						url : "pieFlightListJSON",
-						dataType : "json",
-						success : function(result, success) {
-							for (i = 0; i < result.data.length; i++) {
-								dataSet[i] = [ result.data[i].name,
-										result.data[i].quantity ];
-							}
-							c3.generate({
-								bindto : "#pieChart",
-								data : {
-									columns : dataSet,
-									type : "pie"
-								},
-
-							});
-						},
-						error : function(xhr, ajaxOptions, thrownError) {
-
-						}
-					});
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 
 				}
 			});
 
-		});
+			$.ajax({
+				traditional : true,
+				type : "GET",
+				url : "airline/pieFlightListJSON",
+				dataType : "json",
+				success : function(result, success) {
+					for (i = 0; i < result.data.length; i++) {
+						dataSet[i] = [ result.data[i].name,
+								result.data[i].quantity ];
+					}
+					c3.generate({
+						bindto : "#pieChart",
+						data : {
+							columns : dataSet,
+							type : "pie"
+						},
+
+					});
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+
+				}
+			});
+		}
+
+);
