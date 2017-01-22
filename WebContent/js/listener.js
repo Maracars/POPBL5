@@ -32,8 +32,8 @@ function onLoadFunction() {
 
 function render(data) {
 	var element = $("<li id = 'console"+ counter+"'><a href = '#'><strong>" + data + "</strong></li>");
-	$(".console").append(element);
-    $(".console").animate({scrollTop: $(".console").prop("scrollHeight")}, 1);
+	$(".dropdown-alerts").append(element);
+    $(".dropdown-alerts").animate({scrollTop: $(".console").prop("scrollHeight")}, 1);
 	
 	
 	 var notify = $.notify(`<strong>${data}</strong>`, {
