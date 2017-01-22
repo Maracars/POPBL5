@@ -11,6 +11,7 @@ import domain.dao.DAOPlane;
 import domain.dao.DAOPlaneModel;
 import domain.dao.DAORoute;
 import domain.dao.DAOSimulator;
+import domain.dao.DAOUser;
 import domain.dao.HibernateGeneric;
 import domain.model.Airport;
 import domain.model.Flight;
@@ -19,6 +20,7 @@ import domain.model.PlaneMovement;
 import domain.model.PlaneStatus;
 import domain.model.Route;
 import domain.model.users.Admin;
+import domain.model.users.Airline;
 import helpers.MD5;
 import notification.Notification;
 
@@ -34,7 +36,7 @@ public class FlightCreator implements Runnable {
 	private static final String ADMIN = new Admin().getClass().getSimpleName();
 
 	/** The Constant SLEEP_5_MINUTES_IN_MILIS. */
-	private static final int SLEEP_5_MINUTES_IN_MILIS = 5 * 60 * 1000;
+	private static final int SLEEP_2_MINUTES_IN_MILIS = 2 * 60 * 1000;
 
 	/** The Constant POSITION_STATUS_WAITING_TO_ARRIVE. */
 	private static final String POSITION_STATUS_WAITING_TO_ARRIVE = "WAITING TO ARRIVE";
@@ -111,7 +113,7 @@ public class FlightCreator implements Runnable {
 					"Schedule full, checking if any flight is arriving/departuring soon");
 			createThreadsOfFlights();
 			try {
-				Thread.sleep(SLEEP_5_MINUTES_IN_MILIS);
+				Thread.sleep(SLEEP_2_MINUTES_IN_MILIS);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
@@ -272,6 +274,10 @@ public class FlightCreator implements Runnable {
 
 		Plane plane = new Plane();
 		plane.setFabricationDate(new Date());
+		if(DAOUser.checkUsernameExists("ander")){
+			plane.setAirline((Airline) DAOUser.getUser("ander"));
+
+		}
 		plane.setPlaneStatus(planestatus);
 		plane.setModel(DAOPlaneModel.getRandomPlaneModel());
 		plane.setSerial(createSerial());

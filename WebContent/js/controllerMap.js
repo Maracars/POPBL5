@@ -1,4 +1,4 @@
-var socket = io.connect("http://localhost:9092");//http://maracars.sytes.net:9092
+var socket = io.connect("http://maracars.sytes.net:9092");//http://maracars.sytes.net:9092
 
 var map = null;
 var centerPos = [ -0.461389, 51.4775 ];
@@ -23,7 +23,7 @@ var iconStyle = {
 	rotateWithView : true,
 	size : [ 32, 48 ],
 
-	src : "rsc/img/miniplane.png"
+	src : "/Naranair/rsc/img/miniplane.png"
 
 };
 

@@ -19,6 +19,9 @@
 				</h4>
 				<s:textfield labelSeparator=":" key="user.username"
 					name="user.username" class="username" />
+				<span style="display: none;"
+					class="d-block user-taken-msg  help-block alert-danger"><s:text
+						name="user.usernameNotAvailable"></s:text></span>
 				<s:password labelSeparator=":" key="user.password"
 					name="user.password" />
 				<s:password labelSeparator=":" key="user.repeatPassword"

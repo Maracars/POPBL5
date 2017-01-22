@@ -9,14 +9,14 @@
 			<s:text name="log.consoleLog" />
 		</s:i18n>
 	</h2>
-	<div class="well">
+	<!--  <div class="well">
 		<s:a action="launchSimulator" namespace="/" class="btn btn-primary">
 			<s:text name="global.startSimulator" />
 		</s:a>
 		<s:a action="finishSimulator" namespace="/" class="btn btn-primary">
 			<s:text name="global.finishSimulator" />
 		</s:a>
-	</div>
+	</div> -->
 	<s:actionmessage />
 	<s:actionerror />
 	<ol class="console">

@@ -1,14 +1,14 @@
 package action.passenger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-import domain.dao.DAOFlight;
+import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 import domain.model.users.Passenger;
 
@@ -27,10 +27,10 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 
 	/** The draw. */
 	private int recordsTotal = 1, recordsFiltered = 0, draw = 0;
-	
+
 	/** The data. */
 	List<FlightView> data;
-	
+
 	/** The error. */
 	String error = null;
 
@@ -49,13 +49,16 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 		int start = Integer.parseInt(map.get("start")[0]);
 		int length = Integer.parseInt(map.get("length")[0]);
 
-		data = generateData(orderCol, orderDir, start, length);
+		List<Object> allFlights = HibernateGeneric.loadAllObjects(new Flight());
+		allFlights.removeIf((Object f) -> !((Flight)f).getRoute().getArrivalTerminal().getAirport().isLocale() && !((Flight)f).getRoute().getDepartureTerminal().getAirport().isLocale());
 
-		recordsTotal = DAOFlight.loadNextDepartureFlights().size();
+		recordsTotal = allFlights.size();
 
-		data = filter(data, originSearch, destinationSearch);
+		allFlights = filter(allFlights, originSearch, destinationSearch);
 
-		recordsFiltered = DAOFlight.loadNextDepartureFlights().size();
+		recordsFiltered = allFlights.size();
+
+		data = orderAndTrim(allFlights, orderCol, orderDir, start, length);
 
 		return SUCCESS;
 	}
@@ -68,17 +71,17 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	 * @param destinationSearch the destination search
 	 * @return the list
 	 */
-	private List<FlightView> filter(List<FlightView> data, String originSearch, String destinationSearch) {
-		originSearch = originSearch.toLowerCase();
-		destinationSearch = destinationSearch.toLowerCase();
-		for (Iterator<FlightView> fvIt = data.iterator(); fvIt.hasNext();) {
-			FlightView fv = fvIt.next();
-			if (fv.getSource().toLowerCase().contains(originSearch)
-					&& fv.getDestination().toLowerCase().contains(destinationSearch))
-				continue;
-			fvIt.remove();
-		}
-		return data;
+
+	private List<Object> filter(List<Object> allFlights, String destinationSearch, String originSearch) {
+		if (originSearch != null && !originSearch.equals(""))
+			allFlights.removeIf((Object f) -> !((Flight) f).getRoute().getDepartureTerminal().getAirport().getName()
+					.toLowerCase().contains(originSearch));
+
+		if (destinationSearch != null && !destinationSearch.equals(""))
+			allFlights.removeIf((Object f) -> !((Flight) f).getRoute().getArrivalTerminal().getAirport().getName()
+					.toLowerCase().contains(destinationSearch));
+
+		return allFlights;
 	}
 
 	/**
@@ -90,26 +93,79 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	 * @param length the length
 	 * @return the array list
 	 */
-	public ArrayList<FlightView> generateData(int orderCol, String orderDir, int start, int length) {
-		List<Flight> flightList = null;
-		ArrayList<FlightView> fvViewsList = new ArrayList<FlightView>();
-		String colName = getOrderColumnName(orderCol);
+	private List<FlightListJSONAction<sincronized>.FlightView> orderAndTrim(List<Object> allFlights, int orderCol,
+			String orderDir, int start, int length) {
 
-		flightList = DAOFlight.loadNextDepartureFlightsForTable(colName, orderDir, start, length);
-
-		if (flightList != null) {
-			for (Flight flight : flightList) {
-				String source = flight.getRoute().getDepartureTerminal().getAirport().getName();
-				String destination = flight.getRoute().getArrivalTerminal().getAirport().getName();
-				String departureDate = flight.getExpectedDepartureDate().toString();
-				String price = String.valueOf(flight.getPrice());
-				String planeInfo = flight.getPlane().getSerial();
-				String flightId = getFlightId(flight);
-
-				fvViewsList.add(new FlightView(source, destination, departureDate, price, planeInfo, flightId));
-
-			}
+		switch (orderCol) {
+		case 0: // DEPARTURE AIRPORT
+			if (orderDir.equals("asc"))
+				allFlights.sort((Object f1, Object f2) -> ((Flight) f1).getRoute().getDepartureTerminal().getAirport()
+						.getName()
+						.compareToIgnoreCase(((Flight) f2).getRoute().getDepartureTerminal().getAirport().getName()));
+			else
+				allFlights.sort((Object f1,
+						Object f2) -> -((Flight) f1).getRoute().getDepartureTerminal().getAirport().getName()
+						.compareToIgnoreCase(
+								((Flight) f2).getRoute().getDepartureTerminal().getAirport().getName()));
+			break;
+		case 1: // ARRIVAL AIRPORT
+			if (orderDir.equals("asc"))
+				allFlights.sort((Object f1, Object f2) -> ((Flight) f1).getRoute().getArrivalTerminal().getAirport()
+						.getName()
+						.compareToIgnoreCase(((Flight) f2).getRoute().getArrivalTerminal().getAirport().getName()));
+			else
+				allFlights.sort((Object f1,
+						Object f2) -> -((Flight) f1).getRoute().getArrivalTerminal().getAirport().getName()
+						.compareToIgnoreCase(
+								((Flight) f2).getRoute().getArrivalTerminal().getAirport().getName()));
+			break;
+		case 2: // DEPARTUREDATE
+			if (orderDir.equals("asc"))
+				allFlights.sort((Object f1, Object f2) -> ((Flight) f1).getExpectedDepartureDate()
+						.compareTo(((Flight) f2).getExpectedDepartureDate()));
+			else
+				allFlights.sort((Object f1, Object f2) -> -((Flight) f1).getExpectedDepartureDate()
+						.compareTo(((Flight) f2).getExpectedDepartureDate()));
+			break;
+		case 3: // PRICE
+			if (orderDir.equals("asc"))
+				allFlights.sort(
+						(Object f1, Object f2) -> Double.compare(((Flight) f1).getPrice(), ((Flight) f2).getPrice()));
+			else
+				allFlights.sort(
+						(Object f1, Object f2) -> -Double.compare(((Flight) f1).getPrice(), ((Flight) f2).getPrice()));
+			break;
+		case 4: // Serial
+			if (orderDir.equals("asc"))
+				allFlights.sort((Object f1, Object f2) -> ((Flight) f1).getPlane().getSerial()
+						.compareTo(((Flight) f2).getPlane().getSerial()));
+			else
+				allFlights.sort((Object f1, Object f2) -> -((Flight) f1).getPlane().getSerial()
+						.compareTo(((Flight) f2).getPlane().getSerial()));
+			break;
+		default:
+			allFlights.sort((Object f1, Object f2) -> ((Flight) f1).getExpectedDepartureDate()
+					.compareTo(((Flight) f2).getExpectedDepartureDate()));
+			break;
 		}
+		allFlights = allFlights.subList(start, (start + length) > allFlights.size() ? allFlights.size() - start : (start + length));
+
+		ArrayList<FlightView> fvViewsList = new ArrayList<FlightView>();
+
+		for (Object o : allFlights) {
+			Flight flight = (Flight) o;
+			String source = flight.getRoute().getDepartureTerminal().getAirport().getName();
+			String destination = flight.getRoute().getArrivalTerminal().getAirport().getName();
+			String departureDate = flight.getExpectedDepartureDate().toString();
+			String price = String.valueOf(flight.getPrice());
+			String planeInfo = flight.getPlane().getSerial();
+			String flightId = Integer
+					.toString(flight.getExpectedDepartureDate().after(new Date()) ? flight.getId() : 0);
+
+			fvViewsList.add(new FlightView(source, destination, departureDate, price, planeInfo, flightId));
+
+		}
+
 		return fvViewsList;
 	}
 
@@ -255,22 +311,22 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	 * The Class FlightView.
 	 */
 	public class FlightView {
-		
+
 		/** The source. */
 		String source;
-		
+
 		/** The destination. */
 		String destination;
-		
+
 		/** The departure date. */
 		String departureDate;
-		
+
 		/** The price. */
 		String price;
-		
+
 		/** The plane info. */
 		String planeInfo;
-		
+
 		/** The flight id. */
 		String flightId;
 

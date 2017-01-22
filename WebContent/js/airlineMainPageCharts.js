@@ -8,13 +8,16 @@ $(document).ready(
 			$.ajax({
 				traditional : true,
 				type : "GET",
+
 				url : "airline/weekFlightListJSON",
 				dataType : "json",
 				success : function(result, success) {
+
 					if (result !== null) {
 						c3.generate({
 							bindto : "#lineChart",
 							data : {
+								
 								columns : [ [ "Week Flights",
 										result.data.length, 50, 60 ] ]
 							},
@@ -41,12 +44,14 @@ $(document).ready(
 										count : 5,
 									}
 								}
+
 							},
 
 						});
 					}
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
+
 
 				}
 			});
@@ -67,6 +72,8 @@ $(document).ready(
 							columns : dataSet,
 							type : "pie"
 						},
+
+
 
 					});
 				},

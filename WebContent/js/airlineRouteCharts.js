@@ -17,24 +17,32 @@ $(document).ready(function() {
 				dataSet[i] = [ result.data[i].name, result.data[i].quantity ];
 				cat[i] = result.data[i].name;
 			}
-			console.log(dataSet.length);
-			c3.generate({
+			console.log(dataSet);
+			var chart = c3.generate({
 				bindto : "#barChartStats",
-				data : {
-					columns : dataSet,
-					type : "bar"
-				},
-				axis : {
+
+			
+			    data: {
+			        columns: dataSet,
+			        type: 'bar',
+			    
+			        order: 'desc' // stack order by sum of values descendantly. this is default.
+//			      order: 'asc'  // stack order by sum of values ascendantly.
+//			      order: null   // stack order by data definition.
+			    },
+			    grid: {
+			        y: {
+			            lines: [{value:0}]
+			        }
+			    },
+			    axis : {
 					y : {
 						label: "Flight Hours"
 					},
 					x : {
-						type : "categories",
-						categories : cat,
+						
 						label : "Route Name",
-						tick : {
-							count : dataSet.length,
-						}
+						
 					}
 				}
 			});

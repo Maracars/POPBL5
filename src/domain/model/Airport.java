@@ -139,4 +139,9 @@ public class Airport {
 		this.locale = locale;
 	}
 
+	public boolean isLocale() {
+		return locale;
+	}
+
+	
 }

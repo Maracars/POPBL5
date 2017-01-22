@@ -4,7 +4,7 @@
 
 <s:i18n name="action.airline.package">
 	<div class="container-fluid">
-		<div class="jumbotron">
+		<div class="jumbotron" style="overflow-x: scroll">
 			<table id="planestable"
 				class="table table-striped table-bordered table-hover table-responsive"
 				style="width: 100%;">

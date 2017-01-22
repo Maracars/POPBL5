@@ -40,8 +40,8 @@ public class DAOFlight {
 			+ "	lower(f.route.arrivalTerminal.airport.address.city) like :destination order by f.";
 
 	/** The Constant LOAD_AIRLINE_ROUTE_FLIGHTS. */
-	private static final String LOAD_AIRLINE_ROUTE_FLIGHTS = "select count(*), f.route.id from Flight as f where f.plane.airline.username =:"
-			+ PARAMETER_AIRLINE_USERNAME + " group by f.route";
+	private static final String LOAD_AIRLINE_ROUTE_FLIGHTS = "select EXTRACT(epoch FROM sum(f.expectedArrivalDate - f.expectedDepartureDate)/3600) , concat(f.route.departureTerminal.airport.name, ' - ', f.route.arrivalTerminal.airport.name) from Flight as f where f.plane.airline.username =:"
+			+ PARAMETER_AIRLINE_USERNAME + " group by f.route, f.route.arrivalTerminal.airport.name, f.route.departureTerminal.airport.name";
 
 	/** The Constant LOAD_WEEK_FLIGHTS. */
 	private static final String LOAD_WEEK_FLIGHTS = "from Flight as f where DATE(f.expectedArrivalDate) = "
@@ -78,7 +78,6 @@ public class DAOFlight {
 
 	/** The Constant LOAD_FLIGHT_BY_ID. */
 	private static final String LOAD_FLIGHT_BY_ID = "from Flight as f where f.id = :" + PARAMETER_FLIGHT_ID;
-	
 
 	/** The Constant LOAD_FLIGH_PASSENGERS. */
 	private static final String LOAD_FLIGH_PASSENGERS = "select f.passengerList from Flight as f.id = :"
@@ -137,17 +136,23 @@ public class DAOFlight {
 	/**
 	 * Load flights for table pasenger.
 	 *
-	 * @param orderCol the order col
-	 * @param orderDir the order dir
-	 * @param search the search
-	 * @param destination the destination
-	 * @param origin the origin
-	 * @param passengerId the passenger id
+	 * @param orderCol
+	 *            the order col
+	 * @param orderDir
+	 *            the order dir
+	 * @param search
+	 *            the search
+	 * @param destination
+	 *            the destination
+	 * @param origin
+	 *            the origin
+	 * @param passengerId
+	 *            the passenger id
 	 * @return the list
 	 */
 	@SuppressWarnings(UNCHECKED)
-	public static List<Flight> loadFlightsForTablePasenger(String orderCol, String orderDir, String search, String destination, String origin,
-			int passengerId) {
+	public static List<Flight> loadFlightsForTablePasenger(String orderCol, String orderDir, String search,
+			String destination, String origin, int passengerId) {
 		List<Flight> flightList = null;
 		try {
 			session = HibernateConnection.getSession();
@@ -170,10 +175,14 @@ public class DAOFlight {
 	/**
 	 * Load flights for table.
 	 *
-	 * @param orderCol the order col
-	 * @param orderDir the order dir
-	 * @param start the start
-	 * @param length the length
+	 * @param orderCol
+	 *            the order col
+	 * @param orderDir
+	 *            the order dir
+	 * @param start
+	 *            the start
+	 * @param length
+	 *            the length
 	 * @return the list
 	 */
 	@SuppressWarnings(UNCHECKED)
@@ -202,7 +211,8 @@ public class DAOFlight {
 	/**
 	 * Load flights of airline by route.
 	 *
-	 * @param airlineUser the airline user
+	 * @param airlineUser
+	 *            the airline user
 	 * @return the list
 	 */
 	public static List<FlightView> loadFlightsOfAirlineByRoute(String airlineUser) {
@@ -218,7 +228,8 @@ public class DAOFlight {
 				for (int i = 0; i < list.size(); i++) {
 					Object[] row = (Object[]) list.get(i);
 
-					FlightView fv = rsa.newFlightView((String) row[1].toString(), ((Long) row[0]).toString());
+					FlightView fv = rsa.newFlightView((String) row[1].toString(),
+							(((Integer) Math.abs((Integer) row[0]))).toString());
 					flightViewList.add(fv);
 				}
 			}
@@ -236,7 +247,8 @@ public class DAOFlight {
 	/**
 	 * Sets the null passenger flights.
 	 *
-	 * @param passengerUsername the passenger username
+	 * @param passengerUsername
+	 *            the passenger username
 	 * @return true, if successful
 	 */
 
@@ -399,7 +411,8 @@ public class DAOFlight {
 	/**
 	 * Load plane flight hours.
 	 *
-	 * @param planeId the plane id
+	 * @param planeId
+	 *            the plane id
 	 * @return the long
 	 */
 	public static long loadPlaneFlightHours(int planeId) {
@@ -423,7 +436,6 @@ public class DAOFlight {
 
 	}
 
-	
 	/**
 	 * Load next departure flights.
 	 *
@@ -433,14 +445,14 @@ public class DAOFlight {
 	public static List<Flight> loadNextDepartureFlights() {
 		List<Flight> flightList = null;
 		try {
-			
+
 			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_ALL_DEPARTURE_FLIGHTS);
 			flightList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-		
+
 			HibernateConnection.closeSession(session);
 		}
 
@@ -450,10 +462,11 @@ public class DAOFlight {
 	/**
 	 * Load flight by id.
 	 *
-	 * @param flightId the flight id
+	 * @param flightId
+	 *            the flight id
 	 * @return the flight
 	 */
-	public static Flight loadFlightById(int flightId){
+	public static Flight loadFlightById(int flightId) {
 		Flight flight = null;
 		try {
 
@@ -464,7 +477,7 @@ public class DAOFlight {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-	
+
 			HibernateConnection.closeSession(session);
 		}
 
@@ -472,14 +485,17 @@ public class DAOFlight {
 
 	}
 
-	
 	/**
 	 * Load next departure flights for table.
 	 *
-	 * @param orderCol the order col
-	 * @param orderDir the order dir
-	 * @param start the start
-	 * @param length the length
+	 * @param orderCol
+	 *            the order col
+	 * @param orderDir
+	 *            the order dir
+	 * @param start
+	 *            the start
+	 * @param length
+	 *            the length
 	 * @return the list
 	 */
 	@SuppressWarnings("unchecked")
@@ -487,10 +503,10 @@ public class DAOFlight {
 			int length) {
 		List<Flight> flightList = null;
 		try {
-		
+
 			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_DEPARTURE_FLIGHTS_TABLE + orderCol + " " + orderDir);
-		
+
 			if (query.getResultList().size() > 0) {
 				query.setFirstResult(start);
 				query.setMaxResults(length);
@@ -499,7 +515,7 @@ public class DAOFlight {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			
+
 			HibernateConnection.closeSession(session);
 		}
 
@@ -509,11 +525,16 @@ public class DAOFlight {
 	/**
 	 * Filter departuring flights.
 	 *
-	 * @param orderCol the order col
-	 * @param orderDir the order dir
-	 * @param start the start
-	 * @param length the length
-	 * @param search the search
+	 * @param orderCol
+	 *            the order col
+	 * @param orderDir
+	 *            the order dir
+	 * @param start
+	 *            the start
+	 * @param length
+	 *            the length
+	 * @param search
+	 *            the search
 	 * @return the list
 	 */
 	@SuppressWarnings(UNCHECKED)
@@ -545,15 +566,20 @@ public class DAOFlight {
 
 		return flightList;
 	}
-	
+
 	/**
 	 * Filter arrival flights.
 	 *
-	 * @param orderCol the order col
-	 * @param orderDir the order dir
-	 * @param start the start
-	 * @param length the length
-	 * @param search the search
+	 * @param orderCol
+	 *            the order col
+	 * @param orderDir
+	 *            the order dir
+	 * @param start
+	 *            the start
+	 * @param length
+	 *            the length
+	 * @param search
+	 *            the search
 	 * @return the list
 	 */
 	@SuppressWarnings(UNCHECKED)

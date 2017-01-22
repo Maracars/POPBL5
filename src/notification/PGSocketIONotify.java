@@ -16,7 +16,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 public class PGSocketIONotify implements Runnable {
 
 	/** The Constant LOCALHOST. */
-	private static final String LOCALHOST = "localhost";
+	//private static final String LOCALHOST = "0.0.0.0";
 
 	/** The Constant SPLITTER. */
 	private static final String SPLITTER = ">";
@@ -41,7 +41,7 @@ public class PGSocketIONotify implements Runnable {
 	 */
 	public static void start() {
 		conf = new Configuration();
-		conf.setHostname(LOCALHOST);
+		//conf.setHostname(LOCALHOST);
 		conf.setPort(PORT_NMBER);
 		server = new SocketIOServer(conf);
 		server.start();
