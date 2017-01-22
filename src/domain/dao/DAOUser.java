@@ -1,5 +1,8 @@
 package domain.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Query;
 
 import org.hibernate.Session;
@@ -112,5 +115,27 @@ public class DAOUser {
 		return result > 0 ? true : false;
 
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public static List<Passenger> getUsersThatHaveFlight(int planeId) {
+		List<Passenger> result = new ArrayList<>();
+		try {
+
+			session = HibernateConnection.getSession();
+			Query query = session.createQuery("select f.passengerList from Flight f where f.plane.id = :planeId" );
+			query.setParameter("planeId", planeId);
+			result = query.getResultList();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			HibernateConnection.closeSession(session);
+		}
+
+		return result.size() > 0 ? result : null;
+
+	}
+
 
 }

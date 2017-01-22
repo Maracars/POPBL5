@@ -36,7 +36,7 @@ public class FlightCreator implements Runnable {
 	private static final String ADMIN = new Admin().getClass().getSimpleName();
 
 	/** The Constant SLEEP_5_MINUTES_IN_MILIS. */
-	private static final int SLEEP_2_MINUTES_IN_MILIS = 2 * 60 * 1000;
+	private static final int SLEEP_4_MINUTES_IN_MILIS = 4 * 60 * 1000;
 
 	/** The Constant POSITION_STATUS_WAITING_TO_ARRIVE. */
 	private static final String POSITION_STATUS_WAITING_TO_ARRIVE = "WAITING TO ARRIVE";
@@ -113,7 +113,7 @@ public class FlightCreator implements Runnable {
 					"Schedule full, checking if any flight is arriving/departuring soon");
 			createThreadsOfFlights();
 			try {
-				Thread.sleep(SLEEP_2_MINUTES_IN_MILIS);
+				Thread.sleep(SLEEP_4_MINUTES_IN_MILIS);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}

@@ -1,3 +1,4 @@
+
 var socket = io.connect("http://localhost:9092");//http://maracars.sytes.net:9092
 
 var map = null;

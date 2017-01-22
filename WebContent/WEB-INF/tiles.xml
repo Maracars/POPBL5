@@ -72,6 +72,14 @@
 			value="/pages/tiles/sidemenus/passenger.jsp" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/passenger/home.jsp" />
+			<put-list-attribute name="javascripts">
+						<add-attribute value="https://cdn.socket.io/socket.io-1.4.5.js"></add-attribute>
+			
+						<add-attribute value="/js/listener.js"></add-attribute>
+			
+					</put-list-attribute>
+			
+			
 	</definition>
 
 	<definition name="bookFlight" extends="passenger">
@@ -86,6 +94,10 @@
 			<add-attribute
 				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
 			<add-attribute value="../js/passangerTable.js"></add-attribute>
+						<add-attribute value="https://cdn.socket.io/socket.io-1.4.5.js"></add-attribute>
+			
+									<add-attribute value="/js/listener.js"></add-attribute>
+			
 		</put-list-attribute>
 	</definition>
 
@@ -101,6 +113,10 @@
 			<add-attribute
 				value="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></add-attribute>
 			<add-attribute value="../js/myPassangerTable.js"></add-attribute>
+						<add-attribute value="https://cdn.socket.io/socket.io-1.4.5.js"></add-attribute>
+			
+									<add-attribute value="/js/listener.js"></add-attribute>
+			
 		</put-list-attribute>
 	</definition>
 
