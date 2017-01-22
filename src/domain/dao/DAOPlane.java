@@ -245,9 +245,7 @@ public class DAOPlane {
 			session = HibernateConnection.getSession();
 			Query query = session.createQuery(LOAD_ALL_PLANES_FROM_AIRLINE);
 			query.setParameter(PARAMETER_AIRLINE_ID, airlineId);
-			if (query.getResultList().size() > 0) {
-				objectList = query.getResultList();
-			}
+			objectList = query.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
