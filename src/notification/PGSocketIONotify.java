@@ -16,7 +16,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 public class PGSocketIONotify implements Runnable {
 
 	/** The Constant LOCALHOST. */
-	//private static final String LOCALHOST = "0.0.0.0";
+	// private static final String LOCALHOST = "0.0.0.0";
 
 	/** The Constant SPLITTER. */
 	private static final String SPLITTER = ">";
@@ -94,9 +94,9 @@ public class PGSocketIONotify implements Runnable {
 						// PGk JSON bat bidaltzen dau, hori gero javascripten
 						// tratauko da
 						String[] tableInfo = pgNotification.getParameter().split(SPLITTER);
-						if(tableInfo[0].equals("planestatus")){
+						if (tableInfo[0].equals("planestatus")) {
 							System.out.println(tableInfo[1]);
-						}else{
+						} else {
 							server.getBroadcastOperations().sendEvent("chatevent", tableInfo[1]);
 
 						}
