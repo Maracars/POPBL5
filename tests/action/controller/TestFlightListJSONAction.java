@@ -107,6 +107,8 @@ public class TestFlightListJSONAction {
 		HibernateGeneric.deleteAllObjects(new Flight());
 
 		Flight flight = Initializer.initCompleteFlight();
+		flight.getRoute().getDepartureTerminal().getAirport().setLocale(true);
+		HibernateGeneric.updateObject(flight.getRoute().getDepartureTerminal().getAirport());
 
 		HibernateGeneric.saveObject(flight);
 		flAction = new FlightListJSONAction();
@@ -132,6 +134,13 @@ public class TestFlightListJSONAction {
 
 		Flight firstFlight = Initializer.initCompleteFlight();
 		Flight secondFlight = Initializer.initCompleteFlight();
+		
+		firstFlight.getRoute().getDepartureTerminal().getAirport().setLocale(true);
+		HibernateGeneric.updateObject(firstFlight.getRoute().getDepartureTerminal().getAirport());
+		
+		secondFlight.getRoute().getArrivalTerminal().getAirport().setLocale(true);
+		HibernateGeneric.updateObject(secondFlight.getRoute().getArrivalTerminal().getAirport());
+		
 		secondFlight.getPlane().setSerial("SERIAL");
 
 		HibernateGeneric.saveObject(firstFlight);

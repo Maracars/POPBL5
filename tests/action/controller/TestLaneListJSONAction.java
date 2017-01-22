@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.struts2.dispatcher.HttpParameters;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -16,6 +17,8 @@ import com.opensymphony.xwork2.ActionContext;
 import domain.dao.HibernateGeneric;
 import domain.dao.Initializer;
 import domain.model.Lane;
+import initialization.HibernateInit;
+import initialization.SocketIOInit;
 
 public class TestLaneListJSONAction {
 
@@ -37,6 +40,7 @@ public class TestLaneListJSONAction {
 
 	@Before
 	public void prepareTests() {
+		
 		ac = Mockito.mock(ActionContext.class);
 
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
@@ -102,6 +106,8 @@ public class TestLaneListJSONAction {
 		HibernateGeneric.deleteAllObjects(new Lane());
 
 		Lane lane = Initializer.initCompleteLane();
+		lane.getAirport().setLocale(true);
+		HibernateGeneric.updateObject(lane.getAirport());
 
 		HibernateGeneric.saveObject(lane);
 		lListJSONac = new LaneListJSONAction();
@@ -126,6 +132,10 @@ public class TestLaneListJSONAction {
 
 		Lane firstLane = Initializer.initCompleteLane();
 		Lane secondLane = Initializer.initCompleteLane();
+		firstLane.getAirport().setLocale(true);
+		HibernateGeneric.updateObject(firstLane.getAirport());
+		secondLane.getAirport().setLocale(true);
+		HibernateGeneric.updateObject(secondLane.getAirport());
 		secondLane.setName("LANE");
 
 		HibernateGeneric.saveObject(firstLane);
