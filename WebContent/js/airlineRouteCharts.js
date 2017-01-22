@@ -10,7 +10,7 @@ $(document).ready(function() {
 	$.ajax({
 		traditional : true,
 		type : "GET",
-		url : "routeListJSON",
+		url : "airline/routeListJSON",
 		dataType : "json",
 		success : function(result, success) {
 			for (i = 0; i < result.data.length; i++) {

@@ -442,6 +442,7 @@ public class DemoInitialization implements ServletContextListener {
 		route.setDepartureTerminal((Terminal) heathrowTerminals.get(terminalPos));
 		route.setArrivalTerminal(tegelTerminal);
 		HibernateGeneric.saveObject(route);
+
 	}
 
 	/**

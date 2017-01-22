@@ -8,7 +8,7 @@ $(document).ready(
 			$.ajax({
 				traditional : true,
 				type : "GET",
-				url : "weekFlightListJSON",
+				url : "airline/weekFlightListJSON",
 				dataType : "json",
 				success : function(result, success) {
 					if(result !== null){
@@ -48,7 +48,7 @@ $(document).ready(
 					$.ajax({
 						traditional : true,
 						type : "GET",
-						url : "pieFlightListJSON",
+						url : "airline/pieFlightListJSON",
 						dataType : "json",
 						success : function(result, success) {
 							for (i = 0; i < result.data.length; i++) {
