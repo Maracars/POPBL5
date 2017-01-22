@@ -1,14 +1,12 @@
 package action.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-import domain.dao.DAOLane;
 import domain.dao.HibernateGeneric;
 import domain.model.Lane;
 
@@ -21,6 +19,9 @@ public class LaneListJSONAction<sincronized> extends ActionSupport {
 
 	/** The Constant OCCUPIED. */
 	private static final String OCCUPIED = "Occupied";
+	
+	/** The Constant FREE. */
+	private static final String FREE = "Free";
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -54,18 +55,22 @@ public class LaneListJSONAction<sincronized> extends ActionSupport {
 
 		int start = Integer.parseInt(map.get("start")[0]);
 		int length = Integer.parseInt(map.get("length")[0]);
+		
+		List<Object> allLanes = HibernateGeneric.loadAllObjects(new Lane());
+		allLanes.removeIf((Object l) -> !((Lane)l).getAirport().isLocale());
 
-		data = generateData(search, orderCol, orderDir, start, length);
+		recordsTotal = allLanes.size();
 
-		recordsTotal = HibernateGeneric.loadAllObjects(new Lane()).size();
-
-		filter(data, search);
-
-		recordsFiltered = HibernateGeneric.loadAllObjects(new Lane()).size();
+		allLanes = filter(allLanes, search);
+	
+		recordsFiltered = allLanes.size();
+		
+		data = orderAndTrim(allLanes, orderCol, orderDir, start, length);
 
 		return SUCCESS;
 	}
-
+	
+	
 	/**
 	 * Filter.
 	 *
@@ -73,17 +78,12 @@ public class LaneListJSONAction<sincronized> extends ActionSupport {
 	 * @param search the search
 	 * @return the list
 	 */
-	private List<LaneView> filter(List<LaneView> data, String search) {
-		String searchToLower = search.toLowerCase();
-		for (Iterator<LaneView> fIt = data.iterator(); fIt.hasNext();) {
-			LaneView fv = fIt.next();
-			if (fv.getName().toLowerCase().contains(searchToLower))
-				continue;
-			if (fv.getState().toLowerCase().contains(searchToLower))
-				continue;
-			fIt.remove();
-		}
-		return data;
+	private List<Object> filter(List<Object> allLanes, String search) {
+		if (search != null && !search.equals(""))
+			allLanes.removeIf((Object l) -> !((Lane) l).getName()
+					.toLowerCase().contains(search.toLowerCase()));
+
+		return allLanes;
 	}
 
 	/**
@@ -96,52 +96,46 @@ public class LaneListJSONAction<sincronized> extends ActionSupport {
 	 * @param length the length
 	 * @return the array list
 	 */
-	public ArrayList<LaneView> generateData(String search, int orderCol, String orderDir, int start, int length) {
-		List<Lane> laneList = null;
-		ArrayList<LaneView> laneViews = new ArrayList<LaneView>();
-		String colName = getOrderColumnName(orderCol);
-		String state = OCCUPIED;
+	private List<LaneListJSONAction<sincronized>.LaneView> orderAndTrim(List<Object> allLanes, int orderCol,
+			String orderDir, int start, int length) {
 
-		laneList = DAOLane.loadLanesForTable(colName, orderDir, start, length);
-
-		if (laneList != null) {
-
-			for (Lane l : laneList) {
-				String name = l.getName();
-				if (l.isFree()) {
-					state = "Free";
-				} else {
-					state = OCCUPIED;
-				}
-
-				laneViews.add(new LaneView(name, state));
-			}
-		}
-
-		return laneViews;
-	}
-
-	/**
-	 * Gets the order column name.
-	 *
-	 * @param orderCol the order col
-	 * @return the order column name
-	 */
-	public String getOrderColumnName(int orderCol) {
-		String colName = null;
 		switch (orderCol) {
-		case 0:
-			colName = "name";
-			break;
-		case 1:
-			colName = "status";
+		case 0: // NAME
+			if (orderDir.equals("asc"))
+				allLanes.sort((Object l1, Object l2) -> ((Lane) l1).getName()
+						.compareToIgnoreCase(((Lane) l2).getName()));
+			else
+				allLanes.sort((Object l1,
+						Object l2) -> -((Lane) l1).getName()
+						.compareToIgnoreCase(
+								((Lane) l2).getName()));
 			break;
 		default:
-			colName = "plane";
+			allLanes.sort((Object l1, Object l2) -> ((Lane) l1).getName()
+					.compareTo(((Lane) l2).getName()));
 			break;
 		}
-		return colName;
+		allLanes = allLanes.subList(start, (start + length) > allLanes.size() ? allLanes.size() - start : (start + length));
+
+		ArrayList<LaneView> lvViewsList = new ArrayList<LaneView>();
+
+		for (Object o : allLanes) {
+			Lane lane = (Lane) o;
+			String name = lane.getName();
+			String state = null;
+			if(lane.isFree()){
+				 state = FREE;
+			}else{
+				state = OCCUPIED;
+			}
+
+			lvViewsList.add(new LaneView(name, state));
+
+		}
+
+		return lvViewsList;
 	}
+
 
 	/**
 	 * Gets the draw.

@@ -1,14 +1,12 @@
 package action.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-import action.passenger.FlightListJSONAction.FlightView;
 import domain.dao.HibernateGeneric;
 import domain.model.Flight;
 
@@ -18,21 +16,6 @@ import domain.model.Flight;
  * @param <sincronized> the generic type
  */
 public class FlightListJSONAction<sincronized> extends ActionSupport {
-	
-	/** The Constant DEPARTURE_AIRPORT. */
-	private static final int DEPARTURE_AIRPORT = 1;
-
-	/** The Constant ARRIVAL_AIRPORT. */
-	private static final int ARRIVAL_AIRPORT = 2;
-
-	/** The Constant EXPECTED_ARRIVAL_DATA. */
-	private static final int EXPECTED_ARRIVAL_DATA = 3;
-
-	/** The Constant EXPECTED_DEPARTURE_DATA. */
-	private static final int EXPECTED_DEPARTURE_DATA = 4;
-
-	/** The Constant PLANE_STRING. */
-	private static final String PLANE_STRING = "plane";
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -92,13 +75,13 @@ public class FlightListJSONAction<sincronized> extends ActionSupport {
 	private List<Object> filter(List<Object> allFlights, String search) {
 		if (search != null && !search.equals(""))
 			allFlights.removeIf((Object f) -> !((Flight) f).getPlane().getSerial()
-					.toLowerCase().contains(search)
+					.toLowerCase().contains(search.toLowerCase())
 					&& !((Flight) f).getRoute().getDepartureTerminal().getAirport().getName().toLowerCase()
-					.contains(search)
+					.contains(search.toLowerCase())
 					&& !((Flight) f).getRoute().getArrivalTerminal().getAirport().getName().toLowerCase()
-							.contains(search)
-					&& !((Flight) f).getExpectedArrivalDate().toString().toLowerCase().contains(search)
-					&& !((Flight) f).getExpectedDepartureDate().toString().toLowerCase().contains(search));
+							.contains(search.toLowerCase())
+					&& !((Flight) f).getExpectedArrivalDate().toString().toLowerCase().contains(search.toLowerCase())
+					&& !((Flight) f).getExpectedDepartureDate().toString().toLowerCase().contains(search.toLowerCase()));
 
 		return allFlights;
 	}

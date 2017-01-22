@@ -8,9 +8,13 @@ import java.util.Map;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import action.controller.FlightListJSONAction.AirplaneView;
 import domain.dao.DAOAirport;
 import domain.dao.DAOGate;
+import domain.dao.HibernateGeneric;
+import domain.model.Flight;
 import domain.model.Gate;
+import domain.model.Lane;
 
 /**
  * The Class TerminalListJSONAction.
@@ -60,14 +64,17 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport {
 
 		int start = Integer.parseInt(map.get("start")[0]);
 		int length = Integer.parseInt(map.get("length")[0]);
+		
+		List<Object> allGates = HibernateGeneric.loadAllObjects(new Gate());
+		allGates.removeIf((Object g) -> !((Gate)g).getTerminal().getAirport().isLocale());
 
-		data = generateData(search, orderCol, orderDir, start, length);
-
-		recordsTotal = DAOGate.loadAllGatesFromAirport(DAOAirport.getLocaleAirport().getId()).size();
-
-		data = filter(data, search);
-
-		recordsFiltered = DAOGate.loadAllGatesFromAirport(DAOAirport.getLocaleAirport().getId()).size();
+		recordsTotal = allGates.size();
+		
+		allGates = filter(allGates, search);
+		
+		recordsFiltered = allGates.size();
+		
+		data = orderAndTrim(allGates, orderCol, orderDir, start, length);
 
 		return SUCCESS;
 	}
@@ -79,19 +86,13 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport {
 	 * @param search the search
 	 * @return the list
 	 */
-	private List<GateView> filter(List<GateView> data, String search) {
-		String searchToLower = search.toLowerCase();
-		for (Iterator<GateView> gIt = data.iterator(); gIt.hasNext();) {
-			GateView gv = gIt.next();
-			if (gv.getTerminalName().toLowerCase().contains(searchToLower))
-				continue;
-			if (gv.getGateName().toLowerCase().contains(searchToLower))
-				continue;
-			if (gv.getGateState().toLowerCase().contains(searchToLower))
-				continue;
-			gIt.remove();
-		}
-		return data;
+	private List<Object> filter(List<Object> allLanes, String search) {
+		if (search != null && !search.equals(""))
+			allLanes.removeIf((Object g) -> !((Gate) g).getTerminal().getName()
+					.toLowerCase().contains(search)
+					&& !((Gate)g).getPositionNode().getName().toLowerCase().contains(search));
+
+		return allLanes;
 	}
 
 	/**
@@ -104,31 +105,57 @@ public class TerminalListJSONAction<sincronized> extends ActionSupport {
 	 * @param length the length
 	 * @return the array list
 	 */
-	public ArrayList<GateView> generateData(String search, int orderCol, String orderDir, int start, int length) {
-		List<Gate> gateList = null;
-		ArrayList<GateView> gateViews = new ArrayList<GateView>();
-		String colName = getOrderColumnName(orderCol);
-		int airportId = DAOAirport.getLocaleAirport().getId();
-		String gateState = null;
+	private List<TerminalListJSONAction<sincronized>.GateView> orderAndTrim(List<Object> allGates, int orderCol,
+			String orderDir, int start, int length) {
 
-		gateList = DAOGate.loadGatesForTable(airportId, colName, orderDir, start, length);
+		switch (orderCol) {
+		case 0: // TERMINAL NAME
+			if (orderDir.equals("asc"))
+				allGates.sort((Object g1, Object g2) -> ((Gate) g1).getTerminal()
+						.getName()
+						.compareToIgnoreCase(((Gate) g2).getTerminal().getName()));
+			else
+				allGates.sort((Object g1,
+						Object g2) -> -((Gate) g1).getTerminal().getName()
+						.compareToIgnoreCase(
+								((Gate) g2).getTerminal().getName()));
+			break;
+		case 1: // GATE NAME
+			if (orderDir.equals("asc"))
+				allGates.sort((Object g1, Object g2) -> ((Gate) g1).getPositionNode()
+						.getName()
+						.compareToIgnoreCase(((Gate) g2).getPositionNode().getName()));
+			else
+				allGates.sort((Object g1,
+						Object g2) -> -((Gate) g1).getPositionNode().getName()
+						.compareToIgnoreCase(
+								((Gate) g2).getPositionNode().getName()));
+			break;
+		default:
+			allGates.sort((Object g1, Object g2) -> ((Gate) g1).getTerminal().getName()
+					.compareToIgnoreCase(((Gate) g2).getTerminal().getName()));
+			break;
+		}
+		allGates = allGates.subList(start, (start + length) > allGates.size() ? allGates.size() - start : (start + length));
 
-		if (gateList != null) {
-			for (Gate g : gateList) {
+		ArrayList<GateView> gvViewsList = new ArrayList<GateView>();
 
-				String terminalName = g.getTerminal().getName();
-				String gateName = g.getPositionNode().getName();
-				if (g.isFree()) {
-					gateState = "Free";
-				} else {
-					gateState = "Occupied";
-				}
-
-				gateViews.add(new GateView(terminalName, gateName, gateState));
+		for (Object o : allGates) {
+			Gate gate = (Gate) o;
+			String terminalName = gate.getTerminal().getName();
+			String gateName = gate.getPositionNode().getName();
+			String gateState = null;
+			if(gate.isFree()){
+				gateState = "Free";
+			}else{
+				gateState = "Occupied";
 			}
+
+			gvViewsList.add(new GateView(terminalName, gateName, gateState));
+
 		}
 
-		return gateViews;
+		return gvViewsList;
 	}
 
 	/**

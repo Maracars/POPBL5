@@ -39,13 +39,8 @@ public class TestTerminalListJSONAction {
 	HttpParameters paramsMap;
 	TerminalListJSONAction tListJSONac;
 
-	static HibernateInit init;
-	static SocketIOInit initio;
-
 	@Before
 	public void prepareTests() {
-		init = new HibernateInit();
-		init.contextInitialized(null);
 		ac = Mockito.mock(ActionContext.class);
 
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
