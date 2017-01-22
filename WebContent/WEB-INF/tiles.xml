@@ -163,7 +163,7 @@
 			<add-attribute value="/css/airline.css"></add-attribute>
 		</put-list-attribute>
 		<put-list-attribute name="javascripts">
-			
+
 			<add-attribute
 				value="https://api.mapbox.com/mapbox.js/plugins/arc.js/v0.1.0/arc.js"></add-attribute>
 			<add-attribute value="https://openlayers.org/en/v3.20.1/build/ol.js"></add-attribute>
@@ -291,6 +291,10 @@
 		<put-attribute name="title" value="global.log" />
 		<put-attribute name="body"
 			value="/pages/tiles/bodies/controllerLog.jsp" />
+		<put-list-attribute name="javascripts">
+			<add-attribute value="https://cdn.socket.io/socket.io-1.4.5.js"></add-attribute>
+			<add-attribute value="/js/listener.js"></add-attribute>
+		</put-list-attribute>
 	</definition>
 
 	<definition name="stats" extends="index">
