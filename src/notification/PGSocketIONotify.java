@@ -12,6 +12,7 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 
 import domain.dao.DAOUser;
+import domain.model.Flight;
 import domain.model.users.Passenger;
 import helpers.MD5;
 
@@ -120,12 +121,14 @@ public class PGSocketIONotify implements Runnable {
 	}
 
 	private void sendNotificationToClients(int gateName, int planeId) {
-		//List<Passenger> passList = DAOUser.getUsersThatHaveFlight(planeId);
+		List<Flight> fList = DAOUser.getUsersThatHaveFlight(planeId);
 		//HAU ALDATU INBIHARKO DA PROBA IN BIHAR DAN ORDENADORIAN ARABERA...
-		server.getBroadcastOperations().sendEvent("8817ee4863d33eacbd89132370c3e088","Your flight has arrived to the gate number " + gateName);
-		/*for(Passenger pass: passList){
-			//Berez hau kontutan hartuta inbiko zan, baina ez dabil...
-		}*/
+		for(Flight f : fList){
+			for(Passenger pass: f.getPassengerList()){
+				server.getBroadcastOperations().sendEvent(pass.getUsername(),"Your flight has arrived to the gate number " + gateName);
+			}
+		}
+		
 	}
 
 	/**

@@ -6,20 +6,32 @@ $(document).ready(function(){
 	onLoadFunction();
 });
 function onLoadFunction() {
-	var listenTo = $("#listenerRole").val();
-	if (listenTo === "") {
+	var listenToRole = $("#listenerRole").val();
+	var listenToUser = $("#listenerUser").val();
+	if (listenToRole === "") {
 
-		listenTo = "public";
+		listenToRole = "public";
+
+	}
+	if (listenToUser === "") {
+
+		listenToUser = "public";
 
 	}
 
 	socket.on("connect", function() {
 	});
 
-	socket.on(listenTo, function(data) {
+	socket.on(listenToUser, function(data) {
 		// var data2 = JSON.parse(data);
 		
 		render(data);
+	});
+	
+	socket.on(listenToRole, function(data) {
+		// var data2 = JSON.parse(data);
+		
+		render2(data);
 	});
 
 	socket.on("disconnect", function() {
@@ -31,12 +43,20 @@ function onLoadFunction() {
 }
 
 function render(data) {
-	var element = $("<li id = 'console"+ counter+"'><a href = '#'><strong>" + data + "</strong></li>");
+	var element = $("<li><div>" + data + "</div></li><li class='divider'></li>");
 	$(".dropdown-alerts").append(element);
-    $(".dropdown-alerts").animate({scrollTop: $(".console").prop("scrollHeight")}, 1);
-	
-	
+    	
 	 var notify = $.notify(`<strong>${data}</strong>`, {
 	 type: 'success', offset: { x: 50, y: 50 }, animate: { enter: 'animated	 bounceInDown', exit: 'animated lightSpeedOut' } });
 	
 }
+
+function render2(data) {
+	var element = $("<li id = 'console"+ counter+"'><a href = '#'><strong>" + data + "</strong></li>");
+	$(".console").append(element);
+    $(".console").animate({scrollTop: $(".console").prop("scrollHeight")}, 1);
+}
+
+
+
+

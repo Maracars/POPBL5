@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import org.hibernate.Session;
 
+import domain.model.Flight;
 import domain.model.users.Airline;
 import domain.model.users.Passenger;
 import domain.model.users.User;
@@ -118,12 +119,12 @@ public class DAOUser {
 	
 	
 	@SuppressWarnings("unchecked")
-	public static List<Passenger> getUsersThatHaveFlight(int planeId) {
-		List<Passenger> result = new ArrayList<>();
+	public static List<Flight> getUsersThatHaveFlight(int planeId) {
+		List<Flight> result = new ArrayList<>();
 		try {
 
 			session = HibernateConnection.getSession();
-			Query query = session.createQuery("select f.passengerList from Flight f where f.plane.id = :planeId" );
+			Query query = session.createQuery("from Flight f where f.plane.id = :planeId" );
 			query.setParameter("planeId", planeId);
 			result = query.getResultList();
 

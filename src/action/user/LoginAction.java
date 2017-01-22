@@ -93,7 +93,8 @@ public class LoginAction extends ActionSupport {
 	 */
 	private String getListenerUser(User user) {
 		String ret = null;
-		ret = MD5.encrypt(user.getUsername());
+		ret = user.getUsername();
+				//MD5.encrypt(user.getUsername()); 
 
 		return ret;
 	}
