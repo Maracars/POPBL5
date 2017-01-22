@@ -8,7 +8,11 @@ import java.util.Map;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import action.controller.TerminalListJSONAction;
+import action.controller.TerminalListJSONAction.GateView;
 import domain.dao.DAOPlane;
+import domain.dao.HibernateGeneric;
+import domain.model.Gate;
 import domain.model.Plane;
 import domain.model.users.User;
 
@@ -19,30 +23,21 @@ import domain.model.users.User;
  */
 public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 
-	/** The Constant SERIAL. */
-	private static final String SERIAL = "serial";
-
-	/** The Constant TECHNICAL_STATUS. */
-	private static final int TECHNICAL_STATUS = 1;
-
-	/** The Constant POSITION_STATUS. */
-	private static final int POSITION_STATUS = 2;
-
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The draw. */
 	private Integer draw = 0;
-	
+
 	/** The records total. */
 	private Integer recordsTotal = 1;
-	
+
 	/** The records filtered. */
 	private Integer recordsFiltered = 0;
-	
+
 	/** The data. */
 	private List<AirplaneView> data = new ArrayList<AirplaneView>();
-	
+
 	/** The error. */
 	String error = null;
 
@@ -65,15 +60,17 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 		User user = (User) session.get("user");
 		int airlineId = user.getId();
 
-		data = generateData(airlineId, search, orderCol, orderDir, start, length);
+		List<Plane> allPlanes = DAOPlane.loadAllAirplanesFromAirline(airlineId);
 
-		if (DAOPlane.loadAllAirplanesFromAirline(airlineId) != null) {
-			recordsTotal = DAOPlane.loadAllAirplanesFromAirline(airlineId).size();
+		recordsTotal = allPlanes.size();
 
-			data = filter(data, search);
+		allPlanes = filter(allPlanes, search);
+		
+		recordsFiltered = allPlanes.size();
+		
+		data = orderAndTrim(allPlanes, orderCol, orderDir, start, length);
 
-			recordsFiltered = DAOPlane.loadAllAirplanesFromAirline(airlineId).size();
-		}
+
 		return SUCCESS;
 	}
 
@@ -84,19 +81,14 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 	 * @param search the search
 	 * @return the list
 	 */
-	private List<AirplaneView> filter(List<AirplaneView> data, String search) {
-		String searchToLower = search.toLowerCase();
-		for (Iterator<AirplaneView> pIt = data.iterator(); pIt.hasNext();) {
-			AirplaneView pv = pIt.next();
-			if (pv.getSerial().toLowerCase().contains(searchToLower))
-				continue;
-			if (pv.getTechnicalStatus().toLowerCase().contains(searchToLower))
-				continue;
-			if (pv.getPositionStatus().toLowerCase().contains(searchToLower))
-				continue;
-			pIt.remove();
-		}
-		return data;
+	private List<Plane> filter(List<Plane> allPlanes, String search) {
+		if (search != null && !search.equals(""))
+			allPlanes.removeIf((Object p) -> !((Plane) p).getSerial()
+					.toLowerCase().contains(search.toLowerCase())
+					&& !((Plane)p).getPlaneStatus().getTechnicalStatus().toLowerCase().contains(search.toLowerCase())
+					&& !((Plane)p).getPlaneStatus().getPositionStatus().toLowerCase().contains(search.toLowerCase()));
+
+		return allPlanes;
 	}
 
 	/**
@@ -110,53 +102,60 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 	 * @param length the length
 	 * @return the array list
 	 */
-	public ArrayList<AirplaneView> generateData(int airlineId, String search, int orderCol, String orderDir, int start,
-			int length) {
-		List<Plane> planeList = null;
-		ArrayList<AirplaneView> planeViews = new ArrayList<AirplaneView>();
-		String colName = getOrderColumnName(orderCol);
+	private List<AirplaneListJSONAction<sincronized>.AirplaneView> orderAndTrim(List<Plane> allPlanes, int orderCol,
+			String orderDir, int start, int length) {
 
-		planeList = DAOPlane.loadAirplanesForTable(airlineId, colName, orderDir, start, length);
-
-		if (planeList != null) {
-
-			for (int i = 0; i < planeList.size(); i++) {
-				if (planeList.get(i) instanceof Plane) {
-					String serial = planeList.get(i).getSerial();
-					String technicalStatus = planeList.get(i).getPlaneStatus().getTechnicalStatus();
-					String positionStatus = planeList.get(i).getPlaneStatus().getPositionStatus();
-
-					planeViews.add(new AirplaneView(serial, technicalStatus, positionStatus));
-				}
-
-			}
-		}
-		return planeViews;
-	}
-
-	/**
-	 * Gets the order column name.
-	 *
-	 * @param orderCol the order col
-	 * @return the order column name
-	 */
-	public String getOrderColumnName(int orderCol) {
-		String colName = null;
 		switch (orderCol) {
-		case 0:
-			colName = SERIAL;
+		case 0: // SERIAL
+			if (orderDir.equals("asc"))
+				allPlanes.sort((Object p1, Object p2) -> ((Plane) p1).getSerial()
+						.compareToIgnoreCase(((Plane) p2).getSerial()));
+			else
+				allPlanes.sort((Object p1,
+						Object p2) -> -((Plane) p1).getSerial()
+						.compareToIgnoreCase(
+								((Plane) p2).getSerial()));
 			break;
-		case TECHNICAL_STATUS:
-			colName = "status.technicalStatus";
+		case 1: // TECHNICAL STATUS
+			if (orderDir.equals("asc"))
+				allPlanes.sort((Object p1, Object p2) -> ((Plane) p1).getPlaneStatus().getTechnicalStatus()
+						.compareToIgnoreCase(((Plane) p2).getPlaneStatus().getTechnicalStatus()));
+			else
+				allPlanes.sort((Object p1,
+						Object p2) -> -((Plane) p1).getPlaneStatus().getTechnicalStatus()
+						.compareToIgnoreCase(
+								((Plane) p2).getPlaneStatus().getTechnicalStatus()));
 			break;
-		case POSITION_STATUS:
-			colName = "status.positionStatus";
+		case 2: //POSITION STATUS
+			if (orderDir.equals("asc"))
+				allPlanes.sort((Object p1, Object p2) -> ((Plane) p1).getPlaneStatus().getPositionStatus()
+						.compareToIgnoreCase(((Plane) p2).getPlaneStatus().getPositionStatus()));
+			else
+				allPlanes.sort((Object p1,
+						Object p2) -> -((Plane) p1).getPlaneStatus().getPositionStatus()
+						.compareToIgnoreCase(
+								((Plane) p2).getPlaneStatus().getPositionStatus()));
 			break;
 		default:
-			colName = SERIAL;
+			allPlanes.sort((Object p1, Object p2) -> ((Plane) p1).getSerial()
+					.compareToIgnoreCase(((Plane) p2).getSerial()));
 			break;
 		}
-		return colName;
+		allPlanes = allPlanes.subList(start, (start + length) > allPlanes.size() ? allPlanes.size() - start : (start + length));
+
+		ArrayList<AirplaneView> avViewsList = new ArrayList<AirplaneView>();
+
+		for (Object o : allPlanes) {
+			Plane plane = (Plane) o;
+			String serial = plane.getSerial();
+			String technicalStatus = plane.getPlaneStatus().getTechnicalStatus();
+			String positionStatus = plane.getPlaneStatus().getPositionStatus();
+
+			avViewsList.add(new AirplaneView(serial, technicalStatus, positionStatus));
+
+		}
+
+		return avViewsList;
 	}
 
 	/**
@@ -235,13 +234,13 @@ public class AirplaneListJSONAction<sincronized> extends ActionSupport {
 	 * The Class AirplaneView.
 	 */
 	public class AirplaneView {
-		
+
 		/** The serial. */
 		String serial;
-		
+
 		/** The technical status. */
 		String technicalStatus;
-		
+
 		/** The position status. */
 		String positionStatus;
 
