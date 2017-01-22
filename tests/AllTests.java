@@ -14,6 +14,7 @@ import action.airline.TestPieChartAction;
 import action.controller.TestFlightListJSONAction;
 import action.controller.TestLaneListJSONAction;
 import action.controller.TestTerminalListJSONAction;
+import action.passenger.TestFlightJSONActionPassenger;
 import action.user.TestLoginAction;
 import action.user.TestLogoutAction;
 import action.user.TestRegisterAdminAction;
@@ -85,6 +86,7 @@ import test.dijkstra.TestDijkstra;
 		TestRegisterAirlineAction.class, 
 		TestRegisterAirlineActionStaticMock.class,
 		TestFlightListJSONAction.class,
+		TestFlightJSONActionPassenger.class,
 		TestCreateAirplaneSubmitAction.class,
 		TestAirplaneMoreInfoAction.class,
 		TestMainPageAction.class,
@@ -95,7 +97,6 @@ import test.dijkstra.TestDijkstra;
 		TestDijkstra.class,
 		TestFlightCreator.class,
 		TestAirportController.class,
-
 		TestCompleteSimulator.class,
 		})
 

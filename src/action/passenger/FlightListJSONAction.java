@@ -20,9 +20,6 @@ import domain.model.users.User;
  */
 public class FlightListJSONAction<sincronized> extends ActionSupport {
 
-	/** The Constant STRING_ROUTE_DEPARTURE_TERMINAL_AIRPORT_NAME. */
-	private static final String STRING_ROUTE_DEPARTURE_TERMINAL_AIRPORT_NAME = "route.departureTerminal.airport.name";
-
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 

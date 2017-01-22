@@ -974,8 +974,13 @@ public class Initializer {
 		HibernateGeneric.saveObject(planeModel);
 
 		Airline airline = initAirline();
-		DAOUser.deleteUserWithUsername(airline);
-		HibernateGeneric.saveObject(airline);
+		if(DAOUser.getUser(USERNAME) == null ){
+			HibernateGeneric.saveObject(airline);
+		}else{
+			airline = (Airline) DAOUser.getUser(USERNAME);
+		}
+		//DAOUser.deleteUserWithUsername(airline);
+		
 
 		PlaneStatus planeStatus = initPlaneStatus();
 		HibernateGeneric.saveObject(planeStatus);

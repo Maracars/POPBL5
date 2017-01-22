@@ -1,7 +1,8 @@
-package action.controller;
+package action.passenger;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,8 +22,9 @@ import domain.model.Plane;
 import initialization.HibernateInit;
 import initialization.SocketIOInit;
 
-public class TestFlightListJSONAction {
-
+public class TestFlightJSONActionPassenger {
+	
+	private static final String EMPTY = "";
 	private static final String _10 = "10";
 	private static final String _0 = "0";
 	private static final String ASC = "asc";
@@ -34,12 +36,16 @@ public class TestFlightListJSONAction {
 	private static final int JSON_DATA_EMPTY_LENGTH = 0;
 	private static final int JSON_DATA_NOT_EMPTY_LENGTH = 1;
 	private static final int FILTER_LENGTH = 1;
-
+	
+	/** The Constant HOUR_IN_MILIS. */
+	private static final int HOUR_IN_MILIS = 3600000;
+	
 	ActionContext ac;
 	HttpParameters paramsMap;
 	@SuppressWarnings(RAWTYPES)
 	FlightListJSONAction flAction;
-
+	
+	
 	@Before
 	public void prepareTests() {
 
@@ -50,13 +56,14 @@ public class TestFlightListJSONAction {
 		ActionContext.setContext(ac);
 
 	}
+	
 
 	@After
 	public void destroyTests() {
 		ac = null;
 	}
 
-	public void createParameters(String search, String orderCol, String orderDir, String start, String length) {
+	public void createParameters(String search, String orderCol, String orderDir, String start, String length, String originSearch, String destinationSearch) {
 
 		Map<String, String[]> mapValues = new HashMap<String, String[]>();
 
@@ -79,6 +86,15 @@ public class TestFlightListJSONAction {
 		key = "length";
 		value = new String[] { length };
 		mapValues.put(key, value);
+		
+		key = "columns[0][search][value]";
+		value = new String[]{ originSearch};
+		mapValues.put(key, value);
+		
+		key = "columns[1][search][value]";
+		value = new String[]{ destinationSearch};
+		mapValues.put(key, value);
+		
 
 		paramsMap = HttpParameters.create(mapValues).build();
 
@@ -87,11 +103,16 @@ public class TestFlightListJSONAction {
 	@SuppressWarnings(RAWTYPES)
 	@Test
 	public void testExecuteNullData() {
+		for(Object o : HibernateGeneric.loadAllObjects(new Flight())){
+			Flight flight = (Flight) o;
+			flight.setPassengerList(null);
+			HibernateGeneric.updateObject(flight);
+		}
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
 		flAction = new FlightListJSONAction();
 
-		createParameters("", _0, ASC, _0, _10);
+		createParameters(EMPTY, _0, ASC, _0, _10, EMPTY, EMPTY);
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 
 		try {
@@ -102,21 +123,30 @@ public class TestFlightListJSONAction {
 
 		assertEquals(JSON_DATA_EMPTY_ERROR, JSON_DATA_EMPTY_LENGTH, flAction.getData().size());
 	}
-
+	
 	@SuppressWarnings(RAWTYPES)
 	@Test
 	public void testExecuteNotNullData() {
+		for(Object o : HibernateGeneric.loadAllObjects(new Flight())){
+			Flight flight = (Flight) o;
+			flight.setPassengerList(null);
+			HibernateGeneric.updateObject(flight);
+		}
+		
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
+		
+		Date date = new Date();
 
 		Flight flight = Initializer.initCompleteFlight();
 		flight.getRoute().getDepartureTerminal().getAirport().setLocale(true);
+		flight.setExpectedDepartureDate(new Date(date.getTime() + HOUR_IN_MILIS));
 		HibernateGeneric.updateObject(flight.getRoute().getDepartureTerminal().getAirport());
 
 		HibernateGeneric.saveObject(flight);
 		flAction = new FlightListJSONAction();
 
-		createParameters("", _0, ASC, _0, _10);
+		createParameters(EMPTY, _0, ASC, _0, _10, EMPTY, EMPTY);
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 
 		try {
@@ -128,7 +158,7 @@ public class TestFlightListJSONAction {
 		assertEquals(JSON_DATA_NOT_EMPTY_ERROR, JSON_DATA_NOT_EMPTY_LENGTH, flAction.getData().size());
 
 	}
-
+	
 	@SuppressWarnings(RAWTYPES)
 	@Test
 	public void testFilterWorkingProperly() {
@@ -139,24 +169,28 @@ public class TestFlightListJSONAction {
 		}
 		HibernateGeneric.deleteAllObjects(new Plane());
 		HibernateGeneric.deleteAllObjects(new Flight());
+		
+		Date date = new Date();
 
 		Flight firstFlight = Initializer.initCompleteFlight();
+		firstFlight.setExpectedDepartureDate(new Date(date.getTime() + HOUR_IN_MILIS));
 		HibernateGeneric.saveObject(firstFlight);
+		
 		Flight secondFlight = Initializer.initCompleteFlight();
+		secondFlight.setExpectedDepartureDate(new Date(date.getTime() + HOUR_IN_MILIS));
 		HibernateGeneric.saveObject(secondFlight);
 		
 		firstFlight.getRoute().getDepartureTerminal().getAirport().setLocale(true);
+		firstFlight.getRoute().getDepartureTerminal().getAirport().setName("TEST");
 		HibernateGeneric.updateObject(firstFlight.getRoute().getDepartureTerminal().getAirport());
 		
 		secondFlight.getRoute().getArrivalTerminal().getAirport().setLocale(true);
 		HibernateGeneric.updateObject(secondFlight.getRoute().getArrivalTerminal().getAirport());
 		
-		secondFlight.getPlane().setSerial("SERIAL");
-		HibernateGeneric.updateObject(secondFlight.getPlane());
 
 		flAction = new FlightListJSONAction();
 
-		createParameters(firstFlight.getPlane().getSerial(), _0, ASC, _0, _10);
+		createParameters(firstFlight.getRoute().getDepartureTerminal().getAirport().getName(), _0, ASC, _0, _10, EMPTY, EMPTY);
 		Mockito.when(ac.getParameters()).thenReturn(paramsMap);
 
 		try {
