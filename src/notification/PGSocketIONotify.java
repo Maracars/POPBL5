@@ -41,7 +41,7 @@ public class PGSocketIONotify implements Runnable {
 	 */
 	public static void start() {
 		conf = new Configuration();
-		//conf.setHostname(LOCALHOST);
+		conf.setHostname("localhost");
 		conf.setPort(PORT_NMBER);
 		server = new SocketIOServer(conf);
 		server.start();
@@ -94,7 +94,12 @@ public class PGSocketIONotify implements Runnable {
 						// PGk JSON bat bidaltzen dau, hori gero javascripten
 						// tratauko da
 						String[] tableInfo = pgNotification.getParameter().split(SPLITTER);
-						server.getBroadcastOperations().sendEvent("chatevent", tableInfo[1]);
+						if(tableInfo[0].equals("planestatus")){
+							System.out.println(tableInfo[1]);
+						}else{
+							server.getBroadcastOperations().sendEvent("chatevent", tableInfo[1]);
+
+						}
 
 					}
 				}
