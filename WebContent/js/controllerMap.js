@@ -18,7 +18,7 @@ var steps = 1000;
 var iconStyle = {
 	anchor : [ 0.5, 0.5 ],
 	anchorXUnits : "fraction",
-	anchorYUnits : "pixels",
+	anchorYUnits : "fraction",
 	opacity : 1,
 	rotateWithView : true,
 	size : [ 32, 48 ],
@@ -107,7 +107,7 @@ $(document)
 							overlay.setPosition(getPointFromLongLat(long, lat));
 						}
 
-						featureToUpdate.getStyle().getImage().setRotation(
+						featureToUpdate.getStyle().getImage().setRotation( Math.PI /2 -
 								getRotation(beforeCoord.positionx,
 										beforeCoord.positiony, data.positionx,
 										data.positiony));
@@ -126,14 +126,18 @@ $(document)
 					function getRotation(bx, by, ax, ay) {
 						var dx = ax - bx;
 						var dy = ay - by;
-						if (dy === 0 && dx < 0) {
-							return Math.PI;
-						} else if (dx === 0 && dy > 0) {
-							return (Math.PI) / 2;
-						} else if (dx === 0 && dy < 0) {
-							return 3 * (Math.PI) / 2;
+						if (dx >= 0 && dy > 0) { //1st Coadrant
+							return Math.atan(dx / dy);
+						} 
+						if (dx < 0 && dy >= 0) { //2nd Coadrant
+							return Math.abs(Math.atan(dy / dx)) + 3 * (Math.PI) / 2;
 						}
-						return 0;
+						if (dx <= 0 && dy < 0) { //3rd Coadrant
+							return Math.abs(Math.atan(dx / dy)) + (Math.PI);
+						}
+						if (dx => 0 && dy < 0) { //4th Coadrant
+							return Math.abs(Math.atan(dy / dx)) + (Math.PI) / 2;
+						}
 					}
 
 					function getLastPlanePosition(id) {
